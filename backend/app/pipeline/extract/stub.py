@@ -19,10 +19,12 @@ from app.domain.roles import Role
 from app.pipeline.model import BBox, Block, Document, Field, Read
 
 
-def _f(role, label, value, *, unit=None, nks=None, soll=None, bbox=None, model="stub", conf=0.9, required=True):
+def _f(role, label, value, *, unit=None, nks=None, soll=None, calc_expr=None, bbox=None,
+       model="stub", conf=0.9, required=True):
     field = Field(
         page_no=0, chapter="", role=role, label_raw=label, value_raw=value,
-        unit=unit, nks=nks, soll=soll, bbox=BBox(*bbox) if bbox else None, is_required=required,
+        unit=unit, nks=nks, soll=soll, calc_expr=calc_expr,
+        bbox=BBox(*bbox) if bbox else None, is_required=required,
     )
     field.reads = [Read(model=model, value_raw=value, confidence=conf, bbox=field.bbox)]
     return field
@@ -52,7 +54,7 @@ class StubExtractor:
             _f(Role.GROSS_MASS, "m Brutto", "300", unit="kg", bbox=(0.61, 0.31, 0.78, 0.34)),
             _f(Role.NET_MASS, "m Netto", "200", unit="kg", bbox=(0.61, 0.34, 0.78, 0.37)),
             _f(Role.DENSITY, "rho", "1,10", unit="kg/L", bbox=(0.45, 0.38, 0.55, 0.41)),
-            _f(Role.VOLUME, "V Netto", "220", unit="L", bbox=(0.61, 0.38, 0.78, 0.41)),
+            _f(Role.VOLUME, "V Netto", "220", unit="L", calc_expr="200 / 1,10", bbox=(0.61, 0.38, 0.78, 0.41)),
             # form states (2 NKS) but only 1 decimal written -> FMT_NKS warning
             _f(Role.CONCENTRATION, "c ABC-DE (Blocking IPC)", "4,5", unit="g/L", nks=2, bbox=(0.61, 0.42, 0.78, 0.45)),
             _f(Role.HOLD_START, "Start Haltezeit", "10.06.2026 08:46", bbox=(0.45, 0.50, 0.70, 0.53)),
@@ -86,7 +88,16 @@ class StubExtractor:
             _f(Role.SIGNATURE_CHECKED, "Geprueft", "10.06.2026 / han", bbox=(0.40, 0.74, 0.70, 0.77)),
         ]
 
-        for block in (b11, b10, b17, b40):
+        # --- p36-like: multi-input formula error + a year-misread (before-print) date
+        b36 = Block(chapter="5.12.3", page_no=36, template="calc")
+        b36.fields = [
+            _f(Role.CALC_RESULT, "Load Volumen", "2021,78", unit="L",
+               calc_expr="6,6 * 45 - 4,3 * 0,75", bbox=(0.61, 0.55, 0.80, 0.58), conf=0.95),
+            _f(Role.SIGNATURE_PROCESSED, "Bearbeitet", "10.06.2016 / ole", bbox=(0.40, 0.70, 0.70, 0.73), conf=0.95),
+            _f(Role.SIGNATURE_CHECKED, "Geprueft", "10.06.2026 / han", bbox=(0.40, 0.74, 0.70, 0.77), conf=0.95),
+        ]
+
+        for block in (b11, b10, b17, b40, b36):
             for fld in block.fields:
                 fld.page_no = block.page_no
                 fld.chapter = block.chapter

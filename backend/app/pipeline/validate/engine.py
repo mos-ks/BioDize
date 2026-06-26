@@ -20,4 +20,7 @@ def validate(doc: Document) -> Document:
             for rule in rules.BLOCK_RULES:
                 rule(block)  # block rules attach flags to the relevant field directly
 
+    # Document-level checks (need the record's print date / cross-field context).
+    rules.rule_dates_document(doc, rules.print_date(doc))
+
     return doc

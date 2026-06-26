@@ -39,8 +39,12 @@ _SCHEMA = {
                         "unit": {"type": ["string", "null"]},
                         "soll": {"type": ["string", "null"], "description": "Soll target/range text if present"},
                         "nks": {"type": ["integer", "null"], "description": "required decimal places (N NKS)"},
+                        "calc_expr": {"type": ["string", "null"], "description":
+                                      "if this value is the result of a formula printed on the form, the "
+                                      "arithmetic with the handwritten numbers substituted, e.g. "
+                                      "'6,6 * 45 - 4,3 * 0,75'; otherwise null"},
                     },
-                    "required": ["label", "value", "unit", "soll", "nks"],
+                    "required": ["label", "value", "unit", "soll", "nks", "calc_expr"],
                 },
             }
         },
@@ -55,8 +59,10 @@ _PROMPT = (
     "`soll` and the required decimal places '(N NKS)' in `nks` when present. Do NOT "
     "include explanatory prose, section descriptions, headers, or footers — only "
     "parameter/value pairs. Transcribe values verbatim, keeping the German decimal "
-    "comma (e.g. '4,50'). For signature fields keep 'DD.MM.YYYY / Kuerzel'. If a "
-    "field is blank, set value to an empty string."
+    "comma (e.g. '4,50'). For signature fields keep 'DD.MM.YYYY / Kuerzel'. When a "
+    "value is the result of a formula printed on the form, also fill `calc_expr` "
+    "with that formula's arithmetic using the handwritten numbers (e.g. "
+    "'6,6 * 45 - 4,3 * 0,75'). If a field is blank, set value to an empty string."
 )
 
 
@@ -99,7 +105,7 @@ class OpenAIExtractor:
                     page_no=page.page_no, chapter="", role=None,
                     label_raw=str(raw.get("label", "")), value_raw=value,
                     unit=raw.get("unit"), nks=raw.get("nks"), soll=raw.get("soll"),
-                    block_key=block.key,
+                    calc_expr=raw.get("calc_expr"), block_key=block.key,
                 )
                 fld.reads = [Read(model=self._model, value_raw=value, confidence=0.8)]
                 block.fields.append(fld)

@@ -66,6 +66,7 @@ class Field:
     unit: str | None = None
     nks: int | None = None            # required decimal places, if the form states it
     soll: str | None = None           # raw "Soll: ..." text, if present
+    calc_expr: str | None = None      # printed formula with handwritten numbers substituted
     is_required: bool = True
     bbox: BBox | None = None
     reads: list[Read] = field(default_factory=list)

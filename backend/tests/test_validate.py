@@ -28,6 +28,10 @@ def test_planted_errors_are_caught():
     assert "RANGE_SOLL" in codes
     # p40: "10.6.2026" not zero-padded
     assert "FMT_DATE_PADDING" in codes
+    # p36: printed formula (6,6*45 - 4,3*0,75 = 293.775) vs recorded 2021,78
+    assert "CALC_FORMULA" in codes
+    # p36: signature dated 2016, before the record's print date (2026-06-09)
+    assert "DATE_BEFORE_PRINT" in codes
 
 
 def test_clean_block_has_no_flags():

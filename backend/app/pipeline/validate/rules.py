@@ -7,8 +7,10 @@ reference / outlier are wired as TODOs for Day 2.
 """
 from __future__ import annotations
 
+import ast
+import operator
 import re
-from datetime import date
+from datetime import date, datetime, timedelta
 
 from app.domain.roles import Role
 from app.domain.severity import Category, Severity
@@ -87,6 +89,68 @@ def rule_range(field: Field) -> list[Flag]:
     return []
 
 
+_AROPS = {ast.Add: operator.add, ast.Sub: operator.sub, ast.Mult: operator.mul,
+          ast.Div: operator.truediv, ast.USub: operator.neg, ast.UAdd: operator.pos}
+
+
+def safe_arith(expr_de: str | None) -> float | None:
+    """Evaluate a simple German arithmetic expression ('6,6 * 45 - 4,3 * 0,75').
+
+    Only +-*/ and parentheses; anything else -> None. Decimal comma is converted
+    to a dot. The result/right-hand side is taken if an '=' is present.
+    """
+    if not expr_de:
+        return None
+    s = expr_de.split("=")[-1] if expr_de.count("=") == 1 else expr_de.split("=")[0]
+    s = s.replace(",", ".")
+    s = re.sub(r"[^0-9.+\-*/() ]", "", s)
+    if not s.strip():
+        return None
+    try:
+        return _eval_arith(ast.parse(s, mode="eval").body)
+    except (SyntaxError, KeyError, ValueError, ZeroDivisionError, RecursionError):
+        return None
+
+
+def _eval_arith(node):
+    if isinstance(node, ast.BinOp):
+        return _AROPS[type(node.op)](_eval_arith(node.left), _eval_arith(node.right))
+    if isinstance(node, ast.UnaryOp):
+        return _AROPS[type(node.op)](_eval_arith(node.operand))
+    if isinstance(node, ast.Constant) and isinstance(node.value, (int, float)):
+        return float(node.value)
+    raise ValueError("unsupported expression")
+
+
+def rule_formula(field: Field) -> list[Flag]:
+    """Re-evaluate a printed formula (with the handwritten numbers) and compare
+    to the written result. Catches arithmetic/unit mistakes (e.g. p36 Load Volumen)."""
+    if not field.calc_expr or not isinstance(field.value, (int, float)) or isinstance(field.value, bool):
+        return []
+    expr = field.calc_expr.strip()
+    # The form prints "V = m / rho", but the domain physics is V = m x rho. For a
+    # volume written as a simple division, verify the multiplication instead.
+    if field.role == Role.VOLUME and re.fullmatch(r"[\d.,]+\s*/\s*[\d.,]+", expr):
+        a, b = expr.split("/", 1)
+        computed = safe_arith(f"{a} * {b}")
+    else:
+        computed = safe_arith(expr)
+    if computed is None:
+        return []
+    diff = abs(computed - float(field.value))
+    # NKS-aware tolerance: a correctly-rounded result is within half the last place.
+    place = 10 ** (-(field.nks if field.nks is not None else 0))
+    if diff <= 0.5 * place:
+        return []
+    if diff <= 1.5 * place:
+        return [_warn(Category.CALCULATION, "CALC_ROUNDING",
+                      f"result {field.value} vs formula {round(computed, 3)} (rounding)",
+                      expected=round(computed, 3), actual=field.value)]
+    return [_err(Category.CALCULATION, "CALC_FORMULA",
+                 f"{field.calc_expr.strip()} = {round(computed, 3)}, but {field.value} was recorded",
+                 expected=round(computed, 3), actual=field.value)]
+
+
 # --- block-level rules ------------------------------------------------------
 
 def rule_net_mass(block: Block) -> list[Flag]:
@@ -138,7 +202,58 @@ def rule_end_after_start(block: Block) -> list[Flag]:
     return []
 
 
+# --- document-level rules (need cross-field / print-date context) -----------
+
+_BATCH_DATE_ROLES = {Role.SIGNATURE_PROCESSED, Role.SIGNATURE_CHECKED, Role.HOLD_START, Role.HOLD_END}
+
+
+def print_date(doc: Document) -> date | None:
+    """The record's generation/print date — the lower bound for batch-execution
+    dates. Prefer an explicit 'generiert am' field; fall back to doc.generated_at."""
+    for f in doc.all_fields():
+        low = (f.label_raw or "").lower()
+        if "generiert" in low or "production record" in low:
+            d, _, _ = parse_signature(f.value_raw)
+            if d:
+                return d
+    return doc.generated_at
+
+
+def _field_date(field: Field) -> date | None:
+    if field.role in (Role.SIGNATURE_PROCESSED, Role.SIGNATURE_CHECKED):
+        d, _, _ = parse_signature(field.value_raw)
+        return d
+    v = field.value
+    if isinstance(v, datetime):
+        return v.date()
+    if isinstance(v, date):
+        return v
+    return None
+
+
+def rule_dates_document(doc: Document, ref: date | None) -> None:
+    """Flag batch-execution dates that fall before the record's print date or far
+    in the future — typically year misreads (e.g. p38 2026->2016, p17 ->2028)."""
+    if not ref:
+        return
+    horizon = ref + timedelta(days=180)
+    for f in doc.all_fields():
+        if f.role not in _BATCH_DATE_ROLES:
+            continue
+        d = _field_date(f)
+        if d is None:
+            continue
+        if d < ref:
+            f.add_flag(_warn(Category.TEMPORAL, "DATE_BEFORE_PRINT",
+                             f"date {d.isoformat()} is before the record date {ref.isoformat()}",
+                             expected=f">= {ref.isoformat()}", actual=d.isoformat()))
+        elif d > horizon:
+            f.add_flag(_warn(Category.TEMPORAL, "DATE_FAR_FUTURE",
+                             f"date {d.isoformat()} is implausibly far after the record date",
+                             expected=f"<= {horizon.isoformat()}", actual=d.isoformat()))
+
+
 # --- registries -------------------------------------------------------------
 
-FIELD_RULES = [rule_date_format, rule_nks, rule_range]
+FIELD_RULES = [rule_date_format, rule_nks, rule_range, rule_formula]
 BLOCK_RULES = [rule_net_mass, rule_volume, rule_four_eyes, rule_end_after_start]
