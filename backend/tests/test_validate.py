@@ -34,6 +34,8 @@ def test_planted_errors_are_caught():
     assert "DATE_BEFORE_PRINT" in codes
     # p36: signature Kuerzel 'abc' is not in the personnel registry {han, ohe}
     assert "KUERZEL_UNKNOWN" in codes
+    # p38: 'Uebertrag Kapitel 5.3.1' carried value mismatches the source on p11
+    assert "XREF_MISMATCH" in codes
 
 
 def test_clean_block_has_no_flags():

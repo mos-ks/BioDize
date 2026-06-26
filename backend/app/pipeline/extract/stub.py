@@ -106,7 +106,14 @@ class StubExtractor:
             _f(None, "Kürzel", "ohe", required=False),
         ]
 
-        for block in (b11, b10, b17, b40, b36, b4):
+        # --- p38-like: cross-reference (Übertrag) mismatch vs source in 5.3.1
+        b38 = Block(chapter="5.12.5", page_no=38, template="xref")
+        b38.fields = [
+            _f(Role.HOLD_START, "Start Haltezeit (Übertrag Kapitel 5.3.1)",
+               "09.06.2016 08:27", bbox=(0.45, 0.30, 0.70, 0.33), conf=0.9),
+        ]
+
+        for block in (b11, b10, b17, b40, b36, b4, b38):
             for fld in block.fields:
                 fld.page_no = block.page_no
                 fld.chapter = block.chapter

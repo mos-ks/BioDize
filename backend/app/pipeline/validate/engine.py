@@ -23,5 +23,6 @@ def validate(doc: Document) -> Document:
     # Document-level checks (need the record's print date / cross-field context).
     rules.rule_dates_document(doc, rules.print_date(doc))
     rules.rule_kuerzel_document(doc)
+    rules.rule_xref_document(doc)
 
     return doc

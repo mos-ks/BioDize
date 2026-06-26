@@ -43,8 +43,11 @@ _SCHEMA = {
                                       "if this value is the result of a formula printed on the form, the "
                                       "arithmetic with the handwritten numbers substituted, e.g. "
                                       "'6,6 * 45 - 4,3 * 0,75'; otherwise null"},
+                        "chapter": {"type": ["string", "null"], "description":
+                                    "the section number this field sits under, exactly as printed on the "
+                                    "page (e.g. '5.3.1'); null if none is visible"},
                     },
-                    "required": ["label", "value", "unit", "soll", "nks", "calc_expr"],
+                    "required": ["label", "value", "unit", "soll", "nks", "calc_expr", "chapter"],
                 },
             }
         },
@@ -62,7 +65,9 @@ _PROMPT = (
     "comma (e.g. '4,50'). For signature fields keep 'DD.MM.YYYY / Kuerzel'. When a "
     "value is the result of a formula printed on the form, also fill `calc_expr` "
     "with that formula's arithmetic using the handwritten numbers (e.g. "
-    "'6,6 * 45 - 4,3 * 0,75'). If a field is blank, set value to an empty string."
+    "'6,6 * 45 - 4,3 * 0,75'). Set `chapter` to the section number the field sits "
+    "under, exactly as printed (e.g. '5.3.1') — this links 'Übertrag Kapitel X' "
+    "carried values to their source. If a field is blank, set value to an empty string."
 )
 
 
@@ -102,7 +107,7 @@ class OpenAIExtractor:
                 if not value:
                     continue  # keep param:value pairs; blanks handled by missing-data (Day 2)
                 fld = Field(
-                    page_no=page.page_no, chapter="", role=None,
+                    page_no=page.page_no, chapter=(raw.get("chapter") or "").strip(), role=None,
                     label_raw=str(raw.get("label", "")), value_raw=value,
                     unit=raw.get("unit"), nks=raw.get("nks"), soll=raw.get("soll"),
                     calc_expr=raw.get("calc_expr"), block_key=block.key,

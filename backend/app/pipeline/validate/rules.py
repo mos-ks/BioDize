@@ -303,6 +303,43 @@ def rule_kuerzel_document(doc: Document) -> None:
                              expected="a registered Kuerzel", actual=k))
 
 
+_XREF_RE = re.compile(r"kapitel\s*([0-9]+(?:\.[0-9]+)*)", re.I)
+
+
+def _xref_differ(a, b) -> bool:
+    if a is None or b is None:
+        return False
+    if isinstance(a, bool) or isinstance(b, bool):
+        return a != b
+    if isinstance(a, (int, float)) and isinstance(b, (int, float)):
+        return abs(a - b) > max(0.5, abs(b) * 0.01)
+    return a != b
+
+
+def rule_xref_document(doc: Document) -> None:
+    """Cross-reference (Übertrag): a field whose label carries a value from
+    'Kapitel X' must equal the source field (same role) tagged with chapter X.
+    Conservative — only fires on explicit 'Übertrag … Kapitel X' labels."""
+    index: dict[tuple[str, str], Field] = {}
+    for f in doc.all_fields():
+        if f.chapter and f.role and (f.chapter, f.role) not in index:
+            index[(f.chapter, f.role)] = f
+    for f in doc.all_fields():
+        low = (f.label_raw or "").lower()
+        if "übertrag" not in low and "ubertrag" not in low:
+            continue
+        m = _XREF_RE.search(f.label_raw or "")
+        if not m or not f.role:
+            continue
+        src = index.get((m.group(1), f.role))
+        if src is None or src is f:
+            continue
+        if _xref_differ(f.value, src.value):
+            f.add_flag(_warn(Category.CROSS_REFERENCE, "XREF_MISMATCH",
+                             f"carried value '{f.value}' != source (Kapitel {m.group(1)}) '{src.value}'",
+                             expected=str(src.value), actual=str(f.value)))
+
+
 # --- registries -------------------------------------------------------------
 
 FIELD_RULES = [rule_date_format, rule_nks, rule_range, rule_formula]
