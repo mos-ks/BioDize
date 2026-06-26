@@ -33,34 +33,30 @@ The API base resolution order is: `localStorage` (in-app setting) → `VITE_API_
 
 ```bash
 npm run build        # typecheck + vite build -> dist/
-npm run preview      # serve the production build locally
+npm run preview      # build, then serve locally via `wrangler dev`
 ```
 
-## Deploy to Cloudflare Pages (biodize.tech)
+## Deploy to Cloudflare (biodize.tech)
 
-This is a plain static build — ideal for Cloudflare Pages.
+Deployed as a **Cloudflare Workers static-assets** app via `wrangler` + `@cloudflare/vite-plugin`
+(config in [`wrangler.jsonc`](wrangler.jsonc)). The Vite build emits `dist/` plus the deploy manifest the
+Worker serves.
 
-**Option A — Pages Git integration (recommended)**
-1. Push this repo to GitHub/GitLab.
-2. Cloudflare dashboard → **Workers & Pages → Create → Pages → Connect to Git**.
-3. Build settings:
-   - **Framework preset:** Vite
-   - **Build command:** `npm run build`
-   - **Build output directory:** `dist`
-   - **Root directory:** `biodize/frontend` (set this if the repo root is the monorepo)
-   - **Environment variable:** `VITE_API_BASE = https://api.biodize.tech` (or your tunnel URL for now)
-4. **Custom domains → Set up a domain → `biodize.tech`** (and `www`). Because the DNS is already on
-   Cloudflare, Pages adds the `CNAME`/records automatically and provisions TLS.
-
-**Option B — Wrangler (direct upload)**
+**Deploy (direct)**
 ```bash
-npm run build
-npx wrangler pages deploy dist --project-name biodize
+npm run deploy       # = npm run build && wrangler deploy
 ```
-Then attach `biodize.tech` under the project's **Custom domains**.
+First time: `npx wrangler login` (once), then `npm run deploy`. The project name is `biodize-frontend`
+(see `wrangler.jsonc`). Attach **`biodize.tech`** under the Worker's **Custom domains** in the Cloudflare
+dashboard — DNS is already on Cloudflare, so it provisions the record + TLS automatically.
 
-**SPA routing:** `public/_redirects` contains `/* /index.html 200`, so deep links like
-`/documents/<id>` resolve correctly on Pages.
+**Deploy (CI / Git)** — point a Cloudflare Workers build at this repo with root directory
+`biodize/frontend`, build `npm run build`, and `wrangler deploy`; set `VITE_API_BASE` (e.g.
+`https://api.biodize.tech`) as a build env var.
+
+**SPA routing** is handled by `wrangler.jsonc` → `"assets": { "not_found_handling": "single-page-application" }`,
+so deep links like `/documents/<id>` resolve to `index.html`. (`public/_headers` still applies cache +
+security headers.)
 
 ### Backend / CORS
 The FastAPI backend sets permissive CORS, so the browser app can call it cross-origin. For production,
