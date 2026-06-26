@@ -43,7 +43,9 @@ def _calc_tol(expected: float) -> float:
 def rule_date_format(field: Field) -> list[Flag]:
     if field.role in (Role.SIGNATURE_PROCESSED, Role.SIGNATURE_CHECKED):
         _, date_str, _ = parse_signature(field.value_raw)
-        if date_str and not is_zero_padded_date(date_str):
+        # Only flag if it's actually a date attempt (has digits) — a mislabeled
+        # "Ja"/text signature isn't a malformed date.
+        if date_str and re.search(r"\d", date_str) and not is_zero_padded_date(date_str):
             return [_err(Category.FORMAT, "FMT_DATE_PADDING",
                          f"Date '{date_str}' is not zero-padded DD.MM.YYYY",
                          expected="DD.MM.YYYY", actual=date_str)]
