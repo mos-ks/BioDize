@@ -1,0 +1,18 @@
+# Local run. `docker compose up` -> API on http://localhost:8000 (/docs for Swagger).
+services:
+  api:
+    build: .
+    ports:
+      - "8000:8000"
+    env_file:
+      - .env
+    environment:
+      # Override the file DB to a named volume so it persists across restarts.
+      DATABASE_URL: sqlite:////data/biodize.db
+      STORAGE_DIR: /data/var
+    volumes:
+      - biodize_data:/data
+      - ../data:/app/data:ro          # sample PDFs (read-only)
+
+volumes:
+  biodize_data:

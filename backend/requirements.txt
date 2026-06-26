@@ -1,0 +1,19 @@
+# --- core (lightweight; runs on any laptop, no GPU) ---
+fastapi>=0.110
+uvicorn[standard]>=0.29
+pydantic>=2.6
+pydantic-settings>=2.2
+sqlalchemy>=2.0
+python-multipart>=0.0.9      # file upload
+openpyxl>=3.1               # Excel export
+
+# --- PDF render (CPU only) ---
+PyMuPDF>=1.24
+
+# --- cloud model providers (only needed when EXTRACTOR/OCR != stub) ---
+openai>=1.30               # OpenAI vision read (or OpenAI-compatible / vLLM via base_url)
+mistralai>=1.0             # Mistral OCR 4 (boxes + per-word confidence)
+
+# --- dev / test ---
+pytest>=8.0
+httpx>=0.27

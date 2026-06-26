@@ -1,0 +1,23 @@
+# One-click deploy to Render (https://render.com). Push, then "New + Blueprint".
+# No GPU needed — all models are remote APIs. Set the secret keys in the dashboard.
+services:
+  - type: web
+    name: biodize-backend
+    runtime: docker
+    dockerfilePath: ./backend/Dockerfile
+    dockerContext: ./backend
+    plan: free
+    healthCheckPath: /health
+    envVars:
+      - key: EXTRACTOR
+        value: openai
+      - key: OCR_ENGINE
+        value: mistral
+      - key: OPENAI_MODEL
+        value: gpt-5            # set your exact GPT-5.x id
+      - key: OPENAI_API_KEY
+        sync: false             # set in dashboard
+      - key: MISTRAL_API_KEY
+        sync: false             # set in dashboard
+      - key: DATABASE_URL
+        sync: false             # set to your Supabase Postgres URL for persistence

@@ -75,3 +75,30 @@ resp = client.chat.completions.create(model="rednote-hilab/dots.ocr", input=[...
 
 ### Recommended validation step before committing (within the 72h)
 Build a 20–50 page golden set of real (or representative) German batch-record scans with hand-labeled values + boxes, then run **`gpt-5.4` (with `detail="original"` + strict `json_schema`)** against **Azure Read or `dots.ocr`** for the boxes, and measure field-level exact-match on numeric/date fields specifically. This is the only way to de-risk the two weakest-evidenced claims (handwriting accuracy, German performance) before the on-prem swap.
+
+---
+
+## 6. Decision update — Mistral OCR 4 (evaluated 2026-06-26)
+
+Re-checked because the laptop **cannot run any local model**, so the OCR/box layer must also be a cloud
+API. **Mistral OCR 4** (released 2026-06-23) is a strong fit *as the structure/box/confidence provider*,
+not as the handwriting reader:
+
+- **Pros:** per-block **bounding boxes** + typed-block classification + **per-page/per-word confidence**
+  + schema-driven structured JSON, all in one API; API-hosted (Studio/SageMaker/Foundry); **single-container
+  self-host** = the cleanest on-prem GxP path later; OlmOCRBench 85.20 / OmniDocBench 93.07 / 72% human win-rate.
+  The per-word confidence feeds our UQ subsystem directly.
+- **Cons (our exact hard part):** **handwriting is its weak spot** — no vendor handwriting claim; sources
+  report it weaker than printed and **Google Document AI stronger on handwriting**; boxes are **per-block,
+  not per-word** (may be coarse for one value); self-host is proprietary/licensed (not open weights).
+
+**Decision:** use Mistral OCR 4 as the OCR provider (`OCR_ENGINE=mistral`) for boxes + per-word confidence
++ structure, and keep an **OpenAI vision read** to adjudicate handwritten values (the OCR-box + VLM-read
+hybrid). Let a golden-set test pick the final OCR provider: (a) Mistral alone, (b) Mistral boxes + OpenAI
+read, (c) Google Doc AI boxes + OpenAI read — scored on handwritten numeric/date field exact-match. The
+`ocr_engine` config knob makes this a provider swap, not a rewrite.
+
+Sources: [Mistral OCR 4 announcement](https://mistral.ai/news/ocr-4/) ·
+[VentureBeat](https://venturebeat.com/data/mistral-launches-ocr-4-turning-document-extraction-into-a-full-enterprise-ai-play) ·
+[CryptoBriefing](https://cryptobriefing.com/mistral-ocr-4-launch/) ·
+[Eden AI comparison](https://www.edenai.co/post/mistral-ocr-4-vs-top-document-parsing-apis-features-benchmarks-and-integration-guide)
