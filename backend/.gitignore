@@ -5,6 +5,8 @@ venv/
 env/
 .env
 *.db
+*.exe
+cloudflared.exe
 var/
 .pytest_cache/
 .mypy_cache/
