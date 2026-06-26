@@ -253,26 +253,22 @@ def rule_dates_document(doc: Document, ref: date | None) -> None:
                              expected=f"<= {horizon.isoformat()}", actual=d.isoformat()))
 
 
-def _within_one_edit(a: str, b: str) -> bool:
-    """True if a and b are within Levenshtein distance 1 (tolerates OCR noise)."""
+def _within_edits(a: str, b: str, max_edits: int) -> bool:
+    """True if the Levenshtein distance(a, b) <= max_edits (tolerates OCR noise)."""
     if a == b:
         return True
     la, lb = len(a), len(b)
-    if abs(la - lb) > 1:
+    if abs(la - lb) > max_edits:
         return False
-    if la == lb:
-        return sum(c1 != c2 for c1, c2 in zip(a, b)) <= 1
-    short, long = (a, b) if la < lb else (b, a)
-    i = j = edits = 0
-    while i < len(short) and j < len(long):
-        if short[i] == long[j]:
-            i, j = i + 1, j + 1
-        else:
-            edits += 1
-            if edits > 1:
-                return False
-            j += 1
-    return True
+    prev = list(range(lb + 1))
+    for i, ca in enumerate(a, 1):
+        cur = [i]
+        for j, cb in enumerate(b, 1):
+            cur.append(min(prev[j] + 1, cur[j - 1] + 1, prev[j - 1] + (ca != cb)))
+        if min(cur) > max_edits:
+            return False
+        prev = cur
+    return prev[lb] <= max_edits
 
 
 def _registry_kuerzel(doc: Document) -> set[str]:
@@ -286,18 +282,19 @@ def _registry_kuerzel(doc: Document) -> set[str]:
 
 def rule_kuerzel_document(doc: Document) -> None:
     """Flag a signature Kürzel that isn't in the personnel list (Beteiligte Personen).
-    Edit-distance-1 tolerance absorbs OCR noise, so only clearly-unregistered initials
-    flag (warning — a human checks the original)."""
+    Edit-distance-2 tolerance + a registry of >=2 entries keeps OCR noise from
+    drowning the queue — only clearly-unregistered initials flag (warning — a human
+    checks the original)."""
     registry = _registry_kuerzel(doc)
-    if not registry:
+    if len(registry) < 2:
         return
     for f in doc.all_fields():
         if f.role not in (Role.SIGNATURE_PROCESSED, Role.SIGNATURE_CHECKED):
             continue
         _, _, k = parse_signature(f.value_raw)
-        if not k:
+        if not k or len(k) < 2:
             continue
-        if not any(_within_one_edit(k.lower(), r) for r in registry):
+        if not any(_within_edits(k.lower(), r, 2) for r in registry):
             f.add_flag(_warn(Category.FOUR_EYES, "KUERZEL_UNKNOWN",
                              f"Kuerzel '{k}' is not in the personnel list (Beteiligte Personen)",
                              expected="a registered Kuerzel", actual=k))
