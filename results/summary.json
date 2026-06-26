@@ -4,21 +4,23 @@
     "reader": "gpt-5.5 (OpenAI)",
     "ocr": "mistral-ocr-4-0"
   },
-  "n_fields": 330,
-  "n_errors": 22,
-  "n_warnings": 130,
-  "n_auto_accepted": 178,
-  "n_needs_review": 152,
+  "n_fields": 319,
+  "n_errors": 21,
+  "n_warnings": 161,
+  "n_auto_accepted": 148,
+  "n_needs_review": 171,
   "flags_by_code": {
-    "error:4EYES_DISTINCT": 15,
-    "error:4EYES_ORDER": 1,
+    "error:4EYES_DISTINCT": 14,
+    "error:4EYES_ORDER": 2,
     "error:CALC_FORMULA": 1,
     "error:CALC_NET_MASS": 1,
-    "error:RANGE_SOLL": 4,
+    "error:RANGE_SOLL": 3,
     "warning:CALC_ROUNDING": 1,
     "warning:DATE_BEFORE_PRINT": 5,
     "warning:DATE_FAR_FUTURE": 2,
-    "warning:EXTRACT_LOW_CONF": 122
+    "warning:EXTRACT_LOW_CONF": 113,
+    "warning:KUERZEL_UNKNOWN": 36,
+    "warning:XREF_MISMATCH": 4
   },
   "errors": [
     {
@@ -88,11 +90,6 @@
     },
     {
       "page": 37,
-      "code": "RANGE_SOLL",
-      "message": "17.0 above Soll max 7.0"
-    },
-    {
-      "page": 37,
       "code": "4EYES_DISTINCT",
       "message": "Bearbeitet and Gepruft signed by the same person"
     },
@@ -128,8 +125,8 @@
     },
     {
       "page": 41,
-      "code": "4EYES_DISTINCT",
-      "message": "Bearbeitet and Gepruft signed by the same person"
+      "code": "4EYES_ORDER",
+      "message": "Gepruft date is before Bearbeitet date (review must follow processing)"
     }
   ]
 }

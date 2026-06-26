@@ -1,6 +1,6 @@
 {
   "document": {
-    "id": "d_163186cf139d",
+    "id": "d_71feec28a076",
     "doc_no": "scanned_batch_documentation.pdf",
     "title": "scanned_batch_documentation.pdf",
     "page_count": 46,
@@ -8,7 +8,7 @@
   },
   "fields": [
     {
-      "id": "f_21c3f87a4f55",
+      "id": "f_7b098585eb26",
       "page_no": 1,
       "chapter": "",
       "role": null,
@@ -28,7 +28,7 @@
       "flags": []
     },
     {
-      "id": "f_732b49a7628e",
+      "id": "f_4695ac16c3e3",
       "page_no": 1,
       "chapter": "",
       "role": null,
@@ -48,7 +48,7 @@
       "flags": []
     },
     {
-      "id": "f_c15f949e26fb",
+      "id": "f_12cbeb30d446",
       "page_no": 1,
       "chapter": "",
       "role": null,
@@ -68,7 +68,7 @@
       "flags": []
     },
     {
-      "id": "f_0d91ad6e3f8a",
+      "id": "f_fcea87754bdc",
       "page_no": 1,
       "chapter": "",
       "role": null,
@@ -88,7 +88,7 @@
       "flags": []
     },
     {
-      "id": "f_a76834f9c3f7",
+      "id": "f_a578eb4b03dd",
       "page_no": 1,
       "chapter": "",
       "role": null,
@@ -108,7 +108,7 @@
       "flags": []
     },
     {
-      "id": "f_c73999300372",
+      "id": "f_40f95aa90a03",
       "page_no": 1,
       "chapter": "",
       "role": null,
@@ -128,11 +128,11 @@
       "flags": []
     },
     {
-      "id": "f_28551f7dd2fc",
+      "id": "f_3bc295cda71f",
       "page_no": 1,
       "chapter": "",
       "role": "signature_processed",
-      "label": "Bearbeitet (Datum/Kürzel)",
+      "label": "Bearbeitet",
       "value": "10.06.2026 / ohe",
       "value_raw": "10.06.2026 / ohe",
       "unit": null,
@@ -148,11 +148,11 @@
       "flags": []
     },
     {
-      "id": "f_524de9b4f089",
+      "id": "f_9c8a3607a466",
       "page_no": 1,
       "chapter": "",
       "role": null,
-      "label": "Batch Production Record generiert am (Datum/Kürzel, GQQ)",
+      "label": "Batch Production Record generiert am",
       "value": "09.06.2026 / ohe",
       "value_raw": "09.06.2026 / ohe",
       "unit": null,
@@ -168,7 +168,7 @@
       "flags": []
     },
     {
-      "id": "f_2b640e782e90",
+      "id": "f_d9b51c8868ed",
       "page_no": 4,
       "chapter": "",
       "role": null,
@@ -192,7 +192,7 @@
       ]
     },
     {
-      "id": "f_f01c540c71f0",
+      "id": "f_34a9c7e45318",
       "page_no": 4,
       "chapter": "",
       "role": null,
@@ -216,13 +216,13 @@
       ]
     },
     {
-      "id": "f_50aa9f4891ec",
+      "id": "f_0f2a57eb6eeb",
       "page_no": 4,
       "chapter": "",
       "role": null,
       "label": "Name Mitarbeiter",
-      "value": "Ole Herial-Silimi",
-      "value_raw": "Ole Herial-Silimi",
+      "value": "Ole Herold-Sithinic",
+      "value_raw": "Ole Herold-Sithinic",
       "unit": null,
       "nks": null,
       "bbox": null,
@@ -240,7 +240,7 @@
       ]
     },
     {
-      "id": "f_bd694967fb65",
+      "id": "f_66672374cb02",
       "page_no": 4,
       "chapter": "",
       "role": null,
@@ -264,33 +264,9 @@
       ]
     },
     {
-      "id": "f_85e3b5c376a7",
-      "page_no": 4,
-      "chapter": "",
-      "role": null,
-      "label": "Name Mitarbeiter",
-      "value": "10.06.2026 / ah",
-      "value_raw": "10.06.2026 / ah",
-      "unit": null,
-      "nks": null,
-      "bbox": null,
-      "confidence": 0.8,
-      "status": "needs_review",
-      "flags": [
-        {
-          "severity": "warning",
-          "category": "extraction",
-          "code": "EXTRACT_LOW_CONF",
-          "message": "Low extraction confidence (0.8); verify the value",
-          "expected": null,
-          "actual": null
-        }
-      ]
-    },
-    {
-      "id": "f_a307732aa4dc",
+      "id": "f_89f90b20a202",
       "page_no": 9,
-      "chapter": "",
+      "chapter": "4.3",
       "role": null,
       "label": "GMP-Bereich (Pre)",
       "value": "931 / Ja",
@@ -308,9 +284,9 @@
       "flags": []
     },
     {
-      "id": "f_72794cf3ebe1",
+      "id": "f_1c534ff3d8dd",
       "page_no": 9,
-      "chapter": "",
+      "chapter": "4.3",
       "role": null,
       "label": "Area Clearance Freigabe im Raumlogbuch gemäß BK-SOP-51941 erfolgt.",
       "value": "Ja",
@@ -332,9 +308,9 @@
       ]
     },
     {
-      "id": "f_e5729625d392",
+      "id": "f_7122cab81dd2",
       "page_no": 9,
-      "chapter": "",
+      "chapter": "4.3",
       "role": null,
       "label": "GMP-Bereich aktiv",
       "value": "Ja",
@@ -356,9 +332,9 @@
       ]
     },
     {
-      "id": "f_d184231d04ac",
+      "id": "f_fde2a7134761",
       "page_no": 9,
-      "chapter": "",
+      "chapter": "4.3",
       "role": "signature_processed",
       "label": "Bearbeitet",
       "value": "10.06.2026 / ohe",
@@ -376,9 +352,9 @@
       "flags": []
     },
     {
-      "id": "f_e8432c04031a",
+      "id": "f_7b560e07f19b",
       "page_no": 9,
-      "chapter": "",
+      "chapter": "4.3",
       "role": "signature_checked",
       "label": "Geprüft",
       "value": "10.06.2026 / ohe",
@@ -405,9 +381,9 @@
       ]
     },
     {
-      "id": "f_96884ac7d1ac",
+      "id": "f_d401860bc747",
       "page_no": 10,
-      "chapter": "",
+      "chapter": "5.1",
       "role": null,
       "label": "Production Code",
       "value": "123",
@@ -425,9 +401,9 @@
       "flags": []
     },
     {
-      "id": "f_e3355feedc89",
+      "id": "f_575e036b037f",
       "page_no": 10,
-      "chapter": "",
+      "chapter": "5.1",
       "role": null,
       "label": "Zyklus",
       "value": "1",
@@ -445,9 +421,9 @@
       "flags": []
     },
     {
-      "id": "f_31d09e1d6daf",
+      "id": "f_bdc183d94233",
       "page_no": 10,
-      "chapter": "",
+      "chapter": "5.1",
       "role": "signature_processed",
       "label": "Bearbeitet",
       "value": "10.06.2026 / ohe",
@@ -465,9 +441,9 @@
       "flags": []
     },
     {
-      "id": "f_7c439d280aef",
+      "id": "f_ba6e8fb7c91c",
       "page_no": 10,
-      "chapter": "",
+      "chapter": "5.1",
       "role": "signature_checked",
       "label": "Geprüft",
       "value": "10.06.2026 / ohe",
@@ -494,9 +470,9 @@
       ]
     },
     {
-      "id": "f_81a8c0b6ea89",
+      "id": "f_f0e11e7ffb40",
       "page_no": 10,
-      "chapter": "",
+      "chapter": "5.2",
       "role": null,
       "label": "GMP-Bereich",
       "value": "931",
@@ -514,9 +490,9 @@
       "flags": []
     },
     {
-      "id": "f_ae8cdd1f6772",
+      "id": "f_e7a9f5c73fc6",
       "page_no": 10,
-      "chapter": "",
+      "chapter": "5.2",
       "role": null,
       "label": "Virusbereich",
       "value": "Ja",
@@ -538,9 +514,9 @@
       ]
     },
     {
-      "id": "f_e0fe41dcde81",
+      "id": "f_01b95f951e60",
       "page_no": 10,
-      "chapter": "",
+      "chapter": "5.2",
       "role": null,
       "label": "Hygienezone",
       "value": "2",
@@ -558,9 +534,9 @@
       "flags": []
     },
     {
-      "id": "f_709360d4f920",
+      "id": "f_3c8cce0fd467",
       "page_no": 10,
-      "chapter": "",
+      "chapter": "5.2",
       "role": "signature_processed",
       "label": "Bearbeitet",
       "value": "10.06.2026 / ohe",
@@ -578,9 +554,9 @@
       "flags": []
     },
     {
-      "id": "f_069e9dbebc7b",
+      "id": "f_3bc0a88eb89e",
       "page_no": 10,
-      "chapter": "",
+      "chapter": "5.2",
       "role": "signature_checked",
       "label": "Geprüft",
       "value": "09.06.2026 / hau",
@@ -607,9 +583,9 @@
       ]
     },
     {
-      "id": "f_76c31dc74651",
+      "id": "f_9cd95cc080c7",
       "page_no": 11,
-      "chapter": "",
+      "chapter": "5.3.1",
       "role": null,
       "label": "Intermediat",
       "value": "123",
@@ -627,9 +603,9 @@
       "flags": []
     },
     {
-      "id": "f_39c39889aaf3",
+      "id": "f_ef37ebc38719",
       "page_no": 11,
-      "chapter": "",
+      "chapter": "5.3.1",
       "role": "tare_mass",
       "label": "m Tara",
       "value": "100",
@@ -647,9 +623,9 @@
       "flags": []
     },
     {
-      "id": "f_e0e82063c305",
+      "id": "f_b5431f267b0a",
       "page_no": 11,
-      "chapter": "",
+      "chapter": "5.3.1",
       "role": "gross_mass",
       "label": "m Brutto",
       "value": "300",
@@ -667,9 +643,9 @@
       "flags": []
     },
     {
-      "id": "f_f975a849e27c",
+      "id": "f_f5d2618e3201",
       "page_no": 11,
-      "chapter": "",
+      "chapter": "5.3.1",
       "role": "net_mass",
       "label": "m Netto",
       "value": "200",
@@ -687,9 +663,9 @@
       "flags": []
     },
     {
-      "id": "f_d046589fc493",
+      "id": "f_dd66cfd8200d",
       "page_no": 11,
-      "chapter": "",
+      "chapter": "5.3.1",
       "role": "volume",
       "label": "V Netto",
       "value": "220",
@@ -707,9 +683,9 @@
       "flags": []
     },
     {
-      "id": "f_0b2a038e0e75",
+      "id": "f_d8cef6b4da51",
       "page_no": 11,
-      "chapter": "",
+      "chapter": "5.3.1",
       "role": "concentration",
       "label": "c ABC-DE (Blocking IPC)",
       "value": "4.5",
@@ -731,9 +707,9 @@
       ]
     },
     {
-      "id": "f_dbb72f8cb443",
+      "id": "f_0b87a23c8ad8",
       "page_no": 11,
-      "chapter": "",
+      "chapter": "5.3.1",
       "role": "hold_start",
       "label": "Start Haltezeit",
       "value": "2026-06-10T08:46:00",
@@ -751,9 +727,9 @@
       "flags": []
     },
     {
-      "id": "f_088da5394436",
+      "id": "f_d9a9d0fce9ce",
       "page_no": 11,
-      "chapter": "",
+      "chapter": "5.3.1",
       "role": "hold_end",
       "label": "Erlaubte Haltezeit",
       "value": "2026-06-10T14:46:00",
@@ -771,13 +747,13 @@
       "flags": []
     },
     {
-      "id": "f_0a0263d77338",
+      "id": "f_f02f1f190f47",
       "page_no": 11,
-      "chapter": "",
+      "chapter": "5.3.1",
       "role": "signature_processed",
       "label": "Bearbeitet",
-      "value": "10.06.2026 / ohr",
-      "value_raw": "10.06.2026 / ohr",
+      "value": "10.06.2026 / ohc",
+      "value_raw": "10.06.2026 / ohc",
       "unit": null,
       "nks": null,
       "bbox": [
@@ -786,18 +762,27 @@
         0.9068923821039904,
         0.6094952951240377
       ],
-      "confidence": 0.979,
-      "status": "auto_accepted",
-      "flags": []
+      "confidence": 0.7,
+      "status": "needs_review",
+      "flags": [
+        {
+          "severity": "warning",
+          "category": "four_eyes",
+          "code": "KUERZEL_UNKNOWN",
+          "message": "Kuerzel 'ohc' is not in the personnel list (Beteiligte Personen)",
+          "expected": "a registered Kuerzel",
+          "actual": "ohc"
+        }
+      ]
     },
     {
-      "id": "f_3b7ec5ebaa25",
+      "id": "f_c5c4437b5591",
       "page_no": 11,
-      "chapter": "",
+      "chapter": "5.3.1",
       "role": "signature_checked",
       "label": "Geprüft",
-      "value": "10.06.2026 / hag",
-      "value_raw": "10.06.2026 / hag",
+      "value": "10.06.2026 / haa",
+      "value_raw": "10.06.2026 / haa",
       "unit": null,
       "nks": null,
       "bbox": [
@@ -811,9 +796,9 @@
       "flags": []
     },
     {
-      "id": "f_0decf183edbf",
+      "id": "f_0bc61f42f312",
       "page_no": 12,
-      "chapter": "",
+      "chapter": "5.3.2",
       "role": null,
       "label": "B10-PP aus Zyklus 1 vorhanden",
       "value": "Ja",
@@ -835,9 +820,9 @@
       ]
     },
     {
-      "id": "f_c948549826b5",
+      "id": "f_4c7838ec2906",
       "page_no": 12,
-      "chapter": "",
+      "chapter": "5.3.2",
       "role": null,
       "label": "B10-PP 3019",
       "value": "123",
@@ -855,9 +840,9 @@
       "flags": []
     },
     {
-      "id": "f_202e23760663",
+      "id": "f_d3dba9b12ebc",
       "page_no": 12,
-      "chapter": "",
+      "chapter": "5.3.2",
       "role": "tare_mass",
       "label": "m Tara",
       "value": "200",
@@ -875,9 +860,9 @@
       "flags": []
     },
     {
-      "id": "f_03b6aba99dc4",
+      "id": "f_6cff8ba06cb9",
       "page_no": 12,
-      "chapter": "",
+      "chapter": "5.3.2",
       "role": "gross_mass",
       "label": "m Brutto",
       "value": "400",
@@ -895,9 +880,9 @@
       "flags": []
     },
     {
-      "id": "f_b64500563330",
+      "id": "f_632247a35de9",
       "page_no": 12,
-      "chapter": "",
+      "chapter": "5.3.2",
       "role": "net_mass",
       "label": "m Netto",
       "value": "300",
@@ -924,9 +909,9 @@
       ]
     },
     {
-      "id": "f_d4b5cc5c279e",
+      "id": "f_517c1a1c9913",
       "page_no": 12,
-      "chapter": "",
+      "chapter": "5.3.2",
       "role": "volume",
       "label": "V Netto",
       "value": "543",
@@ -944,9 +929,9 @@
       "flags": []
     },
     {
-      "id": "f_d5bae963526c",
+      "id": "f_932c04900a58",
       "page_no": 12,
-      "chapter": "",
+      "chapter": "5.3.2",
       "role": "concentration",
       "label": "c B10-PP (Blocking IPC)",
       "value": "12.6",
@@ -964,9 +949,9 @@
       "flags": []
     },
     {
-      "id": "f_596036f5cb72",
+      "id": "f_6fdf1936766d",
       "page_no": 12,
-      "chapter": "",
+      "chapter": "5.3.2",
       "role": "hold_start",
       "label": "Start Haltezeit",
       "value": "2026-06-10T09:46:00",
@@ -984,9 +969,9 @@
       "flags": []
     },
     {
-      "id": "f_d043fb3077e8",
+      "id": "f_5256c29adb24",
       "page_no": 12,
-      "chapter": "",
+      "chapter": "5.3.2",
       "role": "hold_end",
       "label": "Erlaubte Haltezeit",
       "value": "2026-06-10T15:46:00",
@@ -1004,9 +989,9 @@
       "flags": []
     },
     {
-      "id": "f_9c049f7a3762",
+      "id": "f_9134e3446d3d",
       "page_no": 12,
-      "chapter": "",
+      "chapter": "5.3.2",
       "role": "signature_processed",
       "label": "Bearbeitet",
       "value": "10.06.2026 / ohr",
@@ -1019,14 +1004,23 @@
         0.8760580411124547,
         0.6154833190761334
       ],
-      "confidence": 0.94,
-      "status": "auto_accepted",
-      "flags": []
+      "confidence": 0.7,
+      "status": "needs_review",
+      "flags": [
+        {
+          "severity": "warning",
+          "category": "four_eyes",
+          "code": "KUERZEL_UNKNOWN",
+          "message": "Kuerzel 'ohr' is not in the personnel list (Beteiligte Personen)",
+          "expected": "a registered Kuerzel",
+          "actual": "ohr"
+        }
+      ]
     },
     {
-      "id": "f_7f43851d7bb5",
+      "id": "f_a152f6983bd7",
       "page_no": 12,
-      "chapter": "",
+      "chapter": "5.3.2",
       "role": "signature_checked",
       "label": "Geprüft",
       "value": "10.06.2026 / han",
@@ -1044,9 +1038,9 @@
       "flags": []
     },
     {
-      "id": "f_c3de48e184cc",
+      "id": "f_07dffdc55fe1",
       "page_no": 14,
-      "chapter": "",
+      "chapter": "5.4",
       "role": null,
       "label": "Temperierung erforderlich",
       "value": "Nein, Kapitel 5.4 findet keine Anwendung",
@@ -1064,29 +1058,33 @@
       "flags": []
     },
     {
-      "id": "f_7ecfc298839b",
+      "id": "f_bc1df16995d0",
       "page_no": 14,
-      "chapter": "",
+      "chapter": "5.4.1",
       "role": null,
-      "label": "Intermediat B10-PP 67436",
-      "value": "678",
-      "value_raw": "678",
+      "label": "Intermediat",
+      "value": "78",
+      "value_raw": "078",
       "unit": null,
       "nks": null,
-      "bbox": [
-        0.11729141475211609,
-        0.41659538066723695,
-        0.9020556227327691,
-        0.5325064157399487
-      ],
-      "confidence": 0.999,
-      "status": "auto_accepted",
-      "flags": []
+      "bbox": null,
+      "confidence": 0.8,
+      "status": "needs_review",
+      "flags": [
+        {
+          "severity": "warning",
+          "category": "extraction",
+          "code": "EXTRACT_LOW_CONF",
+          "message": "Low extraction confidence (0.8); verify the value",
+          "expected": null,
+          "actual": null
+        }
+      ]
     },
     {
-      "id": "f_64063954e354",
+      "id": "f_855f3ef11e89",
       "page_no": 14,
-      "chapter": "",
+      "chapter": "5.4.1",
       "role": null,
       "label": "Transfer aus dem Kühlraum",
       "value": "2026-06-09T11:35:00",
@@ -1104,13 +1102,13 @@
       "flags": []
     },
     {
-      "id": "f_b57b2942f4ea",
+      "id": "f_92876e2479e4",
       "page_no": 14,
-      "chapter": "",
+      "chapter": "5.4.1",
       "role": "signature_processed",
       "label": "Bearbeitet",
-      "value": "10.06.2026 / ohv",
-      "value_raw": "10.06.2026 / ohv",
+      "value": "10.06.2026 / olu",
+      "value_raw": "10.06.2026 / olu",
       "unit": null,
       "nks": null,
       "bbox": [
@@ -1124,13 +1122,13 @@
       "flags": []
     },
     {
-      "id": "f_715b27e3da5d",
+      "id": "f_d181401c38cb",
       "page_no": 14,
-      "chapter": "",
+      "chapter": "5.4.1",
       "role": "signature_checked",
       "label": "Geprüft",
-      "value": "10.06.2026 / hah",
-      "value_raw": "10.06.2026 / hah",
+      "value": "10.06.2026 / has",
+      "value_raw": "10.06.2026 / has",
       "unit": null,
       "nks": null,
       "bbox": [
@@ -1144,9 +1142,9 @@
       "flags": []
     },
     {
-      "id": "f_37dc2fa04354",
+      "id": "f_2da949d8b455",
       "page_no": 15,
-      "chapter": "",
+      "chapter": "5.5",
       "role": null,
       "label": "Temperierung erforderlich",
       "value": "Ja",
@@ -1173,13 +1171,13 @@
       ]
     },
     {
-      "id": "f_3af2ad80d07c",
+      "id": "f_324513596444",
       "page_no": 15,
-      "chapter": "",
+      "chapter": "5.5",
       "role": "signature_processed",
       "label": "Bearbeitet",
-      "value": "10.06.2026 / ob",
-      "value_raw": "10.06.2026 / ob",
+      "value": "10.06.2026 / ohe",
+      "value_raw": "10.06.2026 / ohe",
       "unit": null,
       "nks": null,
       "bbox": [
@@ -1193,13 +1191,13 @@
       "flags": []
     },
     {
-      "id": "f_17d9cd83ca17",
+      "id": "f_3860462418c5",
       "page_no": 15,
-      "chapter": "",
+      "chapter": "5.5",
       "role": "signature_checked",
       "label": "Geprüft",
-      "value": "10.06.2026 / hau",
-      "value_raw": "10.06.2026 / hau",
+      "value": "10.06.2026 / hah",
+      "value_raw": "10.06.2026 / hah",
       "unit": null,
       "nks": null,
       "bbox": [
@@ -1213,9 +1211,9 @@
       "flags": []
     },
     {
-      "id": "f_ecaab97fdfba",
+      "id": "f_561c7f9e28df",
       "page_no": 15,
-      "chapter": "",
+      "chapter": "5.5.1",
       "role": null,
       "label": "Intermediat B10-PP 13975",
       "value": "534",
@@ -1242,9 +1240,9 @@
       ]
     },
     {
-      "id": "f_ee97b7600901",
+      "id": "f_6b741c5f467e",
       "page_no": 15,
-      "chapter": "",
+      "chapter": "5.5.1",
       "role": null,
       "label": "Transfer aus dem Kühlraum",
       "value": "2026-06-10T13:41:00",
@@ -1262,13 +1260,13 @@
       "flags": []
     },
     {
-      "id": "f_327cec95fba4",
+      "id": "f_345b4516a57d",
       "page_no": 15,
-      "chapter": "",
+      "chapter": "5.5.1",
       "role": "signature_processed",
       "label": "Bearbeitet",
-      "value": "10.06.2026 / obe",
-      "value_raw": "10.06.2026 / obe",
+      "value": "10.06.2026 / ohe",
+      "value_raw": "10.06.2026 / ohe",
       "unit": null,
       "nks": null,
       "bbox": [
@@ -1282,13 +1280,13 @@
       "flags": []
     },
     {
-      "id": "f_02d797c25fa7",
+      "id": "f_84b9b073690c",
       "page_no": 15,
-      "chapter": "",
+      "chapter": "5.5.1",
       "role": "signature_checked",
       "label": "Geprüft",
-      "value": "10.06.2026 / hau",
-      "value_raw": "10.06.2026 / hau",
+      "value": "10.06.2026 / hah",
+      "value_raw": "10.06.2026 / hah",
       "unit": null,
       "nks": null,
       "bbox": [
@@ -1302,9 +1300,9 @@
       "flags": []
     },
     {
-      "id": "f_e75099fd7697",
+      "id": "f_89cc40856875",
       "page_no": 16,
-      "chapter": "",
+      "chapter": "5.6",
       "role": null,
       "label": "Pooling erforderlich",
       "value": "Ja, weiter im Kapitel",
@@ -1326,11 +1324,11 @@
       ]
     },
     {
-      "id": "f_0294e3d8bdce",
+      "id": "f_517cafb66ba9",
       "page_no": 16,
-      "chapter": "",
+      "chapter": "5.6",
       "role": "signature_processed",
-      "label": "Bearbeitet (Datum/Kürzel)",
+      "label": "Bearbeitet",
       "value": "10.06.2026 / oh",
       "value_raw": "10.06.2026 / oh",
       "unit": null,
@@ -1341,16 +1339,25 @@
         0.8996372430471584,
         0.37254063301967494
       ],
-      "confidence": 0.996,
-      "status": "auto_accepted",
-      "flags": []
+      "confidence": 0.7,
+      "status": "needs_review",
+      "flags": [
+        {
+          "severity": "warning",
+          "category": "four_eyes",
+          "code": "KUERZEL_UNKNOWN",
+          "message": "Kuerzel 'oh' is not in the personnel list (Beteiligte Personen)",
+          "expected": "a registered Kuerzel",
+          "actual": "oh"
+        }
+      ]
     },
     {
-      "id": "f_7e663c7776ef",
+      "id": "f_f4d2f5055298",
       "page_no": 16,
-      "chapter": "",
+      "chapter": "5.6",
       "role": "signature_checked",
-      "label": "Geprüft (Datum/Kürzel)",
+      "label": "Geprüft",
       "value": "10.06.2026 / oh",
       "value_raw": "10.06.2026 / oh",
       "unit": null,
@@ -1371,13 +1378,21 @@
           "message": "Bearbeitet and Gepruft signed by the same person",
           "expected": "two different Kurzel",
           "actual": "oh"
+        },
+        {
+          "severity": "warning",
+          "category": "four_eyes",
+          "code": "KUERZEL_UNKNOWN",
+          "message": "Kuerzel 'oh' is not in the personnel list (Beteiligte Personen)",
+          "expected": "a registered Kuerzel",
+          "actual": "oh"
         }
       ]
     },
     {
-      "id": "f_b51f19a174cc",
+      "id": "f_e235ff995d1a",
       "page_no": 16,
-      "chapter": "",
+      "chapter": "5.6.1",
       "role": null,
       "label": "Oven A - Anlagennummer",
       "value": "A1234",
@@ -1395,9 +1410,9 @@
       "flags": []
     },
     {
-      "id": "f_c7a393451522",
+      "id": "f_ef671ea1f97a",
       "page_no": 16,
-      "chapter": "",
+      "chapter": "5.6.1",
       "role": null,
       "label": "Oven A - Einsatzbereit gemäß RL-SOP-00796",
       "value": "Ja",
@@ -1419,9 +1434,9 @@
       ]
     },
     {
-      "id": "f_dc24339f9c90",
+      "id": "f_927c0d33d513",
       "page_no": 16,
-      "chapter": "",
+      "chapter": "5.6.1",
       "role": null,
       "label": "Batter Pump - Anlagennummer",
       "value": "A4265",
@@ -1439,9 +1454,9 @@
       "flags": []
     },
     {
-      "id": "f_38ee73c24ad2",
+      "id": "f_466fb19d1c7f",
       "page_no": 16,
-      "chapter": "",
+      "chapter": "5.6.1",
       "role": null,
       "label": "Batter Pump - Einsatzbereit gemäß RL-SOP-00796",
       "value": "Ja",
@@ -1463,9 +1478,9 @@
       ]
     },
     {
-      "id": "f_fedc67342d64",
+      "id": "f_65b3ef574daa",
       "page_no": 16,
-      "chapter": "",
+      "chapter": "5.6.1",
       "role": null,
       "label": "Floor Scale - Anlagennummer",
       "value": "A321",
@@ -1483,9 +1498,9 @@
       "flags": []
     },
     {
-      "id": "f_12a7994e4e6a",
+      "id": "f_79081edce09b",
       "page_no": 16,
-      "chapter": "",
+      "chapter": "5.6.1",
       "role": null,
       "label": "Floor Scale - Einsatzbereit gemäß RL-SOP-00796",
       "value": "Kein Einsatz",
@@ -1507,9 +1522,9 @@
       ]
     },
     {
-      "id": "f_69bbced96c57",
+      "id": "f_be4c4a6751d3",
       "page_no": 16,
-      "chapter": "",
+      "chapter": "5.6.1",
       "role": null,
       "label": "Bench Scale - Anlagennummer",
       "value": "A45978",
@@ -1527,9 +1542,9 @@
       "flags": []
     },
     {
-      "id": "f_6ed13c7603d3",
+      "id": "f_6352b87b9971",
       "page_no": 16,
-      "chapter": "",
+      "chapter": "5.6.1",
       "role": null,
       "label": "Bench Scale - Einsatzbereit gemäß RL-SOP-00796",
       "value": "Ja",
@@ -1551,9 +1566,9 @@
       ]
     },
     {
-      "id": "f_9a9372635292",
+      "id": "f_98a182b0190e",
       "page_no": 16,
-      "chapter": "",
+      "chapter": "5.6.1",
       "role": null,
       "label": "Bowl Rocker - Anlagennummer",
       "value": "A32141",
@@ -1571,9 +1586,9 @@
       "flags": []
     },
     {
-      "id": "f_bd57fcb2ee1b",
+      "id": "f_e1fdd4dbf434",
       "page_no": 16,
-      "chapter": "",
+      "chapter": "5.6.1",
       "role": null,
       "label": "Bowl Rocker - Einsatzbereit gemäß RL-SOP-00796",
       "value": "Ja",
@@ -1595,9 +1610,9 @@
       ]
     },
     {
-      "id": "f_e3e08a571982",
+      "id": "f_7d329d4ab9d7",
       "page_no": 17,
-      "chapter": "",
+      "chapter": "5.6.2",
       "role": "hold_start",
       "label": "Start Überführung",
       "value": "09:26:00",
@@ -1615,9 +1630,9 @@
       "flags": []
     },
     {
-      "id": "f_ffc7928d0fd2",
+      "id": "f_c38730409dd6",
       "page_no": 17,
-      "chapter": "",
+      "chapter": "5.6.2",
       "role": "hold_end",
       "label": "Ende Überführung",
       "value": "10:12:00",
@@ -1635,9 +1650,9 @@
       "flags": []
     },
     {
-      "id": "f_fb87ee6a1a76",
+      "id": "f_2d868a5ebd0b",
       "page_no": 17,
-      "chapter": "",
+      "chapter": "5.6.2",
       "role": null,
       "label": "Wippgeschwindigkeit",
       "value": "32",
@@ -1664,9 +1679,9 @@
       ]
     },
     {
-      "id": "f_daec8a28325c",
+      "id": "f_edfaeb8bbec9",
       "page_no": 17,
-      "chapter": "",
+      "chapter": "5.6.2",
       "role": "hold_start",
       "label": "Start Homogenisieren",
       "value": "10:12:00",
@@ -1684,9 +1699,9 @@
       "flags": []
     },
     {
-      "id": "f_6dd4f94fd8ca",
+      "id": "f_b8bfac376a45",
       "page_no": 17,
-      "chapter": "",
+      "chapter": "5.6.2",
       "role": "hold_end",
       "label": "Ende Homogenisieren",
       "value": "10:24:00",
@@ -1704,9 +1719,9 @@
       "flags": []
     },
     {
-      "id": "f_9c245849caed",
+      "id": "f_682178b4e690",
       "page_no": 17,
-      "chapter": "",
+      "chapter": "5.6.2",
       "role": "hold_end",
       "label": "Dauer Homogenisieren nach Ende Überführung",
       "value": "12",
@@ -1724,13 +1739,13 @@
       "flags": []
     },
     {
-      "id": "f_754ec6bc4eb1",
+      "id": "f_af5d192930c7",
       "page_no": 17,
-      "chapter": "",
+      "chapter": "5.6.2",
       "role": null,
       "label": "Neues Intermediat",
-      "value": "B20-ST 9784 697",
-      "value_raw": "B20-ST 9784 697",
+      "value": "B20-ST 9784-697",
+      "value_raw": "B20-ST 9784-697",
       "unit": null,
       "nks": null,
       "bbox": [
@@ -1744,13 +1759,13 @@
       "flags": []
     },
     {
-      "id": "f_27c4bbd0c221",
+      "id": "f_77ce03aa4fc2",
       "page_no": 17,
-      "chapter": "",
+      "chapter": "5.6.2",
       "role": "signature_processed",
       "label": "Bearbeitet",
-      "value": "10.06.2028 / ole",
-      "value_raw": "10.06.2028 / ole",
+      "value": "10.06.2028 / dls",
+      "value_raw": "10.06.2028 / dls",
       "unit": null,
       "nks": null,
       "bbox": null,
@@ -1764,13 +1779,21 @@
           "message": "date 2028-06-10 is implausibly far after the record date",
           "expected": "<= 2026-12-06",
           "actual": "2028-06-10"
+        },
+        {
+          "severity": "warning",
+          "category": "four_eyes",
+          "code": "KUERZEL_UNKNOWN",
+          "message": "Kuerzel 'dls' is not in the personnel list (Beteiligte Personen)",
+          "expected": "a registered Kuerzel",
+          "actual": "dls"
         }
       ]
     },
     {
-      "id": "f_1dcfed0f49d4",
+      "id": "f_bd53fc63d60c",
       "page_no": 17,
-      "chapter": "",
+      "chapter": "5.6.2",
       "role": "signature_checked",
       "label": "Geprüft",
       "value": "10.06.2028 / hah",
@@ -1792,11 +1815,11 @@
       ]
     },
     {
-      "id": "f_c661ca1654d9",
+      "id": "f_31568454a564",
       "page_no": 18,
-      "chapter": "",
+      "chapter": "5.7.1",
       "role": null,
-      "label": "Oven A Anlagen-nummer",
+      "label": "Oven A - Anlagennummer",
       "value": "A1473",
       "value_raw": "A1473",
       "unit": null,
@@ -1812,11 +1835,11 @@
       "flags": []
     },
     {
-      "id": "f_49aac250138f",
+      "id": "f_41720f4e74fb",
       "page_no": 18,
-      "chapter": "",
+      "chapter": "5.7.1",
       "role": null,
-      "label": "Oven A Einsatzbereit gemäß RL-SOP-00796",
+      "label": "Oven A - Einsatzbereit gemäß RL-SOP-00796",
       "value": "Ja",
       "value_raw": "Ja",
       "unit": null,
@@ -1836,11 +1859,11 @@
       ]
     },
     {
-      "id": "f_83959be9ca69",
+      "id": "f_dd578512c329",
       "page_no": 18,
-      "chapter": "",
+      "chapter": "5.7.1",
       "role": null,
-      "label": "Floor Scale Anlagen-nummer",
+      "label": "Floor Scale - Anlagennummer",
       "value": "A3215",
       "value_raw": "A3215",
       "unit": null,
@@ -1856,11 +1879,11 @@
       "flags": []
     },
     {
-      "id": "f_4429cbbb2c62",
+      "id": "f_f023f3e34704",
       "page_no": 18,
-      "chapter": "",
+      "chapter": "5.7.1",
       "role": null,
-      "label": "Floor Scale Einsatzbereit gemäß RL-SOP-00796",
+      "label": "Floor Scale - Einsatzbereit gemäß RL-SOP-00796",
       "value": "Kein Einsatz",
       "value_raw": "Kein Einsatz",
       "unit": null,
@@ -1880,11 +1903,11 @@
       ]
     },
     {
-      "id": "f_3ea8536250cb",
+      "id": "f_52ead154bd8b",
       "page_no": 18,
-      "chapter": "",
+      "chapter": "5.7.1",
       "role": null,
-      "label": "Bench Scale Anlagen-nummer",
+      "label": "Bench Scale - Anlagennummer",
       "value": "A5114",
       "value_raw": "A5114",
       "unit": null,
@@ -1900,11 +1923,11 @@
       "flags": []
     },
     {
-      "id": "f_58ad50d201be",
+      "id": "f_ebe6b85c6ab6",
       "page_no": 18,
-      "chapter": "",
+      "chapter": "5.7.1",
       "role": null,
-      "label": "Bench Scale Einsatzbereit gemäß RL-SOP-00796",
+      "label": "Bench Scale - Einsatzbereit gemäß RL-SOP-00796",
       "value": "Ja",
       "value_raw": "Ja",
       "unit": null,
@@ -1924,11 +1947,11 @@
       ]
     },
     {
-      "id": "f_996a5415b055",
+      "id": "f_048da7664005",
       "page_no": 18,
-      "chapter": "",
+      "chapter": "5.7.1",
       "role": null,
-      "label": "Bowl Rocker Anlagen-nummer",
+      "label": "Bowl Rocker - Anlagennummer",
       "value": "A4662",
       "value_raw": "A4662",
       "unit": null,
@@ -1944,11 +1967,11 @@
       "flags": []
     },
     {
-      "id": "f_933ceb97a4cf",
+      "id": "f_5f5500a9c957",
       "page_no": 18,
-      "chapter": "",
+      "chapter": "5.7.1",
       "role": null,
-      "label": "Bowl Rocker Einsatzbereit gemäß RL-SOP-00796",
+      "label": "Bowl Rocker - Einsatzbereit gemäß RL-SOP-00796",
       "value": "Kein Einsatz",
       "value_raw": "Kein Einsatz",
       "unit": null,
@@ -1968,11 +1991,11 @@
       ]
     },
     {
-      "id": "f_6603176d4648",
+      "id": "f_27bbba7de6f0",
       "page_no": 18,
-      "chapter": "",
+      "chapter": "5.7.1",
       "role": null,
-      "label": "Thermometer / Moisture Meter Anlagen-nummer",
+      "label": "Thermometer / Moisture Meter - Anlagennummer",
       "value": "A8498",
       "value_raw": "A8498",
       "unit": null,
@@ -1988,11 +2011,11 @@
       "flags": []
     },
     {
-      "id": "f_dd390790312b",
+      "id": "f_56a8699e6b2d",
       "page_no": 18,
-      "chapter": "",
+      "chapter": "5.7.1",
       "role": null,
-      "label": "Thermometer / Moisture Meter Einsatzbereit gemäß RL-SOP-00796",
+      "label": "Thermometer / Moisture Meter - Einsatzbereit gemäß RL-SOP-00796",
       "value": "Ja",
       "value_raw": "Ja",
       "unit": null,
@@ -2012,13 +2035,13 @@
       ]
     },
     {
-      "id": "f_478c6c9f3d65",
+      "id": "f_f966905a0579",
       "page_no": 18,
-      "chapter": "",
+      "chapter": "5.7.1",
       "role": "signature_processed",
       "label": "Bearbeitet (Datum/Kürzel)",
-      "value": "10.06.2026 / oho",
-      "value_raw": "10.06.2026 / oho",
+      "value": "10.06.2026 / ohp",
+      "value_raw": "10.06.2026 / ohp",
       "unit": null,
       "nks": null,
       "bbox": [
@@ -2027,14 +2050,23 @@
         0.9026602176541717,
         0.5004277159965783
       ],
-      "confidence": 0.99,
-      "status": "auto_accepted",
-      "flags": []
+      "confidence": 0.7,
+      "status": "needs_review",
+      "flags": [
+        {
+          "severity": "warning",
+          "category": "four_eyes",
+          "code": "KUERZEL_UNKNOWN",
+          "message": "Kuerzel 'ohp' is not in the personnel list (Beteiligte Personen)",
+          "expected": "a registered Kuerzel",
+          "actual": "ohp"
+        }
+      ]
     },
     {
-      "id": "f_d1bf60fd3ae9",
+      "id": "f_4a84e3721473",
       "page_no": 18,
-      "chapter": "",
+      "chapter": "5.7.1",
       "role": "signature_checked",
       "label": "Geprüft (Datum/Kürzel)",
       "value": "10.06.2026 / hän",
@@ -2052,9 +2084,9 @@
       "flags": []
     },
     {
-      "id": "f_c7855f0318b0",
+      "id": "f_2844cdd67ef8",
       "page_no": 19,
-      "chapter": "",
+      "chapter": "5.7.2",
       "role": null,
       "label": "Nur ein B10-PP vorhanden?",
       "value": "Ja, Übertrag der Daten aus Kapitel 5.3.1",
@@ -2072,11 +2104,11 @@
       "flags": []
     },
     {
-      "id": "f_4384d89be047",
+      "id": "f_49501b84df61",
       "page_no": 19,
-      "chapter": "",
+      "chapter": "5.7.2",
       "role": null,
-      "label": "B20-ST 95186",
+      "label": "Intermediat B20-ST 95186",
       "value": "327",
       "value_raw": "327",
       "unit": null,
@@ -2092,9 +2124,9 @@
       "flags": []
     },
     {
-      "id": "f_cec87488071e",
+      "id": "f_b0a80dbc0095",
       "page_no": 19,
-      "chapter": "",
+      "chapter": "5.7.2",
       "role": "tare_mass",
       "label": "m Tara",
       "value": "127",
@@ -2112,9 +2144,9 @@
       "flags": []
     },
     {
-      "id": "f_dca31d6d866e",
+      "id": "f_83ada3330673",
       "page_no": 19,
-      "chapter": "",
+      "chapter": "5.7.2",
       "role": "gross_mass",
       "label": "m Brutto vPz",
       "value": "427",
@@ -2132,9 +2164,9 @@
       "flags": []
     },
     {
-      "id": "f_5519a0f2e1ed",
+      "id": "f_9f6e7c6c05bb",
       "page_no": 19,
-      "chapter": "",
+      "chapter": "5.7.2",
       "role": "net_mass",
       "label": "m Netto vPz",
       "value": "300",
@@ -2152,9 +2184,9 @@
       "flags": []
     },
     {
-      "id": "f_9fef15be1a9c",
+      "id": "f_113283172736",
       "page_no": 19,
-      "chapter": "",
+      "chapter": "5.7.2",
       "role": "volume",
       "label": "V Netto vPz",
       "value": "543",
@@ -2172,9 +2204,9 @@
       "flags": []
     },
     {
-      "id": "f_d0c4a57ce2e7",
+      "id": "f_e25d8d26885e",
       "page_no": 19,
-      "chapter": "",
+      "chapter": "5.7.2",
       "role": null,
       "label": "Proben (GPDSP) gemäß BK-MAN-01825 erforderlich (siehe Kapitel 6.7.4)",
       "value": "Ja",
@@ -2196,9 +2228,9 @@
       ]
     },
     {
-      "id": "f_a78b69fbda6f",
+      "id": "f_613aa2dfa983",
       "page_no": 19,
-      "chapter": "",
+      "chapter": "5.7.2",
       "role": null,
       "label": "Proben (QC) gemäß BK-MAN-16865 erforderlich",
       "value": "Ja",
@@ -2220,9 +2252,9 @@
       ]
     },
     {
-      "id": "f_b84784f7cd95",
+      "id": "f_ee78471bb81a",
       "page_no": 19,
-      "chapter": "",
+      "chapter": "5.7.2",
       "role": null,
       "label": "Proben gemäß Sonderprobenzugplan erforderlich",
       "value": "Nein",
@@ -2244,9 +2276,9 @@
       ]
     },
     {
-      "id": "f_80b70b17dcf5",
+      "id": "f_98b615f7bd52",
       "page_no": 19,
-      "chapter": "",
+      "chapter": "5.7.2",
       "role": null,
       "label": "Taste Sample aller Proben nach Überprüfung in LIMS durchgeführt",
       "value": "Ja",
@@ -2268,9 +2300,9 @@
       ]
     },
     {
-      "id": "f_6fc78e0c9c64",
+      "id": "f_d615c3da52f6",
       "page_no": 19,
-      "chapter": "",
+      "chapter": "5.7.2",
       "role": "gross_mass",
       "label": "m Brutto nPZ",
       "value": "527",
@@ -2288,9 +2320,9 @@
       "flags": []
     },
     {
-      "id": "f_8c60f09792f1",
+      "id": "f_a9a4861950d9",
       "page_no": 19,
-      "chapter": "",
+      "chapter": "5.7.2",
       "role": "net_mass",
       "label": "m Netto nPZ",
       "value": "395",
@@ -2308,9 +2340,9 @@
       "flags": []
     },
     {
-      "id": "f_31d4fec8196b",
+      "id": "f_a75631979626",
       "page_no": 19,
-      "chapter": "",
+      "chapter": "5.7.2",
       "role": "volume",
       "label": "V Netto nPZ",
       "value": "715",
@@ -2328,9 +2360,9 @@
       "flags": []
     },
     {
-      "id": "f_3d04f0df68c5",
+      "id": "f_16bae8207aa6",
       "page_no": 19,
-      "chapter": "",
+      "chapter": "5.7.2",
       "role": "signature_processed",
       "label": "Bearbeitet",
       "value": "10.06.2026 / ohe",
@@ -2348,9 +2380,9 @@
       "flags": []
     },
     {
-      "id": "f_e7eb14d99827",
+      "id": "f_bc5f9b7468e1",
       "page_no": 19,
-      "chapter": "",
+      "chapter": "5.7.2",
       "role": "signature_checked",
       "label": "Geprüft",
       "value": "10.06.2026 / han",
@@ -2368,9 +2400,9 @@
       "flags": []
     },
     {
-      "id": "f_387dfc4b6635",
+      "id": "f_1bfc02a7690a",
       "page_no": 20,
-      "chapter": "",
+      "chapter": "5.7.3",
       "role": null,
       "label": "LIMS basierten Probenzug durchgeführt",
       "value": "Ja",
@@ -2392,9 +2424,9 @@
       ]
     },
     {
-      "id": "f_164b1c4fb6a9",
+      "id": "f_d48724f397db",
       "page_no": 20,
-      "chapter": "",
+      "chapter": "5.7.3",
       "role": null,
       "label": "Probenzug",
       "value": "15:26:00",
@@ -2412,11 +2444,11 @@
       "flags": []
     },
     {
-      "id": "f_da2c1c0ac1ad",
+      "id": "f_389d074de97c",
       "page_no": 20,
-      "chapter": "",
+      "chapter": "5.7.3",
       "role": null,
-      "label": "Probenzugsetikett(en) auf Probe(n) mit eingeklebtem(n) Etikett(en) identisch",
+      "label": "Probenzugssetikett(en) auf Probe(n) mit eingeklebtem(n) Etikett(en) identisch",
       "value": "Ja",
       "value_raw": "Ja",
       "unit": null,
@@ -2436,9 +2468,9 @@
       ]
     },
     {
-      "id": "f_5ab481c484e6",
+      "id": "f_46d0380c3e4b",
       "page_no": 20,
-      "chapter": "",
+      "chapter": "5.7.3",
       "role": null,
       "label": "A representative taste and appearance sample is taken from the batter or baked cake according to the defined sampling plan. The label is verified, the sample is stored appropriately, and the observation is documented in a GMP-like manner for traceability.",
       "value": "Ja",
@@ -2460,9 +2492,9 @@
       ]
     },
     {
-      "id": "f_dee2ccf20c14",
+      "id": "f_0ca60e1a589e",
       "page_no": 20,
-      "chapter": "",
+      "chapter": "5.7.3",
       "role": null,
       "label": "Plan für betroffene Prozessstufe vollständig (grün)",
       "value": "Ja",
@@ -2484,13 +2516,13 @@
       ]
     },
     {
-      "id": "f_5cc262f9a8cf",
+      "id": "f_f4b8b613975d",
       "page_no": 20,
-      "chapter": "",
+      "chapter": "5.7.3",
       "role": "signature_processed",
       "label": "Bearbeitet",
-      "value": "10.06.2026 / dhe",
-      "value_raw": "10.06.2026 / dhe",
+      "value": "10.06.2026 / che",
+      "value_raw": "10.06.2026 / che",
       "unit": null,
       "nks": null,
       "bbox": [
@@ -2499,18 +2531,27 @@
         0.6444981862152358,
         0.850727117194183
       ],
-      "confidence": 0.998,
-      "status": "auto_accepted",
-      "flags": []
+      "confidence": 0.7,
+      "status": "needs_review",
+      "flags": [
+        {
+          "severity": "warning",
+          "category": "four_eyes",
+          "code": "KUERZEL_UNKNOWN",
+          "message": "Kuerzel 'che' is not in the personnel list (Beteiligte Personen)",
+          "expected": "a registered Kuerzel",
+          "actual": "che"
+        }
+      ]
     },
     {
-      "id": "f_a59eb37c7234",
+      "id": "f_3e5d1ab01de6",
       "page_no": 20,
-      "chapter": "",
+      "chapter": "5.7.3",
       "role": "signature_checked",
       "label": "Geprüft",
-      "value": "10.06.2026 / hau",
-      "value_raw": "10.06.2026 / hau",
+      "value": "10.06.2026 / hay",
+      "value_raw": "10.06.2026 / hay",
       "unit": null,
       "nks": null,
       "bbox": [
@@ -2524,9 +2565,9 @@
       "flags": []
     },
     {
-      "id": "f_ec80460c8e53",
+      "id": "f_a0ebb1ba32fb",
       "page_no": 21,
-      "chapter": "",
+      "chapter": "5.7.4",
       "role": null,
       "label": "LF B20-ST",
       "value": "14.34",
@@ -2544,13 +2585,13 @@
       "flags": []
     },
     {
-      "id": "f_c679e8c91073",
+      "id": "f_3e8e3dcf5001",
       "page_no": 21,
-      "chapter": "",
+      "chapter": "5.7.4",
       "role": "signature_processed",
       "label": "Bearbeitet",
-      "value": "10.06.2026 / Ohe",
-      "value_raw": "10.06.2026 / Ohe",
+      "value": "10.06.2026 / ohr",
+      "value_raw": "10.06.2026 / ohr",
       "unit": null,
       "nks": null,
       "bbox": [
@@ -2559,18 +2600,27 @@
         0.6233373639661427,
         0.31137724550898205
       ],
-      "confidence": 0.997,
-      "status": "auto_accepted",
-      "flags": []
+      "confidence": 0.7,
+      "status": "needs_review",
+      "flags": [
+        {
+          "severity": "warning",
+          "category": "four_eyes",
+          "code": "KUERZEL_UNKNOWN",
+          "message": "Kuerzel 'ohr' is not in the personnel list (Beteiligte Personen)",
+          "expected": "a registered Kuerzel",
+          "actual": "ohr"
+        }
+      ]
     },
     {
-      "id": "f_ab15bbc21b70",
+      "id": "f_52d8e2b941a5",
       "page_no": 21,
-      "chapter": "",
+      "chapter": "5.7.4",
       "role": "signature_checked",
       "label": "Geprüft",
-      "value": "10.06.2026 / hsu",
-      "value_raw": "10.06.2026 / hsu",
+      "value": "10.06.2026 / hau",
+      "value_raw": "10.06.2026 / hau",
       "unit": null,
       "nks": null,
       "bbox": [
@@ -2584,9 +2634,9 @@
       "flags": []
     },
     {
-      "id": "f_2d5ac960804b",
+      "id": "f_3cbb4da19cb9",
       "page_no": 23,
-      "chapter": "",
+      "chapter": "5.7.6",
       "role": null,
       "label": "Prozessverzögerung",
       "value": "Nein, Kapitel findet keine Anwendung",
@@ -2608,9 +2658,9 @@
       ]
     },
     {
-      "id": "f_7ba0b086a86e",
+      "id": "f_087c0fbeeb53",
       "page_no": 23,
-      "chapter": "",
+      "chapter": "5.7.6",
       "role": "signature_processed",
       "label": "Bearbeitet",
       "value": "10.06.2026 / ohe",
@@ -2628,9 +2678,9 @@
       "flags": []
     },
     {
-      "id": "f_e4f419344ee6",
+      "id": "f_acf848d61fd8",
       "page_no": 23,
-      "chapter": "",
+      "chapter": "5.7.6",
       "role": "signature_checked",
       "label": "Geprüft",
       "value": "10.06.2026 / ohe",
@@ -2657,9 +2707,9 @@
       ]
     },
     {
-      "id": "f_8e7b63f1a85b",
+      "id": "f_67eaf34784b9",
       "page_no": 23,
-      "chapter": "",
+      "chapter": "5.7.6",
       "role": "hold_start",
       "label": "Start Prozessverzögerung",
       "value": "11:27:00",
@@ -2677,9 +2727,9 @@
       "flags": []
     },
     {
-      "id": "f_83751b0f24a4",
+      "id": "f_d14a344e29cb",
       "page_no": 23,
-      "chapter": "",
+      "chapter": "5.7.6",
       "role": "temperature_setpoint",
       "label": "Haltetemperatur",
       "value": "Ja",
@@ -2701,9 +2751,9 @@
       ]
     },
     {
-      "id": "f_7a9f4ceaa785",
+      "id": "f_425d62864492",
       "page_no": 23,
-      "chapter": "",
+      "chapter": "5.7.6",
       "role": "signature_processed",
       "label": "Bearbeitet",
       "value": "10.06.2026 / ohe",
@@ -2721,13 +2771,13 @@
       "flags": []
     },
     {
-      "id": "f_7c644462d92b",
+      "id": "f_92daca84550b",
       "page_no": 23,
-      "chapter": "",
+      "chapter": "5.7.6",
       "role": "signature_checked",
       "label": "Geprüft",
-      "value": "10.06.2026 / haa",
-      "value_raw": "10.06.2026 / haa",
+      "value": "10.06.2026 / hga",
+      "value_raw": "10.06.2026 / hga",
       "unit": null,
       "nks": null,
       "bbox": [
@@ -2736,14 +2786,23 @@
         0.9068923821039904,
         0.7596236099230111
       ],
-      "confidence": 0.989,
-      "status": "auto_accepted",
-      "flags": []
+      "confidence": 0.7,
+      "status": "needs_review",
+      "flags": [
+        {
+          "severity": "warning",
+          "category": "four_eyes",
+          "code": "KUERZEL_UNKNOWN",
+          "message": "Kuerzel 'hga' is not in the personnel list (Beteiligte Personen)",
+          "expected": "a registered Kuerzel",
+          "actual": "hga"
+        }
+      ]
     },
     {
-      "id": "f_53d80d76b8d7",
+      "id": "f_98457af7b5d3",
       "page_no": 23,
-      "chapter": "",
+      "chapter": "5.7.6",
       "role": "hold_end",
       "label": "Ende Prozessverzögerung",
       "value": "12:27:00",
@@ -2761,9 +2820,9 @@
       "flags": []
     },
     {
-      "id": "f_acceb79d1d2d",
+      "id": "f_3225da23df3b",
       "page_no": 23,
-      "chapter": "",
+      "chapter": "5.7.6",
       "role": null,
       "label": "Tatsächliche Prozessverzögerung",
       "value": "02:00:00",
@@ -2781,9 +2840,9 @@
       "flags": []
     },
     {
-      "id": "f_cbe635434910",
+      "id": "f_c5e1cfeff9c3",
       "page_no": 23,
-      "chapter": "",
+      "chapter": "5.7.6",
       "role": null,
       "label": "Prozessverzögerung > 4 h",
       "value": "Nein",
@@ -2805,9 +2864,9 @@
       ]
     },
     {
-      "id": "f_d3b3ae268d43",
+      "id": "f_78ffee1d9f88",
       "page_no": 23,
-      "chapter": "",
+      "chapter": "5.7.6",
       "role": "signature_processed",
       "label": "Bearbeitet",
       "value": "10.06.2026 / ohe",
@@ -2825,13 +2884,13 @@
       "flags": []
     },
     {
-      "id": "f_e576c0fe70b9",
+      "id": "f_ffbcc05a0a56",
       "page_no": 23,
-      "chapter": "",
+      "chapter": "5.7.6",
       "role": "signature_checked",
       "label": "Geprüft",
-      "value": "10.06.2026 / haa",
-      "value_raw": "10.06.2026 / haa",
+      "value": "10.06.2026 / hga",
+      "value_raw": "10.06.2026 / hga",
       "unit": null,
       "nks": null,
       "bbox": [
@@ -2840,14 +2899,23 @@
         0.9068923821039904,
         0.7596236099230111
       ],
-      "confidence": 0.989,
-      "status": "auto_accepted",
-      "flags": []
+      "confidence": 0.7,
+      "status": "needs_review",
+      "flags": [
+        {
+          "severity": "warning",
+          "category": "four_eyes",
+          "code": "KUERZEL_UNKNOWN",
+          "message": "Kuerzel 'hga' is not in the personnel list (Beteiligte Personen)",
+          "expected": "a registered Kuerzel",
+          "actual": "hga"
+        }
+      ]
     },
     {
-      "id": "f_b10697574206",
+      "id": "f_b68f48895afc",
       "page_no": 24,
-      "chapter": "",
+      "chapter": "5.8",
       "role": null,
       "label": "Charge",
       "value": "1234567",
@@ -2865,9 +2933,9 @@
       "flags": []
     },
     {
-      "id": "f_c72f291e9ef1",
+      "id": "f_b75a50ae8b0c",
       "page_no": 24,
-      "chapter": "",
+      "chapter": "5.8",
       "role": null,
       "label": "Ofenfreigabe erteilt zum",
       "value": "2019-03-14",
@@ -2885,9 +2953,9 @@
       "flags": []
     },
     {
-      "id": "f_20c336e8d485",
+      "id": "f_f8919f8c144d",
       "page_no": 24,
-      "chapter": "",
+      "chapter": "5.8",
       "role": null,
       "label": "Baker Five",
       "value": "3.78",
@@ -2905,9 +2973,9 @@
       "flags": []
     },
     {
-      "id": "f_958a6ce98dbb",
+      "id": "f_ac04e6d8ed90",
       "page_no": 24,
-      "chapter": "",
+      "chapter": "5.8",
       "role": null,
       "label": "Baker Seven",
       "value": "7.14",
@@ -2925,9 +2993,9 @@
       "flags": []
     },
     {
-      "id": "f_8663bf248f35",
+      "id": "f_7e5705f33c2f",
       "page_no": 24,
-      "chapter": "",
+      "chapter": "5.8",
       "role": "volume",
       "label": "Baker Eigth",
       "value": "1.62",
@@ -2945,9 +3013,33 @@
       "flags": []
     },
     {
-      "id": "f_e121e5ee512a",
+      "id": "f_9718026659ac",
       "page_no": 24,
-      "chapter": "",
+      "chapter": "5.8",
+      "role": null,
+      "label": "Ofen in Oven List mit aufgelisteten Parametern erfasst",
+      "value": "Ja",
+      "value_raw": "Ja",
+      "unit": null,
+      "nks": null,
+      "bbox": null,
+      "confidence": 0.8,
+      "status": "needs_review",
+      "flags": [
+        {
+          "severity": "warning",
+          "category": "extraction",
+          "code": "EXTRACT_LOW_CONF",
+          "message": "Low extraction confidence (0.8); verify the value",
+          "expected": null,
+          "actual": null
+        }
+      ]
+    },
+    {
+      "id": "f_dac5298511dd",
+      "page_no": 24,
+      "chapter": "5.8",
       "role": "signature_processed",
       "label": "Bearbeitet",
       "value": "10.06.2025 / ohe",
@@ -2974,13 +3066,13 @@
       ]
     },
     {
-      "id": "f_eb49886b902f",
+      "id": "f_e6b12273be91",
       "page_no": 24,
-      "chapter": "",
+      "chapter": "5.8",
       "role": "signature_checked",
       "label": "Geprüft",
-      "value": "10.06.2026 / haa",
-      "value_raw": "10.06.2026 / haa",
+      "value": "10.06.2026 / has",
+      "value_raw": "10.06.2026 / has",
       "unit": null,
       "nks": null,
       "bbox": [
@@ -2994,13 +3086,13 @@
       "flags": []
     },
     {
-      "id": "f_773e5ed54a86",
+      "id": "f_e42d4811e19b",
       "page_no": 24,
-      "chapter": "",
+      "chapter": "5.8",
       "role": "hold_end",
       "label": "Zuletzt verwendet für Production Code",
-      "value": "327",
-      "value_raw": "327",
+      "value": "57497 327",
+      "value_raw": "57497 327",
       "unit": null,
       "nks": null,
       "bbox": [
@@ -3014,9 +3106,9 @@
       "flags": []
     },
     {
-      "id": "f_22896ad7f5a1",
+      "id": "f_268aee72cf76",
       "page_no": 24,
-      "chapter": "",
+      "chapter": "5.8",
       "role": null,
       "label": "Anzahl der bisherigen Zyklen",
       "value": "3",
@@ -3038,9 +3130,9 @@
       ]
     },
     {
-      "id": "f_a3d453c1c649",
+      "id": "f_3d46e657834d",
       "page_no": 24,
-      "chapter": "",
+      "chapter": "5.8",
       "role": null,
       "label": "Ofen in SAP ausgebucht",
       "value": "Ja",
@@ -3062,9 +3154,9 @@
       ]
     },
     {
-      "id": "f_9738ddd73da6",
+      "id": "f_c8572ec23bc1",
       "page_no": 24,
-      "chapter": "",
+      "chapter": "5.8",
       "role": null,
       "label": "Testlauf der ChromatographieOfen „BAK B20 AXXXX SuitTest“ vor Verwendung durchgeführt und bestanden (nur bei Anzahl der bisherigen Zyklen ≥ 2)",
       "value": "Ja",
@@ -3086,9 +3178,9 @@
       ]
     },
     {
-      "id": "f_9c534efd7ade",
+      "id": "f_c5180fad792d",
       "page_no": 24,
-      "chapter": "",
+      "chapter": "5.8",
       "role": "signature_processed",
       "label": "Bearbeitet",
       "value": "10.06.2026 / ohe",
@@ -3106,13 +3198,13 @@
       "flags": []
     },
     {
-      "id": "f_90aafb17e43f",
+      "id": "f_6340d5446754",
       "page_no": 24,
-      "chapter": "",
+      "chapter": "5.8",
       "role": "signature_checked",
       "label": "Geprüft",
-      "value": "10.06.2026 / haa",
-      "value_raw": "10.06.2026 / haa",
+      "value": "10.06.2026 / has",
+      "value_raw": "10.06.2026 / has",
       "unit": null,
       "nks": null,
       "bbox": [
@@ -3126,9 +3218,9 @@
       "flags": []
     },
     {
-      "id": "f_4b2ba1ca6bc7",
+      "id": "f_c39969a134b5",
       "page_no": 25,
-      "chapter": "",
+      "chapter": "5.9",
       "role": "net_mass",
       "label": "m B10-PP Netto nPZ Z1",
       "value": "321",
@@ -3146,9 +3238,9 @@
       "flags": []
     },
     {
-      "id": "f_0509dc0fd35c",
+      "id": "f_93667bc1d8f6",
       "page_no": 25,
-      "chapter": "",
+      "chapter": "5.9",
       "role": "concentration",
       "label": "c B10-PP Z1",
       "value": "4.35",
@@ -3166,9 +3258,9 @@
       "flags": []
     },
     {
-      "id": "f_aa9eb4ac97cc",
+      "id": "f_a514ac801a76",
       "page_no": 25,
-      "chapter": "",
+      "chapter": "5.9",
       "role": null,
       "label": "m B10-PP Z1",
       "value": "1065",
@@ -3195,9 +3287,9 @@
       ]
     },
     {
-      "id": "f_1e2f7799a156",
+      "id": "f_bdb441570352",
       "page_no": 25,
-      "chapter": "",
+      "chapter": "5.9",
       "role": null,
       "label": "B10 Zyklus 2 durchgeführt",
       "value": "Ja",
@@ -3219,9 +3311,9 @@
       ]
     },
     {
-      "id": "f_3901e6c9101f",
+      "id": "f_5453c51d3a73",
       "page_no": 25,
-      "chapter": "",
+      "chapter": "5.9",
       "role": "net_mass",
       "label": "m B10-PP Netto nPZ Z2",
       "value": "220",
@@ -3239,9 +3331,9 @@
       "flags": []
     },
     {
-      "id": "f_9447a2694267",
+      "id": "f_9c51cbab43a0",
       "page_no": 25,
-      "chapter": "",
+      "chapter": "5.9",
       "role": "concentration",
       "label": "c B10-PP Z2",
       "value": "3.94",
@@ -3259,9 +3351,9 @@
       "flags": []
     },
     {
-      "id": "f_ba0b5500d65a",
+      "id": "f_0157fafcf87f",
       "page_no": 25,
-      "chapter": "",
+      "chapter": "5.9",
       "role": null,
       "label": "m B10-PP Z2",
       "value": "479",
@@ -3279,9 +3371,9 @@
       "flags": []
     },
     {
-      "id": "f_b81772baafa0",
+      "id": "f_f8b416521889",
       "page_no": 25,
-      "chapter": "",
+      "chapter": "5.9",
       "role": null,
       "label": "m B10-PP Z1",
       "value": "1065",
@@ -3299,9 +3391,9 @@
       "flags": []
     },
     {
-      "id": "f_8dcb87f034a3",
+      "id": "f_0565538d82c5",
       "page_no": 25,
-      "chapter": "",
+      "chapter": "5.9",
       "role": null,
       "label": "m B10-PP Z2",
       "value": "479",
@@ -3319,9 +3411,9 @@
       "flags": []
     },
     {
-      "id": "f_240c757fb1ca",
+      "id": "f_8a2bf9093d61",
       "page_no": 25,
-      "chapter": "",
+      "chapter": "5.9",
       "role": null,
       "label": "m B20-ST",
       "value": "1544",
@@ -3339,9 +3431,9 @@
       "flags": []
     },
     {
-      "id": "f_1308924d3b7d",
+      "id": "f_e9a815c6411c",
       "page_no": 25,
-      "chapter": "",
+      "chapter": "5.9",
       "role": "signature_processed",
       "label": "Bearbeitet",
       "value": "10.06.2026 / ole",
@@ -3359,9 +3451,9 @@
       "flags": []
     },
     {
-      "id": "f_664bedab8b8c",
+      "id": "f_af24e04f50f5",
       "page_no": 25,
-      "chapter": "",
+      "chapter": "5.9",
       "role": "signature_checked",
       "label": "Geprüft",
       "value": "10.06.2026 / hm",
@@ -3374,14 +3466,23 @@
         0.8766626360338573,
         0.8289136013686912
       ],
-      "confidence": 0.965,
-      "status": "auto_accepted",
-      "flags": []
+      "confidence": 0.7,
+      "status": "needs_review",
+      "flags": [
+        {
+          "severity": "warning",
+          "category": "four_eyes",
+          "code": "KUERZEL_UNKNOWN",
+          "message": "Kuerzel 'hm' is not in the personnel list (Beteiligte Personen)",
+          "expected": "a registered Kuerzel",
+          "actual": "hm"
+        }
+      ]
     },
     {
-      "id": "f_dc42530f1641",
+      "id": "f_0d3d3d7c3a8c",
       "page_no": 26,
-      "chapter": "",
+      "chapter": "5.9.1",
       "role": null,
       "label": "m B20-ST",
       "value": "421",
@@ -3399,9 +3500,9 @@
       "flags": []
     },
     {
-      "id": "f_c349090644d6",
+      "id": "f_d294749dd918",
       "page_no": 26,
-      "chapter": "",
+      "chapter": "5.9.1",
       "role": "volume",
       "label": "V Ofen BAK B20",
       "value": "2",
@@ -3423,9 +3524,9 @@
       ]
     },
     {
-      "id": "f_23260c384149",
+      "id": "f_094b9e15feba",
       "page_no": 26,
-      "chapter": "",
+      "chapter": "5.9.1",
       "role": null,
       "label": "Beladung",
       "value": "211",
@@ -3443,9 +3544,9 @@
       "flags": []
     },
     {
-      "id": "f_ec8969f88600",
+      "id": "f_08e7a6254198",
       "page_no": 26,
-      "chapter": "",
+      "chapter": "5.9.1",
       "role": null,
       "label": "Beladung 7 – 19 g Cake/L Milk eingehalten",
       "value": "Nein, Anpassung der Beladung notwendig, Rücksprache mit Leiter",
@@ -3467,9 +3568,9 @@
       ]
     },
     {
-      "id": "f_10439626172f",
+      "id": "f_0ea8dad9248d",
       "page_no": 26,
-      "chapter": "",
+      "chapter": "5.9.1",
       "role": null,
       "label": "Oven Life Time von 5 Zyklen wird nicht überschritten",
       "value": "Ja",
@@ -3491,13 +3592,13 @@
       ]
     },
     {
-      "id": "f_f6233dde692f",
+      "id": "f_6b2b82a6b88e",
       "page_no": 26,
-      "chapter": "",
+      "chapter": "5.9.1",
       "role": "signature_processed",
       "label": "Bearbeitet",
-      "value": "10.06.2026 / ohp",
-      "value_raw": "10.06.2026 / ohp",
+      "value": "10.06.2026 / obp",
+      "value_raw": "10.06.2026 / obp",
       "unit": null,
       "nks": null,
       "bbox": [
@@ -3506,18 +3607,27 @@
         0.9026602176541717,
         0.5094097519247219
       ],
-      "confidence": 0.981,
-      "status": "auto_accepted",
-      "flags": []
+      "confidence": 0.7,
+      "status": "needs_review",
+      "flags": [
+        {
+          "severity": "warning",
+          "category": "four_eyes",
+          "code": "KUERZEL_UNKNOWN",
+          "message": "Kuerzel 'obp' is not in the personnel list (Beteiligte Personen)",
+          "expected": "a registered Kuerzel",
+          "actual": "obp"
+        }
+      ]
     },
     {
-      "id": "f_f592aa303214",
+      "id": "f_ead1c28b9780",
       "page_no": 26,
-      "chapter": "",
+      "chapter": "5.9.1",
       "role": "signature_checked",
       "label": "Geprüft",
-      "value": "10.06.2026 / hgh",
-      "value_raw": "10.06.2026 / hgh",
+      "value": "10.06.2026 / hch",
+      "value_raw": "10.06.2026 / hch",
       "unit": null,
       "nks": null,
       "bbox": [
@@ -3526,16 +3636,25 @@
         0.9026602176541717,
         0.5094097519247219
       ],
-      "confidence": 0.981,
-      "status": "auto_accepted",
-      "flags": []
+      "confidence": 0.7,
+      "status": "needs_review",
+      "flags": [
+        {
+          "severity": "warning",
+          "category": "four_eyes",
+          "code": "KUERZEL_UNKNOWN",
+          "message": "Kuerzel 'hch' is not in the personnel list (Beteiligte Personen)",
+          "expected": "a registered Kuerzel",
+          "actual": "hch"
+        }
+      ]
     },
     {
-      "id": "f_f5a9f1b870f0",
+      "id": "f_fc402eff3ad4",
       "page_no": 27,
-      "chapter": "",
+      "chapter": "5.10.1",
       "role": null,
-      "label": "Oven A Anlagen-nummer",
+      "label": "Oven A - Anlagennummer",
       "value": "A4658",
       "value_raw": "A4658",
       "unit": null,
@@ -3551,605 +3670,9 @@
       "flags": []
     },
     {
-      "id": "f_4c32a3ff9405",
+      "id": "f_798b2b5f9fae",
       "page_no": 27,
-      "chapter": "",
-      "role": null,
-      "label": "Oven A Einsatzbereit gemäß RL-SOP-00796",
-      "value": "Ja",
-      "value_raw": "Ja",
-      "unit": null,
-      "nks": null,
-      "bbox": null,
-      "confidence": 0.8,
-      "status": "needs_review",
-      "flags": [
-        {
-          "severity": "warning",
-          "category": "extraction",
-          "code": "EXTRACT_LOW_CONF",
-          "message": "Low extraction confidence (0.8); verify the value",
-          "expected": null,
-          "actual": null
-        }
-      ]
-    },
-    {
-      "id": "f_029c959e88d9",
-      "page_no": 27,
-      "chapter": "",
-      "role": null,
-      "label": "Oven B Anlagen-nummer",
-      "value": "A3169",
-      "value_raw": "A3169",
-      "unit": null,
-      "nks": null,
-      "bbox": [
-        0.11910519951632406,
-        0.23438836612489308,
-        0.9068923821039904,
-        0.7288280581693756
-      ],
-      "confidence": 0.983,
-      "status": "auto_accepted",
-      "flags": []
-    },
-    {
-      "id": "f_a7e6fe4c66be",
-      "page_no": 27,
-      "chapter": "",
-      "role": null,
-      "label": "Oven B Einsatzbereit gemäß RL-SOP-00796",
-      "value": "Ja",
-      "value_raw": "Ja",
-      "unit": null,
-      "nks": null,
-      "bbox": null,
-      "confidence": 0.8,
-      "status": "needs_review",
-      "flags": [
-        {
-          "severity": "warning",
-          "category": "extraction",
-          "code": "EXTRACT_LOW_CONF",
-          "message": "Low extraction confidence (0.8); verify the value",
-          "expected": null,
-          "actual": null
-        }
-      ]
-    },
-    {
-      "id": "f_47ac5ac28ffe",
-      "page_no": 27,
-      "chapter": "",
-      "role": null,
-      "label": "Oven C Einsatzbereit gemäß RL-SOP-00796",
-      "value": "Ja",
-      "value_raw": "Ja",
-      "unit": null,
-      "nks": null,
-      "bbox": null,
-      "confidence": 0.8,
-      "status": "needs_review",
-      "flags": [
-        {
-          "severity": "warning",
-          "category": "extraction",
-          "code": "EXTRACT_LOW_CONF",
-          "message": "Low extraction confidence (0.8); verify the value",
-          "expected": null,
-          "actual": null
-        }
-      ]
-    },
-    {
-      "id": "f_d412bcc86ba8",
-      "page_no": 27,
-      "chapter": "",
-      "role": null,
-      "label": "Oven D Einsatzbereit gemäß RL-SOP-00796",
-      "value": "Ja",
-      "value_raw": "Ja",
-      "unit": null,
-      "nks": null,
-      "bbox": null,
-      "confidence": 0.8,
-      "status": "needs_review",
-      "flags": [
-        {
-          "severity": "warning",
-          "category": "extraction",
-          "code": "EXTRACT_LOW_CONF",
-          "message": "Low extraction confidence (0.8); verify the value",
-          "expected": null,
-          "actual": null
-        }
-      ]
-    },
-    {
-      "id": "f_7106943b12f5",
-      "page_no": 27,
-      "chapter": "",
-      "role": "signature_processed",
-      "label": "Bearbeitet (Datum/Kürzel)",
-      "value": "10.06.2026 / oho",
-      "value_raw": "10.06.2026 / oho",
-      "unit": null,
-      "nks": null,
-      "bbox": [
-        0.11910519951632406,
-        0.23438836612489308,
-        0.9068923821039904,
-        0.7288280581693756
-      ],
-      "confidence": 0.983,
-      "status": "auto_accepted",
-      "flags": []
-    },
-    {
-      "id": "f_61b0d21d233f",
-      "page_no": 27,
-      "chapter": "",
-      "role": "signature_checked",
-      "label": "Geprüft (Datum/Kürzel)",
-      "value": "10.06.2026 / hgn",
-      "value_raw": "10.06.2026 / hgn",
-      "unit": null,
-      "nks": null,
-      "bbox": [
-        0.11910519951632406,
-        0.23438836612489308,
-        0.9068923821039904,
-        0.7288280581693756
-      ],
-      "confidence": 0.983,
-      "status": "auto_accepted",
-      "flags": []
-    },
-    {
-      "id": "f_7b08bb28ddbd",
-      "page_no": 28,
-      "chapter": "",
-      "role": null,
-      "label": "Cake Lead Datum (TTMMJJJJ)",
-      "value": "17102025",
-      "value_raw": "17102025",
-      "unit": null,
-      "nks": null,
-      "bbox": [
-        0.12394195888754535,
-        0.27331052181351584,
-        0.8917775090689238,
-        0.7288280581693756
-      ],
-      "confidence": 1.0,
-      "status": "auto_accepted",
-      "flags": []
-    },
-    {
-      "id": "f_c95167e921bf",
-      "page_no": 28,
-      "chapter": "",
-      "role": null,
-      "label": "Cake Lead",
-      "value": "Ja",
-      "value_raw": "Ja",
-      "unit": null,
-      "nks": null,
-      "bbox": null,
-      "confidence": 0.8,
-      "status": "needs_review",
-      "flags": [
-        {
-          "severity": "warning",
-          "category": "extraction",
-          "code": "EXTRACT_LOW_CONF",
-          "message": "Low extraction confidence (0.8); verify the value",
-          "expected": null,
-          "actual": null
-        }
-      ]
-    },
-    {
-      "id": "f_d5bb96113120",
-      "page_no": 28,
-      "chapter": "",
-      "role": null,
-      "label": "Shift Baker",
-      "value": "2",
-      "value_raw": "2",
-      "unit": "mm",
-      "nks": null,
-      "bbox": null,
-      "confidence": 0.8,
-      "status": "needs_review",
-      "flags": [
-        {
-          "severity": "warning",
-          "category": "extraction",
-          "code": "EXTRACT_LOW_CONF",
-          "message": "Low extraction confidence (0.8); verify the value",
-          "expected": null,
-          "actual": null
-        }
-      ]
-    },
-    {
-      "id": "f_ec20748c3f79",
-      "page_no": 28,
-      "chapter": "",
-      "role": null,
-      "label": "Cake Pan BAK B10 angeschlossen als",
-      "value": "Ja",
-      "value_raw": "Ja",
-      "unit": null,
-      "nks": null,
-      "bbox": null,
-      "confidence": 0.8,
-      "status": "needs_review",
-      "flags": [
-        {
-          "severity": "warning",
-          "category": "extraction",
-          "code": "EXTRACT_LOW_CONF",
-          "message": "Low extraction confidence (0.8); verify the value",
-          "expected": null,
-          "actual": null
-        }
-      ]
-    },
-    {
-      "id": "f_8c9a7dd4ca62",
-      "page_no": 28,
-      "chapter": "",
-      "role": null,
-      "label": "Ofenhandventile BAK B10",
-      "value": "Ja",
-      "value_raw": "Ja",
-      "unit": null,
-      "nks": null,
-      "bbox": null,
-      "confidence": 0.8,
-      "status": "needs_review",
-      "flags": [
-        {
-          "severity": "warning",
-          "category": "extraction",
-          "code": "EXTRACT_LOW_CONF",
-          "message": "Low extraction confidence (0.8); verify the value",
-          "expected": null,
-          "actual": null
-        }
-      ]
-    },
-    {
-      "id": "f_905911f5c3ea",
-      "page_no": 28,
-      "chapter": "",
-      "role": null,
-      "label": "Cake Pan BAK B30 angeschlossen als",
-      "value": "Ja",
-      "value_raw": "Ja",
-      "unit": null,
-      "nks": null,
-      "bbox": null,
-      "confidence": 0.8,
-      "status": "needs_review",
-      "flags": [
-        {
-          "severity": "warning",
-          "category": "extraction",
-          "code": "EXTRACT_LOW_CONF",
-          "message": "Low extraction confidence (0.8); verify the value",
-          "expected": null,
-          "actual": null
-        }
-      ]
-    },
-    {
-      "id": "f_519411c9d4a0",
-      "page_no": 28,
-      "chapter": "",
-      "role": null,
-      "label": "Ofenhandventile BAK B30",
-      "value": "Ja",
-      "value_raw": "Ja",
-      "unit": null,
-      "nks": null,
-      "bbox": null,
-      "confidence": 0.8,
-      "status": "needs_review",
-      "flags": [
-        {
-          "severity": "warning",
-          "category": "extraction",
-          "code": "EXTRACT_LOW_CONF",
-          "message": "Low extraction confidence (0.8); verify the value",
-          "expected": null,
-          "actual": null
-        }
-      ]
-    },
-    {
-      "id": "f_d2d6aca7fecd",
-      "page_no": 28,
-      "chapter": "",
-      "role": null,
-      "label": "Cake Pan BAK B10 angeschlossen als Oven 1",
-      "value": "Ja",
-      "value_raw": "Ja",
-      "unit": null,
-      "nks": null,
-      "bbox": null,
-      "confidence": 0.8,
-      "status": "needs_review",
-      "flags": [
-        {
-          "severity": "warning",
-          "category": "extraction",
-          "code": "EXTRACT_LOW_CONF",
-          "message": "Low extraction confidence (0.8); verify the value",
-          "expected": null,
-          "actual": null
-        }
-      ]
-    },
-    {
-      "id": "f_eae94382cc40",
-      "page_no": 28,
-      "chapter": "",
-      "role": null,
-      "label": "Ofenhandventile BAK B10 Bypass (Position 4-1)",
-      "value": "Ja",
-      "value_raw": "Ja",
-      "unit": null,
-      "nks": null,
-      "bbox": null,
-      "confidence": 0.8,
-      "status": "needs_review",
-      "flags": [
-        {
-          "severity": "warning",
-          "category": "extraction",
-          "code": "EXTRACT_LOW_CONF",
-          "message": "Low extraction confidence (0.8); verify the value",
-          "expected": null,
-          "actual": null
-        }
-      ]
-    },
-    {
-      "id": "f_f2092ac5503f",
-      "page_no": 28,
-      "chapter": "",
-      "role": null,
-      "label": "Cake Pan BAK B30 angeschlossen als Oven 1",
-      "value": "Ja",
-      "value_raw": "Ja",
-      "unit": null,
-      "nks": null,
-      "bbox": null,
-      "confidence": 0.8,
-      "status": "needs_review",
-      "flags": [
-        {
-          "severity": "warning",
-          "category": "extraction",
-          "code": "EXTRACT_LOW_CONF",
-          "message": "Low extraction confidence (0.8); verify the value",
-          "expected": null,
-          "actual": null
-        }
-      ]
-    },
-    {
-      "id": "f_9f97902f0533",
-      "page_no": 28,
-      "chapter": "",
-      "role": null,
-      "label": "Ofenhandventile BAK B30 Bypass (Position 4-1)",
-      "value": "Ja",
-      "value_raw": "Ja",
-      "unit": null,
-      "nks": null,
-      "bbox": null,
-      "confidence": 0.8,
-      "status": "needs_review",
-      "flags": [
-        {
-          "severity": "warning",
-          "category": "extraction",
-          "code": "EXTRACT_LOW_CONF",
-          "message": "Low extraction confidence (0.8); verify the value",
-          "expected": null,
-          "actual": null
-        }
-      ]
-    },
-    {
-      "id": "f_cec414e9c9e5",
-      "page_no": 28,
-      "chapter": "",
-      "role": null,
-      "label": "Cake Pan BAK C45 angeschlossen als Oven 2",
-      "value": "Ja",
-      "value_raw": "Ja",
-      "unit": null,
-      "nks": null,
-      "bbox": null,
-      "confidence": 0.8,
-      "status": "needs_review",
-      "flags": [
-        {
-          "severity": "warning",
-          "category": "extraction",
-          "code": "EXTRACT_LOW_CONF",
-          "message": "Low extraction confidence (0.8); verify the value",
-          "expected": null,
-          "actual": null
-        }
-      ]
-    },
-    {
-      "id": "f_fd813e267d35",
-      "page_no": 28,
-      "chapter": "",
-      "role": null,
-      "label": "Ofenhandventile BAK C45 Bypass (Position 4-1)",
-      "value": "Ja",
-      "value_raw": "Ja",
-      "unit": null,
-      "nks": null,
-      "bbox": null,
-      "confidence": 0.8,
-      "status": "needs_review",
-      "flags": [
-        {
-          "severity": "warning",
-          "category": "extraction",
-          "code": "EXTRACT_LOW_CONF",
-          "message": "Low extraction confidence (0.8); verify the value",
-          "expected": null,
-          "actual": null
-        }
-      ]
-    },
-    {
-      "id": "f_f30520479b79",
-      "page_no": 28,
-      "chapter": "",
-      "role": null,
-      "label": "Cake Pan BAK B10 angeschlossen als Oven 2",
-      "value": "Ja",
-      "value_raw": "Ja",
-      "unit": null,
-      "nks": null,
-      "bbox": null,
-      "confidence": 0.8,
-      "status": "needs_review",
-      "flags": [
-        {
-          "severity": "warning",
-          "category": "extraction",
-          "code": "EXTRACT_LOW_CONF",
-          "message": "Low extraction confidence (0.8); verify the value",
-          "expected": null,
-          "actual": null
-        }
-      ]
-    },
-    {
-      "id": "f_62bc7d4acee6",
-      "page_no": 28,
-      "chapter": "",
-      "role": null,
-      "label": "Ofenhandventile BAK B10 Bypass (Position 4-1)",
-      "value": "Ja",
-      "value_raw": "Ja",
-      "unit": null,
-      "nks": null,
-      "bbox": null,
-      "confidence": 0.8,
-      "status": "needs_review",
-      "flags": [
-        {
-          "severity": "warning",
-          "category": "extraction",
-          "code": "EXTRACT_LOW_CONF",
-          "message": "Low extraction confidence (0.8); verify the value",
-          "expected": null,
-          "actual": null
-        }
-      ]
-    },
-    {
-      "id": "f_81f73778afe4",
-      "page_no": 28,
-      "chapter": "",
-      "role": null,
-      "label": "Probenahmestelle am Top Port des Oven Port 2 angekoppelt",
-      "value": "Ja",
-      "value_raw": "Ja",
-      "unit": null,
-      "nks": null,
-      "bbox": null,
-      "confidence": 0.8,
-      "status": "needs_review",
-      "flags": [
-        {
-          "severity": "warning",
-          "category": "extraction",
-          "code": "EXTRACT_LOW_CONF",
-          "message": "Low extraction confidence (0.8); verify the value",
-          "expected": null,
-          "actual": null
-        }
-      ]
-    },
-    {
-      "id": "f_4ea549fb7f3f",
-      "page_no": 28,
-      "chapter": "",
-      "role": "signature_processed",
-      "label": "Bearbeitet (Datum/Kürzel)",
-      "value": "10.06.2026 / ohi",
-      "value_raw": "10.06.2026 / ohi",
-      "unit": null,
-      "nks": null,
-      "bbox": [
-        0.1293833131801693,
-        0.7557741659538066,
-        0.8766626360338573,
-        0.80196749358426
-      ],
-      "confidence": 0.984,
-      "status": "auto_accepted",
-      "flags": []
-    },
-    {
-      "id": "f_dfe89be9bb2d",
-      "page_no": 28,
-      "chapter": "",
-      "role": "signature_checked",
-      "label": "Geprüft (Datum/Kürzel)",
-      "value": "10.06.2026 / häh",
-      "value_raw": "10.06.2026 / häh",
-      "unit": null,
-      "nks": null,
-      "bbox": [
-        0.1293833131801693,
-        0.7557741659538066,
-        0.8766626360338573,
-        0.80196749358426
-      ],
-      "confidence": 0.984,
-      "status": "auto_accepted",
-      "flags": []
-    },
-    {
-      "id": "f_2a7f24eb0f0c",
-      "page_no": 29,
-      "chapter": "",
-      "role": null,
-      "label": "Oven A - Anlagennummer",
-      "value": "A4321",
-      "value_raw": "A4321",
-      "unit": null,
-      "nks": null,
-      "bbox": [
-        0.11789600967351874,
-        0.23438836612489308,
-        0.9050785973397824,
-        0.5153977758768178
-      ],
-      "confidence": 0.981,
-      "status": "auto_accepted",
-      "flags": []
-    },
-    {
-      "id": "f_33bd0dff30c7",
-      "page_no": 29,
-      "chapter": "",
+      "chapter": "5.10.1",
       "role": null,
       "label": "Oven A - Einsatzbereit gemäß RL-SOP-00796",
       "value": "Ja",
@@ -4171,57 +3694,632 @@
       ]
     },
     {
-      "id": "f_6ffdfcc29898",
-      "page_no": 29,
-      "chapter": "",
+      "id": "f_3bec3e0ffa29",
+      "page_no": 27,
+      "chapter": "5.10.1",
+      "role": null,
+      "label": "Oven B - Anlagennummer",
+      "value": "A3169",
+      "value_raw": "A3169",
+      "unit": null,
+      "nks": null,
+      "bbox": [
+        0.11910519951632406,
+        0.23438836612489308,
+        0.9068923821039904,
+        0.7288280581693756
+      ],
+      "confidence": 0.983,
+      "status": "auto_accepted",
+      "flags": []
+    },
+    {
+      "id": "f_bd0841829d23",
+      "page_no": 27,
+      "chapter": "5.10.1",
+      "role": null,
+      "label": "Oven B - Einsatzbereit gemäß RL-SOP-00796",
+      "value": "Ja",
+      "value_raw": "Ja",
+      "unit": null,
+      "nks": null,
+      "bbox": null,
+      "confidence": 0.8,
+      "status": "needs_review",
+      "flags": [
+        {
+          "severity": "warning",
+          "category": "extraction",
+          "code": "EXTRACT_LOW_CONF",
+          "message": "Low extraction confidence (0.8); verify the value",
+          "expected": null,
+          "actual": null
+        }
+      ]
+    },
+    {
+      "id": "f_5deba1c3ccc8",
+      "page_no": 27,
+      "chapter": "5.10.1",
+      "role": null,
+      "label": "Oven C - Einsatzbereit gemäß RL-SOP-00796",
+      "value": "Ja",
+      "value_raw": "Ja",
+      "unit": null,
+      "nks": null,
+      "bbox": null,
+      "confidence": 0.8,
+      "status": "needs_review",
+      "flags": [
+        {
+          "severity": "warning",
+          "category": "extraction",
+          "code": "EXTRACT_LOW_CONF",
+          "message": "Low extraction confidence (0.8); verify the value",
+          "expected": null,
+          "actual": null
+        }
+      ]
+    },
+    {
+      "id": "f_ff0d5816304c",
+      "page_no": 27,
+      "chapter": "5.10.1",
+      "role": null,
+      "label": "Oven D - Einsatzbereit gemäß RL-SOP-00796",
+      "value": "Ja",
+      "value_raw": "Ja",
+      "unit": null,
+      "nks": null,
+      "bbox": null,
+      "confidence": 0.8,
+      "status": "needs_review",
+      "flags": [
+        {
+          "severity": "warning",
+          "category": "extraction",
+          "code": "EXTRACT_LOW_CONF",
+          "message": "Low extraction confidence (0.8); verify the value",
+          "expected": null,
+          "actual": null
+        }
+      ]
+    },
+    {
+      "id": "f_43c7607d7da5",
+      "page_no": 27,
+      "chapter": "5.10.1",
       "role": "signature_processed",
-      "label": "Oven A - Bearbeitet (Datum/Kürzel)",
-      "value": "10.06.2016 / Chp",
-      "value_raw": "10.06.2016 / Chp",
+      "label": "Bearbeitet (Datum/Kürzel)",
+      "value": "10.06.2026 / oho",
+      "value_raw": "10.06.2026 / oho",
       "unit": null,
       "nks": null,
-      "bbox": null,
+      "bbox": [
+        0.11910519951632406,
+        0.23438836612489308,
+        0.9068923821039904,
+        0.7288280581693756
+      ],
       "confidence": 0.7,
       "status": "needs_review",
       "flags": [
         {
           "severity": "warning",
-          "category": "temporal",
-          "code": "DATE_BEFORE_PRINT",
-          "message": "date 2016-06-10 is before the record date 2026-06-09",
-          "expected": ">= 2026-06-09",
-          "actual": "2016-06-10"
+          "category": "four_eyes",
+          "code": "KUERZEL_UNKNOWN",
+          "message": "Kuerzel 'oho' is not in the personnel list (Beteiligte Personen)",
+          "expected": "a registered Kuerzel",
+          "actual": "oho"
         }
       ]
     },
     {
-      "id": "f_cb3909f7ea19",
-      "page_no": 29,
-      "chapter": "",
+      "id": "f_abecba783018",
+      "page_no": 27,
+      "chapter": "5.10.1",
       "role": "signature_checked",
-      "label": "Oven A - Geprüft (Datum/Kürzel)",
-      "value": "10.06.2016 / haa",
-      "value_raw": "10.06.2016 / haa",
+      "label": "Geprüft (Datum/Kürzel)",
+      "value": "10.06.2026 / hgn",
+      "value_raw": "10.06.2026 / hgn",
+      "unit": null,
+      "nks": null,
+      "bbox": [
+        0.11910519951632406,
+        0.23438836612489308,
+        0.9068923821039904,
+        0.7288280581693756
+      ],
+      "confidence": 0.983,
+      "status": "auto_accepted",
+      "flags": []
+    },
+    {
+      "id": "f_e2e175ed6e10",
+      "page_no": 28,
+      "chapter": "5.10.2",
+      "role": null,
+      "label": "Cake Lead Datum (TTMMJJJJ)",
+      "value": "17102025",
+      "value_raw": "17102025",
+      "unit": null,
+      "nks": null,
+      "bbox": [
+        0.12394195888754535,
+        0.27331052181351584,
+        0.8917775090689238,
+        0.7288280581693756
+      ],
+      "confidence": 1.0,
+      "status": "auto_accepted",
+      "flags": []
+    },
+    {
+      "id": "f_3bfc34d215d6",
+      "page_no": 28,
+      "chapter": "5.10.2",
+      "role": null,
+      "label": "Cake Lead",
+      "value": "Ja",
+      "value_raw": "Ja",
       "unit": null,
       "nks": null,
       "bbox": null,
+      "confidence": 0.8,
+      "status": "needs_review",
+      "flags": [
+        {
+          "severity": "warning",
+          "category": "extraction",
+          "code": "EXTRACT_LOW_CONF",
+          "message": "Low extraction confidence (0.8); verify the value",
+          "expected": null,
+          "actual": null
+        }
+      ]
+    },
+    {
+      "id": "f_8d47f9d5c0fc",
+      "page_no": 28,
+      "chapter": "5.10.2",
+      "role": null,
+      "label": "Shift Baker",
+      "value": "2",
+      "value_raw": "2",
+      "unit": "mm",
+      "nks": null,
+      "bbox": null,
+      "confidence": 0.8,
+      "status": "needs_review",
+      "flags": [
+        {
+          "severity": "warning",
+          "category": "extraction",
+          "code": "EXTRACT_LOW_CONF",
+          "message": "Low extraction confidence (0.8); verify the value",
+          "expected": null,
+          "actual": null
+        }
+      ]
+    },
+    {
+      "id": "f_5066466cb7dd",
+      "page_no": 28,
+      "chapter": "5.10.2",
+      "role": null,
+      "label": "Cake Pan BAK B10 angeschlossen als",
+      "value": "Ja",
+      "value_raw": "Ja",
+      "unit": null,
+      "nks": null,
+      "bbox": null,
+      "confidence": 0.8,
+      "status": "needs_review",
+      "flags": [
+        {
+          "severity": "warning",
+          "category": "extraction",
+          "code": "EXTRACT_LOW_CONF",
+          "message": "Low extraction confidence (0.8); verify the value",
+          "expected": null,
+          "actual": null
+        }
+      ]
+    },
+    {
+      "id": "f_c4b02452fdb2",
+      "page_no": 28,
+      "chapter": "5.10.2",
+      "role": null,
+      "label": "Ofenhandventile BAK B10",
+      "value": "Ja",
+      "value_raw": "Ja",
+      "unit": null,
+      "nks": null,
+      "bbox": null,
+      "confidence": 0.8,
+      "status": "needs_review",
+      "flags": [
+        {
+          "severity": "warning",
+          "category": "extraction",
+          "code": "EXTRACT_LOW_CONF",
+          "message": "Low extraction confidence (0.8); verify the value",
+          "expected": null,
+          "actual": null
+        }
+      ]
+    },
+    {
+      "id": "f_6c3c530e3e74",
+      "page_no": 28,
+      "chapter": "5.10.2",
+      "role": null,
+      "label": "Cake Pan BAK B30 angeschlossen als",
+      "value": "Ja",
+      "value_raw": "Ja",
+      "unit": null,
+      "nks": null,
+      "bbox": null,
+      "confidence": 0.8,
+      "status": "needs_review",
+      "flags": [
+        {
+          "severity": "warning",
+          "category": "extraction",
+          "code": "EXTRACT_LOW_CONF",
+          "message": "Low extraction confidence (0.8); verify the value",
+          "expected": null,
+          "actual": null
+        }
+      ]
+    },
+    {
+      "id": "f_09118e37c25a",
+      "page_no": 28,
+      "chapter": "5.10.2",
+      "role": null,
+      "label": "Ofenhandventile BAK B30",
+      "value": "Ja",
+      "value_raw": "Ja",
+      "unit": null,
+      "nks": null,
+      "bbox": null,
+      "confidence": 0.8,
+      "status": "needs_review",
+      "flags": [
+        {
+          "severity": "warning",
+          "category": "extraction",
+          "code": "EXTRACT_LOW_CONF",
+          "message": "Low extraction confidence (0.8); verify the value",
+          "expected": null,
+          "actual": null
+        }
+      ]
+    },
+    {
+      "id": "f_b78e05b27ad2",
+      "page_no": 28,
+      "chapter": "5.10.2",
+      "role": null,
+      "label": "Cake Pan BAK B10 angeschlossen als",
+      "value": "Ja",
+      "value_raw": "Ja",
+      "unit": null,
+      "nks": null,
+      "bbox": null,
+      "confidence": 0.8,
+      "status": "needs_review",
+      "flags": [
+        {
+          "severity": "warning",
+          "category": "extraction",
+          "code": "EXTRACT_LOW_CONF",
+          "message": "Low extraction confidence (0.8); verify the value",
+          "expected": null,
+          "actual": null
+        }
+      ]
+    },
+    {
+      "id": "f_e8bc6165399e",
+      "page_no": 28,
+      "chapter": "5.10.2",
+      "role": null,
+      "label": "Ofenhandventile BAK B10",
+      "value": "Ja",
+      "value_raw": "Ja",
+      "unit": null,
+      "nks": null,
+      "bbox": null,
+      "confidence": 0.8,
+      "status": "needs_review",
+      "flags": [
+        {
+          "severity": "warning",
+          "category": "extraction",
+          "code": "EXTRACT_LOW_CONF",
+          "message": "Low extraction confidence (0.8); verify the value",
+          "expected": null,
+          "actual": null
+        }
+      ]
+    },
+    {
+      "id": "f_2d52a43ddfdd",
+      "page_no": 28,
+      "chapter": "5.10.2",
+      "role": null,
+      "label": "Cake Pan BAK B30 angeschlossen als",
+      "value": "Ja",
+      "value_raw": "Ja",
+      "unit": null,
+      "nks": null,
+      "bbox": null,
+      "confidence": 0.8,
+      "status": "needs_review",
+      "flags": [
+        {
+          "severity": "warning",
+          "category": "extraction",
+          "code": "EXTRACT_LOW_CONF",
+          "message": "Low extraction confidence (0.8); verify the value",
+          "expected": null,
+          "actual": null
+        }
+      ]
+    },
+    {
+      "id": "f_482cef48ac2b",
+      "page_no": 28,
+      "chapter": "5.10.2",
+      "role": null,
+      "label": "Ofenhandventile BAK B30",
+      "value": "Ja",
+      "value_raw": "Ja",
+      "unit": null,
+      "nks": null,
+      "bbox": null,
+      "confidence": 0.8,
+      "status": "needs_review",
+      "flags": [
+        {
+          "severity": "warning",
+          "category": "extraction",
+          "code": "EXTRACT_LOW_CONF",
+          "message": "Low extraction confidence (0.8); verify the value",
+          "expected": null,
+          "actual": null
+        }
+      ]
+    },
+    {
+      "id": "f_25ce0f13c1a1",
+      "page_no": 28,
+      "chapter": "5.10.2",
+      "role": null,
+      "label": "Cake Pan BAK C45 angeschlossen als",
+      "value": "Ja",
+      "value_raw": "Ja",
+      "unit": null,
+      "nks": null,
+      "bbox": null,
+      "confidence": 0.8,
+      "status": "needs_review",
+      "flags": [
+        {
+          "severity": "warning",
+          "category": "extraction",
+          "code": "EXTRACT_LOW_CONF",
+          "message": "Low extraction confidence (0.8); verify the value",
+          "expected": null,
+          "actual": null
+        }
+      ]
+    },
+    {
+      "id": "f_4cbea7d07a73",
+      "page_no": 28,
+      "chapter": "5.10.2",
+      "role": null,
+      "label": "Ofenhandventile BAK C45",
+      "value": "Ja",
+      "value_raw": "Ja",
+      "unit": null,
+      "nks": null,
+      "bbox": null,
+      "confidence": 0.8,
+      "status": "needs_review",
+      "flags": [
+        {
+          "severity": "warning",
+          "category": "extraction",
+          "code": "EXTRACT_LOW_CONF",
+          "message": "Low extraction confidence (0.8); verify the value",
+          "expected": null,
+          "actual": null
+        }
+      ]
+    },
+    {
+      "id": "f_a4b8c84ac787",
+      "page_no": 28,
+      "chapter": "5.10.2",
+      "role": null,
+      "label": "Cake Pan BAK B10 angeschlossen als",
+      "value": "Ja",
+      "value_raw": "Ja",
+      "unit": null,
+      "nks": null,
+      "bbox": null,
+      "confidence": 0.8,
+      "status": "needs_review",
+      "flags": [
+        {
+          "severity": "warning",
+          "category": "extraction",
+          "code": "EXTRACT_LOW_CONF",
+          "message": "Low extraction confidence (0.8); verify the value",
+          "expected": null,
+          "actual": null
+        }
+      ]
+    },
+    {
+      "id": "f_5f0a042f691f",
+      "page_no": 28,
+      "chapter": "5.10.2",
+      "role": null,
+      "label": "Ofenhandventile BAK B10",
+      "value": "Ja",
+      "value_raw": "Ja",
+      "unit": null,
+      "nks": null,
+      "bbox": null,
+      "confidence": 0.8,
+      "status": "needs_review",
+      "flags": [
+        {
+          "severity": "warning",
+          "category": "extraction",
+          "code": "EXTRACT_LOW_CONF",
+          "message": "Low extraction confidence (0.8); verify the value",
+          "expected": null,
+          "actual": null
+        }
+      ]
+    },
+    {
+      "id": "f_6da7176b3209",
+      "page_no": 28,
+      "chapter": "5.10.2",
+      "role": null,
+      "label": "Probenahmestelle am Top Port des Oven Port 2 angekoppelt",
+      "value": "Ja",
+      "value_raw": "Ja",
+      "unit": null,
+      "nks": null,
+      "bbox": null,
+      "confidence": 0.8,
+      "status": "needs_review",
+      "flags": [
+        {
+          "severity": "warning",
+          "category": "extraction",
+          "code": "EXTRACT_LOW_CONF",
+          "message": "Low extraction confidence (0.8); verify the value",
+          "expected": null,
+          "actual": null
+        }
+      ]
+    },
+    {
+      "id": "f_5930e5ffdc2f",
+      "page_no": 28,
+      "chapter": "5.10.2",
+      "role": "signature_processed",
+      "label": "Bearbeitet (Datum/Kürzel)",
+      "value": "10.06.2026 / ohi",
+      "value_raw": "10.06.2026 / ohi",
+      "unit": null,
+      "nks": null,
+      "bbox": [
+        0.1293833131801693,
+        0.7557741659538066,
+        0.8766626360338573,
+        0.80196749358426
+      ],
       "confidence": 0.7,
       "status": "needs_review",
       "flags": [
         {
           "severity": "warning",
-          "category": "temporal",
-          "code": "DATE_BEFORE_PRINT",
-          "message": "date 2016-06-10 is before the record date 2026-06-09",
-          "expected": ">= 2026-06-09",
-          "actual": "2016-06-10"
+          "category": "four_eyes",
+          "code": "KUERZEL_UNKNOWN",
+          "message": "Kuerzel 'ohi' is not in the personnel list (Beteiligte Personen)",
+          "expected": "a registered Kuerzel",
+          "actual": "ohi"
         }
       ]
     },
     {
-      "id": "f_17ee8a240ef5",
+      "id": "f_dbafe4912e71",
+      "page_no": 28,
+      "chapter": "5.10.2",
+      "role": "signature_checked",
+      "label": "Geprüft (Datum/Kürzel)",
+      "value": "10.06.2026 / hü",
+      "value_raw": "10.06.2026 / hü",
+      "unit": null,
+      "nks": null,
+      "bbox": [
+        0.1293833131801693,
+        0.7557741659538066,
+        0.8766626360338573,
+        0.80196749358426
+      ],
+      "confidence": 0.7,
+      "status": "needs_review",
+      "flags": [
+        {
+          "severity": "warning",
+          "category": "four_eyes",
+          "code": "KUERZEL_UNKNOWN",
+          "message": "Kuerzel 'hü' is not in the personnel list (Beteiligte Personen)",
+          "expected": "a registered Kuerzel",
+          "actual": "hü"
+        }
+      ]
+    },
+    {
+      "id": "f_a175020e8a73",
       "page_no": 29,
-      "chapter": "",
+      "chapter": "5.11.1",
+      "role": null,
+      "label": "Oven A - Anlagennummer",
+      "value": "A4321",
+      "value_raw": "A4321",
+      "unit": null,
+      "nks": null,
+      "bbox": [
+        0.11789600967351874,
+        0.23438836612489308,
+        0.9050785973397824,
+        0.5153977758768178
+      ],
+      "confidence": 0.981,
+      "status": "auto_accepted",
+      "flags": []
+    },
+    {
+      "id": "f_c7a91809a5c8",
+      "page_no": 29,
+      "chapter": "5.11.1",
+      "role": null,
+      "label": "Oven A - Einsatzbereit gemäß RL-SOP-00796",
+      "value": "Ja",
+      "value_raw": "Ja",
+      "unit": null,
+      "nks": null,
+      "bbox": null,
+      "confidence": 0.8,
+      "status": "needs_review",
+      "flags": [
+        {
+          "severity": "warning",
+          "category": "extraction",
+          "code": "EXTRACT_LOW_CONF",
+          "message": "Low extraction confidence (0.8); verify the value",
+          "expected": null,
+          "actual": null
+        }
+      ]
+    },
+    {
+      "id": "f_4028233f4f07",
+      "page_no": 29,
+      "chapter": "5.11.1",
       "role": null,
       "label": "Mixing Bowl - Anlagennummer",
       "value": "A5413",
@@ -4239,9 +4337,9 @@
       "flags": []
     },
     {
-      "id": "f_d3ca08ecb12d",
+      "id": "f_fe131e387754",
       "page_no": 29,
-      "chapter": "",
+      "chapter": "5.11.1",
       "role": null,
       "label": "Mixing Bowl - Einsatzbereit gemäß RL-SOP-00796",
       "value": "Ja",
@@ -4263,57 +4361,9 @@
       ]
     },
     {
-      "id": "f_809868763a0b",
+      "id": "f_0bfd33111988",
       "page_no": 29,
-      "chapter": "",
-      "role": "signature_processed",
-      "label": "Mixing Bowl - Bearbeitet (Datum/Kürzel)",
-      "value": "10.06.2016 / Chp",
-      "value_raw": "10.06.2016 / Chp",
-      "unit": null,
-      "nks": null,
-      "bbox": null,
-      "confidence": 0.7,
-      "status": "needs_review",
-      "flags": [
-        {
-          "severity": "warning",
-          "category": "temporal",
-          "code": "DATE_BEFORE_PRINT",
-          "message": "date 2016-06-10 is before the record date 2026-06-09",
-          "expected": ">= 2026-06-09",
-          "actual": "2016-06-10"
-        }
-      ]
-    },
-    {
-      "id": "f_057c9f681ec5",
-      "page_no": 29,
-      "chapter": "",
-      "role": "signature_checked",
-      "label": "Mixing Bowl - Geprüft (Datum/Kürzel)",
-      "value": "10.06.2016 / haa",
-      "value_raw": "10.06.2016 / haa",
-      "unit": null,
-      "nks": null,
-      "bbox": null,
-      "confidence": 0.7,
-      "status": "needs_review",
-      "flags": [
-        {
-          "severity": "warning",
-          "category": "temporal",
-          "code": "DATE_BEFORE_PRINT",
-          "message": "date 2016-06-10 is before the record date 2026-06-09",
-          "expected": ">= 2026-06-09",
-          "actual": "2016-06-10"
-        }
-      ]
-    },
-    {
-      "id": "f_534e3fab6b9a",
-      "page_no": 29,
-      "chapter": "",
+      "chapter": "5.11.1",
       "role": null,
       "label": "Floor Scale - Anlagennummer",
       "value": "A9726",
@@ -4331,9 +4381,9 @@
       "flags": []
     },
     {
-      "id": "f_5aa08b53b802",
+      "id": "f_e9eac974e0a1",
       "page_no": 29,
-      "chapter": "",
+      "chapter": "5.11.1",
       "role": null,
       "label": "Floor Scale - Einsatzbereit gemäß RL-SOP-00796",
       "value": "Ja",
@@ -4355,9 +4405,57 @@
       ]
     },
     {
-      "id": "f_596c0f82851a",
+      "id": "f_e8bc8002356d",
+      "page_no": 29,
+      "chapter": "5.11.1",
+      "role": "signature_processed",
+      "label": "Bearbeitet (Datum/Kürzel)",
+      "value": "10.06.2016 / OLP",
+      "value_raw": "10.06.2016 / OLP",
+      "unit": null,
+      "nks": null,
+      "bbox": null,
+      "confidence": 0.7,
+      "status": "needs_review",
+      "flags": [
+        {
+          "severity": "warning",
+          "category": "temporal",
+          "code": "DATE_BEFORE_PRINT",
+          "message": "date 2016-06-10 is before the record date 2026-06-09",
+          "expected": ">= 2026-06-09",
+          "actual": "2016-06-10"
+        }
+      ]
+    },
+    {
+      "id": "f_2537c3095b40",
+      "page_no": 29,
+      "chapter": "5.11.1",
+      "role": "signature_checked",
+      "label": "Geprüft (Datum/Kürzel)",
+      "value": "10.06.2016 / haa",
+      "value_raw": "10.06.2016 / haa",
+      "unit": null,
+      "nks": null,
+      "bbox": null,
+      "confidence": 0.7,
+      "status": "needs_review",
+      "flags": [
+        {
+          "severity": "warning",
+          "category": "temporal",
+          "code": "DATE_BEFORE_PRINT",
+          "message": "date 2016-06-10 is before the record date 2026-06-09",
+          "expected": ">= 2026-06-09",
+          "actual": "2016-06-10"
+        }
+      ]
+    },
+    {
+      "id": "f_87fc7cccd738",
       "page_no": 30,
-      "chapter": "",
+      "chapter": "5.11.2",
       "role": null,
       "label": "Intermediat B20-PP 57497",
       "value": "1 2 3",
@@ -4375,9 +4473,9 @@
       "flags": []
     },
     {
-      "id": "f_66bca3d9d5e3",
+      "id": "f_29c8bc4d4299",
       "page_no": 30,
-      "chapter": "",
+      "chapter": "5.11.2",
       "role": "signature_checked",
       "label": "BK-MIX-88-FXF - BK-SOP-40918 geprüft",
       "value": "Ja",
@@ -4399,9 +4497,9 @@
       ]
     },
     {
-      "id": "f_398f19e093f3",
+      "id": "f_753aa46ecc50",
       "page_no": 30,
-      "chapter": "",
+      "chapter": "5.11.2",
       "role": "signature_checked",
       "label": "BK-MIX-65-FXF - BK-SOP-40918 geprüft",
       "value": "Ja",
@@ -4423,9 +4521,9 @@
       ]
     },
     {
-      "id": "f_09bc766c16e7",
+      "id": "f_db7e6230f4e4",
       "page_no": 30,
-      "chapter": "",
+      "chapter": "5.11.2",
       "role": "signature_checked",
       "label": "BK-MIX-30-FXF - BK-SOP-40918 geprüft",
       "value": "Ja",
@@ -4447,9 +4545,9 @@
       ]
     },
     {
-      "id": "f_b114ad878ca5",
+      "id": "f_5b7e7e026a95",
       "page_no": 30,
-      "chapter": "",
+      "chapter": "5.11.2",
       "role": "signature_processed",
       "label": "Bearbeitet (Datum/Kürzel)",
       "value": "10.06.2026 / ohp",
@@ -4462,14 +4560,23 @@
         0.9026602176541717,
         0.38451668092386654
       ],
-      "confidence": 0.986,
-      "status": "auto_accepted",
-      "flags": []
+      "confidence": 0.7,
+      "status": "needs_review",
+      "flags": [
+        {
+          "severity": "warning",
+          "category": "four_eyes",
+          "code": "KUERZEL_UNKNOWN",
+          "message": "Kuerzel 'ohp' is not in the personnel list (Beteiligte Personen)",
+          "expected": "a registered Kuerzel",
+          "actual": "ohp"
+        }
+      ]
     },
     {
-      "id": "f_fbdd8939b92c",
+      "id": "f_1bb47e36b9b6",
       "page_no": 30,
-      "chapter": "",
+      "chapter": "5.11.2",
       "role": "signature_checked",
       "label": "Geprüft (Datum/Kürzel)",
       "value": "10.06.2026 / ohp",
@@ -4482,14 +4589,23 @@
         0.9026602176541717,
         0.38451668092386654
       ],
-      "confidence": 0.986,
-      "status": "auto_accepted",
-      "flags": []
+      "confidence": 0.7,
+      "status": "needs_review",
+      "flags": [
+        {
+          "severity": "warning",
+          "category": "four_eyes",
+          "code": "KUERZEL_UNKNOWN",
+          "message": "Kuerzel 'ohp' is not in the personnel list (Beteiligte Personen)",
+          "expected": "a registered Kuerzel",
+          "actual": "ohp"
+        }
+      ]
     },
     {
-      "id": "f_6e3eca591aba",
+      "id": "f_f0d89a155c20",
       "page_no": 31,
-      "chapter": "",
+      "chapter": "5.11.3",
       "role": null,
       "label": "Anzahl pro Charge",
       "value": "2",
@@ -4511,9 +4627,9 @@
       ]
     },
     {
-      "id": "f_a089bca6e78f",
+      "id": "f_1cfa230d270d",
       "page_no": 31,
-      "chapter": "",
+      "chapter": "5.11.3",
       "role": "signature_processed",
       "label": "Bearbeitet (Datum/Kürzel)",
       "value": "10.06.2026 / ohp",
@@ -4526,14 +4642,23 @@
         0.9111245465538089,
         0.7656116338751069
       ],
-      "confidence": 1.0,
-      "status": "auto_accepted",
-      "flags": []
+      "confidence": 0.7,
+      "status": "needs_review",
+      "flags": [
+        {
+          "severity": "warning",
+          "category": "four_eyes",
+          "code": "KUERZEL_UNKNOWN",
+          "message": "Kuerzel 'ohp' is not in the personnel list (Beteiligte Personen)",
+          "expected": "a registered Kuerzel",
+          "actual": "ohp"
+        }
+      ]
     },
     {
-      "id": "f_6062f55d3ddc",
+      "id": "f_24abf60918af",
       "page_no": 31,
-      "chapter": "",
+      "chapter": "5.11.3",
       "role": "signature_checked",
       "label": "Geprüft (Datum/Kürzel)",
       "value": "10.06.2026 / ohp",
@@ -4556,13 +4681,21 @@
           "message": "Bearbeitet and Gepruft signed by the same person",
           "expected": "two different Kurzel",
           "actual": "ohp"
+        },
+        {
+          "severity": "warning",
+          "category": "four_eyes",
+          "code": "KUERZEL_UNKNOWN",
+          "message": "Kuerzel 'ohp' is not in the personnel list (Beteiligte Personen)",
+          "expected": "a registered Kuerzel",
+          "actual": "ohp"
         }
       ]
     },
     {
-      "id": "f_9cd64e56ada2",
+      "id": "f_4384de735f07",
       "page_no": 31,
-      "chapter": "",
+      "chapter": "5.11.3",
       "role": null,
       "label": "SAP gebucht",
       "value": "Ja",
@@ -4584,9 +4717,9 @@
       ]
     },
     {
-      "id": "f_05172f5f6dc0",
+      "id": "f_224992bf8a7d",
       "page_no": 31,
-      "chapter": "",
+      "chapter": "5.11.3",
       "role": null,
       "label": "Anzahl pro Charge",
       "value": "1",
@@ -4608,13 +4741,13 @@
       ]
     },
     {
-      "id": "f_ef544e08aada",
+      "id": "f_93a87e979a0f",
       "page_no": 31,
-      "chapter": "",
+      "chapter": "5.11.3",
       "role": "signature_processed",
       "label": "Bearbeitet (Datum/Kürzel)",
-      "value": "10.06.2026 /",
-      "value_raw": "10.06.2026 /",
+      "value": "2026-06-10",
+      "value_raw": "10.06.2026",
       "unit": null,
       "nks": null,
       "bbox": [
@@ -4628,9 +4761,9 @@
       "flags": []
     },
     {
-      "id": "f_554430dc7c10",
+      "id": "f_28504a7cea77",
       "page_no": 31,
-      "chapter": "",
+      "chapter": "5.11.3",
       "role": "signature_checked",
       "label": "Geprüft (Datum/Kürzel)",
       "value": "10.06.2026 / ohp",
@@ -4643,14 +4776,23 @@
         0.9111245465538089,
         0.7656116338751069
       ],
-      "confidence": 1.0,
-      "status": "auto_accepted",
-      "flags": []
+      "confidence": 0.7,
+      "status": "needs_review",
+      "flags": [
+        {
+          "severity": "warning",
+          "category": "four_eyes",
+          "code": "KUERZEL_UNKNOWN",
+          "message": "Kuerzel 'ohp' is not in the personnel list (Beteiligte Personen)",
+          "expected": "a registered Kuerzel",
+          "actual": "ohp"
+        }
+      ]
     },
     {
-      "id": "f_b9d218bbbfdb",
+      "id": "f_86e8988fa13b",
       "page_no": 31,
-      "chapter": "",
+      "chapter": "5.11.3",
       "role": null,
       "label": "SAP gebucht",
       "value": "Ja",
@@ -4672,9 +4814,9 @@
       ]
     },
     {
-      "id": "f_33996e01f248",
+      "id": "f_b75aa5f4022f",
       "page_no": 31,
-      "chapter": "",
+      "chapter": "5.11.3",
       "role": null,
       "label": "Anzahl pro Charge",
       "value": "2",
@@ -4696,13 +4838,13 @@
       ]
     },
     {
-      "id": "f_1c7fe8814348",
+      "id": "f_1e65ec786153",
       "page_no": 31,
-      "chapter": "",
+      "chapter": "5.11.3",
       "role": "signature_processed",
       "label": "Bearbeitet (Datum/Kürzel)",
-      "value": "10.06.2026 /",
-      "value_raw": "10.06.2026 /",
+      "value": "2026-06-10",
+      "value_raw": "10.06.2026",
       "unit": null,
       "nks": null,
       "bbox": [
@@ -4716,9 +4858,9 @@
       "flags": []
     },
     {
-      "id": "f_cd8dfbf06beb",
+      "id": "f_6208707015f6",
       "page_no": 31,
-      "chapter": "",
+      "chapter": "5.11.3",
       "role": "signature_checked",
       "label": "Geprüft (Datum/Kürzel)",
       "value": "10.06.2026 / ohp",
@@ -4731,14 +4873,23 @@
         0.9111245465538089,
         0.7656116338751069
       ],
-      "confidence": 1.0,
-      "status": "auto_accepted",
-      "flags": []
+      "confidence": 0.7,
+      "status": "needs_review",
+      "flags": [
+        {
+          "severity": "warning",
+          "category": "four_eyes",
+          "code": "KUERZEL_UNKNOWN",
+          "message": "Kuerzel 'ohp' is not in the personnel list (Beteiligte Personen)",
+          "expected": "a registered Kuerzel",
+          "actual": "ohp"
+        }
+      ]
     },
     {
-      "id": "f_0a8b57683065",
+      "id": "f_01f5338f7e90",
       "page_no": 31,
-      "chapter": "",
+      "chapter": "5.11.3",
       "role": null,
       "label": "SAP gebucht",
       "value": "Ja",
@@ -4760,9 +4911,9 @@
       ]
     },
     {
-      "id": "f_1d2d638b9b2b",
+      "id": "f_7fd7b76e895e",
       "page_no": 32,
-      "chapter": "",
+      "chapter": "5.11.4",
       "role": null,
       "label": "Einsatz eines Kessels mit zwei Mixing Rodsn",
       "value": "Ja",
@@ -4784,9 +4935,9 @@
       ]
     },
     {
-      "id": "f_f1e573ee2a1a",
+      "id": "f_39177b8d8651",
       "page_no": 32,
-      "chapter": "",
+      "chapter": "5.11.4",
       "role": null,
       "label": "Cake production involves combining dry ingredients, sweeteners, and egg-based components until a smooth batter is obtained. The batter is transferred into the appropriate vessel, baked under controlled conditions, and documented in a GMP-style format to support reproducible product quality.",
       "value": "Ja",
@@ -4808,9 +4959,9 @@
       ]
     },
     {
-      "id": "f_0018d918660c",
+      "id": "f_751d5a555ecd",
       "page_no": 32,
-      "chapter": "",
+      "chapter": "5.11.4",
       "role": null,
       "label": "Anbringen von Material 7639225 am Kesselauslass gemäß Abbildung 4",
       "value": "Ja",
@@ -4832,9 +4983,9 @@
       ]
     },
     {
-      "id": "f_6c6e6b35471f",
+      "id": "f_0e02f7862234",
       "page_no": 32,
-      "chapter": "",
+      "chapter": "5.11.4",
       "role": null,
       "label": "Baker Seven",
       "value": "Ja",
@@ -4856,9 +5007,9 @@
       ]
     },
     {
-      "id": "f_499f9c13a52c",
+      "id": "f_1eb5fb9aa518",
       "page_no": 32,
-      "chapter": "",
+      "chapter": "5.11.4",
       "role": null,
       "label": "Baker Seven",
       "value": "Ja",
@@ -4880,13 +5031,13 @@
       ]
     },
     {
-      "id": "f_3b904dc89a3c",
+      "id": "f_2e7760243f63",
       "page_no": 32,
-      "chapter": "",
+      "chapter": "5.11.4",
       "role": "signature_processed",
       "label": "Bearbeitet",
-      "value": "10.06.2026 / obp",
-      "value_raw": "10.06.2026 / obp",
+      "value": "10.06.2026 / ohp",
+      "value_raw": "10.06.2026 / ohp",
       "unit": null,
       "nks": null,
       "bbox": [
@@ -4895,27 +5046,27 @@
         0.8706166868198307,
         0.5064157399486741
       ],
-      "confidence": 0.83,
+      "confidence": 0.7,
       "status": "needs_review",
       "flags": [
         {
           "severity": "warning",
-          "category": "extraction",
-          "code": "EXTRACT_LOW_CONF",
-          "message": "Low extraction confidence (0.83); verify the value",
-          "expected": null,
-          "actual": null
+          "category": "four_eyes",
+          "code": "KUERZEL_UNKNOWN",
+          "message": "Kuerzel 'ohp' is not in the personnel list (Beteiligte Personen)",
+          "expected": "a registered Kuerzel",
+          "actual": "ohp"
         }
       ]
     },
     {
-      "id": "f_9eeb6acd7ebe",
+      "id": "f_17629d25a6af",
       "page_no": 32,
-      "chapter": "",
+      "chapter": "5.11.4",
       "role": "signature_checked",
       "label": "Geprüft",
-      "value": "10.06.2026 / obp",
-      "value_raw": "10.06.2026 / obp",
+      "value": "10.06.2026 / ohp",
+      "value_raw": "10.06.2026 / ohp",
       "unit": null,
       "nks": null,
       "bbox": [
@@ -4933,14 +5084,22 @@
           "code": "4EYES_DISTINCT",
           "message": "Bearbeitet and Gepruft signed by the same person",
           "expected": "two different Kurzel",
-          "actual": "obp"
+          "actual": "ohp"
+        },
+        {
+          "severity": "warning",
+          "category": "four_eyes",
+          "code": "KUERZEL_UNKNOWN",
+          "message": "Kuerzel 'ohp' is not in the personnel list (Beteiligte Personen)",
+          "expected": "a registered Kuerzel",
+          "actual": "ohp"
         }
       ]
     },
     {
-      "id": "f_c165fb670719",
+      "id": "f_21b760c07bb3",
       "page_no": 33,
-      "chapter": "",
+      "chapter": "5.12",
       "role": null,
       "label": "Sugar Syrup 247 Sweet Mix BAG 603 L - Anzahl gekoppelter Puffergebinde",
       "value": "2",
@@ -4962,9 +5121,9 @@
       ]
     },
     {
-      "id": "f_89e613dc774f",
+      "id": "f_fef7a7555bb3",
       "page_no": 33,
-      "chapter": "",
+      "chapter": "5.12",
       "role": null,
       "label": "Caramel Syrup 172 Sweet Mix BAG 439 L - Anzahl gekoppelter Puffergebinde",
       "value": "2",
@@ -4986,9 +5145,9 @@
       ]
     },
     {
-      "id": "f_23fe452f024b",
+      "id": "f_915275a9282d",
       "page_no": 33,
-      "chapter": "",
+      "chapter": "5.12",
       "role": null,
       "label": "Cream Blend 859 Flavor Mix BAG 280 L - Anzahl gekoppelter Puffergebinde (Material Nr. 2839719)",
       "value": "1",
@@ -5010,9 +5169,9 @@
       ]
     },
     {
-      "id": "f_d963af196830",
+      "id": "f_cea90214f110",
       "page_no": 33,
-      "chapter": "",
+      "chapter": "5.12",
       "role": null,
       "label": "Cream Blend 859 Flavor Mix BAG 280 L - Anzahl gekoppelter Puffergebinde (Material Nr. 1057404)",
       "value": "1",
@@ -5034,9 +5193,9 @@
       ]
     },
     {
-      "id": "f_97373ac1f5ed",
+      "id": "f_eb271632b164",
       "page_no": 33,
-      "chapter": "",
+      "chapter": "5.12",
       "role": null,
       "label": "Cocoa Blend 778 Flavor Mix BAG 955 L - Anzahl gekoppelter Puffergebinde",
       "value": "1",
@@ -5058,13 +5217,13 @@
       ]
     },
     {
-      "id": "f_f9218a52ec18",
+      "id": "f_14986dc518f1",
       "page_no": 33,
-      "chapter": "",
+      "chapter": "5.12",
       "role": "signature_processed",
       "label": "Bearbeitet",
-      "value": "10.06.2026 / ohp",
-      "value_raw": "10.06.2026 / ohp",
+      "value": "10.06.2026 / ohe",
+      "value_raw": "10.06.2026 / ohe",
       "unit": null,
       "nks": null,
       "bbox": [
@@ -5078,13 +5237,13 @@
       "flags": []
     },
     {
-      "id": "f_d444ac8d1ec4",
+      "id": "f_3cfbee2eea83",
       "page_no": 33,
-      "chapter": "",
+      "chapter": "5.12",
       "role": "signature_checked",
       "label": "Geprüft",
-      "value": "10.06.2026 / ohp",
-      "value_raw": "10.06.2026 / ohp",
+      "value": "10.06.2026 / ohe",
+      "value_raw": "10.06.2026 / ohe",
       "unit": null,
       "nks": null,
       "bbox": [
@@ -5102,14 +5261,14 @@
           "code": "4EYES_DISTINCT",
           "message": "Bearbeitet and Gepruft signed by the same person",
           "expected": "two different Kurzel",
-          "actual": "ohp"
+          "actual": "ohe"
         }
       ]
     },
     {
-      "id": "f_ad90b679f405",
+      "id": "f_628c559ead89",
       "page_no": 34,
-      "chapter": "",
+      "chapter": "5.12.1",
       "role": null,
       "label": "pH Equi (extern)",
       "value": "8.67",
@@ -5127,9 +5286,9 @@
       "flags": []
     },
     {
-      "id": "f_db6835133824",
+      "id": "f_9bbfdd3524d3",
       "page_no": 34,
-      "chapter": "",
+      "chapter": "5.12.1",
       "role": null,
       "label": "LF Equi (extern)",
       "value": "10.4",
@@ -5147,9 +5306,9 @@
       "flags": []
     },
     {
-      "id": "f_631b2c2b2dbb",
+      "id": "f_4eda13a3929e",
       "page_no": 34,
-      "chapter": "",
+      "chapter": "5.12.1",
       "role": "hold_start",
       "label": "Start Auftrag",
       "value": "13:27:00",
@@ -5167,9 +5326,9 @@
       "flags": []
     },
     {
-      "id": "f_92038dc5b58a",
+      "id": "f_cfe5879ebcc2",
       "page_no": 34,
-      "chapter": "",
+      "chapter": "5.12.1",
       "role": null,
       "label": "Baker Three",
       "value": "Ja",
@@ -5191,9 +5350,9 @@
       ]
     },
     {
-      "id": "f_4377f7ef5a9c",
+      "id": "f_a02687fd1e70",
       "page_no": 34,
-      "chapter": "",
+      "chapter": "5.12.1",
       "role": null,
       "label": "Baker Four",
       "value": "12.34",
@@ -5211,9 +5370,9 @@
       "flags": []
     },
     {
-      "id": "f_ad1880a9a585",
+      "id": "f_7be935dffb87",
       "page_no": 34,
-      "chapter": "",
+      "chapter": "5.12.1",
       "role": null,
       "label": "Baker Five",
       "value": "80",
@@ -5235,9 +5394,9 @@
       ]
     },
     {
-      "id": "f_50a586717064",
+      "id": "f_a341d1ea8254",
       "page_no": 34,
-      "chapter": "",
+      "chapter": "5.12.1",
       "role": "hold_end",
       "label": "Ende Elution",
       "value": "13:57:00",
@@ -5255,13 +5414,13 @@
       "flags": []
     },
     {
-      "id": "f_e21839b59e46",
+      "id": "f_d6d3841cc9a3",
       "page_no": 34,
-      "chapter": "",
+      "chapter": "5.12.1",
       "role": "signature_processed",
       "label": "Bearbeitet",
-      "value": "10.06.2026 / ohp",
-      "value_raw": "10.06.2026 / ohp",
+      "value": "10.06.2026 / obp",
+      "value_raw": "10.06.2026 / obp",
       "unit": null,
       "nks": null,
       "bbox": [
@@ -5270,18 +5429,27 @@
         0.9020556227327691,
         0.73267750213858
       ],
-      "confidence": 0.988,
-      "status": "auto_accepted",
-      "flags": []
+      "confidence": 0.7,
+      "status": "needs_review",
+      "flags": [
+        {
+          "severity": "warning",
+          "category": "four_eyes",
+          "code": "KUERZEL_UNKNOWN",
+          "message": "Kuerzel 'obp' is not in the personnel list (Beteiligte Personen)",
+          "expected": "a registered Kuerzel",
+          "actual": "obp"
+        }
+      ]
     },
     {
-      "id": "f_0931a2045348",
+      "id": "f_f68339f885c5",
       "page_no": 34,
-      "chapter": "",
+      "chapter": "5.12.1",
       "role": "signature_checked",
       "label": "Geprüft",
-      "value": "10.06.2026 / ohp",
-      "value_raw": "10.06.2026 / ohp",
+      "value": "10.06.2026 / obp",
+      "value_raw": "10.06.2026 / obp",
       "unit": null,
       "nks": null,
       "bbox": [
@@ -5299,14 +5467,22 @@
           "code": "4EYES_DISTINCT",
           "message": "Bearbeitet and Gepruft signed by the same person",
           "expected": "two different Kurzel",
-          "actual": "ohp"
+          "actual": "obp"
+        },
+        {
+          "severity": "warning",
+          "category": "four_eyes",
+          "code": "KUERZEL_UNKNOWN",
+          "message": "Kuerzel 'obp' is not in the personnel list (Beteiligte Personen)",
+          "expected": "a registered Kuerzel",
+          "actual": "obp"
         }
       ]
     },
     {
-      "id": "f_7d48e11114d8",
+      "id": "f_638c438ba9de",
       "page_no": 34,
-      "chapter": "",
+      "chapter": "5.12.1",
       "role": null,
       "label": "Warnungen/Alarme aufgetreten",
       "value": "Nein",
@@ -5328,9 +5504,9 @@
       ]
     },
     {
-      "id": "f_26799ee2495e",
+      "id": "f_1899e92c5362",
       "page_no": 34,
-      "chapter": "",
+      "chapter": "5.12.1",
       "role": null,
       "label": "Ungeplante manuelle Eingriffe durchgeführt",
       "value": "Nein",
@@ -5352,9 +5528,9 @@
       ]
     },
     {
-      "id": "f_ea8848034fe7",
+      "id": "f_afea9ff30234",
       "page_no": 34,
-      "chapter": "",
+      "chapter": "5.12.1",
       "role": null,
       "label": "Methode vollständig und korrekt durchgelaufen",
       "value": "Siehe Kapitel Bemerkungen",
@@ -5376,9 +5552,9 @@
       ]
     },
     {
-      "id": "f_5ccfc4cf5e3f",
+      "id": "f_da3be1693481",
       "page_no": 34,
-      "chapter": "",
+      "chapter": "5.12.1",
       "role": "hold_end",
       "label": "Erlaubte Standzeit (≤ 82 h.)",
       "value": "2026-06-14T18:47:00",
@@ -5396,13 +5572,13 @@
       "flags": []
     },
     {
-      "id": "f_582b118c1820",
+      "id": "f_c0bf10101f70",
       "page_no": 34,
-      "chapter": "",
+      "chapter": "5.12.1",
       "role": "signature_processed",
       "label": "Bearbeitet",
-      "value": "10.06.2026 / ohp",
-      "value_raw": "10.06.2026 / ohp",
+      "value": "10.06.2026 / obp",
+      "value_raw": "10.06.2026 / obp",
       "unit": null,
       "nks": null,
       "bbox": [
@@ -5411,18 +5587,27 @@
         0.9020556227327691,
         0.73267750213858
       ],
-      "confidence": 0.988,
-      "status": "auto_accepted",
-      "flags": []
+      "confidence": 0.7,
+      "status": "needs_review",
+      "flags": [
+        {
+          "severity": "warning",
+          "category": "four_eyes",
+          "code": "KUERZEL_UNKNOWN",
+          "message": "Kuerzel 'obp' is not in the personnel list (Beteiligte Personen)",
+          "expected": "a registered Kuerzel",
+          "actual": "obp"
+        }
+      ]
     },
     {
-      "id": "f_2571f9f68026",
+      "id": "f_7aed38f5516e",
       "page_no": 34,
-      "chapter": "",
+      "chapter": "5.12.1",
       "role": "signature_checked",
       "label": "Geprüft",
-      "value": "10.06.2026 / ohp",
-      "value_raw": "10.06.2026 / ohp",
+      "value": "10.06.2026 / obp",
+      "value_raw": "10.06.2026 / obp",
       "unit": null,
       "nks": null,
       "bbox": [
@@ -5440,14 +5625,22 @@
           "code": "4EYES_DISTINCT",
           "message": "Bearbeitet and Gepruft signed by the same person",
           "expected": "two different Kurzel",
-          "actual": "ohp"
+          "actual": "obp"
+        },
+        {
+          "severity": "warning",
+          "category": "four_eyes",
+          "code": "KUERZEL_UNKNOWN",
+          "message": "Kuerzel 'obp' is not in the personnel list (Beteiligte Personen)",
+          "expected": "a registered Kuerzel",
+          "actual": "obp"
         }
       ]
     },
     {
-      "id": "f_e44bb969713e",
+      "id": "f_f091436d5757",
       "page_no": 36,
-      "chapter": "",
+      "chapter": "5.12.3",
       "role": "hold_start",
       "label": "Start Auftrag",
       "value": "14:27:00",
@@ -5465,9 +5658,9 @@
       "flags": []
     },
     {
-      "id": "f_052374db002b",
+      "id": "f_fa28fe111eec",
       "page_no": 36,
-      "chapter": "",
+      "chapter": "5.12.3",
       "role": "hold_end",
       "label": "Ende Auftrag",
       "value": "15:12:00",
@@ -5485,9 +5678,9 @@
       "flags": []
     },
     {
-      "id": "f_eb4d659c8f28",
+      "id": "f_51f9295e79e2",
       "page_no": 36,
-      "chapter": "",
+      "chapter": "5.12.3",
       "role": "hold_duration",
       "label": "Dauer Auftrag Minuten",
       "value": "45",
@@ -5505,9 +5698,9 @@
       "flags": []
     },
     {
-      "id": "f_7bb5fa1b2a2f",
+      "id": "f_591b45af6d77",
       "page_no": 36,
-      "chapter": "",
+      "chapter": "5.12.3",
       "role": null,
       "label": "Mittlerer Fluss Pumpe A",
       "value": "4.3",
@@ -5529,9 +5722,9 @@
       ]
     },
     {
-      "id": "f_526fe5bfb25d",
+      "id": "f_f2dba03c254e",
       "page_no": 36,
-      "chapter": "",
+      "chapter": "5.12.3",
       "role": null,
       "label": "Mittlerer Fluss vor Ofen",
       "value": "6.6",
@@ -5553,9 +5746,9 @@
       ]
     },
     {
-      "id": "f_068e3dac7d55",
+      "id": "f_ab2857dced65",
       "page_no": 36,
-      "chapter": "",
+      "chapter": "5.12.3",
       "role": "hold_duration",
       "label": "Dauer Auftrag Stunden",
       "value": "0.75",
@@ -5573,9 +5766,9 @@
       "flags": []
     },
     {
-      "id": "f_92e6a5b8b271",
+      "id": "f_6be54fb88360",
       "page_no": 36,
-      "chapter": "",
+      "chapter": "5.12.3",
       "role": "volume",
       "label": "Load Volumen",
       "value": "293.78",
@@ -5597,40 +5790,41 @@
       ]
     },
     {
-      "id": "f_af1b68008626",
+      "id": "f_933cd9c96dcf",
       "page_no": 36,
-      "chapter": "",
+      "chapter": "5.12.3",
       "role": "signature_processed",
       "label": "Bearbeitet",
-      "value": "10.06.2026 / o4e",
-      "value_raw": "10.06.2026 / o4e",
+      "value": "10.06.2026 / oke",
+      "value_raw": "10.06.2026 / oke",
       "unit": null,
       "nks": null,
-      "bbox": null,
-      "confidence": 0.8,
-      "status": "needs_review",
-      "flags": [
-        {
-          "severity": "warning",
-          "category": "extraction",
-          "code": "EXTRACT_LOW_CONF",
-          "message": "Low extraction confidence (0.8); verify the value",
-          "expected": null,
-          "actual": null
-        }
-      ]
+      "bbox": [
+        0.12696493349455865,
+        0.6864841745081266,
+        0.8766626360338573,
+        0.7335329341317365
+      ],
+      "confidence": 0.953,
+      "status": "auto_accepted",
+      "flags": []
     },
     {
-      "id": "f_fe8f11255c45",
+      "id": "f_db1d91a31e7a",
       "page_no": 36,
-      "chapter": "",
+      "chapter": "5.12.3",
       "role": "signature_checked",
       "label": "Geprüft",
-      "value": "10.06.2026 / o4e",
-      "value_raw": "10.06.2026 / o4e",
+      "value": "10.06.2026 / oke",
+      "value_raw": "10.06.2026 / oke",
       "unit": null,
       "nks": null,
-      "bbox": null,
+      "bbox": [
+        0.12696493349455865,
+        0.6864841745081266,
+        0.8766626360338573,
+        0.7335329341317365
+      ],
       "confidence": 0.4,
       "status": "needs_review",
       "flags": [
@@ -5640,14 +5834,14 @@
           "code": "4EYES_DISTINCT",
           "message": "Bearbeitet and Gepruft signed by the same person",
           "expected": "two different Kurzel",
-          "actual": "o4e"
+          "actual": "oke"
         }
       ]
     },
     {
-      "id": "f_db76aec2db0a",
+      "id": "f_b92c97e6b7ba",
       "page_no": 37,
-      "chapter": "",
+      "chapter": "5.12.4",
       "role": null,
       "label": "m B20-ST",
       "value": "327",
@@ -5665,13 +5859,13 @@
       "flags": []
     },
     {
-      "id": "f_9b31b84a260f",
+      "id": "f_f625db122292",
       "page_no": 37,
-      "chapter": "",
+      "chapter": "5.12.4",
       "role": "volume",
       "label": "V B20-ST Netto nPz",
-      "value": "314",
-      "value_raw": "314",
+      "value": "154",
+      "value_raw": "154",
       "unit": "L",
       "nks": null,
       "bbox": null,
@@ -5689,13 +5883,13 @@
       ]
     },
     {
-      "id": "f_935b03a08e6b",
+      "id": "f_3e16995c5aee",
       "page_no": 37,
-      "chapter": "",
+      "chapter": "5.12.4",
       "role": "concentration",
       "label": "C B20-ST Cake",
-      "value": "1",
-      "value_raw": "1",
+      "value": "2",
+      "value_raw": "2",
       "unit": "g/L",
       "nks": 0,
       "bbox": null,
@@ -5713,9 +5907,9 @@
       ]
     },
     {
-      "id": "f_e109a8f24720",
+      "id": "f_bcb4a48e0451",
       "page_no": 37,
-      "chapter": "",
+      "chapter": "5.12.4",
       "role": "volume",
       "label": "V Loadvolumen",
       "value": "400",
@@ -5733,9 +5927,9 @@
       "flags": []
     },
     {
-      "id": "f_ad88632fccf2",
+      "id": "f_1723b51ad463",
       "page_no": 37,
-      "chapter": "",
+      "chapter": "5.12.4",
       "role": "concentration",
       "label": "C B20-ST Cake",
       "value": "2.1",
@@ -5757,11 +5951,11 @@
       ]
     },
     {
-      "id": "f_f208b282f943",
+      "id": "f_5b4cf118547a",
       "page_no": 37,
-      "chapter": "",
+      "chapter": "5.12.4",
       "role": "volume",
-      "label": "V Ofen BAK B20",
+      "label": "V ofen BAK B20",
       "value": "50",
       "value_raw": "50",
       "unit": "L",
@@ -5781,9 +5975,9 @@
       ]
     },
     {
-      "id": "f_e91100e6380a",
+      "id": "f_81e35f24133e",
       "page_no": 37,
-      "chapter": "",
+      "chapter": "5.12.4",
       "role": null,
       "label": "Beladung",
       "value": "17",
@@ -5791,25 +5985,25 @@
       "unit": "g Cake /LMilk",
       "nks": 0,
       "bbox": null,
-      "confidence": 0.4,
+      "confidence": 0.8,
       "status": "needs_review",
       "flags": [
         {
-          "severity": "error",
-          "category": "range",
-          "code": "RANGE_SOLL",
-          "message": "17.0 above Soll max 7.0",
-          "expected": "<= 7.0",
-          "actual": "17.0"
+          "severity": "warning",
+          "category": "extraction",
+          "code": "EXTRACT_LOW_CONF",
+          "message": "Low extraction confidence (0.8); verify the value",
+          "expected": null,
+          "actual": null
         }
       ]
     },
     {
-      "id": "f_154f82d04ed0",
+      "id": "f_b689c64119c3",
       "page_no": 37,
-      "chapter": "",
+      "chapter": "5.12.4",
       "role": null,
-      "label": "Beladung 7–19 g Cake /LMilk eingehalten",
+      "label": "Beladung eingehalten",
       "value": "Ja",
       "value_raw": "Ja",
       "unit": null,
@@ -5829,13 +6023,13 @@
       ]
     },
     {
-      "id": "f_f0b60bea3f62",
+      "id": "f_752edff99a81",
       "page_no": 37,
-      "chapter": "",
+      "chapter": "5.12.4",
       "role": "signature_processed",
       "label": "Bearbeitet",
-      "value": "10.06.2026 / oho",
-      "value_raw": "10.06.2026 / oho",
+      "value": "10.06.2026 / ohp",
+      "value_raw": "10.06.2026 / ohp",
       "unit": null,
       "nks": null,
       "bbox": [
@@ -5844,18 +6038,27 @@
         0.8766626360338573,
         0.7018819503849444
       ],
-      "confidence": 0.99,
-      "status": "auto_accepted",
-      "flags": []
+      "confidence": 0.7,
+      "status": "needs_review",
+      "flags": [
+        {
+          "severity": "warning",
+          "category": "four_eyes",
+          "code": "KUERZEL_UNKNOWN",
+          "message": "Kuerzel 'ohp' is not in the personnel list (Beteiligte Personen)",
+          "expected": "a registered Kuerzel",
+          "actual": "ohp"
+        }
+      ]
     },
     {
-      "id": "f_976cd0c5c6c3",
+      "id": "f_a7c0221d4469",
       "page_no": 37,
-      "chapter": "",
+      "chapter": "5.12.4",
       "role": "signature_checked",
       "label": "Geprüft",
-      "value": "10.06.2026 / oho",
-      "value_raw": "10.06.2026 / oho",
+      "value": "10.06.2026 / ohp",
+      "value_raw": "10.06.2026 / ohp",
       "unit": null,
       "nks": null,
       "bbox": [
@@ -5873,14 +6076,22 @@
           "code": "4EYES_DISTINCT",
           "message": "Bearbeitet and Gepruft signed by the same person",
           "expected": "two different Kurzel",
-          "actual": "oho"
+          "actual": "ohp"
+        },
+        {
+          "severity": "warning",
+          "category": "four_eyes",
+          "code": "KUERZEL_UNKNOWN",
+          "message": "Kuerzel 'ohp' is not in the personnel list (Beteiligte Personen)",
+          "expected": "a registered Kuerzel",
+          "actual": "ohp"
         }
       ]
     },
     {
-      "id": "f_b3f430f3d0fa",
+      "id": "f_592a8b0f0d02",
       "page_no": 38,
-      "chapter": "",
+      "chapter": "5.3.1",
       "role": "hold_start",
       "label": "Start Haltezeit (Übertrag Kapitel 5.3.1)",
       "value": "2026-06-09T08:27:00",
@@ -5893,14 +6104,23 @@
         0.9008464328899637,
         0.5316509837467921
       ],
-      "confidence": 1.0,
-      "status": "auto_accepted",
-      "flags": []
+      "confidence": 0.7,
+      "status": "needs_review",
+      "flags": [
+        {
+          "severity": "warning",
+          "category": "cross_reference",
+          "code": "XREF_MISMATCH",
+          "message": "carried value '2026-06-09 08:27:00' != source (Kapitel 5.3.1) '2026-06-10 08:46:00'",
+          "expected": "2026-06-10 08:46:00",
+          "actual": "2026-06-09 08:27:00"
+        }
+      ]
     },
     {
-      "id": "f_0e60f35f9f74",
+      "id": "f_9b06d6df051d",
       "page_no": 38,
-      "chapter": "",
+      "chapter": "5.12.1",
       "role": "hold_end",
       "label": "Ende Haltezeit (Übertrag Kapitel 5.12.1)",
       "value": "2026-06-10T10:14:00",
@@ -5913,14 +6133,23 @@
         0.9008464328899637,
         0.5316509837467921
       ],
-      "confidence": 1.0,
-      "status": "auto_accepted",
-      "flags": []
+      "confidence": 0.7,
+      "status": "needs_review",
+      "flags": [
+        {
+          "severity": "warning",
+          "category": "cross_reference",
+          "code": "XREF_MISMATCH",
+          "message": "carried value '2026-06-10 10:14:00' != source (Kapitel 5.12.1) '13:57:00'",
+          "expected": "13:57:00",
+          "actual": "2026-06-10 10:14:00"
+        }
+      ]
     },
     {
-      "id": "f_bbaaa3592d2e",
+      "id": "f_d2accf2efb7c",
       "page_no": 38,
-      "chapter": "",
+      "chapter": "5.12.5",
       "role": null,
       "label": "Tatsächliche Haltezeit",
       "value": "26",
@@ -5942,9 +6171,9 @@
       ]
     },
     {
-      "id": "f_9912adcb4761",
+      "id": "f_8c4cb941c4df",
       "page_no": 38,
-      "chapter": "",
+      "chapter": "5.12.5",
       "role": null,
       "label": "B10-PP aus Zyklus 2 eingesetzt",
       "value": "Nein, Feld findet keine Anwendung",
@@ -5966,61 +6195,13 @@
       ]
     },
     {
-      "id": "f_0b43de0d4660",
+      "id": "f_edd07951a0cf",
       "page_no": 38,
-      "chapter": "",
-      "role": "hold_start",
-      "label": "Start Haltezeit (Übertrag Kapitel 5.3.2)",
-      "value": "/",
-      "value_raw": "/",
-      "unit": "Uhr",
-      "nks": null,
-      "bbox": null,
-      "confidence": 0.8,
-      "status": "needs_review",
-      "flags": [
-        {
-          "severity": "warning",
-          "category": "extraction",
-          "code": "EXTRACT_LOW_CONF",
-          "message": "Low extraction confidence (0.8); verify the value",
-          "expected": null,
-          "actual": null
-        }
-      ]
-    },
-    {
-      "id": "f_869b7b706649",
-      "page_no": 38,
-      "chapter": "",
-      "role": "hold_end",
-      "label": "Ende Haltezeit (Übertrag Kapitel 5.12.1)",
-      "value": "/",
-      "value_raw": "/",
-      "unit": "Uhr",
-      "nks": null,
-      "bbox": null,
-      "confidence": 0.8,
-      "status": "needs_review",
-      "flags": [
-        {
-          "severity": "warning",
-          "category": "extraction",
-          "code": "EXTRACT_LOW_CONF",
-          "message": "Low extraction confidence (0.8); verify the value",
-          "expected": null,
-          "actual": null
-        }
-      ]
-    },
-    {
-      "id": "f_95ce23c655bd",
-      "page_no": 38,
-      "chapter": "",
+      "chapter": "5.12.5",
       "role": "signature_processed",
-      "label": "Bearbeitet",
-      "value": "10.06.2026 / oh",
-      "value_raw": "10.06.2026 / oh",
+      "label": "Bearbeitet (Datum/Kürzel)",
+      "value": "10.06.2026 / dh",
+      "value_raw": "10.06.2026 / dh",
       "unit": null,
       "nks": null,
       "bbox": [
@@ -6029,18 +6210,27 @@
         0.8730350665054414,
         0.5975192472198461
       ],
-      "confidence": 0.957,
-      "status": "auto_accepted",
-      "flags": []
+      "confidence": 0.7,
+      "status": "needs_review",
+      "flags": [
+        {
+          "severity": "warning",
+          "category": "four_eyes",
+          "code": "KUERZEL_UNKNOWN",
+          "message": "Kuerzel 'dh' is not in the personnel list (Beteiligte Personen)",
+          "expected": "a registered Kuerzel",
+          "actual": "dh"
+        }
+      ]
     },
     {
-      "id": "f_7f6118a0f71c",
+      "id": "f_cc37dd25ba58",
       "page_no": 38,
-      "chapter": "",
+      "chapter": "5.12.5",
       "role": "signature_checked",
-      "label": "Geprüft",
-      "value": "10.06.2026 / oh",
-      "value_raw": "10.06.2026 / oh",
+      "label": "Geprüft (Datum/Kürzel)",
+      "value": "10.06.2026 / dh",
+      "value_raw": "10.06.2026 / dh",
       "unit": null,
       "nks": null,
       "bbox": [
@@ -6058,14 +6248,22 @@
           "code": "4EYES_DISTINCT",
           "message": "Bearbeitet and Gepruft signed by the same person",
           "expected": "two different Kurzel",
-          "actual": "oh"
+          "actual": "dh"
+        },
+        {
+          "severity": "warning",
+          "category": "four_eyes",
+          "code": "KUERZEL_UNKNOWN",
+          "message": "Kuerzel 'dh' is not in the personnel list (Beteiligte Personen)",
+          "expected": "a registered Kuerzel",
+          "actual": "dh"
         }
       ]
     },
     {
-      "id": "f_bd237c4e1351",
+      "id": "f_dfe9dcdeab8a",
       "page_no": 39,
-      "chapter": "",
+      "chapter": "5.12.6",
       "role": "hold_start",
       "label": "Start Temperierung (Übertrag Kapitel 5.4.1)",
       "value": "2026-06-10T14:27:00",
@@ -6083,9 +6281,9 @@
       "flags": []
     },
     {
-      "id": "f_34f4415c68f5",
+      "id": "f_68b6333e8ef8",
       "page_no": 39,
-      "chapter": "",
+      "chapter": "5.12.6",
       "role": "hold_end",
       "label": "Ende Temperierung (Übertrag Kapitel 5.12.1)",
       "value": "2026-06-10T16:14:00",
@@ -6098,14 +6296,23 @@
         0.9068923821039904,
         0.5183917878528657
       ],
-      "confidence": 0.996,
-      "status": "auto_accepted",
-      "flags": []
+      "confidence": 0.7,
+      "status": "needs_review",
+      "flags": [
+        {
+          "severity": "warning",
+          "category": "cross_reference",
+          "code": "XREF_MISMATCH",
+          "message": "carried value '2026-06-10 16:14:00' != source (Kapitel 5.12.1) '13:57:00'",
+          "expected": "13:57:00",
+          "actual": "2026-06-10 16:14:00"
+        }
+      ]
     },
     {
-      "id": "f_d7e96948a8eb",
+      "id": "f_6622c41183ac",
       "page_no": 39,
-      "chapter": "",
+      "chapter": "5.12.6",
       "role": "hold_duration",
       "label": "Dauer Temperierung",
       "value": "2",
@@ -6127,9 +6334,9 @@
       ]
     },
     {
-      "id": "f_73b8232dcaf1",
+      "id": "f_bdc15b86a826",
       "page_no": 39,
-      "chapter": "",
+      "chapter": "5.12.6",
       "role": null,
       "label": "B10-PP aus Zyklus 2 eingesetzt",
       "value": "Ja",
@@ -6151,9 +6358,9 @@
       ]
     },
     {
-      "id": "f_598e92532b68",
+      "id": "f_a336cbc0d1ba",
       "page_no": 39,
-      "chapter": "",
+      "chapter": "5.12.6",
       "role": null,
       "label": "Temperierung durchgeführt",
       "value": "Ja",
@@ -6175,9 +6382,9 @@
       ]
     },
     {
-      "id": "f_53bea28d3c08",
+      "id": "f_79259f40d571",
       "page_no": 39,
-      "chapter": "",
+      "chapter": "5.12.6",
       "role": "hold_start",
       "label": "Start Temperierung (Übertrag Kapitel 5.5.1)",
       "value": "2026-06-10T17:12:00",
@@ -6195,9 +6402,9 @@
       "flags": []
     },
     {
-      "id": "f_b3102314da62",
+      "id": "f_d185f379bcbc",
       "page_no": 39,
-      "chapter": "",
+      "chapter": "5.12.6",
       "role": "hold_end",
       "label": "Ende Temperierung (Übertrag Kapitel 5.12.1)",
       "value": "2026-06-10T19:24:00",
@@ -6210,14 +6417,23 @@
         0.9068923821039904,
         0.5183917878528657
       ],
-      "confidence": 0.996,
-      "status": "auto_accepted",
-      "flags": []
+      "confidence": 0.7,
+      "status": "needs_review",
+      "flags": [
+        {
+          "severity": "warning",
+          "category": "cross_reference",
+          "code": "XREF_MISMATCH",
+          "message": "carried value '2026-06-10 19:24:00' != source (Kapitel 5.12.1) '13:57:00'",
+          "expected": "13:57:00",
+          "actual": "2026-06-10 19:24:00"
+        }
+      ]
     },
     {
-      "id": "f_4a2e35da43e7",
+      "id": "f_0861262f0a44",
       "page_no": 39,
-      "chapter": "",
+      "chapter": "5.12.6",
       "role": "hold_duration",
       "label": "Dauer Temperierung",
       "value": "2",
@@ -6239,11 +6455,11 @@
       ]
     },
     {
-      "id": "f_74b3afd801e0",
+      "id": "f_5398112c34c3",
       "page_no": 39,
-      "chapter": "",
+      "chapter": "5.12.6",
       "role": "signature_processed",
-      "label": "Bearbeitet",
+      "label": "Bearbeitet: (Datum/Kürzel)",
       "value": "10.06.2026 / ohr",
       "value_raw": "10.06.2026 / ohr",
       "unit": null,
@@ -6254,16 +6470,25 @@
         0.9068923821039904,
         0.5975192472198461
       ],
-      "confidence": 0.979,
-      "status": "auto_accepted",
-      "flags": []
+      "confidence": 0.7,
+      "status": "needs_review",
+      "flags": [
+        {
+          "severity": "warning",
+          "category": "four_eyes",
+          "code": "KUERZEL_UNKNOWN",
+          "message": "Kuerzel 'ohr' is not in the personnel list (Beteiligte Personen)",
+          "expected": "a registered Kuerzel",
+          "actual": "ohr"
+        }
+      ]
     },
     {
-      "id": "f_e6797dfe50fc",
+      "id": "f_bae5a493cc74",
       "page_no": 39,
-      "chapter": "",
+      "chapter": "5.12.6",
       "role": "signature_checked",
-      "label": "Geprüft",
+      "label": "Geprüft: (Datum/Kürzel)",
       "value": "10.06.2026 / ohr",
       "value_raw": "10.06.2026 / ohr",
       "unit": null,
@@ -6284,17 +6509,25 @@
           "message": "Bearbeitet and Gepruft signed by the same person",
           "expected": "two different Kurzel",
           "actual": "ohr"
+        },
+        {
+          "severity": "warning",
+          "category": "four_eyes",
+          "code": "KUERZEL_UNKNOWN",
+          "message": "Kuerzel 'ohr' is not in the personnel list (Beteiligte Personen)",
+          "expected": "a registered Kuerzel",
+          "actual": "ohr"
         }
       ]
     },
     {
-      "id": "f_eade99557d67",
+      "id": "f_388c3014cd95",
       "page_no": 40,
-      "chapter": "",
+      "chapter": "5.13.1",
       "role": null,
       "label": "Intermediat",
-      "value": "241",
-      "value_raw": "241",
+      "value": "2 4 1",
+      "value_raw": "2 4 1",
       "unit": null,
       "nks": null,
       "bbox": [
@@ -6308,9 +6541,9 @@
       "flags": []
     },
     {
-      "id": "f_1132623f50fd",
+      "id": "f_94ee04494636",
       "page_no": 40,
-      "chapter": "",
+      "chapter": "5.13.1",
       "role": "tare_mass",
       "label": "m Tara",
       "value": "100",
@@ -6328,9 +6561,9 @@
       "flags": []
     },
     {
-      "id": "f_d65f8381e849",
+      "id": "f_e95d7bbfcb31",
       "page_no": 40,
-      "chapter": "",
+      "chapter": "5.13.1",
       "role": "gross_mass",
       "label": "m Brutto vPZ",
       "value": "300",
@@ -6348,9 +6581,9 @@
       "flags": []
     },
     {
-      "id": "f_a4cbd8129722",
+      "id": "f_c0940664e471",
       "page_no": 40,
-      "chapter": "",
+      "chapter": "5.13.1",
       "role": "net_mass",
       "label": "m Netto vPZ",
       "value": "200",
@@ -6368,9 +6601,9 @@
       "flags": []
     },
     {
-      "id": "f_6333fdb3ac52",
+      "id": "f_3441c857a213",
       "page_no": 40,
-      "chapter": "",
+      "chapter": "5.13.1",
       "role": "volume",
       "label": "V Netto vPZ",
       "value": "236",
@@ -6388,9 +6621,9 @@
       "flags": []
     },
     {
-      "id": "f_363ca6a3561e",
+      "id": "f_400984cbe6e7",
       "page_no": 40,
-      "chapter": "",
+      "chapter": "5.13.1",
       "role": null,
       "label": "Proben (QC) erforderlich",
       "value": "Ja",
@@ -6412,9 +6645,9 @@
       ]
     },
     {
-      "id": "f_374a008a0cc2",
+      "id": "f_9647dc3e8df6",
       "page_no": 40,
-      "chapter": "",
+      "chapter": "5.13.1",
       "role": null,
       "label": "Proben gemäß Sonderprobenzugplan erforderlich",
       "value": "Ja",
@@ -6436,9 +6669,9 @@
       ]
     },
     {
-      "id": "f_603ae0550f0a",
+      "id": "f_efe3736e8f82",
       "page_no": 40,
-      "chapter": "",
+      "chapter": "5.13.1",
       "role": "gross_mass",
       "label": "m Brutto nPZ",
       "value": "100",
@@ -6456,9 +6689,9 @@
       "flags": []
     },
     {
-      "id": "f_842e2feff012",
+      "id": "f_03ff4175e30d",
       "page_no": 40,
-      "chapter": "",
+      "chapter": "5.13.1",
       "role": "net_mass",
       "label": "m Netto nPZ",
       "value": "200",
@@ -6476,9 +6709,9 @@
       "flags": []
     },
     {
-      "id": "f_f0040942a750",
+      "id": "f_2a82528c2a78",
       "page_no": 40,
-      "chapter": "",
+      "chapter": "5.13.1",
       "role": "volume",
       "label": "V Netto nPZ",
       "value": "118",
@@ -6505,9 +6738,9 @@
       ]
     },
     {
-      "id": "f_897def2d8254",
+      "id": "f_12c2bff141e0",
       "page_no": 40,
-      "chapter": "",
+      "chapter": "5.13.1",
       "role": "signature_processed",
       "label": "Bearbeitet",
       "value": "10.06.2026 / olp",
@@ -6525,9 +6758,9 @@
       "flags": []
     },
     {
-      "id": "f_0ed8a255ca2f",
+      "id": "f_a0e227911623",
       "page_no": 40,
-      "chapter": "",
+      "chapter": "5.13.1",
       "role": "signature_checked",
       "label": "Geprüft",
       "value": "10.06.2026 / olp",
@@ -6554,9 +6787,9 @@
       ]
     },
     {
-      "id": "f_06533d22df06",
+      "id": "f_4073b5c72d79",
       "page_no": 40,
-      "chapter": "",
+      "chapter": "5.14.1",
       "role": null,
       "label": "Baker Nine",
       "value": "437",
@@ -6574,9 +6807,9 @@
       "flags": []
     },
     {
-      "id": "f_72d21ac0ecde",
+      "id": "f_a2cb7d890ca1",
       "page_no": 40,
-      "chapter": "",
+      "chapter": "5.14.1",
       "role": null,
       "label": "Browning Point 3 (Anstieg)",
       "value": "1046",
@@ -6594,9 +6827,9 @@
       "flags": []
     },
     {
-      "id": "f_64c0535160bf",
+      "id": "f_aca44ffbf77c",
       "page_no": 40,
-      "chapter": "",
+      "chapter": "5.14.1",
       "role": null,
       "label": "Cake Lead",
       "value": "15",
@@ -6618,9 +6851,9 @@
       ]
     },
     {
-      "id": "f_3944aa32862d",
+      "id": "f_23149481b1ca",
       "page_no": 40,
-      "chapter": "",
+      "chapter": "5.14.1",
       "role": null,
       "label": "Browning Point 7 (Abstieg)",
       "value": "327",
@@ -6638,13 +6871,42 @@
       "flags": []
     },
     {
-      "id": "f_b137802baf7c",
+      "id": "f_0e441d7fa29d",
       "page_no": 41,
       "chapter": "",
       "role": "signature_processed",
-      "label": "Bearbeitet: (Datum/Kürzel)",
-      "value": "10.06.2026 / ohp",
-      "value_raw": "10.06.2026 / ohp",
+      "label": "Bearbeitet",
+      "value": "10.06.2026 / okr",
+      "value_raw": "10.06.2026 / okr",
+      "unit": null,
+      "nks": null,
+      "bbox": [
+        0.4607013301088271,
+        0.20530367835757057,
+        0.6668681983071342,
+        0.2523524379811805
+      ],
+      "confidence": 0.7,
+      "status": "needs_review",
+      "flags": [
+        {
+          "severity": "warning",
+          "category": "four_eyes",
+          "code": "KUERZEL_UNKNOWN",
+          "message": "Kuerzel 'okr' is not in the personnel list (Beteiligte Personen)",
+          "expected": "a registered Kuerzel",
+          "actual": "okr"
+        }
+      ]
+    },
+    {
+      "id": "f_b37a8e456236",
+      "page_no": 41,
+      "chapter": "",
+      "role": "signature_checked",
+      "label": "Geprüft",
+      "value": "10.06.2026 / ohe",
+      "value_raw": "10.06.2026 / ohe",
       "unit": null,
       "nks": null,
       "bbox": [
@@ -6658,36 +6920,7 @@
       "flags": []
     },
     {
-      "id": "f_0b2a05c91002",
-      "page_no": 41,
-      "chapter": "",
-      "role": "signature_checked",
-      "label": "Geprüft: (Datum/Kürzel)",
-      "value": "10.06.2026 / ohp",
-      "value_raw": "10.06.2026 / ohp",
-      "unit": null,
-      "nks": null,
-      "bbox": [
-        0.4607013301088271,
-        0.20530367835757057,
-        0.6668681983071342,
-        0.2523524379811805
-      ],
-      "confidence": 0.4,
-      "status": "needs_review",
-      "flags": [
-        {
-          "severity": "error",
-          "category": "four_eyes",
-          "code": "4EYES_DISTINCT",
-          "message": "Bearbeitet and Gepruft signed by the same person",
-          "expected": "two different Kurzel",
-          "actual": "ohp"
-        }
-      ]
-    },
-    {
-      "id": "f_391c3122312b",
+      "id": "f_ad3ea92a87c9",
       "page_no": 41,
       "chapter": "",
       "role": null,
@@ -6707,7 +6940,7 @@
       "flags": []
     },
     {
-      "id": "f_056320f8d0a8",
+      "id": "f_a1525a6256ba",
       "page_no": 41,
       "chapter": "",
       "role": null,
@@ -6731,7 +6964,7 @@
       ]
     },
     {
-      "id": "f_88d0b918ef7b",
+      "id": "f_547ca0d28175",
       "page_no": 41,
       "chapter": "",
       "role": null,
@@ -6755,13 +6988,13 @@
       ]
     },
     {
-      "id": "f_a29f629552ef",
+      "id": "f_90461540635d",
       "page_no": 41,
       "chapter": "",
-      "role": null,
-      "label": "Probenzugsetikett(en) auf Probe(n) mit eingeklebtem(n) Etikett(en) identisch / Stage Etikett und Probenzugsetikett(en) in LIMS received, sowie Lagerort (03er Proben Lagerort = „in Bearbeitung“) angegeben",
-      "value": "26.10.2025 / ohr",
-      "value_raw": "26.10.2025 / ohr",
+      "role": "signature_processed",
+      "label": "Bearbeitet",
+      "value": "26.10.2025 / okr",
+      "value_raw": "26.10.2025 / okr",
       "unit": null,
       "nks": null,
       "bbox": [
@@ -6770,16 +7003,33 @@
         0.9087061668681983,
         0.41146278870829767
       ],
-      "confidence": 0.983,
-      "status": "auto_accepted",
-      "flags": []
+      "confidence": 0.7,
+      "status": "needs_review",
+      "flags": [
+        {
+          "severity": "warning",
+          "category": "temporal",
+          "code": "DATE_BEFORE_PRINT",
+          "message": "date 2025-10-26 is before the record date 2026-06-09",
+          "expected": ">= 2026-06-09",
+          "actual": "2025-10-26"
+        },
+        {
+          "severity": "warning",
+          "category": "four_eyes",
+          "code": "KUERZEL_UNKNOWN",
+          "message": "Kuerzel 'okr' is not in the personnel list (Beteiligte Personen)",
+          "expected": "a registered Kuerzel",
+          "actual": "okr"
+        }
+      ]
     },
     {
-      "id": "f_7dd742ab0831",
+      "id": "f_73ba8c6e416d",
       "page_no": 41,
       "chapter": "",
-      "role": null,
-      "label": "Probenzugsetikett(en) auf Probe(n) mit eingeklebtem(n) Etikett(en) identisch / Stage Etikett und Probenzugsetikett(en) in LIMS received, sowie Lagerort (03er Proben Lagerort = „in Bearbeitung“) angegeben",
+      "role": "signature_checked",
+      "label": "Geprüft",
       "value": "10.06.2025 / ohe",
       "value_raw": "10.06.2025 / ohe",
       "unit": null,
@@ -6790,16 +7040,33 @@
         0.9087061668681983,
         0.41146278870829767
       ],
-      "confidence": 0.983,
-      "status": "auto_accepted",
-      "flags": []
+      "confidence": 0.4,
+      "status": "needs_review",
+      "flags": [
+        {
+          "severity": "error",
+          "category": "four_eyes",
+          "code": "4EYES_ORDER",
+          "message": "Gepruft date is before Bearbeitet date (review must follow processing)",
+          "expected": ">= 2025-10-26",
+          "actual": "2025-06-10"
+        },
+        {
+          "severity": "warning",
+          "category": "temporal",
+          "code": "DATE_BEFORE_PRINT",
+          "message": "date 2025-06-10 is before the record date 2026-06-09",
+          "expected": ">= 2026-06-09",
+          "actual": "2025-06-10"
+        }
+      ]
     },
     {
-      "id": "f_ba5797c4f823",
+      "id": "f_5a6882eebbfa",
       "page_no": 42,
-      "chapter": "",
+      "chapter": "6",
       "role": null,
-      "label": "Feld findet keine Anwendung",
+      "label": "Ja / Nein, Feld findet keine Anwendung",
       "value": "Nein",
       "value_raw": "Nein",
       "unit": null,
@@ -6819,9 +7086,9 @@
       ]
     },
     {
-      "id": "f_594075bb4800",
+      "id": "f_b49a4fe3ce92",
       "page_no": 43,
-      "chapter": "",
+      "chapter": "7",
       "role": null,
       "label": "Ja / Nein, Feld findet keine Anwendung",
       "value": "Ja",
@@ -6843,9 +7110,9 @@
       ]
     },
     {
-      "id": "f_900e6e0bb920",
+      "id": "f_8e3bc3bf4140",
       "page_no": 43,
-      "chapter": "",
+      "chapter": "7",
       "role": null,
       "label": "Bemerkungen",
       "value": "Fehler 404",
@@ -6863,9 +7130,9 @@
       "flags": []
     },
     {
-      "id": "f_eff7c6af418f",
+      "id": "f_4f106b3002e3",
       "page_no": 43,
-      "chapter": "",
+      "chapter": "7",
       "role": null,
       "label": "Datum/Kürzel",
       "value": "10.06.2026 / ohe",
@@ -6883,31 +7150,11 @@
       "flags": []
     },
     {
-      "id": "f_aec78f9db80e",
-      "page_no": 43,
-      "chapter": "",
-      "role": null,
-      "label": "Bemerkungen",
-      "value": "n.a. 10.06.2026 ohe",
-      "value_raw": "n.a. 10.06.2026 ohe",
-      "unit": null,
-      "nks": null,
-      "bbox": [
-        0.11910519951632406,
-        0.19632164242942687,
-        0.9068923821039904,
-        0.8297690333618477
-      ],
-      "confidence": 1.0,
-      "status": "auto_accepted",
-      "flags": []
-    },
-    {
-      "id": "f_46d13fe7579b",
+      "id": "f_343579d261f2",
       "page_no": 44,
-      "chapter": "",
+      "chapter": "8",
       "role": null,
-      "label": "Abweichungen vorhanden",
+      "label": "Abweichungen vorhanden.",
       "value": "Ja",
       "value_raw": "Ja",
       "unit": null,
@@ -6927,13 +7174,13 @@
       ]
     },
     {
-      "id": "f_21bf7e102191",
+      "id": "f_84106685a150",
       "page_no": 44,
-      "chapter": "",
+      "chapter": "8",
       "role": "signature_processed",
-      "label": "Bearbeitet",
-      "value": "10.06.2026 / Oly",
-      "value_raw": "10.06.2026 / Oly",
+      "label": "Bearbeitet: (Datum/Kürzel)",
+      "value": "10.06.2026 / oli",
+      "value_raw": "10.06.2026 / oli",
       "unit": null,
       "nks": null,
       "bbox": [
@@ -6947,9 +7194,9 @@
       "flags": []
     },
     {
-      "id": "f_5845649c53ed",
+      "id": "f_7321ba66d157",
       "page_no": 44,
-      "chapter": "",
+      "chapter": "8",
       "role": null,
       "label": "zu Seite",
       "value": "17",
@@ -6971,9 +7218,9 @@
       ]
     },
     {
-      "id": "f_edb58470dd73",
+      "id": "f_0d5021a696c6",
       "page_no": 44,
-      "chapter": "",
+      "chapter": "8",
       "role": null,
       "label": "Referenz EV",
       "value": "EV-2026-001",
@@ -6991,9 +7238,9 @@
       "flags": []
     },
     {
-      "id": "f_24dd77a122f7",
+      "id": "f_33d6194e7566",
       "page_no": 44,
-      "chapter": "",
+      "chapter": "8",
       "role": null,
       "label": "EV mündet in DEVI",
       "value": "DEVI-2026-001",
@@ -7011,13 +7258,13 @@
       "flags": []
     },
     {
-      "id": "f_657939aeae69",
+      "id": "f_b30e20f2b45a",
       "page_no": 44,
-      "chapter": "",
+      "chapter": "8",
       "role": null,
       "label": "Datum/Kürzel",
-      "value": "10.06.2026 / Oly",
-      "value_raw": "10.06.2026 / Oly",
+      "value": "10.06.2026 / oli",
+      "value_raw": "10.06.2026 / oli",
       "unit": null,
       "nks": null,
       "bbox": [
@@ -7031,9 +7278,9 @@
       "flags": []
     },
     {
-      "id": "f_7962e307ca60",
+      "id": "f_1ef60417a108",
       "page_no": 44,
-      "chapter": "",
+      "chapter": "8",
       "role": null,
       "label": "Weitere Abweichungen",
       "value": "Ja",
@@ -7055,9 +7302,9 @@
       ]
     },
     {
-      "id": "f_cf8d9c02186b",
+      "id": "f_8a5242dc429a",
       "page_no": 44,
-      "chapter": "",
+      "chapter": "8",
       "role": null,
       "label": "zu Seite",
       "value": "34",
@@ -7079,9 +7326,9 @@
       ]
     },
     {
-      "id": "f_56d22af4ff3c",
+      "id": "f_8ea23a69257a",
       "page_no": 44,
-      "chapter": "",
+      "chapter": "8",
       "role": null,
       "label": "Referenz EV",
       "value": "EV-2025-043",
@@ -7099,9 +7346,9 @@
       "flags": []
     },
     {
-      "id": "f_c288d1c1f373",
+      "id": "f_c9f197ef4dbd",
       "page_no": 44,
-      "chapter": "",
+      "chapter": "8",
       "role": null,
       "label": "EV mündet in DEVI",
       "value": "DEVI-2025-014",
@@ -7119,13 +7366,13 @@
       "flags": []
     },
     {
-      "id": "f_5c2ca2eb1201",
+      "id": "f_db33f7ae34ad",
       "page_no": 44,
-      "chapter": "",
+      "chapter": "8",
       "role": null,
       "label": "Datum/Kürzel",
-      "value": "10.06.2026 / ohp",
-      "value_raw": "10.06.2026 / ohp",
+      "value": "10.06.2026 / oli",
+      "value_raw": "10.06.2026 / oli",
       "unit": null,
       "nks": null,
       "bbox": [
@@ -7139,9 +7386,9 @@
       "flags": []
     },
     {
-      "id": "f_4c2eb85594da",
+      "id": "f_13363393c42a",
       "page_no": 44,
-      "chapter": "",
+      "chapter": "8",
       "role": null,
       "label": "Weitere Abweichungen",
       "value": "Nein, restliches Kapitel findet keine Anwendung",
@@ -7163,172 +7410,24 @@
       ]
     },
     {
-      "id": "f_48302e1b8bba",
-      "page_no": 44,
-      "chapter": "",
-      "role": null,
-      "label": "Referenz EV",
-      "value": "EV-20-",
-      "value_raw": "EV-20-",
-      "unit": null,
-      "nks": null,
-      "bbox": null,
-      "confidence": 0.8,
-      "status": "needs_review",
-      "flags": [
-        {
-          "severity": "warning",
-          "category": "extraction",
-          "code": "EXTRACT_LOW_CONF",
-          "message": "Low extraction confidence (0.8); verify the value",
-          "expected": null,
-          "actual": null
-        }
-      ]
-    },
-    {
-      "id": "f_2c1544e73fa8",
-      "page_no": 44,
-      "chapter": "",
-      "role": null,
-      "label": "EV mündet in DEVI",
-      "value": "DEVI-20-",
-      "value_raw": "DEVI-20-",
-      "unit": null,
-      "nks": null,
-      "bbox": null,
-      "confidence": 0.8,
-      "status": "needs_review",
-      "flags": [
-        {
-          "severity": "warning",
-          "category": "extraction",
-          "code": "EXTRACT_LOW_CONF",
-          "message": "Low extraction confidence (0.8); verify the value",
-          "expected": null,
-          "actual": null
-        }
-      ]
-    },
-    {
-      "id": "f_c311ef0a31ae",
-      "page_no": 44,
-      "chapter": "",
-      "role": null,
-      "label": "Referenz EV",
-      "value": "EV-20-",
-      "value_raw": "EV-20-",
-      "unit": null,
-      "nks": null,
-      "bbox": null,
-      "confidence": 0.8,
-      "status": "needs_review",
-      "flags": [
-        {
-          "severity": "warning",
-          "category": "extraction",
-          "code": "EXTRACT_LOW_CONF",
-          "message": "Low extraction confidence (0.8); verify the value",
-          "expected": null,
-          "actual": null
-        }
-      ]
-    },
-    {
-      "id": "f_c15e96a677ed",
-      "page_no": 44,
-      "chapter": "",
-      "role": null,
-      "label": "EV mündet in DEVI",
-      "value": "DEVI-20-",
-      "value_raw": "DEVI-20-",
-      "unit": null,
-      "nks": null,
-      "bbox": null,
-      "confidence": 0.8,
-      "status": "needs_review",
-      "flags": [
-        {
-          "severity": "warning",
-          "category": "extraction",
-          "code": "EXTRACT_LOW_CONF",
-          "message": "Low extraction confidence (0.8); verify the value",
-          "expected": null,
-          "actual": null
-        }
-      ]
-    },
-    {
-      "id": "f_4487b5878a23",
-      "page_no": 44,
-      "chapter": "",
-      "role": null,
-      "label": "Referenz EV",
-      "value": "EV-20-",
-      "value_raw": "EV-20-",
-      "unit": null,
-      "nks": null,
-      "bbox": null,
-      "confidence": 0.8,
-      "status": "needs_review",
-      "flags": [
-        {
-          "severity": "warning",
-          "category": "extraction",
-          "code": "EXTRACT_LOW_CONF",
-          "message": "Low extraction confidence (0.8); verify the value",
-          "expected": null,
-          "actual": null
-        }
-      ]
-    },
-    {
-      "id": "f_29f466e60f46",
-      "page_no": 44,
-      "chapter": "",
-      "role": null,
-      "label": "EV mündet in DEVI",
-      "value": "DEVI-20-",
-      "value_raw": "DEVI-20-",
-      "unit": null,
-      "nks": null,
-      "bbox": null,
-      "confidence": 0.8,
-      "status": "needs_review",
-      "flags": [
-        {
-          "severity": "warning",
-          "category": "extraction",
-          "code": "EXTRACT_LOW_CONF",
-          "message": "Low extraction confidence (0.8); verify the value",
-          "expected": null,
-          "actual": null
-        }
-      ]
-    },
-    {
-      "id": "f_75127a9ca941",
+      "id": "f_ee8aa9872582",
       "page_no": 45,
-      "chapter": "",
+      "chapter": "9",
       "role": null,
       "label": "Review durchgeführt: Reviewer (Datum/Unterschrift)",
-      "value": "10.06.2026 / 6hp",
-      "value_raw": "10.06.2026 / 6hp",
+      "value": "10.06.2026 / GhP",
+      "value_raw": "10.06.2026 / GhP",
       "unit": null,
       "nks": null,
-      "bbox": null,
-      "confidence": 0.8,
-      "status": "needs_review",
-      "flags": [
-        {
-          "severity": "warning",
-          "category": "extraction",
-          "code": "EXTRACT_LOW_CONF",
-          "message": "Low extraction confidence (0.8); verify the value",
-          "expected": null,
-          "actual": null
-        }
-      ]
+      "bbox": [
+        0.5804111245465539,
+        0.21300256629597947,
+        0.7345828295042321,
+        0.23438836612489308
+      ],
+      "confidence": 0.973,
+      "status": "auto_accepted",
+      "flags": []
     }
   ]
 }
