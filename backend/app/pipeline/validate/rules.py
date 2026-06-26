@@ -7,6 +7,7 @@ reference / outlier are wired as TODOs for Day 2.
 """
 from __future__ import annotations
 
+import re
 from datetime import date
 
 from app.domain.roles import Role
@@ -75,8 +76,12 @@ def rule_range(field: Field) -> list[Flag]:
         return [_err(Category.RANGE, "RANGE_SOLL", f"{v} below Soll min {lo}", expected=f">= {lo}", actual=v)]
     if hi is not None and v > hi:
         return [_err(Category.RANGE, "RANGE_SOLL", f"{v} above Soll max {hi}", expected=f"<= {hi}", actual=v)]
+    # Only treat a bare single number as a setpoint when the Soll text is a clean
+    # numeric spec — not a formula/density blob the model may have dropped in soll
+    # (e.g. "V = m / rho, rho = 1,81 kg/L"), which would be a false positive.
     if target is not None and lo is None and hi is None and v != target:
-        return [_err(Category.RANGE, "RANGE_SETPOINT", f"{v} != Soll {target}", expected=target, actual=v)]
+        if re.fullmatch(r"[\s\d.,]+", (field.soll or "").strip()):
+            return [_err(Category.RANGE, "RANGE_SETPOINT", f"{v} != Soll {target}", expected=target, actual=v)]
     return []
 
 
@@ -107,19 +112,19 @@ def rule_volume(block: Block) -> list[Flag]:
 
 
 def rule_four_eyes(block: Block) -> list[Flag]:
-    proc, chk = block.role(Role.SIGNATURE_PROCESSED), block.role(Role.SIGNATURE_CHECKED)
-    if not (proc and chk):
-        return []
-    d_proc, _, k_proc = parse_signature(proc.value_raw)
-    d_chk, _, k_chk = parse_signature(chk.value_raw)
-    if d_proc and d_chk and d_chk < d_proc:
-        chk.add_flag(_err(Category.FOUR_EYES, "4EYES_ORDER",
-                          "Gepruft date is before Bearbeitet date (review must follow processing)",
-                          expected=f">= {d_proc.isoformat()}", actual=d_chk.isoformat()))
-    if k_proc and k_chk and k_proc.lower() == k_chk.lower():
-        chk.add_flag(_err(Category.FOUR_EYES, "4EYES_DISTINCT",
-                          "Bearbeitet and Gepruft signed by the same person",
-                          expected="two different Kurzel", actual=k_chk))
+    # A page can carry several Bearbeitet/Gepruft pairs; pair them in field order
+    # (the OpenAI reader puts all of a page's fields in one block).
+    for proc, chk in zip(block.roles(Role.SIGNATURE_PROCESSED), block.roles(Role.SIGNATURE_CHECKED)):
+        d_proc, _, k_proc = parse_signature(proc.value_raw)
+        d_chk, _, k_chk = parse_signature(chk.value_raw)
+        if d_proc and d_chk and d_chk < d_proc:
+            chk.add_flag(_err(Category.FOUR_EYES, "4EYES_ORDER",
+                              "Gepruft date is before Bearbeitet date (review must follow processing)",
+                              expected=f">= {d_proc.isoformat()}", actual=d_chk.isoformat()))
+        if k_proc and k_chk and k_proc.lower() == k_chk.lower():
+            chk.add_flag(_err(Category.FOUR_EYES, "4EYES_DISTINCT",
+                              "Bearbeitet and Gepruft signed by the same person",
+                              expected="two different Kurzel", actual=k_chk))
     return []
 
 

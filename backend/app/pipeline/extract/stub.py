@@ -31,7 +31,7 @@ def _f(role, label, value, *, unit=None, nks=None, soll=None, bbox=None, model="
 class StubExtractor:
     name = "stub"
 
-    def extract(self, source_path: str | None) -> Document:
+    def extract(self, source_path: str | None = None, pages=None) -> Document:
         doc = Document(
             doc_no="AB-ABC-123456",
             title="Herstellung von Vanilla Celebration Cake - B35 Baking",

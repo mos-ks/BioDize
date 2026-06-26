@@ -12,12 +12,17 @@ from app.pipeline.model import Document
 def _to_str(value) -> str | None:
     if value is None:
         return None
+    if isinstance(value, bool):
+        return "Ja" if value else "Nein"
     if isinstance(value, (date, datetime, time)):
         return value.isoformat()
+    if isinstance(value, float) and value.is_integer():
+        return str(int(value))          # IDs/counts: 1234567.0 -> "1234567"
     return str(value)
 
 
-def persist(doc: Document, db: Session) -> str:
+def persist(doc: Document, db: Session, page_images: dict[int, str] | None = None) -> str:
+    page_images = page_images or {}
     row = models.Document(
         doc_no=doc.doc_no, title=doc.title, rev=doc.rev, project_code=doc.project_code,
         page_count=doc.page_count, declared_page_count=doc.declared_page_count,
@@ -28,7 +33,7 @@ def persist(doc: Document, db: Session) -> str:
     db.flush()
 
     for page_no in sorted({f.page_no for f in doc.all_fields()}):
-        db.add(models.Page(document_id=row.id, page_no=page_no))
+        db.add(models.Page(document_id=row.id, page_no=page_no, image_path=page_images.get(page_no)))
 
     for block in doc.blocks:
         for fld in block.fields:

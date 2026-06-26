@@ -51,14 +51,13 @@ def render_pdf(source_path: str, out_dir: str | None = None) -> IngestResult:
         pix = page.get_pixmap(matrix=matrix)
         img_path = os.path.join(out_dir, f"page_{i:03d}.png")
         pix.save(img_path)
-        text = page.get_text("text")
         pages.append(
             PageImage(
                 page_no=i,
                 image_path=img_path,
                 width=pix.width,
                 height=pix.height,
-                is_blank=_looks_blank(pix, text),
+                is_blank=_looks_blank(pix),
                 has_kreuzung=False,  # TODO: detect diagonal strike via line analysis
             )
         )
@@ -66,6 +65,18 @@ def render_pdf(source_path: str, out_dir: str | None = None) -> IngestResult:
     return IngestResult(source_path=source_path, page_count=len(pages), pages=pages)
 
 
-def _looks_blank(pix, text: str) -> bool:
-    """Cheap heuristic: little/no text. (Real impl: ink-coverage on the pixmap.)"""
-    return len(text.strip()) < 5
+def _looks_blank(pix) -> bool:
+    """Ink-coverage check on the rendered pixmap (scanned pages have no text layer,
+    so text-based detection is useless). Blank = almost no dark pixels. A page with
+    headers/footers/table borders has plenty of ink, so only truly empty pages skip."""
+    try:
+        data = pix.samples
+        n = max(1, pix.n)
+        dark = total = 0
+        for i in range(0, len(data) - n, n * 97):   # sparse stride, on channel boundaries
+            if data[i] < 200:                        # first channel as a luminance proxy
+                dark += 1
+            total += 1
+        return total > 0 and (dark / total) < 0.002
+    except Exception:
+        return False

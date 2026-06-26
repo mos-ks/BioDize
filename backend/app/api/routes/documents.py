@@ -28,11 +28,20 @@ async def upload_document(file: UploadFile = File(...), db: Session = Depends(ge
 
 
 @router.post("/process", response_model=ProcessResult)
-def process_document(source_path: str | None = None, db: Session = Depends(get_db)) -> ProcessResult:
-    """Run the full pipeline. With EXTRACTOR=stub, source_path is optional."""
+def process_document(
+    source_path: str | None = None,
+    max_pages: int | None = None,
+    db: Session = Depends(get_db),
+) -> ProcessResult:
+    """Run the full pipeline. With EXTRACTOR=stub, source_path is ignored.
+    Otherwise, defaults to the bundled sample scan when source_path is omitted.
+    Pass max_pages=N for a cheap first run (limits model calls)."""
     if settings.extractor != "stub" and not source_path:
-        raise HTTPException(400, "source_path is required unless EXTRACTOR=stub")
-    summary = orchestrator.process(source_path, db)
+        if os.path.exists(settings.sample_pdf_path):
+            source_path = settings.sample_pdf_path
+        else:
+            raise HTTPException(400, "source_path is required (sample PDF not found)")
+    summary = orchestrator.process(source_path, db, max_pages=max_pages)
     return ProcessResult(
         document_id=summary.document_id, status="processed", n_fields=summary.n_fields,
         n_errors=summary.n_errors, n_warnings=summary.n_warnings,

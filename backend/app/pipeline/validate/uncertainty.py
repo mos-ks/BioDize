@@ -20,6 +20,11 @@ def _field_confidence(field: Field) -> float:
         spread = max(reads) - min(reads)
         base *= (1.0 - min(spread, 0.5))      # disagreement lowers confidence
 
+    # The OCR engine's per-word confidence is a real legibility signal — prefer
+    # it over the reader's flat self-report when the value was localized.
+    if field.ocr_confidence is not None:
+        base = field.ocr_confidence
+
     # Rule-consistency term: a value that violates its own rules is less trustworthy.
     if field.has_error:
         base = min(base, 0.40)

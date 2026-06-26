@@ -15,7 +15,7 @@ from app.pipeline.model import Document, Field
 
 _DATE = re.compile(r"^\s*(\d{1,2})\.(\d{1,2})\.(\d{4})\s*$")
 _TIME = re.compile(r"^\s*(\d{1,2}):(\d{2})\s*$")
-_DATETIME = re.compile(r"^\s*(\d{1,2}\.\d{1,2}\.\d{4})\s*[/|]?\s*(\d{1,2}:\d{2})\s*$")
+_DATETIME = re.compile(r"^\s*(\d{1,2}\.\d{1,2}\.\d{4})\s*[/|\-–—]?\s*(\d{1,2}:\d{2})\s*$")
 _NUMBER = re.compile(r"^-?\d{1,3}(\.\d{3})*(,\d+)?$|^-?\d+(,\d+)?$")
 _NUM_TOKEN = re.compile(r"-?\d+(?:[.,]\d+)?")
 
@@ -111,15 +111,18 @@ def parse_soll(soll: str | None) -> dict | None:
     """
     if not soll:
         return None
-    s = soll.replace("≤", "<=").replace("≥", ">=").strip()
+    s = soll.replace("≤", "<=").replace("≥", ">=")
+    s = s.replace("–", "-").replace("—", "-").strip()      # en/em dash -> hyphen
     nums = [_num(t) for t in _NUM_TOKEN.findall(s) if _num(t) is not None]
     if not nums:
         return None
-    # Range inside parentheses takes precedence as (min, max).
+    # Range inside parentheses takes precedence as (min, max); target is the
+    # number BEFORE the paren (positional), which may equal a range endpoint.
     paren = re.search(r"\(([^)]*)\)", s)
     if paren:
         pnums = [_num(t) for t in _NUM_TOKEN.findall(paren.group(1)) if _num(t) is not None]
-        target = next((n for n in nums if n not in pnums), None)
+        out_nums = [_num(t) for t in _NUM_TOKEN.findall(s[:paren.start()]) if _num(t) is not None]
+        target = out_nums[0] if out_nums else None
         if len(pnums) >= 2:
             return {"min": min(pnums), "max": max(pnums), "target": target}
     if "<=" in s:
@@ -150,13 +153,16 @@ _ROLE_KEYWORDS: list[tuple[str, str]] = [
 
 def assign_role(label: str, unit: str | None) -> str | None:
     low = (label or "").lower()
+    stripped = low.strip()
+    # Check the V/C prefix BEFORE the substring keywords, else "V Netto" matches
+    # "netto" -> NET_MASS instead of VOLUME.
+    if stripped.startswith("v ") or unit == "L":
+        return Role.VOLUME
+    if stripped.startswith("c ") or "konzentration" in low or "ipc" in low:
+        return Role.CONCENTRATION
     for kw, role in _ROLE_KEYWORDS:
         if kw in low:
             return role
-    if low.strip().startswith("v ") or unit == "L":
-        return Role.VOLUME
-    if low.strip().startswith("c ") or "konzentration" in low or "ipc" in low:
-        return Role.CONCENTRATION
     return None
 
 

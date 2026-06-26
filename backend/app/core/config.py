@@ -45,6 +45,8 @@ class Settings(BaseSettings):
     # --- Pipeline ------------------------------------------------------------
     storage_dir: str = "./var"                  # rendered page images live here
     render_dpi: int = 200
+    # Bundled sample scan; POST /documents/process with no source_path uses this.
+    sample_pdf_path: str = "../data/scanned_batch_documentation.pdf"
     # Confidence at/above which a clean, flag-free field is auto-accepted.
     # Conservative in production (calibrate on a golden set); 0.9 for the demo.
     auto_accept_threshold: float = 0.9
