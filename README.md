@@ -37,6 +37,7 @@ auto-accepted* and (2) *minimum human review load*. See [`docs/UNCERTAINTY.md`](
 | [`docs/ARCHITECTURE.md`](docs/ARCHITECTURE.md) | Pipeline, components, extractor interface, tech stack |
 | [`docs/UNCERTAINTY.md`](docs/UNCERTAINTY.md) | Confidence/UQ subsystem + confidence-gated review |
 | [`docs/API.md`](docs/API.md) | REST contract for the frontend |
+| [`docs/FRONTEND_CONNECT.md`](docs/FRONTEND_CONNECT.md) | Frontend connection guide — base URL, endpoints, bbox overlay, sample fetch |
 | [`docs/DATA_MODEL.md`](docs/DATA_MODEL.md) | Database schema |
 | [`docs/MODEL_RESEARCH.md`](docs/MODEL_RESEARCH.md) | OCR/VLM model selection (June 2026) |
 | [`docs/ROADMAP_72H.md`](docs/ROADMAP_72H.md) | 72-hour plan |

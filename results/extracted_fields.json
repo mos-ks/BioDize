@@ -1,0 +1,7181 @@
+{
+  "document": {
+    "id": "d_2a835fdda41c",
+    "doc_no": "scanned_batch_documentation.pdf",
+    "title": "scanned_batch_documentation.pdf",
+    "page_count": 46,
+    "generated_at": null
+  },
+  "fields": [
+    {
+      "id": "f_f21514f7c870",
+      "page_no": 1,
+      "chapter": "",
+      "role": null,
+      "label": "Prozessstufe",
+      "value": "B20",
+      "value_raw": "B20",
+      "unit": null,
+      "nks": null,
+      "bbox": [
+        0.12817412333736397,
+        0.27331052181351584,
+        0.4443772672309553,
+        0.2891360136869119
+      ],
+      "confidence": 1.0,
+      "status": "auto_accepted",
+      "flags": []
+    },
+    {
+      "id": "f_65cb996fb2ac",
+      "page_no": 1,
+      "chapter": "",
+      "role": null,
+      "label": "SAP-Materialnummer",
+      "value": "1802072",
+      "value_raw": "1802072",
+      "unit": null,
+      "nks": null,
+      "bbox": [
+        0.1293833131801693,
+        0.29426860564585117,
+        0.48246674727932287,
+        0.3105218135158255
+      ],
+      "confidence": 1.0,
+      "status": "auto_accepted",
+      "flags": []
+    },
+    {
+      "id": "f_6e792afee6d5",
+      "page_no": 1,
+      "chapter": "",
+      "role": null,
+      "label": "Zugehörige MAN",
+      "value": "BK-MAN-36865",
+      "value_raw": "BK-MAN-36865",
+      "unit": null,
+      "nks": null,
+      "bbox": [
+        0.1293833131801693,
+        0.3165098374679213,
+        0.5386940749697703,
+        0.3323353293413174
+      ],
+      "confidence": 1.0,
+      "status": "auto_accepted",
+      "flags": []
+    },
+    {
+      "id": "f_bd2669b8becb",
+      "page_no": 1,
+      "chapter": "",
+      "role": null,
+      "label": "Production Code",
+      "value": "4756 001",
+      "value_raw": "4756 001",
+      "unit": null,
+      "nks": null,
+      "bbox": [
+        0.1293833131801693,
+        0.3361847733105218,
+        0.526602176541717,
+        0.3541488451668092
+      ],
+      "confidence": 0.943,
+      "status": "auto_accepted",
+      "flags": []
+    },
+    {
+      "id": "f_3c0faec4cb15",
+      "page_no": 1,
+      "chapter": "",
+      "role": null,
+      "label": "Production Code DS",
+      "value": "4756 101",
+      "value_raw": "4756 101",
+      "unit": null,
+      "nks": null,
+      "bbox": [
+        0.1293833131801693,
+        0.3592814371257485,
+        0.526602176541717,
+        0.3763900769888794
+      ],
+      "confidence": 0.953,
+      "status": "auto_accepted",
+      "flags": []
+    },
+    {
+      "id": "f_402353552903",
+      "page_no": 1,
+      "chapter": "",
+      "role": null,
+      "label": "Batch No.",
+      "value": "1234567",
+      "value_raw": "1234567",
+      "unit": null,
+      "nks": null,
+      "bbox": [
+        0.1293833131801693,
+        0.38152266894781867,
+        0.5846432889963724,
+        0.39820359281437123
+      ],
+      "confidence": 0.999,
+      "status": "auto_accepted",
+      "flags": []
+    },
+    {
+      "id": "f_c992c64f23a8",
+      "page_no": 1,
+      "chapter": "",
+      "role": "signature_processed",
+      "label": "Bearbeitet: (Datum/Kürzel)",
+      "value": "10.06.2026 / ohe",
+      "value_raw": "10.06.2026 / ohe",
+      "unit": null,
+      "nks": null,
+      "bbox": [
+        0.1293833131801693,
+        0.4033361847733105,
+        0.7309552599758162,
+        0.42130025662959797
+      ],
+      "confidence": 0.999,
+      "status": "auto_accepted",
+      "flags": []
+    },
+    {
+      "id": "f_fbcae47a4dcc",
+      "page_no": 1,
+      "chapter": "",
+      "role": null,
+      "label": "Batch Production Record generiert am (Datum/Kürzel, GQQ)",
+      "value": "09.06.2026 / ohe",
+      "value_raw": "09.06.2026 / ohe",
+      "unit": null,
+      "nks": null,
+      "bbox": [
+        0.526602176541717,
+        0.4982891360136869,
+        0.837968561064087,
+        0.520530367835757
+      ],
+      "confidence": 0.999,
+      "status": "auto_accepted",
+      "flags": []
+    },
+    {
+      "id": "f_b90b3e8fad72",
+      "page_no": 4,
+      "chapter": "",
+      "role": null,
+      "label": "Name Mitarbeiter",
+      "value": "Hans Mustermann",
+      "value_raw": "Hans Mustermann",
+      "unit": null,
+      "nks": null,
+      "bbox": null,
+      "confidence": 0.8,
+      "status": "needs_review",
+      "flags": [
+        {
+          "severity": "warning",
+          "category": "extraction",
+          "code": "EXTRACT_LOW_CONF",
+          "message": "Low extraction confidence (0.8); verify the value",
+          "expected": null,
+          "actual": null
+        }
+      ]
+    },
+    {
+      "id": "f_3194f479854b",
+      "page_no": 4,
+      "chapter": "",
+      "role": null,
+      "label": "Kürzel",
+      "value": "han",
+      "value_raw": "han",
+      "unit": null,
+      "nks": null,
+      "bbox": null,
+      "confidence": 0.8,
+      "status": "needs_review",
+      "flags": [
+        {
+          "severity": "warning",
+          "category": "extraction",
+          "code": "EXTRACT_LOW_CONF",
+          "message": "Low extraction confidence (0.8); verify the value",
+          "expected": null,
+          "actual": null
+        }
+      ]
+    },
+    {
+      "id": "f_b79af4e8adf7",
+      "page_no": 4,
+      "chapter": "",
+      "role": null,
+      "label": "Name Mitarbeiter",
+      "value": "Ole Herid-Schimic",
+      "value_raw": "Ole Herid-Schimic",
+      "unit": null,
+      "nks": null,
+      "bbox": null,
+      "confidence": 0.8,
+      "status": "needs_review",
+      "flags": [
+        {
+          "severity": "warning",
+          "category": "extraction",
+          "code": "EXTRACT_LOW_CONF",
+          "message": "Low extraction confidence (0.8); verify the value",
+          "expected": null,
+          "actual": null
+        }
+      ]
+    },
+    {
+      "id": "f_b33fda2e0301",
+      "page_no": 4,
+      "chapter": "",
+      "role": null,
+      "label": "Kürzel",
+      "value": "ohe",
+      "value_raw": "ohe",
+      "unit": null,
+      "nks": null,
+      "bbox": null,
+      "confidence": 0.8,
+      "status": "needs_review",
+      "flags": [
+        {
+          "severity": "warning",
+          "category": "extraction",
+          "code": "EXTRACT_LOW_CONF",
+          "message": "Low extraction confidence (0.8); verify the value",
+          "expected": null,
+          "actual": null
+        }
+      ]
+    },
+    {
+      "id": "f_e0a42daca4c9",
+      "page_no": 4,
+      "chapter": "",
+      "role": null,
+      "label": "Name Mitarbeiter",
+      "value": "10.06.2026 / oh",
+      "value_raw": "10.06.2026 / oh",
+      "unit": null,
+      "nks": null,
+      "bbox": null,
+      "confidence": 0.8,
+      "status": "needs_review",
+      "flags": [
+        {
+          "severity": "warning",
+          "category": "extraction",
+          "code": "EXTRACT_LOW_CONF",
+          "message": "Low extraction confidence (0.8); verify the value",
+          "expected": null,
+          "actual": null
+        }
+      ]
+    },
+    {
+      "id": "f_494b6f9753cf",
+      "page_no": 9,
+      "chapter": "",
+      "role": null,
+      "label": "GMP-Bereich (Pre)",
+      "value": "931 / Ja",
+      "value_raw": "931 / Ja",
+      "unit": null,
+      "nks": null,
+      "bbox": [
+        0.12031438935912939,
+        0.19632164242942687,
+        0.9068923821039904,
+        0.3793840889649273
+      ],
+      "confidence": 0.975,
+      "status": "auto_accepted",
+      "flags": []
+    },
+    {
+      "id": "f_cd4669241c47",
+      "page_no": 9,
+      "chapter": "",
+      "role": null,
+      "label": "Area Clearance Freigabe im Raumlogbuch gemäß BK-SOP-51941 erfolgt.",
+      "value": "Ja",
+      "value_raw": "Ja",
+      "unit": null,
+      "nks": null,
+      "bbox": null,
+      "confidence": 0.8,
+      "status": "needs_review",
+      "flags": [
+        {
+          "severity": "warning",
+          "category": "extraction",
+          "code": "EXTRACT_LOW_CONF",
+          "message": "Low extraction confidence (0.8); verify the value",
+          "expected": null,
+          "actual": null
+        }
+      ]
+    },
+    {
+      "id": "f_904119a2dcb9",
+      "page_no": 9,
+      "chapter": "",
+      "role": null,
+      "label": "GMP-Bereich aktiv",
+      "value": "Ja",
+      "value_raw": "Ja",
+      "unit": null,
+      "nks": null,
+      "bbox": null,
+      "confidence": 0.8,
+      "status": "needs_review",
+      "flags": [
+        {
+          "severity": "warning",
+          "category": "extraction",
+          "code": "EXTRACT_LOW_CONF",
+          "message": "Low extraction confidence (0.8); verify the value",
+          "expected": null,
+          "actual": null
+        }
+      ]
+    },
+    {
+      "id": "f_80090f668f24",
+      "page_no": 9,
+      "chapter": "",
+      "role": "signature_processed",
+      "label": "Bearbeitet",
+      "value": "10.06.2026 / ohe",
+      "value_raw": "10.06.2026 / ohe",
+      "unit": null,
+      "nks": null,
+      "bbox": [
+        0.12031438935912939,
+        0.39050470487596234,
+        0.905683192261185,
+        0.4576561163387511
+      ],
+      "confidence": 0.982,
+      "status": "auto_accepted",
+      "flags": []
+    },
+    {
+      "id": "f_15a83f4981c2",
+      "page_no": 9,
+      "chapter": "",
+      "role": "signature_checked",
+      "label": "Geprüft",
+      "value": "10.06.2026 / ohe",
+      "value_raw": "10.06.2026 / ohe",
+      "unit": null,
+      "nks": null,
+      "bbox": [
+        0.12031438935912939,
+        0.39050470487596234,
+        0.905683192261185,
+        0.4576561163387511
+      ],
+      "confidence": 0.4,
+      "status": "needs_review",
+      "flags": [
+        {
+          "severity": "error",
+          "category": "four_eyes",
+          "code": "4EYES_DISTINCT",
+          "message": "Bearbeitet and Gepruft signed by the same person",
+          "expected": "two different Kurzel",
+          "actual": "ohe"
+        }
+      ]
+    },
+    {
+      "id": "f_b8e2e1a1eb4c",
+      "page_no": 10,
+      "chapter": "",
+      "role": null,
+      "label": "Production Code",
+      "value": "123",
+      "value_raw": "123",
+      "unit": null,
+      "nks": null,
+      "bbox": [
+        0.11729141475211609,
+        0.07313943541488452,
+        0.8119709794437727,
+        0.24807527801539778
+      ],
+      "confidence": 0.978,
+      "status": "auto_accepted",
+      "flags": []
+    },
+    {
+      "id": "f_421253317655",
+      "page_no": 10,
+      "chapter": "",
+      "role": null,
+      "label": "Zyklus",
+      "value": "1",
+      "value_raw": "1",
+      "unit": null,
+      "nks": null,
+      "bbox": [
+        0.7575574365175333,
+        0.25919589392643283,
+        0.7696493349455864,
+        0.2754491017964072
+      ],
+      "confidence": 0.998,
+      "status": "auto_accepted",
+      "flags": []
+    },
+    {
+      "id": "f_76c4a435d2d8",
+      "page_no": 10,
+      "chapter": "",
+      "role": "signature_processed",
+      "label": "Bearbeitet",
+      "value": "10.06.2026 / ohe",
+      "value_raw": "10.06.2026 / ohe",
+      "unit": null,
+      "nks": null,
+      "bbox": [
+        0.4486094316807739,
+        0.3105218135158255,
+        0.6185006045949214,
+        0.6167664670658682
+      ],
+      "confidence": 0.998,
+      "status": "auto_accepted",
+      "flags": []
+    },
+    {
+      "id": "f_6bdd83d398c7",
+      "page_no": 10,
+      "chapter": "",
+      "role": "signature_checked",
+      "label": "Geprüft",
+      "value": "10.06.2026 / ohe",
+      "value_raw": "10.06.2026 / ohe",
+      "unit": null,
+      "nks": null,
+      "bbox": [
+        0.4486094316807739,
+        0.3105218135158255,
+        0.6185006045949214,
+        0.6167664670658682
+      ],
+      "confidence": 0.4,
+      "status": "needs_review",
+      "flags": [
+        {
+          "severity": "error",
+          "category": "four_eyes",
+          "code": "4EYES_DISTINCT",
+          "message": "Bearbeitet and Gepruft signed by the same person",
+          "expected": "two different Kurzel",
+          "actual": "ohe"
+        }
+      ]
+    },
+    {
+      "id": "f_6937d604ea91",
+      "page_no": 10,
+      "chapter": "",
+      "role": null,
+      "label": "GMP-Bereich",
+      "value": "931",
+      "value_raw": "931",
+      "unit": null,
+      "nks": null,
+      "bbox": [
+        0.711608222490931,
+        0.4315654405474765,
+        0.7575574365175333,
+        0.4435414884516681
+      ],
+      "confidence": 0.976,
+      "status": "auto_accepted",
+      "flags": []
+    },
+    {
+      "id": "f_31ee4339bd80",
+      "page_no": 10,
+      "chapter": "",
+      "role": null,
+      "label": "Virusbereich",
+      "value": "Ja",
+      "value_raw": "Ja",
+      "unit": null,
+      "nks": null,
+      "bbox": null,
+      "confidence": 0.8,
+      "status": "needs_review",
+      "flags": [
+        {
+          "severity": "warning",
+          "category": "extraction",
+          "code": "EXTRACT_LOW_CONF",
+          "message": "Low extraction confidence (0.8); verify the value",
+          "expected": null,
+          "actual": null
+        }
+      ]
+    },
+    {
+      "id": "f_517586b3f405",
+      "page_no": 10,
+      "chapter": "",
+      "role": null,
+      "label": "Hygienezone",
+      "value": "2",
+      "value_raw": "2",
+      "unit": "HZ",
+      "nks": null,
+      "bbox": [
+        0.74546553808948,
+        0.539349871685201,
+        0.7648125755743652,
+        0.5594525235243798
+      ],
+      "confidence": 0.998,
+      "status": "auto_accepted",
+      "flags": []
+    },
+    {
+      "id": "f_de0e7e8ce3c2",
+      "page_no": 10,
+      "chapter": "",
+      "role": "signature_processed",
+      "label": "Bearbeitet",
+      "value": "10.06.2026 / ohe",
+      "value_raw": "10.06.2026 / ohe",
+      "unit": null,
+      "nks": null,
+      "bbox": [
+        0.4486094316807739,
+        0.3105218135158255,
+        0.6185006045949214,
+        0.6167664670658682
+      ],
+      "confidence": 0.998,
+      "status": "auto_accepted",
+      "flags": []
+    },
+    {
+      "id": "f_7a7bf6e587dd",
+      "page_no": 10,
+      "chapter": "",
+      "role": "signature_checked",
+      "label": "Geprüft",
+      "value": "09.06.2026 / hau",
+      "value_raw": "09.06.2026 / hau",
+      "unit": null,
+      "nks": null,
+      "bbox": [
+        0.44619105199516323,
+        0.6244653550042771,
+        0.6185006045949214,
+        0.6437125748502994
+      ],
+      "confidence": 0.4,
+      "status": "needs_review",
+      "flags": [
+        {
+          "severity": "error",
+          "category": "four_eyes",
+          "code": "4EYES_ORDER",
+          "message": "Gepruft date is before Bearbeitet date (review must follow processing)",
+          "expected": ">= 2026-06-10",
+          "actual": "2026-06-09"
+        }
+      ]
+    },
+    {
+      "id": "f_44b0ee2ee659",
+      "page_no": 11,
+      "chapter": "",
+      "role": null,
+      "label": "Intermediat",
+      "value": "ABCE 12345 123",
+      "value_raw": "ABCE 12345 123",
+      "unit": null,
+      "nks": null,
+      "bbox": [
+        0.12031438935912939,
+        0.23438836612489308,
+        0.9068923821039904,
+        0.5295124037639007
+      ],
+      "confidence": 0.995,
+      "status": "auto_accepted",
+      "flags": []
+    },
+    {
+      "id": "f_7bc873d33859",
+      "page_no": 11,
+      "chapter": "",
+      "role": "tare_mass",
+      "label": "m Tara",
+      "value": "100",
+      "value_raw": "100",
+      "unit": "kg",
+      "nks": null,
+      "bbox": [
+        0.12031438935912939,
+        0.23438836612489308,
+        0.9068923821039904,
+        0.6094952951240377
+      ],
+      "confidence": 0.979,
+      "status": "auto_accepted",
+      "flags": []
+    },
+    {
+      "id": "f_2913856e859c",
+      "page_no": 11,
+      "chapter": "",
+      "role": "gross_mass",
+      "label": "m Brutto",
+      "value": "300",
+      "value_raw": "300",
+      "unit": "kg",
+      "nks": null,
+      "bbox": [
+        0.12031438935912939,
+        0.23438836612489308,
+        0.9068923821039904,
+        0.5295124037639007
+      ],
+      "confidence": 0.995,
+      "status": "auto_accepted",
+      "flags": []
+    },
+    {
+      "id": "f_741fd3bf8f73",
+      "page_no": 11,
+      "chapter": "",
+      "role": "net_mass",
+      "label": "m Netto",
+      "value": "200",
+      "value_raw": "200",
+      "unit": "kg",
+      "nks": null,
+      "bbox": [
+        0.12031438935912939,
+        0.23438836612489308,
+        0.9068923821039904,
+        0.5295124037639007
+      ],
+      "confidence": 0.995,
+      "status": "auto_accepted",
+      "flags": []
+    },
+    {
+      "id": "f_0103bd664694",
+      "page_no": 11,
+      "chapter": "",
+      "role": "volume",
+      "label": "V Netto",
+      "value": "220",
+      "value_raw": "220",
+      "unit": "L",
+      "nks": null,
+      "bbox": [
+        0.12031438935912939,
+        0.23438836612489308,
+        0.9068923821039904,
+        0.5295124037639007
+      ],
+      "confidence": 0.995,
+      "status": "auto_accepted",
+      "flags": []
+    },
+    {
+      "id": "f_50bc5f4c40d6",
+      "page_no": 11,
+      "chapter": "",
+      "role": "concentration",
+      "label": "c ABC-DE (Blocking IPC)",
+      "value": "4.5",
+      "value_raw": "4,5",
+      "unit": "g/L",
+      "nks": null,
+      "bbox": null,
+      "confidence": 0.8,
+      "status": "needs_review",
+      "flags": [
+        {
+          "severity": "warning",
+          "category": "extraction",
+          "code": "EXTRACT_LOW_CONF",
+          "message": "Low extraction confidence (0.8); verify the value",
+          "expected": null,
+          "actual": null
+        }
+      ]
+    },
+    {
+      "id": "f_d3421b13465c",
+      "page_no": 11,
+      "chapter": "",
+      "role": "hold_start",
+      "label": "Start Haltezeit",
+      "value": "2026-06-10T08:46:00",
+      "value_raw": "10.06.2026 / 8:46",
+      "unit": "Uhr",
+      "nks": null,
+      "bbox": [
+        0.12031438935912939,
+        0.23438836612489308,
+        0.9068923821039904,
+        0.5295124037639007
+      ],
+      "confidence": 0.995,
+      "status": "auto_accepted",
+      "flags": []
+    },
+    {
+      "id": "f_e536cc264a2c",
+      "page_no": 11,
+      "chapter": "",
+      "role": "temperature_setpoint",
+      "label": "Haltetemperatur",
+      "value": "Ja",
+      "value_raw": "Ja",
+      "unit": null,
+      "nks": null,
+      "bbox": null,
+      "confidence": 0.8,
+      "status": "needs_review",
+      "flags": [
+        {
+          "severity": "warning",
+          "category": "extraction",
+          "code": "EXTRACT_LOW_CONF",
+          "message": "Low extraction confidence (0.8); verify the value",
+          "expected": null,
+          "actual": null
+        }
+      ]
+    },
+    {
+      "id": "f_6bff20a3bda6",
+      "page_no": 11,
+      "chapter": "",
+      "role": "hold_end",
+      "label": "Erlaubte Haltezeit",
+      "value": "2026-06-10T14:46:00",
+      "value_raw": "10.06.2026 / 14:46",
+      "unit": "Uhr",
+      "nks": null,
+      "bbox": [
+        0.12031438935912939,
+        0.23438836612489308,
+        0.9068923821039904,
+        0.5295124037639007
+      ],
+      "confidence": 0.995,
+      "status": "auto_accepted",
+      "flags": []
+    },
+    {
+      "id": "f_b4a6b6a952de",
+      "page_no": 11,
+      "chapter": "",
+      "role": "signature_processed",
+      "label": "Bearbeitet",
+      "value": "10.06.2026 / ohr",
+      "value_raw": "10.06.2026 / ohr",
+      "unit": null,
+      "nks": null,
+      "bbox": [
+        0.12031438935912939,
+        0.23438836612489308,
+        0.9068923821039904,
+        0.6094952951240377
+      ],
+      "confidence": 0.979,
+      "status": "auto_accepted",
+      "flags": []
+    },
+    {
+      "id": "f_cc916a7d6a32",
+      "page_no": 11,
+      "chapter": "",
+      "role": "signature_checked",
+      "label": "Geprüft",
+      "value": "10.06.2026 / hga",
+      "value_raw": "10.06.2026 / hga",
+      "unit": null,
+      "nks": null,
+      "bbox": [
+        0.12031438935912939,
+        0.23438836612489308,
+        0.9068923821039904,
+        0.6094952951240377
+      ],
+      "confidence": 0.979,
+      "status": "auto_accepted",
+      "flags": []
+    },
+    {
+      "id": "f_09653feb022f",
+      "page_no": 12,
+      "chapter": "",
+      "role": null,
+      "label": "B10-PP aus Zyklus 1 vorhanden",
+      "value": "Ja",
+      "value_raw": "Ja",
+      "unit": null,
+      "nks": null,
+      "bbox": null,
+      "confidence": 0.8,
+      "status": "needs_review",
+      "flags": [
+        {
+          "severity": "warning",
+          "category": "extraction",
+          "code": "EXTRACT_LOW_CONF",
+          "message": "Low extraction confidence (0.8); verify the value",
+          "expected": null,
+          "actual": null
+        }
+      ]
+    },
+    {
+      "id": "f_a5f47dc4e0f0",
+      "page_no": 12,
+      "chapter": "",
+      "role": null,
+      "label": "B10-PP 3019",
+      "value": "123",
+      "value_raw": "123",
+      "unit": null,
+      "nks": null,
+      "bbox": [
+        0.11487303506650544,
+        0.07313943541488452,
+        0.9026602176541717,
+        0.5474764756201882
+      ],
+      "confidence": 0.97,
+      "status": "auto_accepted",
+      "flags": []
+    },
+    {
+      "id": "f_51ffb7cd6134",
+      "page_no": 12,
+      "chapter": "",
+      "role": "tare_mass",
+      "label": "m Tara",
+      "value": "200",
+      "value_raw": "200",
+      "unit": "kg",
+      "nks": null,
+      "bbox": [
+        0.11729141475211609,
+        0.19931565440547477,
+        0.9026602176541717,
+        0.5474764756201882
+      ],
+      "confidence": 0.94,
+      "status": "auto_accepted",
+      "flags": []
+    },
+    {
+      "id": "f_69de150efb1f",
+      "page_no": 12,
+      "chapter": "",
+      "role": "gross_mass",
+      "label": "m Brutto",
+      "value": "400",
+      "value_raw": "400",
+      "unit": "kg",
+      "nks": null,
+      "bbox": [
+        0.11729141475211609,
+        0.19931565440547477,
+        0.9026602176541717,
+        0.5474764756201882
+      ],
+      "confidence": 0.94,
+      "status": "auto_accepted",
+      "flags": []
+    },
+    {
+      "id": "f_5473970b21a5",
+      "page_no": 12,
+      "chapter": "",
+      "role": "net_mass",
+      "label": "m Netto",
+      "value": "300",
+      "value_raw": "300",
+      "unit": "kg",
+      "nks": null,
+      "bbox": [
+        0.11729141475211609,
+        0.19931565440547477,
+        0.9026602176541717,
+        0.5474764756201882
+      ],
+      "confidence": 0.4,
+      "status": "needs_review",
+      "flags": [
+        {
+          "severity": "error",
+          "category": "calculation",
+          "code": "CALC_NET_MASS",
+          "message": "net_mass should equal gross - tare = 400.0 - 200.0 = 200.0",
+          "expected": "200.0",
+          "actual": "300.0"
+        }
+      ]
+    },
+    {
+      "id": "f_09827f5e7f2c",
+      "page_no": 12,
+      "chapter": "",
+      "role": "volume",
+      "label": "V Netto",
+      "value": "543",
+      "value_raw": "543",
+      "unit": "L",
+      "nks": null,
+      "bbox": [
+        0.11729141475211609,
+        0.19931565440547477,
+        0.9026602176541717,
+        0.5474764756201882
+      ],
+      "confidence": 0.94,
+      "status": "auto_accepted",
+      "flags": []
+    },
+    {
+      "id": "f_f82f095e2086",
+      "page_no": 12,
+      "chapter": "",
+      "role": "concentration",
+      "label": "c B10-PP (Blocking IPC)",
+      "value": "12.6",
+      "value_raw": "12,6",
+      "unit": "g/L",
+      "nks": null,
+      "bbox": [
+        0.11729141475211609,
+        0.19931565440547477,
+        0.9026602176541717,
+        0.5474764756201882
+      ],
+      "confidence": 0.94,
+      "status": "auto_accepted",
+      "flags": []
+    },
+    {
+      "id": "f_d93da3eb0c2b",
+      "page_no": 12,
+      "chapter": "",
+      "role": "hold_start",
+      "label": "Start Haltezeit",
+      "value": "2026-06-10T09:46:00",
+      "value_raw": "10.06.2026 / 9:46",
+      "unit": "Uhr",
+      "nks": null,
+      "bbox": [
+        0.11729141475211609,
+        0.19931565440547477,
+        0.9026602176541717,
+        0.5474764756201882
+      ],
+      "confidence": 0.94,
+      "status": "auto_accepted",
+      "flags": []
+    },
+    {
+      "id": "f_b763e7f38ac5",
+      "page_no": 12,
+      "chapter": "",
+      "role": "hold_end",
+      "label": "Erlaubte Haltezeit",
+      "value": "2026-06-10T15:46:00",
+      "value_raw": "10.06.2026 / 15:46",
+      "unit": "Uhr",
+      "nks": null,
+      "bbox": [
+        0.11729141475211609,
+        0.19931565440547477,
+        0.9026602176541717,
+        0.5474764756201882
+      ],
+      "confidence": 0.94,
+      "status": "auto_accepted",
+      "flags": []
+    },
+    {
+      "id": "f_e55149b05b63",
+      "page_no": 12,
+      "chapter": "",
+      "role": "signature_processed",
+      "label": "Bearbeitet",
+      "value": "10.06.2026 / ohu",
+      "value_raw": "10.06.2026 / ohu",
+      "unit": null,
+      "nks": null,
+      "bbox": [
+        0.4576783555018138,
+        0.564585115483319,
+        0.8760580411124547,
+        0.6154833190761334
+      ],
+      "confidence": 0.94,
+      "status": "auto_accepted",
+      "flags": []
+    },
+    {
+      "id": "f_f33092b17c04",
+      "page_no": 12,
+      "chapter": "",
+      "role": "signature_checked",
+      "label": "Geprüft",
+      "value": "10.06.2026 / han",
+      "value_raw": "10.06.2026 / han",
+      "unit": null,
+      "nks": null,
+      "bbox": [
+        0.4576783555018138,
+        0.564585115483319,
+        0.8760580411124547,
+        0.6154833190761334
+      ],
+      "confidence": 0.94,
+      "status": "auto_accepted",
+      "flags": []
+    },
+    {
+      "id": "f_f168127de7c4",
+      "page_no": 14,
+      "chapter": "",
+      "role": null,
+      "label": "Temperierung erforderlich",
+      "value": "Nein, Kapitel 5.4 findet keine Anwendung",
+      "value_raw": "Nein, Kapitel 5.4 findet keine Anwendung",
+      "unit": null,
+      "nks": null,
+      "bbox": [
+        0.11729141475211609,
+        0.19033361847733105,
+        0.9008464328899637,
+        0.2822925577416595
+      ],
+      "confidence": 0.998,
+      "status": "auto_accepted",
+      "flags": []
+    },
+    {
+      "id": "f_32a5caa4c2a2",
+      "page_no": 14,
+      "chapter": "",
+      "role": null,
+      "label": "B10-PP 67436",
+      "value": "678",
+      "value_raw": "678",
+      "unit": null,
+      "nks": null,
+      "bbox": [
+        0.11729141475211609,
+        0.41659538066723695,
+        0.9020556227327691,
+        0.5325064157399487
+      ],
+      "confidence": 0.999,
+      "status": "auto_accepted",
+      "flags": []
+    },
+    {
+      "id": "f_4599c01fba42",
+      "page_no": 14,
+      "chapter": "",
+      "role": null,
+      "label": "Transfer aus dem Kühlraum",
+      "value": "2026-06-09T11:35:00",
+      "value_raw": "09.06.2026 / 11:35",
+      "unit": "Uhr",
+      "nks": null,
+      "bbox": [
+        0.11729141475211609,
+        0.41659538066723695,
+        0.9020556227327691,
+        0.5325064157399487
+      ],
+      "confidence": 0.999,
+      "status": "auto_accepted",
+      "flags": []
+    },
+    {
+      "id": "f_87d5e0709409",
+      "page_no": 14,
+      "chapter": "",
+      "role": "signature_processed",
+      "label": "Bearbeitet",
+      "value": "10.06.2026 / ohr",
+      "value_raw": "10.06.2026 / ohr",
+      "unit": null,
+      "nks": null,
+      "bbox": [
+        0.11729141475211609,
+        0.542343883661249,
+        0.9020556227327691,
+        0.6107784431137725
+      ],
+      "confidence": 0.983,
+      "status": "auto_accepted",
+      "flags": []
+    },
+    {
+      "id": "f_4c97e998dee8",
+      "page_no": 14,
+      "chapter": "",
+      "role": "signature_checked",
+      "label": "Geprüft",
+      "value": "10.06.2026 / hah",
+      "value_raw": "10.06.2026 / hah",
+      "unit": null,
+      "nks": null,
+      "bbox": [
+        0.11729141475211609,
+        0.542343883661249,
+        0.9020556227327691,
+        0.6107784431137725
+      ],
+      "confidence": 0.983,
+      "status": "auto_accepted",
+      "flags": []
+    },
+    {
+      "id": "f_232d79ed933f",
+      "page_no": 15,
+      "chapter": "",
+      "role": null,
+      "label": "Temperierung erforderlich",
+      "value": "Ja",
+      "value_raw": "Ja",
+      "unit": null,
+      "nks": null,
+      "bbox": [
+        0.5205562273276905,
+        0.24935842600513258,
+        0.5616686819830713,
+        0.2634730538922156
+      ],
+      "confidence": 0.437,
+      "status": "needs_review",
+      "flags": [
+        {
+          "severity": "warning",
+          "category": "extraction",
+          "code": "EXTRACT_LOW_CONF",
+          "message": "Low extraction confidence (0.437); verify the value",
+          "expected": null,
+          "actual": null
+        }
+      ]
+    },
+    {
+      "id": "f_bf52b523d9eb",
+      "page_no": 15,
+      "chapter": "",
+      "role": "signature_processed",
+      "label": "Bearbeitet",
+      "value": "10.06.2026 / obr",
+      "value_raw": "10.06.2026 / obr",
+      "unit": null,
+      "nks": null,
+      "bbox": [
+        0.12696493349455865,
+        0.3041060735671514,
+        0.8978234582829504,
+        0.6056458511548332
+      ],
+      "confidence": 0.955,
+      "status": "auto_accepted",
+      "flags": []
+    },
+    {
+      "id": "f_5f13b39fd2e4",
+      "page_no": 15,
+      "chapter": "",
+      "role": "signature_checked",
+      "label": "Geprüft",
+      "value": "10.06.2026 / han",
+      "value_raw": "10.06.2026 / han",
+      "unit": null,
+      "nks": null,
+      "bbox": [
+        0.12696493349455865,
+        0.3041060735671514,
+        0.8978234582829504,
+        0.6056458511548332
+      ],
+      "confidence": 0.955,
+      "status": "auto_accepted",
+      "flags": []
+    },
+    {
+      "id": "f_3f9ee5907402",
+      "page_no": 15,
+      "chapter": "",
+      "role": null,
+      "label": "Intermediat",
+      "value": "B10-PP 13975 534",
+      "value_raw": "B10-PP 13975 534",
+      "unit": null,
+      "nks": null,
+      "bbox": [
+        0.6934703748488513,
+        0.4726261762189906,
+        0.8796856106408706,
+        0.49529512403763903
+      ],
+      "confidence": 0.897,
+      "status": "needs_review",
+      "flags": [
+        {
+          "severity": "warning",
+          "category": "extraction",
+          "code": "EXTRACT_LOW_CONF",
+          "message": "Low extraction confidence (0.897); verify the value",
+          "expected": null,
+          "actual": null
+        }
+      ]
+    },
+    {
+      "id": "f_5fa40f7d2b40",
+      "page_no": 15,
+      "chapter": "",
+      "role": null,
+      "label": "Transfer aus dem Kühlraum",
+      "value": "2026-06-10T13:41:00",
+      "value_raw": "10.06.2026 / 13:41",
+      "unit": "Uhr",
+      "nks": null,
+      "bbox": [
+        0.5235792019347038,
+        0.5025662959794697,
+        0.8978234582829504,
+        0.5273738237810094
+      ],
+      "confidence": 0.911,
+      "status": "auto_accepted",
+      "flags": []
+    },
+    {
+      "id": "f_4e2f16e67a6b",
+      "page_no": 15,
+      "chapter": "",
+      "role": "signature_processed",
+      "label": "Bearbeitet",
+      "value": "10.06.2026 / obr",
+      "value_raw": "10.06.2026 / obr",
+      "unit": null,
+      "nks": null,
+      "bbox": [
+        0.12696493349455865,
+        0.3041060735671514,
+        0.8978234582829504,
+        0.6056458511548332
+      ],
+      "confidence": 0.955,
+      "status": "auto_accepted",
+      "flags": []
+    },
+    {
+      "id": "f_b471bb97e3e3",
+      "page_no": 15,
+      "chapter": "",
+      "role": "signature_checked",
+      "label": "Geprüft",
+      "value": "10.06.2026 / han",
+      "value_raw": "10.06.2026 / han",
+      "unit": null,
+      "nks": null,
+      "bbox": [
+        0.12696493349455865,
+        0.3041060735671514,
+        0.8978234582829504,
+        0.6056458511548332
+      ],
+      "confidence": 0.955,
+      "status": "auto_accepted",
+      "flags": []
+    },
+    {
+      "id": "f_898b24e9ed25",
+      "page_no": 16,
+      "chapter": "",
+      "role": null,
+      "label": "Pooling erforderlich",
+      "value": "Ja, weiter im Kapitel",
+      "value_raw": "Ja, weiter im Kapitel",
+      "unit": null,
+      "nks": null,
+      "bbox": null,
+      "confidence": 0.8,
+      "status": "needs_review",
+      "flags": [
+        {
+          "severity": "warning",
+          "category": "extraction",
+          "code": "EXTRACT_LOW_CONF",
+          "message": "Low extraction confidence (0.8); verify the value",
+          "expected": null,
+          "actual": null
+        }
+      ]
+    },
+    {
+      "id": "f_b7593ec83cc3",
+      "page_no": 16,
+      "chapter": "",
+      "role": "signature_processed",
+      "label": "Bearbeitet",
+      "value": "10.06.2026 / oh.",
+      "value_raw": "10.06.2026 / oh.",
+      "unit": null,
+      "nks": null,
+      "bbox": [
+        0.11729141475211609,
+        0.30538922155688625,
+        0.8996372430471584,
+        0.37254063301967494
+      ],
+      "confidence": 0.996,
+      "status": "auto_accepted",
+      "flags": []
+    },
+    {
+      "id": "f_ddf036f1015f",
+      "page_no": 16,
+      "chapter": "",
+      "role": "signature_checked",
+      "label": "Geprüft",
+      "value": "10.06.2026 / oh.",
+      "value_raw": "10.06.2026 / oh.",
+      "unit": null,
+      "nks": null,
+      "bbox": [
+        0.11729141475211609,
+        0.30538922155688625,
+        0.8996372430471584,
+        0.37254063301967494
+      ],
+      "confidence": 0.4,
+      "status": "needs_review",
+      "flags": [
+        {
+          "severity": "error",
+          "category": "four_eyes",
+          "code": "4EYES_DISTINCT",
+          "message": "Bearbeitet and Gepruft signed by the same person",
+          "expected": "two different Kurzel",
+          "actual": "oh."
+        }
+      ]
+    },
+    {
+      "id": "f_d83762c406c9",
+      "page_no": 16,
+      "chapter": "",
+      "role": null,
+      "label": "Oven A - Anlagennummer",
+      "value": "A1234",
+      "value_raw": "A1234",
+      "unit": null,
+      "nks": null,
+      "bbox": [
+        0.11426844014510278,
+        0.07228400342172797,
+        0.9026602176541717,
+        0.6847733105218136
+      ],
+      "confidence": 0.996,
+      "status": "auto_accepted",
+      "flags": []
+    },
+    {
+      "id": "f_e18a65d5a7a4",
+      "page_no": 16,
+      "chapter": "",
+      "role": null,
+      "label": "Oven A - Einsatzbereit gemäß RL-SOP-00796",
+      "value": "Ja",
+      "value_raw": "Ja",
+      "unit": null,
+      "nks": null,
+      "bbox": null,
+      "confidence": 0.8,
+      "status": "needs_review",
+      "flags": [
+        {
+          "severity": "warning",
+          "category": "extraction",
+          "code": "EXTRACT_LOW_CONF",
+          "message": "Low extraction confidence (0.8); verify the value",
+          "expected": null,
+          "actual": null
+        }
+      ]
+    },
+    {
+      "id": "f_02b1de2c73e8",
+      "page_no": 16,
+      "chapter": "",
+      "role": null,
+      "label": "Batter Pump - Anlagennummer",
+      "value": "A4265",
+      "value_raw": "A4265",
+      "unit": null,
+      "nks": null,
+      "bbox": [
+        0.11729141475211609,
+        0.4144568006843456,
+        0.9026602176541717,
+        0.6847733105218136
+      ],
+      "confidence": 0.991,
+      "status": "auto_accepted",
+      "flags": []
+    },
+    {
+      "id": "f_51c054bf0a11",
+      "page_no": 16,
+      "chapter": "",
+      "role": null,
+      "label": "Batter Pump - Einsatzbereit gemäß RL-SOP-00796",
+      "value": "Ja",
+      "value_raw": "Ja",
+      "unit": null,
+      "nks": null,
+      "bbox": null,
+      "confidence": 0.8,
+      "status": "needs_review",
+      "flags": [
+        {
+          "severity": "warning",
+          "category": "extraction",
+          "code": "EXTRACT_LOW_CONF",
+          "message": "Low extraction confidence (0.8); verify the value",
+          "expected": null,
+          "actual": null
+        }
+      ]
+    },
+    {
+      "id": "f_0cedc43da4a4",
+      "page_no": 16,
+      "chapter": "",
+      "role": null,
+      "label": "Floor Scale - Anlagennummer",
+      "value": "A321",
+      "value_raw": "A321",
+      "unit": null,
+      "nks": null,
+      "bbox": [
+        0.11729141475211609,
+        0.4144568006843456,
+        0.9026602176541717,
+        0.6847733105218136
+      ],
+      "confidence": 0.991,
+      "status": "auto_accepted",
+      "flags": []
+    },
+    {
+      "id": "f_529b8b0bd8e5",
+      "page_no": 16,
+      "chapter": "",
+      "role": null,
+      "label": "Floor Scale - Einsatzbereit gemäß RL-SOP-00796",
+      "value": "Kein Einsatz",
+      "value_raw": "Kein Einsatz",
+      "unit": null,
+      "nks": null,
+      "bbox": null,
+      "confidence": 0.8,
+      "status": "needs_review",
+      "flags": [
+        {
+          "severity": "warning",
+          "category": "extraction",
+          "code": "EXTRACT_LOW_CONF",
+          "message": "Low extraction confidence (0.8); verify the value",
+          "expected": null,
+          "actual": null
+        }
+      ]
+    },
+    {
+      "id": "f_9f076cde692a",
+      "page_no": 16,
+      "chapter": "",
+      "role": null,
+      "label": "Bench Scale - Anlagennummer",
+      "value": "A45978",
+      "value_raw": "A45978",
+      "unit": null,
+      "nks": null,
+      "bbox": [
+        0.11729141475211609,
+        0.4144568006843456,
+        0.9026602176541717,
+        0.6847733105218136
+      ],
+      "confidence": 0.991,
+      "status": "auto_accepted",
+      "flags": []
+    },
+    {
+      "id": "f_8773456397ea",
+      "page_no": 16,
+      "chapter": "",
+      "role": null,
+      "label": "Bench Scale - Einsatzbereit gemäß RL-SOP-00796",
+      "value": "Ja",
+      "value_raw": "Ja",
+      "unit": null,
+      "nks": null,
+      "bbox": null,
+      "confidence": 0.8,
+      "status": "needs_review",
+      "flags": [
+        {
+          "severity": "warning",
+          "category": "extraction",
+          "code": "EXTRACT_LOW_CONF",
+          "message": "Low extraction confidence (0.8); verify the value",
+          "expected": null,
+          "actual": null
+        }
+      ]
+    },
+    {
+      "id": "f_02cedd394034",
+      "page_no": 16,
+      "chapter": "",
+      "role": null,
+      "label": "Bowl Rocker - Anlagennummer",
+      "value": "A32141",
+      "value_raw": "A32141",
+      "unit": null,
+      "nks": null,
+      "bbox": [
+        0.11729141475211609,
+        0.4144568006843456,
+        0.9026602176541717,
+        0.6847733105218136
+      ],
+      "confidence": 0.991,
+      "status": "auto_accepted",
+      "flags": []
+    },
+    {
+      "id": "f_d0094f530031",
+      "page_no": 16,
+      "chapter": "",
+      "role": null,
+      "label": "Bowl Rocker - Einsatzbereit gemäß RL-SOP-00796",
+      "value": "Ja",
+      "value_raw": "Ja",
+      "unit": null,
+      "nks": null,
+      "bbox": null,
+      "confidence": 0.8,
+      "status": "needs_review",
+      "flags": [
+        {
+          "severity": "warning",
+          "category": "extraction",
+          "code": "EXTRACT_LOW_CONF",
+          "message": "Low extraction confidence (0.8); verify the value",
+          "expected": null,
+          "actual": null
+        }
+      ]
+    },
+    {
+      "id": "f_cbadb38e1ce4",
+      "page_no": 17,
+      "chapter": "",
+      "role": "hold_start",
+      "label": "Start Überführung",
+      "value": "09:26:00",
+      "value_raw": "9:26",
+      "unit": "Uhr",
+      "nks": null,
+      "bbox": [
+        0.7388149939540508,
+        0.2583404619332763,
+        0.8137847642079806,
+        0.27844311377245506
+      ],
+      "confidence": 0.997,
+      "status": "auto_accepted",
+      "flags": []
+    },
+    {
+      "id": "f_b42e3a9507c9",
+      "page_no": 17,
+      "chapter": "",
+      "role": "hold_end",
+      "label": "Ende Überführung",
+      "value": "10:12:00",
+      "value_raw": "10:12",
+      "unit": "Uhr",
+      "nks": null,
+      "bbox": [
+        0.7176541717049577,
+        0.28528656971770744,
+        0.7998790810157195,
+        0.3704020530367836
+      ],
+      "confidence": 0.993,
+      "status": "auto_accepted",
+      "flags": []
+    },
+    {
+      "id": "f_83b1bd6561f6",
+      "page_no": 17,
+      "chapter": "",
+      "role": null,
+      "label": "Wippgeschwindigkeit",
+      "value": "32",
+      "value_raw": "32",
+      "unit": "Hübe/min",
+      "nks": null,
+      "bbox": [
+        0.7315598548972189,
+        0.31736526946107785,
+        0.772067714631197,
+        0.34046193327630453
+      ],
+      "confidence": 0.4,
+      "status": "needs_review",
+      "flags": [
+        {
+          "severity": "error",
+          "category": "range",
+          "code": "RANGE_SOLL",
+          "message": "32.0 above Soll max 30.0",
+          "expected": "<= 30.0",
+          "actual": "32.0"
+        }
+      ]
+    },
+    {
+      "id": "f_49fc1fff442a",
+      "page_no": 17,
+      "chapter": "",
+      "role": "hold_start",
+      "label": "Start Homogenisieren",
+      "value": "10:12:00",
+      "value_raw": "10:12",
+      "unit": "Uhr",
+      "nks": null,
+      "bbox": [
+        0.7176541717049577,
+        0.28528656971770744,
+        0.7998790810157195,
+        0.3704020530367836
+      ],
+      "confidence": 0.993,
+      "status": "auto_accepted",
+      "flags": []
+    },
+    {
+      "id": "f_0bd6f0fe2dd1",
+      "page_no": 17,
+      "chapter": "",
+      "role": "hold_end",
+      "label": "Ende Homogenisieren",
+      "value": "10:24:00",
+      "value_raw": "10:24",
+      "unit": "Uhr",
+      "nks": null,
+      "bbox": [
+        0.7128174123337364,
+        0.37852865697177074,
+        0.8035066505441354,
+        0.39820359281437123
+      ],
+      "confidence": 0.999,
+      "status": "auto_accepted",
+      "flags": []
+    },
+    {
+      "id": "f_c72065d60463",
+      "page_no": 17,
+      "chapter": "",
+      "role": "hold_end",
+      "label": "Dauer Homogenisieren nach Ende Überführung",
+      "value": "12",
+      "value_raw": "12",
+      "unit": "min",
+      "nks": null,
+      "bbox": [
+        0.7297460701330108,
+        0.41060735671514115,
+        0.7636033857315598,
+        0.42857142857142855
+      ],
+      "confidence": 0.996,
+      "status": "auto_accepted",
+      "flags": []
+    },
+    {
+      "id": "f_8e72db78c461",
+      "page_no": 17,
+      "chapter": "",
+      "role": null,
+      "label": "Neues Intermediat",
+      "value": "B20-ST 9784 697",
+      "value_raw": "B20-ST 9784 697",
+      "unit": null,
+      "nks": null,
+      "bbox": [
+        0.7097944377267231,
+        0.4354148845166809,
+        0.8869407496977025,
+        0.4585115483319076
+      ],
+      "confidence": 0.938,
+      "status": "auto_accepted",
+      "flags": []
+    },
+    {
+      "id": "f_4761d7977af2",
+      "page_no": 17,
+      "chapter": "",
+      "role": "signature_processed",
+      "label": "Bearbeitet",
+      "value": "10.06.2028 / dkr",
+      "value_raw": "10.06.2028 / dkr",
+      "unit": null,
+      "nks": null,
+      "bbox": null,
+      "confidence": 0.8,
+      "status": "needs_review",
+      "flags": [
+        {
+          "severity": "warning",
+          "category": "extraction",
+          "code": "EXTRACT_LOW_CONF",
+          "message": "Low extraction confidence (0.8); verify the value",
+          "expected": null,
+          "actual": null
+        }
+      ]
+    },
+    {
+      "id": "f_9d992810fa35",
+      "page_no": 17,
+      "chapter": "",
+      "role": "signature_checked",
+      "label": "Geprüft",
+      "value": "10.06.2028 / hah",
+      "value_raw": "10.06.2028 / hah",
+      "unit": null,
+      "nks": null,
+      "bbox": null,
+      "confidence": 0.8,
+      "status": "needs_review",
+      "flags": [
+        {
+          "severity": "warning",
+          "category": "extraction",
+          "code": "EXTRACT_LOW_CONF",
+          "message": "Low extraction confidence (0.8); verify the value",
+          "expected": null,
+          "actual": null
+        }
+      ]
+    },
+    {
+      "id": "f_d4d716d27b50",
+      "page_no": 18,
+      "chapter": "",
+      "role": null,
+      "label": "Oven A - Anlagen-nummer",
+      "value": "A1473",
+      "value_raw": "A1473",
+      "unit": null,
+      "nks": null,
+      "bbox": [
+        0.11729141475211609,
+        0.23011120615911035,
+        0.9026602176541717,
+        0.5004277159965783
+      ],
+      "confidence": 0.99,
+      "status": "auto_accepted",
+      "flags": []
+    },
+    {
+      "id": "f_3b1d40a4ffac",
+      "page_no": 18,
+      "chapter": "",
+      "role": null,
+      "label": "Oven A - Einsatzbereit gemäß RL-SOP-00796",
+      "value": "Ja",
+      "value_raw": "Ja",
+      "unit": null,
+      "nks": null,
+      "bbox": null,
+      "confidence": 0.8,
+      "status": "needs_review",
+      "flags": [
+        {
+          "severity": "warning",
+          "category": "extraction",
+          "code": "EXTRACT_LOW_CONF",
+          "message": "Low extraction confidence (0.8); verify the value",
+          "expected": null,
+          "actual": null
+        }
+      ]
+    },
+    {
+      "id": "f_ce801be5cf15",
+      "page_no": 18,
+      "chapter": "",
+      "role": null,
+      "label": "Floor Scale - Anlagen-nummer",
+      "value": "A3215",
+      "value_raw": "A3215",
+      "unit": null,
+      "nks": null,
+      "bbox": [
+        0.11729141475211609,
+        0.23011120615911035,
+        0.9026602176541717,
+        0.5004277159965783
+      ],
+      "confidence": 0.99,
+      "status": "auto_accepted",
+      "flags": []
+    },
+    {
+      "id": "f_964b5690cfaf",
+      "page_no": 18,
+      "chapter": "",
+      "role": null,
+      "label": "Floor Scale - Einsatzbereit gemäß RL-SOP-00796",
+      "value": "Kein Einsatz",
+      "value_raw": "Kein Einsatz",
+      "unit": null,
+      "nks": null,
+      "bbox": null,
+      "confidence": 0.8,
+      "status": "needs_review",
+      "flags": [
+        {
+          "severity": "warning",
+          "category": "extraction",
+          "code": "EXTRACT_LOW_CONF",
+          "message": "Low extraction confidence (0.8); verify the value",
+          "expected": null,
+          "actual": null
+        }
+      ]
+    },
+    {
+      "id": "f_9e3bf8872955",
+      "page_no": 18,
+      "chapter": "",
+      "role": null,
+      "label": "Bench Scale - Anlagen-nummer",
+      "value": "A5114",
+      "value_raw": "A5114",
+      "unit": null,
+      "nks": null,
+      "bbox": [
+        0.11729141475211609,
+        0.23011120615911035,
+        0.9026602176541717,
+        0.5004277159965783
+      ],
+      "confidence": 0.99,
+      "status": "auto_accepted",
+      "flags": []
+    },
+    {
+      "id": "f_7853f0d7267b",
+      "page_no": 18,
+      "chapter": "",
+      "role": null,
+      "label": "Bench Scale - Einsatzbereit gemäß RL-SOP-00796",
+      "value": "Ja",
+      "value_raw": "Ja",
+      "unit": null,
+      "nks": null,
+      "bbox": null,
+      "confidence": 0.8,
+      "status": "needs_review",
+      "flags": [
+        {
+          "severity": "warning",
+          "category": "extraction",
+          "code": "EXTRACT_LOW_CONF",
+          "message": "Low extraction confidence (0.8); verify the value",
+          "expected": null,
+          "actual": null
+        }
+      ]
+    },
+    {
+      "id": "f_3eed61315ac2",
+      "page_no": 18,
+      "chapter": "",
+      "role": null,
+      "label": "Bowl Rocker - Anlagen-nummer",
+      "value": "A4662",
+      "value_raw": "A4662",
+      "unit": null,
+      "nks": null,
+      "bbox": [
+        0.11729141475211609,
+        0.23011120615911035,
+        0.9026602176541717,
+        0.5004277159965783
+      ],
+      "confidence": 0.99,
+      "status": "auto_accepted",
+      "flags": []
+    },
+    {
+      "id": "f_893058a7751a",
+      "page_no": 18,
+      "chapter": "",
+      "role": null,
+      "label": "Bowl Rocker - Einsatzbereit gemäß RL-SOP-00796",
+      "value": "Kein Einsatz",
+      "value_raw": "Kein Einsatz",
+      "unit": null,
+      "nks": null,
+      "bbox": null,
+      "confidence": 0.8,
+      "status": "needs_review",
+      "flags": [
+        {
+          "severity": "warning",
+          "category": "extraction",
+          "code": "EXTRACT_LOW_CONF",
+          "message": "Low extraction confidence (0.8); verify the value",
+          "expected": null,
+          "actual": null
+        }
+      ]
+    },
+    {
+      "id": "f_b00fd3b03ebc",
+      "page_no": 18,
+      "chapter": "",
+      "role": null,
+      "label": "Thermometer / Moisture Meter - Anlagen-nummer",
+      "value": "A8498",
+      "value_raw": "A8498",
+      "unit": null,
+      "nks": null,
+      "bbox": [
+        0.11729141475211609,
+        0.23011120615911035,
+        0.9026602176541717,
+        0.5004277159965783
+      ],
+      "confidence": 0.99,
+      "status": "auto_accepted",
+      "flags": []
+    },
+    {
+      "id": "f_265ebdc22348",
+      "page_no": 18,
+      "chapter": "",
+      "role": null,
+      "label": "Thermometer / Moisture Meter - Einsatzbereit gemäß RL-SOP-00796",
+      "value": "Ja",
+      "value_raw": "Ja",
+      "unit": null,
+      "nks": null,
+      "bbox": null,
+      "confidence": 0.8,
+      "status": "needs_review",
+      "flags": [
+        {
+          "severity": "warning",
+          "category": "extraction",
+          "code": "EXTRACT_LOW_CONF",
+          "message": "Low extraction confidence (0.8); verify the value",
+          "expected": null,
+          "actual": null
+        }
+      ]
+    },
+    {
+      "id": "f_62f86d7901f1",
+      "page_no": 18,
+      "chapter": "",
+      "role": "signature_processed",
+      "label": "Bearbeitet (Datum/Kürzel)",
+      "value": "10.06.2026 / ohp",
+      "value_raw": "10.06.2026 / ohp",
+      "unit": null,
+      "nks": null,
+      "bbox": [
+        0.11729141475211609,
+        0.23011120615911035,
+        0.9026602176541717,
+        0.5004277159965783
+      ],
+      "confidence": 0.99,
+      "status": "auto_accepted",
+      "flags": []
+    },
+    {
+      "id": "f_500acaf3a49b",
+      "page_no": 18,
+      "chapter": "",
+      "role": "signature_checked",
+      "label": "Geprüft (Datum/Kürzel)",
+      "value": "10.06.2026 / häh",
+      "value_raw": "10.06.2026 / häh",
+      "unit": null,
+      "nks": null,
+      "bbox": [
+        0.11729141475211609,
+        0.23011120615911035,
+        0.9026602176541717,
+        0.5004277159965783
+      ],
+      "confidence": 0.99,
+      "status": "auto_accepted",
+      "flags": []
+    },
+    {
+      "id": "f_56dc65a260f1",
+      "page_no": 19,
+      "chapter": "",
+      "role": null,
+      "label": "Nur ein B10-PP vorhanden?",
+      "value": "Ja, Übertrag der Daten aus Kapitel 5.3.1",
+      "value_raw": "Ja, Übertrag der Daten aus Kapitel 5.3.1",
+      "unit": null,
+      "nks": null,
+      "bbox": [
+        0.11910519951632406,
+        0.20402053036783577,
+        0.9068923821039904,
+        0.7207014542343884
+      ],
+      "confidence": 0.992,
+      "status": "auto_accepted",
+      "flags": []
+    },
+    {
+      "id": "f_96d7e2d8a7ad",
+      "page_no": 19,
+      "chapter": "",
+      "role": null,
+      "label": "B20-ST 95186",
+      "value": "327",
+      "value_raw": "327",
+      "unit": null,
+      "nks": null,
+      "bbox": [
+        0.11910519951632406,
+        0.20402053036783577,
+        0.9068923821039904,
+        0.7207014542343884
+      ],
+      "confidence": 0.992,
+      "status": "auto_accepted",
+      "flags": []
+    },
+    {
+      "id": "f_abe35fa8f7ae",
+      "page_no": 19,
+      "chapter": "",
+      "role": "tare_mass",
+      "label": "m Tara",
+      "value": "127",
+      "value_raw": "127",
+      "unit": "kg",
+      "nks": null,
+      "bbox": [
+        0.11910519951632406,
+        0.20402053036783577,
+        0.9068923821039904,
+        0.7207014542343884
+      ],
+      "confidence": 0.992,
+      "status": "auto_accepted",
+      "flags": []
+    },
+    {
+      "id": "f_90a7ba79620f",
+      "page_no": 19,
+      "chapter": "",
+      "role": "gross_mass",
+      "label": "m Brutto vPz",
+      "value": "427",
+      "value_raw": "427",
+      "unit": "kg",
+      "nks": null,
+      "bbox": [
+        0.11910519951632406,
+        0.20402053036783577,
+        0.9068923821039904,
+        0.7207014542343884
+      ],
+      "confidence": 0.992,
+      "status": "auto_accepted",
+      "flags": []
+    },
+    {
+      "id": "f_2bf8eb32c388",
+      "page_no": 19,
+      "chapter": "",
+      "role": "net_mass",
+      "label": "m Netto vPz",
+      "value": "300",
+      "value_raw": "300",
+      "unit": "kg",
+      "nks": null,
+      "bbox": [
+        0.11910519951632406,
+        0.20402053036783577,
+        0.9068923821039904,
+        0.7207014542343884
+      ],
+      "confidence": 0.992,
+      "status": "auto_accepted",
+      "flags": []
+    },
+    {
+      "id": "f_d8357341f1ef",
+      "page_no": 19,
+      "chapter": "",
+      "role": "volume",
+      "label": "V Netto vPz",
+      "value": "543",
+      "value_raw": "543",
+      "unit": "L",
+      "nks": null,
+      "bbox": [
+        0.11910519951632406,
+        0.20402053036783577,
+        0.9068923821039904,
+        0.7207014542343884
+      ],
+      "confidence": 0.992,
+      "status": "auto_accepted",
+      "flags": []
+    },
+    {
+      "id": "f_40c05f373309",
+      "page_no": 19,
+      "chapter": "",
+      "role": null,
+      "label": "Proben (GPDSP) gemäß BK-MAN-01825 erforderlich (siehe Kapitel 6.7.4)",
+      "value": "Ja",
+      "value_raw": "Ja",
+      "unit": null,
+      "nks": null,
+      "bbox": null,
+      "confidence": 0.8,
+      "status": "needs_review",
+      "flags": [
+        {
+          "severity": "warning",
+          "category": "extraction",
+          "code": "EXTRACT_LOW_CONF",
+          "message": "Low extraction confidence (0.8); verify the value",
+          "expected": null,
+          "actual": null
+        }
+      ]
+    },
+    {
+      "id": "f_291ea886a2e7",
+      "page_no": 19,
+      "chapter": "",
+      "role": null,
+      "label": "Proben (QC) gemäß BK-MAN-16865 erforderlich",
+      "value": "Ja",
+      "value_raw": "Ja",
+      "unit": null,
+      "nks": null,
+      "bbox": null,
+      "confidence": 0.8,
+      "status": "needs_review",
+      "flags": [
+        {
+          "severity": "warning",
+          "category": "extraction",
+          "code": "EXTRACT_LOW_CONF",
+          "message": "Low extraction confidence (0.8); verify the value",
+          "expected": null,
+          "actual": null
+        }
+      ]
+    },
+    {
+      "id": "f_ddd9ef37d2ab",
+      "page_no": 19,
+      "chapter": "",
+      "role": null,
+      "label": "Proben gemäß Sonderprobenzugsplan erforderlich",
+      "value": "Nein",
+      "value_raw": "Nein",
+      "unit": null,
+      "nks": null,
+      "bbox": null,
+      "confidence": 0.8,
+      "status": "needs_review",
+      "flags": [
+        {
+          "severity": "warning",
+          "category": "extraction",
+          "code": "EXTRACT_LOW_CONF",
+          "message": "Low extraction confidence (0.8); verify the value",
+          "expected": null,
+          "actual": null
+        }
+      ]
+    },
+    {
+      "id": "f_fda10d6db98c",
+      "page_no": 19,
+      "chapter": "",
+      "role": null,
+      "label": "Taste Sample aller Proben nach Überprüfung in LIMS durchgeführt",
+      "value": "Ja",
+      "value_raw": "Ja",
+      "unit": null,
+      "nks": null,
+      "bbox": null,
+      "confidence": 0.8,
+      "status": "needs_review",
+      "flags": [
+        {
+          "severity": "warning",
+          "category": "extraction",
+          "code": "EXTRACT_LOW_CONF",
+          "message": "Low extraction confidence (0.8); verify the value",
+          "expected": null,
+          "actual": null
+        }
+      ]
+    },
+    {
+      "id": "f_619a82df9f4b",
+      "page_no": 19,
+      "chapter": "",
+      "role": "gross_mass",
+      "label": "m Brutto nPZ",
+      "value": "527",
+      "value_raw": "527",
+      "unit": "kg",
+      "nks": null,
+      "bbox": [
+        0.11910519951632406,
+        0.20402053036783577,
+        0.9068923821039904,
+        0.7207014542343884
+      ],
+      "confidence": 0.992,
+      "status": "auto_accepted",
+      "flags": []
+    },
+    {
+      "id": "f_cc4617974a9a",
+      "page_no": 19,
+      "chapter": "",
+      "role": "net_mass",
+      "label": "m Netto nPZ",
+      "value": "395",
+      "value_raw": "395",
+      "unit": "kg",
+      "nks": null,
+      "bbox": [
+        0.11910519951632406,
+        0.20402053036783577,
+        0.9068923821039904,
+        0.7207014542343884
+      ],
+      "confidence": 0.992,
+      "status": "auto_accepted",
+      "flags": []
+    },
+    {
+      "id": "f_0f06a24cd26c",
+      "page_no": 19,
+      "chapter": "",
+      "role": "volume",
+      "label": "V Netto nPZ",
+      "value": "715",
+      "value_raw": "715",
+      "unit": "L",
+      "nks": null,
+      "bbox": [
+        0.11910519951632406,
+        0.20402053036783577,
+        0.9068923821039904,
+        0.7207014542343884
+      ],
+      "confidence": 0.992,
+      "status": "auto_accepted",
+      "flags": []
+    },
+    {
+      "id": "f_5868b08f7215",
+      "page_no": 19,
+      "chapter": "",
+      "role": "signature_processed",
+      "label": "Bearbeitet",
+      "value": "10.06.2026 / ohe",
+      "value_raw": "10.06.2026 / ohe",
+      "unit": null,
+      "nks": null,
+      "bbox": [
+        0.11910519951632406,
+        0.73267750213858,
+        0.8766626360338573,
+        0.7917023096663816
+      ],
+      "confidence": 0.975,
+      "status": "auto_accepted",
+      "flags": []
+    },
+    {
+      "id": "f_4bb760719ddf",
+      "page_no": 19,
+      "chapter": "",
+      "role": "signature_checked",
+      "label": "Geprüft",
+      "value": "10.06.2026 / han",
+      "value_raw": "10.06.2026 / han",
+      "unit": null,
+      "nks": null,
+      "bbox": [
+        0.11910519951632406,
+        0.73267750213858,
+        0.8766626360338573,
+        0.7917023096663816
+      ],
+      "confidence": 0.975,
+      "status": "auto_accepted",
+      "flags": []
+    },
+    {
+      "id": "f_e02221d6f0cd",
+      "page_no": 20,
+      "chapter": "",
+      "role": null,
+      "label": "LIMS basierten Probenzug durchgeführt",
+      "value": "Ja",
+      "value_raw": "Ja",
+      "unit": null,
+      "nks": null,
+      "bbox": null,
+      "confidence": 0.8,
+      "status": "needs_review",
+      "flags": [
+        {
+          "severity": "warning",
+          "category": "extraction",
+          "code": "EXTRACT_LOW_CONF",
+          "message": "Low extraction confidence (0.8); verify the value",
+          "expected": null,
+          "actual": null
+        }
+      ]
+    },
+    {
+      "id": "f_4f2ac1d91029",
+      "page_no": 20,
+      "chapter": "",
+      "role": null,
+      "label": "Probenzug",
+      "value": "15:26:00",
+      "value_raw": "15:26",
+      "unit": "Uhr",
+      "nks": null,
+      "bbox": [
+        0.11487303506650544,
+        0.19931565440547477,
+        0.9020556227327691,
+        0.7775876817792986
+      ],
+      "confidence": 1.0,
+      "status": "auto_accepted",
+      "flags": []
+    },
+    {
+      "id": "f_3ee7d6cad9df",
+      "page_no": 20,
+      "chapter": "",
+      "role": null,
+      "label": "Probenzugsetikett(en) auf Probe(n) mit eingeklebtem(n) Etikett(en) identisch",
+      "value": "Ja",
+      "value_raw": "Ja",
+      "unit": null,
+      "nks": null,
+      "bbox": null,
+      "confidence": 0.8,
+      "status": "needs_review",
+      "flags": [
+        {
+          "severity": "warning",
+          "category": "extraction",
+          "code": "EXTRACT_LOW_CONF",
+          "message": "Low extraction confidence (0.8); verify the value",
+          "expected": null,
+          "actual": null
+        }
+      ]
+    },
+    {
+      "id": "f_498074fbbbb1",
+      "page_no": 20,
+      "chapter": "",
+      "role": null,
+      "label": "A representative taste and appearance sample is taken from the batter or baked cake according to the defined sampling plan. The label is verified, the sample is stored appropriately, and the observation is documented in a GMP-like manner for traceability.",
+      "value": "Ja",
+      "value_raw": "Ja",
+      "unit": null,
+      "nks": null,
+      "bbox": null,
+      "confidence": 0.8,
+      "status": "needs_review",
+      "flags": [
+        {
+          "severity": "warning",
+          "category": "extraction",
+          "code": "EXTRACT_LOW_CONF",
+          "message": "Low extraction confidence (0.8); verify the value",
+          "expected": null,
+          "actual": null
+        }
+      ]
+    },
+    {
+      "id": "f_93225cb50d9d",
+      "page_no": 20,
+      "chapter": "",
+      "role": null,
+      "label": "Plan für betroffene Prozessstufe vollständig (grün)",
+      "value": "Ja",
+      "value_raw": "Ja",
+      "unit": null,
+      "nks": null,
+      "bbox": null,
+      "confidence": 0.8,
+      "status": "needs_review",
+      "flags": [
+        {
+          "severity": "warning",
+          "category": "extraction",
+          "code": "EXTRACT_LOW_CONF",
+          "message": "Low extraction confidence (0.8); verify the value",
+          "expected": null,
+          "actual": null
+        }
+      ]
+    },
+    {
+      "id": "f_a76a98804372",
+      "page_no": 20,
+      "chapter": "",
+      "role": "signature_processed",
+      "label": "Bearbeitet",
+      "value": "10.06.2026 / che",
+      "value_raw": "10.06.2026 / che",
+      "unit": null,
+      "nks": null,
+      "bbox": [
+        0.4866989117291415,
+        0.804961505560308,
+        0.6444981862152358,
+        0.850727117194183
+      ],
+      "confidence": 0.998,
+      "status": "auto_accepted",
+      "flags": []
+    },
+    {
+      "id": "f_cd8524bbfe8a",
+      "page_no": 20,
+      "chapter": "",
+      "role": "signature_checked",
+      "label": "Geprüft",
+      "value": "10.06.2026 / hay",
+      "value_raw": "10.06.2026 / hay",
+      "unit": null,
+      "nks": null,
+      "bbox": [
+        0.4866989117291415,
+        0.804961505560308,
+        0.6444981862152358,
+        0.850727117194183
+      ],
+      "confidence": 0.998,
+      "status": "auto_accepted",
+      "flags": []
+    },
+    {
+      "id": "f_e26da69087a7",
+      "page_no": 21,
+      "chapter": "",
+      "role": null,
+      "label": "LF B20-ST",
+      "value": "14.34",
+      "value_raw": "14,34",
+      "unit": "mS/cm",
+      "nks": 2,
+      "bbox": [
+        0.727932285368803,
+        0.20829769033361847,
+        0.8095525997581621,
+        0.23139435414884515
+      ],
+      "confidence": 0.996,
+      "status": "auto_accepted",
+      "flags": []
+    },
+    {
+      "id": "f_03050ebb3906",
+      "page_no": 21,
+      "chapter": "",
+      "role": "signature_processed",
+      "label": "Bearbeitet",
+      "value": "10.06.2026 / ohe",
+      "value_raw": "10.06.2026 / ohe",
+      "unit": null,
+      "nks": null,
+      "bbox": [
+        0.4625151148730351,
+        0.2643284858853721,
+        0.6233373639661427,
+        0.31137724550898205
+      ],
+      "confidence": 0.997,
+      "status": "auto_accepted",
+      "flags": []
+    },
+    {
+      "id": "f_8bb165fc732d",
+      "page_no": 21,
+      "chapter": "",
+      "role": "signature_checked",
+      "label": "Geprüft",
+      "value": "10.06.2026 / hsu",
+      "value_raw": "10.06.2026 / hsu",
+      "unit": null,
+      "nks": null,
+      "bbox": [
+        0.4625151148730351,
+        0.2643284858853721,
+        0.6233373639661427,
+        0.31137724550898205
+      ],
+      "confidence": 0.997,
+      "status": "auto_accepted",
+      "flags": []
+    },
+    {
+      "id": "f_e62d3045ba08",
+      "page_no": 23,
+      "chapter": "",
+      "role": null,
+      "label": "Prozessverzögerung",
+      "value": "Nein, Kapitel findet keine Anwendung",
+      "value_raw": "Nein, Kapitel findet keine Anwendung",
+      "unit": null,
+      "nks": null,
+      "bbox": null,
+      "confidence": 0.8,
+      "status": "needs_review",
+      "flags": [
+        {
+          "severity": "warning",
+          "category": "extraction",
+          "code": "EXTRACT_LOW_CONF",
+          "message": "Low extraction confidence (0.8); verify the value",
+          "expected": null,
+          "actual": null
+        }
+      ]
+    },
+    {
+      "id": "f_a064d5d91695",
+      "page_no": 23,
+      "chapter": "",
+      "role": "signature_processed",
+      "label": "Bearbeitet",
+      "value": "10.06.2026 / ohe",
+      "value_raw": "10.06.2026 / ohe",
+      "unit": null,
+      "nks": null,
+      "bbox": [
+        0.11910519951632406,
+        0.3092386655260907,
+        0.9068923821039904,
+        0.7596236099230111
+      ],
+      "confidence": 0.989,
+      "status": "auto_accepted",
+      "flags": []
+    },
+    {
+      "id": "f_01abde83616f",
+      "page_no": 23,
+      "chapter": "",
+      "role": "signature_checked",
+      "label": "Geprüft",
+      "value": "10.06.2026 / ohe",
+      "value_raw": "10.06.2026 / ohe",
+      "unit": null,
+      "nks": null,
+      "bbox": [
+        0.11910519951632406,
+        0.3092386655260907,
+        0.9068923821039904,
+        0.7596236099230111
+      ],
+      "confidence": 0.4,
+      "status": "needs_review",
+      "flags": [
+        {
+          "severity": "error",
+          "category": "four_eyes",
+          "code": "4EYES_DISTINCT",
+          "message": "Bearbeitet and Gepruft signed by the same person",
+          "expected": "two different Kurzel",
+          "actual": "ohe"
+        }
+      ]
+    },
+    {
+      "id": "f_cb03df3c2339",
+      "page_no": 23,
+      "chapter": "",
+      "role": "hold_start",
+      "label": "Start Prozessverzögerung",
+      "value": "11:27:00",
+      "value_raw": "11:27",
+      "unit": "Uhr",
+      "nks": null,
+      "bbox": [
+        0.12031438935912939,
+        0.3964927288280582,
+        0.905683192261185,
+        0.4816082121471343
+      ],
+      "confidence": 0.987,
+      "status": "auto_accepted",
+      "flags": []
+    },
+    {
+      "id": "f_5b3e1cc03822",
+      "page_no": 23,
+      "chapter": "",
+      "role": "temperature_setpoint",
+      "label": "Haltetemperatur",
+      "value": "Ja",
+      "value_raw": "Ja",
+      "unit": "°C",
+      "nks": null,
+      "bbox": null,
+      "confidence": 0.8,
+      "status": "needs_review",
+      "flags": [
+        {
+          "severity": "warning",
+          "category": "extraction",
+          "code": "EXTRACT_LOW_CONF",
+          "message": "Low extraction confidence (0.8); verify the value",
+          "expected": null,
+          "actual": null
+        }
+      ]
+    },
+    {
+      "id": "f_610d764b9d1a",
+      "page_no": 23,
+      "chapter": "",
+      "role": "signature_processed",
+      "label": "Bearbeitet",
+      "value": "10.06.2026 / ohe",
+      "value_raw": "10.06.2026 / ohe",
+      "unit": null,
+      "nks": null,
+      "bbox": [
+        0.11910519951632406,
+        0.3092386655260907,
+        0.9068923821039904,
+        0.7596236099230111
+      ],
+      "confidence": 0.989,
+      "status": "auto_accepted",
+      "flags": []
+    },
+    {
+      "id": "f_0438636eeed9",
+      "page_no": 23,
+      "chapter": "",
+      "role": "signature_checked",
+      "label": "Geprüft",
+      "value": "10.06.2026 / han",
+      "value_raw": "10.06.2026 / han",
+      "unit": null,
+      "nks": null,
+      "bbox": [
+        0.11910519951632406,
+        0.3092386655260907,
+        0.9068923821039904,
+        0.7596236099230111
+      ],
+      "confidence": 0.989,
+      "status": "auto_accepted",
+      "flags": []
+    },
+    {
+      "id": "f_8763b832dfd3",
+      "page_no": 23,
+      "chapter": "",
+      "role": "hold_end",
+      "label": "Ende Prozessverzögerung",
+      "value": "12:27:00",
+      "value_raw": "12:27",
+      "unit": "Uhr",
+      "nks": null,
+      "bbox": [
+        0.11910519951632406,
+        0.5714285714285714,
+        0.905683192261185,
+        0.6804961505560307
+      ],
+      "confidence": 0.99,
+      "status": "auto_accepted",
+      "flags": []
+    },
+    {
+      "id": "f_ccf5b1f9cff5",
+      "page_no": 23,
+      "chapter": "",
+      "role": null,
+      "label": "Tatsächliche Prozessverzögerung",
+      "value": "02:00:00",
+      "value_raw": "2:00",
+      "unit": "h",
+      "nks": null,
+      "bbox": [
+        0.11910519951632406,
+        0.5714285714285714,
+        0.905683192261185,
+        0.6804961505560307
+      ],
+      "confidence": 0.99,
+      "status": "auto_accepted",
+      "flags": []
+    },
+    {
+      "id": "f_2bb55ae5c6f8",
+      "page_no": 23,
+      "chapter": "",
+      "role": null,
+      "label": "Prozessverzögerung > 4 h",
+      "value": "Nein",
+      "value_raw": "Nein",
+      "unit": null,
+      "nks": null,
+      "bbox": null,
+      "confidence": 0.8,
+      "status": "needs_review",
+      "flags": [
+        {
+          "severity": "warning",
+          "category": "extraction",
+          "code": "EXTRACT_LOW_CONF",
+          "message": "Low extraction confidence (0.8); verify the value",
+          "expected": null,
+          "actual": null
+        }
+      ]
+    },
+    {
+      "id": "f_9654bb91cc88",
+      "page_no": 23,
+      "chapter": "",
+      "role": "signature_processed",
+      "label": "Bearbeitet",
+      "value": "10.06.2026 / ohe",
+      "value_raw": "10.06.2026 / ohe",
+      "unit": null,
+      "nks": null,
+      "bbox": [
+        0.11910519951632406,
+        0.3092386655260907,
+        0.9068923821039904,
+        0.7596236099230111
+      ],
+      "confidence": 0.989,
+      "status": "auto_accepted",
+      "flags": []
+    },
+    {
+      "id": "f_3e9ecd04f92e",
+      "page_no": 23,
+      "chapter": "",
+      "role": "signature_checked",
+      "label": "Geprüft",
+      "value": "10.06.2026 / han",
+      "value_raw": "10.06.2026 / han",
+      "unit": null,
+      "nks": null,
+      "bbox": [
+        0.11910519951632406,
+        0.3092386655260907,
+        0.9068923821039904,
+        0.7596236099230111
+      ],
+      "confidence": 0.989,
+      "status": "auto_accepted",
+      "flags": []
+    },
+    {
+      "id": "f_9c1955fe8ddc",
+      "page_no": 24,
+      "chapter": "",
+      "role": null,
+      "label": "Charge",
+      "value": "1234567",
+      "value_raw": "1234567",
+      "unit": null,
+      "nks": null,
+      "bbox": [
+        0.11729141475211609,
+        0.19204448246364414,
+        0.9026602176541717,
+        0.4636441402908469
+      ],
+      "confidence": 0.985,
+      "status": "auto_accepted",
+      "flags": []
+    },
+    {
+      "id": "f_0d82792e3c4e",
+      "page_no": 24,
+      "chapter": "",
+      "role": null,
+      "label": "Ofenfreigabe erteilt zum",
+      "value": "2019-03-14",
+      "value_raw": "14.03.2019",
+      "unit": null,
+      "nks": null,
+      "bbox": [
+        0.11729141475211609,
+        0.19204448246364414,
+        0.9026602176541717,
+        0.4636441402908469
+      ],
+      "confidence": 0.985,
+      "status": "auto_accepted",
+      "flags": []
+    },
+    {
+      "id": "f_11768e6c325e",
+      "page_no": 24,
+      "chapter": "",
+      "role": null,
+      "label": "Baker Five",
+      "value": "3.78",
+      "value_raw": "3,78",
+      "unit": "cm",
+      "nks": null,
+      "bbox": [
+        0.11729141475211609,
+        0.19204448246364414,
+        0.9026602176541717,
+        0.4636441402908469
+      ],
+      "confidence": 0.985,
+      "status": "auto_accepted",
+      "flags": []
+    },
+    {
+      "id": "f_4ae098dce681",
+      "page_no": 24,
+      "chapter": "",
+      "role": null,
+      "label": "Baker Seven",
+      "value": "7.14",
+      "value_raw": "7,14",
+      "unit": "cm",
+      "nks": null,
+      "bbox": [
+        0.11729141475211609,
+        0.19204448246364414,
+        0.9026602176541717,
+        0.4636441402908469
+      ],
+      "confidence": 0.985,
+      "status": "auto_accepted",
+      "flags": []
+    },
+    {
+      "id": "f_8ff2ddf6e5b4",
+      "page_no": 24,
+      "chapter": "",
+      "role": "volume",
+      "label": "Baker Eigth",
+      "value": "1.62",
+      "value_raw": "1,62",
+      "unit": "L",
+      "nks": null,
+      "bbox": [
+        0.11729141475211609,
+        0.19204448246364414,
+        0.9026602176541717,
+        0.4636441402908469
+      ],
+      "confidence": 0.985,
+      "status": "auto_accepted",
+      "flags": []
+    },
+    {
+      "id": "f_1d2537e13d6e",
+      "page_no": 24,
+      "chapter": "",
+      "role": null,
+      "label": "Ofen in Oven List mit aufgelisteten Parametern erfasst",
+      "value": "Ja",
+      "value_raw": "Ja",
+      "unit": null,
+      "nks": null,
+      "bbox": null,
+      "confidence": 0.8,
+      "status": "needs_review",
+      "flags": [
+        {
+          "severity": "warning",
+          "category": "extraction",
+          "code": "EXTRACT_LOW_CONF",
+          "message": "Low extraction confidence (0.8); verify the value",
+          "expected": null,
+          "actual": null
+        }
+      ]
+    },
+    {
+      "id": "f_442500cefbc7",
+      "page_no": 24,
+      "chapter": "",
+      "role": "signature_processed",
+      "label": "Bearbeitet",
+      "value": "10.06.2025 / ohe",
+      "value_raw": "10.06.2025 / ohe",
+      "unit": null,
+      "nks": null,
+      "bbox": [
+        0.11729141475211609,
+        0.4743370402053037,
+        0.9026602176541717,
+        0.5406330196749358
+      ],
+      "confidence": 0.971,
+      "status": "auto_accepted",
+      "flags": []
+    },
+    {
+      "id": "f_8bb6e833c32c",
+      "page_no": 24,
+      "chapter": "",
+      "role": "signature_checked",
+      "label": "Geprüft",
+      "value": "10.06.2026 / hah",
+      "value_raw": "10.06.2026 / hah",
+      "unit": null,
+      "nks": null,
+      "bbox": [
+        0.11729141475211609,
+        0.4743370402053037,
+        0.9026602176541717,
+        0.7857142857142857
+      ],
+      "confidence": 0.971,
+      "status": "auto_accepted",
+      "flags": []
+    },
+    {
+      "id": "f_f9761074bb88",
+      "page_no": 24,
+      "chapter": "",
+      "role": "hold_end",
+      "label": "Zuletzt verwendet für Production Code",
+      "value": "57497 327",
+      "value_raw": "57497 327",
+      "unit": null,
+      "nks": null,
+      "bbox": [
+        0.11729141475211609,
+        0.5594525235243798,
+        0.9026602176541717,
+        0.7057313943541489
+      ],
+      "confidence": 0.986,
+      "status": "auto_accepted",
+      "flags": []
+    },
+    {
+      "id": "f_027383698b93",
+      "page_no": 24,
+      "chapter": "",
+      "role": null,
+      "label": "Anzahl der bisherigen Zyklen",
+      "value": "3",
+      "value_raw": "3",
+      "unit": null,
+      "nks": null,
+      "bbox": null,
+      "confidence": 0.8,
+      "status": "needs_review",
+      "flags": [
+        {
+          "severity": "warning",
+          "category": "extraction",
+          "code": "EXTRACT_LOW_CONF",
+          "message": "Low extraction confidence (0.8); verify the value",
+          "expected": null,
+          "actual": null
+        }
+      ]
+    },
+    {
+      "id": "f_f596eae2c0ad",
+      "page_no": 24,
+      "chapter": "",
+      "role": null,
+      "label": "Ofen in SAP ausgebucht",
+      "value": "Ja",
+      "value_raw": "Ja",
+      "unit": null,
+      "nks": null,
+      "bbox": null,
+      "confidence": 0.8,
+      "status": "needs_review",
+      "flags": [
+        {
+          "severity": "warning",
+          "category": "extraction",
+          "code": "EXTRACT_LOW_CONF",
+          "message": "Low extraction confidence (0.8); verify the value",
+          "expected": null,
+          "actual": null
+        }
+      ]
+    },
+    {
+      "id": "f_ab3765c54ad5",
+      "page_no": 24,
+      "chapter": "",
+      "role": null,
+      "label": "Testlauf der ChromatographieOfen „BAK B20 AXXXX SuitTest“ vor Verwendung durchgeführt und bestanden (nur bei Anzahl der bisherigen Zyklen ≥ 2)",
+      "value": "Ja",
+      "value_raw": "Ja",
+      "unit": null,
+      "nks": null,
+      "bbox": null,
+      "confidence": 0.8,
+      "status": "needs_review",
+      "flags": [
+        {
+          "severity": "warning",
+          "category": "extraction",
+          "code": "EXTRACT_LOW_CONF",
+          "message": "Low extraction confidence (0.8); verify the value",
+          "expected": null,
+          "actual": null
+        }
+      ]
+    },
+    {
+      "id": "f_8163c8ce35b7",
+      "page_no": 24,
+      "chapter": "",
+      "role": "signature_processed",
+      "label": "Bearbeitet",
+      "value": "10.06.2026 / ohe",
+      "value_raw": "10.06.2026 / ohe",
+      "unit": null,
+      "nks": null,
+      "bbox": [
+        0.11729141475211609,
+        0.4743370402053037,
+        0.9026602176541717,
+        0.7857142857142857
+      ],
+      "confidence": 0.971,
+      "status": "auto_accepted",
+      "flags": []
+    },
+    {
+      "id": "f_6599946bcc6c",
+      "page_no": 24,
+      "chapter": "",
+      "role": "signature_checked",
+      "label": "Geprüft",
+      "value": "10.06.2026 / hah",
+      "value_raw": "10.06.2026 / hah",
+      "unit": null,
+      "nks": null,
+      "bbox": [
+        0.11729141475211609,
+        0.4743370402053037,
+        0.9026602176541717,
+        0.7857142857142857
+      ],
+      "confidence": 0.971,
+      "status": "auto_accepted",
+      "flags": []
+    },
+    {
+      "id": "f_5702d35e8230",
+      "page_no": 25,
+      "chapter": "",
+      "role": "net_mass",
+      "label": "m B10-PP Netto nPZ z1",
+      "value": "321",
+      "value_raw": "321",
+      "unit": "kg",
+      "nks": null,
+      "bbox": [
+        0.11910519951632406,
+        0.1971770744225834,
+        0.9081015719467956,
+        0.7506415739948674
+      ],
+      "confidence": 0.989,
+      "status": "auto_accepted",
+      "flags": []
+    },
+    {
+      "id": "f_76f336f9181e",
+      "page_no": 25,
+      "chapter": "",
+      "role": "concentration",
+      "label": "c B10-PP z1",
+      "value": "4.35",
+      "value_raw": "4,35",
+      "unit": "g/L",
+      "nks": null,
+      "bbox": [
+        0.11910519951632406,
+        0.1971770744225834,
+        0.9081015719467956,
+        0.7506415739948674
+      ],
+      "confidence": 0.989,
+      "status": "auto_accepted",
+      "flags": []
+    },
+    {
+      "id": "f_a4f19657585a",
+      "page_no": 25,
+      "chapter": "",
+      "role": null,
+      "label": "m B10-PP z1",
+      "value": "1065",
+      "value_raw": "1065",
+      "unit": "g",
+      "nks": 0,
+      "bbox": [
+        0.11910519951632406,
+        0.1971770744225834,
+        0.9081015719467956,
+        0.7506415739948674
+      ],
+      "confidence": 0.989,
+      "status": "auto_accepted",
+      "flags": []
+    },
+    {
+      "id": "f_668952ef1390",
+      "page_no": 25,
+      "chapter": "",
+      "role": null,
+      "label": "B10 Zyklus 2 durchgeführt",
+      "value": "Ja",
+      "value_raw": "Ja",
+      "unit": null,
+      "nks": null,
+      "bbox": null,
+      "confidence": 0.8,
+      "status": "needs_review",
+      "flags": [
+        {
+          "severity": "warning",
+          "category": "extraction",
+          "code": "EXTRACT_LOW_CONF",
+          "message": "Low extraction confidence (0.8); verify the value",
+          "expected": null,
+          "actual": null
+        }
+      ]
+    },
+    {
+      "id": "f_d051ecf3d0a7",
+      "page_no": 25,
+      "chapter": "",
+      "role": "net_mass",
+      "label": "m B10-PP Netto nPZ z2",
+      "value": "220",
+      "value_raw": "220",
+      "unit": "kg",
+      "nks": null,
+      "bbox": [
+        0.11910519951632406,
+        0.1971770744225834,
+        0.9081015719467956,
+        0.7506415739948674
+      ],
+      "confidence": 0.989,
+      "status": "auto_accepted",
+      "flags": []
+    },
+    {
+      "id": "f_db2b25c5a705",
+      "page_no": 25,
+      "chapter": "",
+      "role": "concentration",
+      "label": "c B10-PP z2",
+      "value": "3.94",
+      "value_raw": "3,94",
+      "unit": "g/L",
+      "nks": null,
+      "bbox": [
+        0.11910519951632406,
+        0.1971770744225834,
+        0.9081015719467956,
+        0.7506415739948674
+      ],
+      "confidence": 0.989,
+      "status": "auto_accepted",
+      "flags": []
+    },
+    {
+      "id": "f_3d9abe464503",
+      "page_no": 25,
+      "chapter": "",
+      "role": null,
+      "label": "m B10-PP z2",
+      "value": "479",
+      "value_raw": "479",
+      "unit": "g",
+      "nks": 0,
+      "bbox": [
+        0.11910519951632406,
+        0.1971770744225834,
+        0.9081015719467956,
+        0.7506415739948674
+      ],
+      "confidence": 0.989,
+      "status": "auto_accepted",
+      "flags": []
+    },
+    {
+      "id": "f_ba6eb3c2987f",
+      "page_no": 25,
+      "chapter": "",
+      "role": null,
+      "label": "m B10-PP z1",
+      "value": "1065",
+      "value_raw": "1065",
+      "unit": "g",
+      "nks": null,
+      "bbox": [
+        0.11910519951632406,
+        0.1971770744225834,
+        0.9081015719467956,
+        0.7506415739948674
+      ],
+      "confidence": 0.989,
+      "status": "auto_accepted",
+      "flags": []
+    },
+    {
+      "id": "f_643076dec67c",
+      "page_no": 25,
+      "chapter": "",
+      "role": null,
+      "label": "m B10-PP z2",
+      "value": "479",
+      "value_raw": "479",
+      "unit": "g",
+      "nks": null,
+      "bbox": [
+        0.11910519951632406,
+        0.1971770744225834,
+        0.9081015719467956,
+        0.7506415739948674
+      ],
+      "confidence": 0.989,
+      "status": "auto_accepted",
+      "flags": []
+    },
+    {
+      "id": "f_8968a617ca12",
+      "page_no": 25,
+      "chapter": "",
+      "role": null,
+      "label": "m B20-ST",
+      "value": "1544",
+      "value_raw": "1544",
+      "unit": "g",
+      "nks": 0,
+      "bbox": [
+        0.11910519951632406,
+        0.1971770744225834,
+        0.9081015719467956,
+        0.7506415739948674
+      ],
+      "confidence": 0.989,
+      "status": "auto_accepted",
+      "flags": []
+    },
+    {
+      "id": "f_656a3061b690",
+      "page_no": 25,
+      "chapter": "",
+      "role": "signature_processed",
+      "label": "Bearbeitet",
+      "value": "10.06.2026 / dhe",
+      "value_raw": "10.06.2026 / dhe",
+      "unit": null,
+      "nks": null,
+      "bbox": [
+        0.11910519951632406,
+        0.762617621899059,
+        0.8766626360338573,
+        0.8289136013686912
+      ],
+      "confidence": 0.965,
+      "status": "auto_accepted",
+      "flags": []
+    },
+    {
+      "id": "f_c3e4f98fb548",
+      "page_no": 25,
+      "chapter": "",
+      "role": "signature_checked",
+      "label": "Geprüft",
+      "value": "10.06.2026 / hgm",
+      "value_raw": "10.06.2026 / hgm",
+      "unit": null,
+      "nks": null,
+      "bbox": [
+        0.11910519951632406,
+        0.762617621899059,
+        0.8766626360338573,
+        0.8289136013686912
+      ],
+      "confidence": 0.965,
+      "status": "auto_accepted",
+      "flags": []
+    },
+    {
+      "id": "f_6419cbaa82aa",
+      "page_no": 26,
+      "chapter": "",
+      "role": null,
+      "label": "m B20-ST",
+      "value": "421",
+      "value_raw": "421",
+      "unit": "g",
+      "nks": null,
+      "bbox": [
+        0.11729141475211609,
+        0.19803250641573994,
+        0.9026602176541717,
+        0.42429426860564584
+      ],
+      "confidence": 0.989,
+      "status": "auto_accepted",
+      "flags": []
+    },
+    {
+      "id": "f_7338a5de222a",
+      "page_no": 26,
+      "chapter": "",
+      "role": "volume",
+      "label": "V Ofen BAK B20",
+      "value": "2",
+      "value_raw": "2",
+      "unit": "L",
+      "nks": null,
+      "bbox": null,
+      "confidence": 0.8,
+      "status": "needs_review",
+      "flags": [
+        {
+          "severity": "warning",
+          "category": "extraction",
+          "code": "EXTRACT_LOW_CONF",
+          "message": "Low extraction confidence (0.8); verify the value",
+          "expected": null,
+          "actual": null
+        }
+      ]
+    },
+    {
+      "id": "f_743733119bbc",
+      "page_no": 26,
+      "chapter": "",
+      "role": null,
+      "label": "Beladung",
+      "value": "211",
+      "value_raw": "211",
+      "unit": "g Cake/L Milk",
+      "nks": 0,
+      "bbox": [
+        0.11729141475211609,
+        0.19803250641573994,
+        0.9026602176541717,
+        0.42429426860564584
+      ],
+      "confidence": 0.989,
+      "status": "auto_accepted",
+      "flags": []
+    },
+    {
+      "id": "f_b7fc338cd104",
+      "page_no": 26,
+      "chapter": "",
+      "role": null,
+      "label": "Beladung eingehalten",
+      "value": "Nein, Anpassung der Beladung notwendig, Rücksprache mit Leiter",
+      "value_raw": "Nein, Anpassung der Beladung notwendig, Rücksprache mit Leiter",
+      "unit": null,
+      "nks": null,
+      "bbox": null,
+      "confidence": 0.8,
+      "status": "needs_review",
+      "flags": [
+        {
+          "severity": "warning",
+          "category": "extraction",
+          "code": "EXTRACT_LOW_CONF",
+          "message": "Low extraction confidence (0.8); verify the value",
+          "expected": null,
+          "actual": null
+        }
+      ]
+    },
+    {
+      "id": "f_912d9f3f7d5d",
+      "page_no": 26,
+      "chapter": "",
+      "role": null,
+      "label": "Oven Life Time von 5 Zyklen wird nicht überschritten",
+      "value": "Ja",
+      "value_raw": "Ja",
+      "unit": null,
+      "nks": null,
+      "bbox": null,
+      "confidence": 0.8,
+      "status": "needs_review",
+      "flags": [
+        {
+          "severity": "warning",
+          "category": "extraction",
+          "code": "EXTRACT_LOW_CONF",
+          "message": "Low extraction confidence (0.8); verify the value",
+          "expected": null,
+          "actual": null
+        }
+      ]
+    },
+    {
+      "id": "f_441082e653e4",
+      "page_no": 26,
+      "chapter": "",
+      "role": "signature_processed",
+      "label": "Bearbeitet",
+      "value": "10.06.2026 / ohp",
+      "value_raw": "10.06.2026 / ohp",
+      "unit": null,
+      "nks": null,
+      "bbox": [
+        0.11729141475211609,
+        0.4435414884516681,
+        0.9026602176541717,
+        0.5094097519247219
+      ],
+      "confidence": 0.981,
+      "status": "auto_accepted",
+      "flags": []
+    },
+    {
+      "id": "f_eeef58a7bfc2",
+      "page_no": 26,
+      "chapter": "",
+      "role": "signature_checked",
+      "label": "Geprüft",
+      "value": "10.06.2026 / hgh",
+      "value_raw": "10.06.2026 / hgh",
+      "unit": null,
+      "nks": null,
+      "bbox": [
+        0.11729141475211609,
+        0.4435414884516681,
+        0.9026602176541717,
+        0.5094097519247219
+      ],
+      "confidence": 0.981,
+      "status": "auto_accepted",
+      "flags": []
+    },
+    {
+      "id": "f_ffb2a697441b",
+      "page_no": 27,
+      "chapter": "",
+      "role": null,
+      "label": "Oven A Anlagen-nummer",
+      "value": "A4658",
+      "value_raw": "A4658",
+      "unit": null,
+      "nks": null,
+      "bbox": [
+        0.11910519951632406,
+        0.23438836612489308,
+        0.9068923821039904,
+        0.7288280581693756
+      ],
+      "confidence": 0.983,
+      "status": "auto_accepted",
+      "flags": []
+    },
+    {
+      "id": "f_66b3c6496522",
+      "page_no": 27,
+      "chapter": "",
+      "role": null,
+      "label": "Oven A Einsatzbereit gemäß RL-SOP-00796",
+      "value": "Ja",
+      "value_raw": "Ja",
+      "unit": null,
+      "nks": null,
+      "bbox": null,
+      "confidence": 0.8,
+      "status": "needs_review",
+      "flags": [
+        {
+          "severity": "warning",
+          "category": "extraction",
+          "code": "EXTRACT_LOW_CONF",
+          "message": "Low extraction confidence (0.8); verify the value",
+          "expected": null,
+          "actual": null
+        }
+      ]
+    },
+    {
+      "id": "f_4a527d2c2fad",
+      "page_no": 27,
+      "chapter": "",
+      "role": null,
+      "label": "Oven B Anlagen-nummer",
+      "value": "A3169",
+      "value_raw": "A3169",
+      "unit": null,
+      "nks": null,
+      "bbox": [
+        0.11910519951632406,
+        0.23438836612489308,
+        0.9068923821039904,
+        0.7288280581693756
+      ],
+      "confidence": 0.983,
+      "status": "auto_accepted",
+      "flags": []
+    },
+    {
+      "id": "f_275e4828a9e9",
+      "page_no": 27,
+      "chapter": "",
+      "role": null,
+      "label": "Oven B Einsatzbereit gemäß RL-SOP-00796",
+      "value": "Ja",
+      "value_raw": "Ja",
+      "unit": null,
+      "nks": null,
+      "bbox": null,
+      "confidence": 0.8,
+      "status": "needs_review",
+      "flags": [
+        {
+          "severity": "warning",
+          "category": "extraction",
+          "code": "EXTRACT_LOW_CONF",
+          "message": "Low extraction confidence (0.8); verify the value",
+          "expected": null,
+          "actual": null
+        }
+      ]
+    },
+    {
+      "id": "f_90bc93615ec4",
+      "page_no": 27,
+      "chapter": "",
+      "role": null,
+      "label": "Oven C Einsatzbereit gemäß RL-SOP-00796",
+      "value": "Ja",
+      "value_raw": "Ja",
+      "unit": null,
+      "nks": null,
+      "bbox": null,
+      "confidence": 0.8,
+      "status": "needs_review",
+      "flags": [
+        {
+          "severity": "warning",
+          "category": "extraction",
+          "code": "EXTRACT_LOW_CONF",
+          "message": "Low extraction confidence (0.8); verify the value",
+          "expected": null,
+          "actual": null
+        }
+      ]
+    },
+    {
+      "id": "f_f55460d3369e",
+      "page_no": 27,
+      "chapter": "",
+      "role": null,
+      "label": "Oven D Einsatzbereit gemäß RL-SOP-00796",
+      "value": "Ja",
+      "value_raw": "Ja",
+      "unit": null,
+      "nks": null,
+      "bbox": null,
+      "confidence": 0.8,
+      "status": "needs_review",
+      "flags": [
+        {
+          "severity": "warning",
+          "category": "extraction",
+          "code": "EXTRACT_LOW_CONF",
+          "message": "Low extraction confidence (0.8); verify the value",
+          "expected": null,
+          "actual": null
+        }
+      ]
+    },
+    {
+      "id": "f_535b82faafcf",
+      "page_no": 27,
+      "chapter": "",
+      "role": "signature_processed",
+      "label": "Bearbeitet (Datum/Kürzel)",
+      "value": "10.06.2026 / ohr",
+      "value_raw": "10.06.2026 / ohr",
+      "unit": null,
+      "nks": null,
+      "bbox": [
+        0.11910519951632406,
+        0.23438836612489308,
+        0.9068923821039904,
+        0.7288280581693756
+      ],
+      "confidence": 0.983,
+      "status": "auto_accepted",
+      "flags": []
+    },
+    {
+      "id": "f_83e15b668021",
+      "page_no": 27,
+      "chapter": "",
+      "role": "signature_checked",
+      "label": "Geprüft (Datum/Kürzel)",
+      "value": "10.06.2026 / hgn",
+      "value_raw": "10.06.2026 / hgn",
+      "unit": null,
+      "nks": null,
+      "bbox": [
+        0.11910519951632406,
+        0.23438836612489308,
+        0.9068923821039904,
+        0.7288280581693756
+      ],
+      "confidence": 0.983,
+      "status": "auto_accepted",
+      "flags": []
+    },
+    {
+      "id": "f_7f20c03a8e11",
+      "page_no": 28,
+      "chapter": "",
+      "role": null,
+      "label": "Cake Lead - Datum (TTMMJJJJ)",
+      "value": "17102025",
+      "value_raw": "17102025",
+      "unit": null,
+      "nks": null,
+      "bbox": [
+        0.12394195888754535,
+        0.27331052181351584,
+        0.8917775090689238,
+        0.7288280581693756
+      ],
+      "confidence": 1.0,
+      "status": "auto_accepted",
+      "flags": []
+    },
+    {
+      "id": "f_e0f0561a921d",
+      "page_no": 28,
+      "chapter": "",
+      "role": null,
+      "label": "Cake Lead",
+      "value": "Ja",
+      "value_raw": "Ja",
+      "unit": null,
+      "nks": null,
+      "bbox": null,
+      "confidence": 0.8,
+      "status": "needs_review",
+      "flags": [
+        {
+          "severity": "warning",
+          "category": "extraction",
+          "code": "EXTRACT_LOW_CONF",
+          "message": "Low extraction confidence (0.8); verify the value",
+          "expected": null,
+          "actual": null
+        }
+      ]
+    },
+    {
+      "id": "f_b32f17702487",
+      "page_no": 28,
+      "chapter": "",
+      "role": null,
+      "label": "Shift Baker",
+      "value": "2",
+      "value_raw": "2",
+      "unit": "mm",
+      "nks": null,
+      "bbox": null,
+      "confidence": 0.8,
+      "status": "needs_review",
+      "flags": [
+        {
+          "severity": "warning",
+          "category": "extraction",
+          "code": "EXTRACT_LOW_CONF",
+          "message": "Low extraction confidence (0.8); verify the value",
+          "expected": null,
+          "actual": null
+        }
+      ]
+    },
+    {
+      "id": "f_64c61b1591ea",
+      "page_no": 28,
+      "chapter": "",
+      "role": null,
+      "label": "Cake Pan BAK B10 angeschlossen als",
+      "value": "Ja",
+      "value_raw": "Ja",
+      "unit": null,
+      "nks": null,
+      "bbox": null,
+      "confidence": 0.8,
+      "status": "needs_review",
+      "flags": [
+        {
+          "severity": "warning",
+          "category": "extraction",
+          "code": "EXTRACT_LOW_CONF",
+          "message": "Low extraction confidence (0.8); verify the value",
+          "expected": null,
+          "actual": null
+        }
+      ]
+    },
+    {
+      "id": "f_c5a0ffa1cf4a",
+      "page_no": 28,
+      "chapter": "",
+      "role": null,
+      "label": "Ofenhandventile BAK B10",
+      "value": "Ja",
+      "value_raw": "Ja",
+      "unit": null,
+      "nks": null,
+      "bbox": null,
+      "confidence": 0.8,
+      "status": "needs_review",
+      "flags": [
+        {
+          "severity": "warning",
+          "category": "extraction",
+          "code": "EXTRACT_LOW_CONF",
+          "message": "Low extraction confidence (0.8); verify the value",
+          "expected": null,
+          "actual": null
+        }
+      ]
+    },
+    {
+      "id": "f_c86800993946",
+      "page_no": 28,
+      "chapter": "",
+      "role": null,
+      "label": "Cake Pan BAK B30 angeschlossen als",
+      "value": "Ja",
+      "value_raw": "Ja",
+      "unit": null,
+      "nks": null,
+      "bbox": null,
+      "confidence": 0.8,
+      "status": "needs_review",
+      "flags": [
+        {
+          "severity": "warning",
+          "category": "extraction",
+          "code": "EXTRACT_LOW_CONF",
+          "message": "Low extraction confidence (0.8); verify the value",
+          "expected": null,
+          "actual": null
+        }
+      ]
+    },
+    {
+      "id": "f_5af397b484aa",
+      "page_no": 28,
+      "chapter": "",
+      "role": null,
+      "label": "Ofenhandventile BAK B30",
+      "value": "Ja",
+      "value_raw": "Ja",
+      "unit": null,
+      "nks": null,
+      "bbox": null,
+      "confidence": 0.8,
+      "status": "needs_review",
+      "flags": [
+        {
+          "severity": "warning",
+          "category": "extraction",
+          "code": "EXTRACT_LOW_CONF",
+          "message": "Low extraction confidence (0.8); verify the value",
+          "expected": null,
+          "actual": null
+        }
+      ]
+    },
+    {
+      "id": "f_a7b868758092",
+      "page_no": 28,
+      "chapter": "",
+      "role": null,
+      "label": "Cake Pan BAK B10 angeschlossen als",
+      "value": "Ja",
+      "value_raw": "Ja",
+      "unit": null,
+      "nks": null,
+      "bbox": null,
+      "confidence": 0.8,
+      "status": "needs_review",
+      "flags": [
+        {
+          "severity": "warning",
+          "category": "extraction",
+          "code": "EXTRACT_LOW_CONF",
+          "message": "Low extraction confidence (0.8); verify the value",
+          "expected": null,
+          "actual": null
+        }
+      ]
+    },
+    {
+      "id": "f_195395674820",
+      "page_no": 28,
+      "chapter": "",
+      "role": null,
+      "label": "Ofenhandventile BAK B10",
+      "value": "Ja",
+      "value_raw": "Ja",
+      "unit": null,
+      "nks": null,
+      "bbox": null,
+      "confidence": 0.8,
+      "status": "needs_review",
+      "flags": [
+        {
+          "severity": "warning",
+          "category": "extraction",
+          "code": "EXTRACT_LOW_CONF",
+          "message": "Low extraction confidence (0.8); verify the value",
+          "expected": null,
+          "actual": null
+        }
+      ]
+    },
+    {
+      "id": "f_335912bd7f7f",
+      "page_no": 28,
+      "chapter": "",
+      "role": null,
+      "label": "Cake Pan BAK B30 angeschlossen als",
+      "value": "Ja",
+      "value_raw": "Ja",
+      "unit": null,
+      "nks": null,
+      "bbox": null,
+      "confidence": 0.8,
+      "status": "needs_review",
+      "flags": [
+        {
+          "severity": "warning",
+          "category": "extraction",
+          "code": "EXTRACT_LOW_CONF",
+          "message": "Low extraction confidence (0.8); verify the value",
+          "expected": null,
+          "actual": null
+        }
+      ]
+    },
+    {
+      "id": "f_d5e389b789ab",
+      "page_no": 28,
+      "chapter": "",
+      "role": null,
+      "label": "Ofenhandventile BAK B30",
+      "value": "Ja",
+      "value_raw": "Ja",
+      "unit": null,
+      "nks": null,
+      "bbox": null,
+      "confidence": 0.8,
+      "status": "needs_review",
+      "flags": [
+        {
+          "severity": "warning",
+          "category": "extraction",
+          "code": "EXTRACT_LOW_CONF",
+          "message": "Low extraction confidence (0.8); verify the value",
+          "expected": null,
+          "actual": null
+        }
+      ]
+    },
+    {
+      "id": "f_beb940f934fe",
+      "page_no": 28,
+      "chapter": "",
+      "role": null,
+      "label": "Cake Pan BAK C45 angeschlossen als",
+      "value": "Ja",
+      "value_raw": "Ja",
+      "unit": null,
+      "nks": null,
+      "bbox": null,
+      "confidence": 0.8,
+      "status": "needs_review",
+      "flags": [
+        {
+          "severity": "warning",
+          "category": "extraction",
+          "code": "EXTRACT_LOW_CONF",
+          "message": "Low extraction confidence (0.8); verify the value",
+          "expected": null,
+          "actual": null
+        }
+      ]
+    },
+    {
+      "id": "f_343a45da87cd",
+      "page_no": 28,
+      "chapter": "",
+      "role": null,
+      "label": "Ofenhandventile BAK C45",
+      "value": "Ja",
+      "value_raw": "Ja",
+      "unit": null,
+      "nks": null,
+      "bbox": null,
+      "confidence": 0.8,
+      "status": "needs_review",
+      "flags": [
+        {
+          "severity": "warning",
+          "category": "extraction",
+          "code": "EXTRACT_LOW_CONF",
+          "message": "Low extraction confidence (0.8); verify the value",
+          "expected": null,
+          "actual": null
+        }
+      ]
+    },
+    {
+      "id": "f_386c28515b19",
+      "page_no": 28,
+      "chapter": "",
+      "role": null,
+      "label": "Cake Pan BAK B10 angeschlossen als",
+      "value": "Ja",
+      "value_raw": "Ja",
+      "unit": null,
+      "nks": null,
+      "bbox": null,
+      "confidence": 0.8,
+      "status": "needs_review",
+      "flags": [
+        {
+          "severity": "warning",
+          "category": "extraction",
+          "code": "EXTRACT_LOW_CONF",
+          "message": "Low extraction confidence (0.8); verify the value",
+          "expected": null,
+          "actual": null
+        }
+      ]
+    },
+    {
+      "id": "f_e5191ebfa25b",
+      "page_no": 28,
+      "chapter": "",
+      "role": null,
+      "label": "Ofenhandventile BAK B10",
+      "value": "Ja",
+      "value_raw": "Ja",
+      "unit": null,
+      "nks": null,
+      "bbox": null,
+      "confidence": 0.8,
+      "status": "needs_review",
+      "flags": [
+        {
+          "severity": "warning",
+          "category": "extraction",
+          "code": "EXTRACT_LOW_CONF",
+          "message": "Low extraction confidence (0.8); verify the value",
+          "expected": null,
+          "actual": null
+        }
+      ]
+    },
+    {
+      "id": "f_4a01cb13e04f",
+      "page_no": 28,
+      "chapter": "",
+      "role": null,
+      "label": "Probenahmestelle am Top Port des Oven Port 2 angekoppelt",
+      "value": "Ja",
+      "value_raw": "Ja",
+      "unit": null,
+      "nks": null,
+      "bbox": null,
+      "confidence": 0.8,
+      "status": "needs_review",
+      "flags": [
+        {
+          "severity": "warning",
+          "category": "extraction",
+          "code": "EXTRACT_LOW_CONF",
+          "message": "Low extraction confidence (0.8); verify the value",
+          "expected": null,
+          "actual": null
+        }
+      ]
+    },
+    {
+      "id": "f_2d077455ab65",
+      "page_no": 28,
+      "chapter": "",
+      "role": "signature_processed",
+      "label": "Bearbeitet (Datum/Kürzel)",
+      "value": "10.06.2026 / ohr",
+      "value_raw": "10.06.2026 / ohr",
+      "unit": null,
+      "nks": null,
+      "bbox": [
+        0.1293833131801693,
+        0.7557741659538066,
+        0.8766626360338573,
+        0.80196749358426
+      ],
+      "confidence": 0.984,
+      "status": "auto_accepted",
+      "flags": []
+    },
+    {
+      "id": "f_9798ee6c78c2",
+      "page_no": 28,
+      "chapter": "",
+      "role": "signature_checked",
+      "label": "Geprüft (Datum/Kürzel)",
+      "value": "10.06.2026 / häh",
+      "value_raw": "10.06.2026 / häh",
+      "unit": null,
+      "nks": null,
+      "bbox": [
+        0.1293833131801693,
+        0.7557741659538066,
+        0.8766626360338573,
+        0.80196749358426
+      ],
+      "confidence": 0.984,
+      "status": "auto_accepted",
+      "flags": []
+    },
+    {
+      "id": "f_10e62525129d",
+      "page_no": 29,
+      "chapter": "",
+      "role": null,
+      "label": "Oven A - Anlagennummer",
+      "value": "A4321",
+      "value_raw": "A4321",
+      "unit": null,
+      "nks": null,
+      "bbox": [
+        0.11789600967351874,
+        0.23438836612489308,
+        0.9050785973397824,
+        0.5153977758768178
+      ],
+      "confidence": 0.981,
+      "status": "auto_accepted",
+      "flags": []
+    },
+    {
+      "id": "f_cbba314da2a2",
+      "page_no": 29,
+      "chapter": "",
+      "role": null,
+      "label": "Oven A - Einsatzbereit gemäß RL-SOP-00796",
+      "value": "Ja",
+      "value_raw": "Ja",
+      "unit": null,
+      "nks": null,
+      "bbox": null,
+      "confidence": 0.8,
+      "status": "needs_review",
+      "flags": [
+        {
+          "severity": "warning",
+          "category": "extraction",
+          "code": "EXTRACT_LOW_CONF",
+          "message": "Low extraction confidence (0.8); verify the value",
+          "expected": null,
+          "actual": null
+        }
+      ]
+    },
+    {
+      "id": "f_6f5debe07408",
+      "page_no": 29,
+      "chapter": "",
+      "role": null,
+      "label": "Mixing Bowl - Anlagennummer",
+      "value": "A5413",
+      "value_raw": "A5413",
+      "unit": null,
+      "nks": null,
+      "bbox": [
+        0.11789600967351874,
+        0.23438836612489308,
+        0.9050785973397824,
+        0.5153977758768178
+      ],
+      "confidence": 0.981,
+      "status": "auto_accepted",
+      "flags": []
+    },
+    {
+      "id": "f_871fe31f92ef",
+      "page_no": 29,
+      "chapter": "",
+      "role": null,
+      "label": "Mixing Bowl - Einsatzbereit gemäß RL-SOP-00796",
+      "value": "Ja",
+      "value_raw": "Ja",
+      "unit": null,
+      "nks": null,
+      "bbox": null,
+      "confidence": 0.8,
+      "status": "needs_review",
+      "flags": [
+        {
+          "severity": "warning",
+          "category": "extraction",
+          "code": "EXTRACT_LOW_CONF",
+          "message": "Low extraction confidence (0.8); verify the value",
+          "expected": null,
+          "actual": null
+        }
+      ]
+    },
+    {
+      "id": "f_ced72ebdd0f4",
+      "page_no": 29,
+      "chapter": "",
+      "role": null,
+      "label": "Floor Scale - Anlagennummer",
+      "value": "A9726",
+      "value_raw": "A9726",
+      "unit": null,
+      "nks": null,
+      "bbox": [
+        0.11789600967351874,
+        0.23438836612489308,
+        0.9050785973397824,
+        0.5153977758768178
+      ],
+      "confidence": 0.981,
+      "status": "auto_accepted",
+      "flags": []
+    },
+    {
+      "id": "f_e2c7ef4626b7",
+      "page_no": 29,
+      "chapter": "",
+      "role": null,
+      "label": "Floor Scale - Einsatzbereit gemäß RL-SOP-00796",
+      "value": "Ja",
+      "value_raw": "Ja",
+      "unit": null,
+      "nks": null,
+      "bbox": null,
+      "confidence": 0.8,
+      "status": "needs_review",
+      "flags": [
+        {
+          "severity": "warning",
+          "category": "extraction",
+          "code": "EXTRACT_LOW_CONF",
+          "message": "Low extraction confidence (0.8); verify the value",
+          "expected": null,
+          "actual": null
+        }
+      ]
+    },
+    {
+      "id": "f_45218367bc01",
+      "page_no": 29,
+      "chapter": "",
+      "role": "signature_processed",
+      "label": "Bearbeitet (Datum/Kürzel)",
+      "value": "10.06.2016 / Ohp",
+      "value_raw": "10.06.2016 / Ohp",
+      "unit": null,
+      "nks": null,
+      "bbox": null,
+      "confidence": 0.8,
+      "status": "needs_review",
+      "flags": [
+        {
+          "severity": "warning",
+          "category": "extraction",
+          "code": "EXTRACT_LOW_CONF",
+          "message": "Low extraction confidence (0.8); verify the value",
+          "expected": null,
+          "actual": null
+        }
+      ]
+    },
+    {
+      "id": "f_695d2c5186b6",
+      "page_no": 29,
+      "chapter": "",
+      "role": "signature_checked",
+      "label": "Geprüft (Datum/Kürzel)",
+      "value": "10.06.2016 / haa",
+      "value_raw": "10.06.2016 / haa",
+      "unit": null,
+      "nks": null,
+      "bbox": null,
+      "confidence": 0.8,
+      "status": "needs_review",
+      "flags": [
+        {
+          "severity": "warning",
+          "category": "extraction",
+          "code": "EXTRACT_LOW_CONF",
+          "message": "Low extraction confidence (0.8); verify the value",
+          "expected": null,
+          "actual": null
+        }
+      ]
+    },
+    {
+      "id": "f_569b6262efb6",
+      "page_no": 30,
+      "chapter": "",
+      "role": null,
+      "label": "B20-PP 57497",
+      "value": "1 2 3",
+      "value_raw": "1 2 3",
+      "unit": null,
+      "nks": null,
+      "bbox": [
+        0.11487303506650544,
+        0.07228400342172797,
+        0.9026602176541717,
+        0.38451668092386654
+      ],
+      "confidence": 0.993,
+      "status": "auto_accepted",
+      "flags": []
+    },
+    {
+      "id": "f_706d8f1a88e5",
+      "page_no": 30,
+      "chapter": "",
+      "role": "signature_checked",
+      "label": "BK-MIX-88-FXF – BK-SOP-40918 geprüft",
+      "value": "Ja",
+      "value_raw": "Ja",
+      "unit": null,
+      "nks": null,
+      "bbox": null,
+      "confidence": 0.4,
+      "status": "needs_review",
+      "flags": [
+        {
+          "severity": "error",
+          "category": "format",
+          "code": "FMT_DATE_PADDING",
+          "message": "Date 'Ja' is not zero-padded DD.MM.YYYY",
+          "expected": "DD.MM.YYYY",
+          "actual": "Ja"
+        }
+      ]
+    },
+    {
+      "id": "f_dc1b4f24e2e8",
+      "page_no": 30,
+      "chapter": "",
+      "role": "signature_checked",
+      "label": "BK-MIX-65-FXF – BK-SOP-40918 geprüft",
+      "value": "Ja",
+      "value_raw": "Ja",
+      "unit": null,
+      "nks": null,
+      "bbox": null,
+      "confidence": 0.4,
+      "status": "needs_review",
+      "flags": [
+        {
+          "severity": "error",
+          "category": "format",
+          "code": "FMT_DATE_PADDING",
+          "message": "Date 'Ja' is not zero-padded DD.MM.YYYY",
+          "expected": "DD.MM.YYYY",
+          "actual": "Ja"
+        }
+      ]
+    },
+    {
+      "id": "f_0abadd31ecb8",
+      "page_no": 30,
+      "chapter": "",
+      "role": "signature_checked",
+      "label": "BK-MIX-30-FXF – BK-SOP-40918 geprüft",
+      "value": "Ja",
+      "value_raw": "Ja",
+      "unit": null,
+      "nks": null,
+      "bbox": null,
+      "confidence": 0.4,
+      "status": "needs_review",
+      "flags": [
+        {
+          "severity": "error",
+          "category": "format",
+          "code": "FMT_DATE_PADDING",
+          "message": "Date 'Ja' is not zero-padded DD.MM.YYYY",
+          "expected": "DD.MM.YYYY",
+          "actual": "Ja"
+        }
+      ]
+    },
+    {
+      "id": "f_bd338f886f0c",
+      "page_no": 30,
+      "chapter": "",
+      "role": "signature_processed",
+      "label": "Bearbeitet (Datum/Kürzel)",
+      "value": "10.06.2026 / ohp",
+      "value_raw": "10.06.2026 / ohp",
+      "unit": null,
+      "nks": null,
+      "bbox": [
+        0.11729141475211609,
+        0.20017108639863132,
+        0.9026602176541717,
+        0.38451668092386654
+      ],
+      "confidence": 0.986,
+      "status": "auto_accepted",
+      "flags": []
+    },
+    {
+      "id": "f_c8e0edaf5585",
+      "page_no": 30,
+      "chapter": "",
+      "role": "signature_checked",
+      "label": "Geprüft (Datum/Kürzel)",
+      "value": "10.06.2026 / ohp",
+      "value_raw": "10.06.2026 / ohp",
+      "unit": null,
+      "nks": null,
+      "bbox": [
+        0.11729141475211609,
+        0.20017108639863132,
+        0.9026602176541717,
+        0.38451668092386654
+      ],
+      "confidence": 0.986,
+      "status": "auto_accepted",
+      "flags": []
+    },
+    {
+      "id": "f_3595677f2429",
+      "page_no": 31,
+      "chapter": "",
+      "role": null,
+      "label": "Anzahl pro Charge",
+      "value": "2",
+      "value_raw": "2",
+      "unit": null,
+      "nks": null,
+      "bbox": null,
+      "confidence": 0.8,
+      "status": "needs_review",
+      "flags": [
+        {
+          "severity": "warning",
+          "category": "extraction",
+          "code": "EXTRACT_LOW_CONF",
+          "message": "Low extraction confidence (0.8); verify the value",
+          "expected": null,
+          "actual": null
+        }
+      ]
+    },
+    {
+      "id": "f_d152f5e97844",
+      "page_no": 31,
+      "chapter": "",
+      "role": "signature_processed",
+      "label": "Bearbeitet (Datum/Kürzel)",
+      "value": "10.06.2026 / ohp",
+      "value_raw": "10.06.2026 / ohp",
+      "unit": null,
+      "nks": null,
+      "bbox": [
+        0.11789600967351874,
+        0.20402053036783577,
+        0.9111245465538089,
+        0.7656116338751069
+      ],
+      "confidence": 1.0,
+      "status": "auto_accepted",
+      "flags": []
+    },
+    {
+      "id": "f_632e8c3c1dd9",
+      "page_no": 31,
+      "chapter": "",
+      "role": "signature_checked",
+      "label": "Geprüft (Datum/Kürzel)",
+      "value": "10.06.2026 / ohp",
+      "value_raw": "10.06.2026 / ohp",
+      "unit": null,
+      "nks": null,
+      "bbox": [
+        0.11789600967351874,
+        0.20402053036783577,
+        0.9111245465538089,
+        0.7656116338751069
+      ],
+      "confidence": 0.4,
+      "status": "needs_review",
+      "flags": [
+        {
+          "severity": "error",
+          "category": "four_eyes",
+          "code": "4EYES_DISTINCT",
+          "message": "Bearbeitet and Gepruft signed by the same person",
+          "expected": "two different Kurzel",
+          "actual": "ohp"
+        }
+      ]
+    },
+    {
+      "id": "f_040feab76288",
+      "page_no": 31,
+      "chapter": "",
+      "role": null,
+      "label": "SAP gebucht Ja",
+      "value": "Ja",
+      "value_raw": "Ja",
+      "unit": null,
+      "nks": null,
+      "bbox": null,
+      "confidence": 0.8,
+      "status": "needs_review",
+      "flags": [
+        {
+          "severity": "warning",
+          "category": "extraction",
+          "code": "EXTRACT_LOW_CONF",
+          "message": "Low extraction confidence (0.8); verify the value",
+          "expected": null,
+          "actual": null
+        }
+      ]
+    },
+    {
+      "id": "f_293839edcdde",
+      "page_no": 31,
+      "chapter": "",
+      "role": null,
+      "label": "Anzahl pro Charge",
+      "value": "1",
+      "value_raw": "1",
+      "unit": null,
+      "nks": null,
+      "bbox": null,
+      "confidence": 0.8,
+      "status": "needs_review",
+      "flags": [
+        {
+          "severity": "warning",
+          "category": "extraction",
+          "code": "EXTRACT_LOW_CONF",
+          "message": "Low extraction confidence (0.8); verify the value",
+          "expected": null,
+          "actual": null
+        }
+      ]
+    },
+    {
+      "id": "f_de3075032813",
+      "page_no": 31,
+      "chapter": "",
+      "role": "signature_processed",
+      "label": "Bearbeitet (Datum/Kürzel)",
+      "value": "2026-06-10",
+      "value_raw": "10.06.2026",
+      "unit": null,
+      "nks": null,
+      "bbox": [
+        0.11789600967351874,
+        0.20402053036783577,
+        0.9111245465538089,
+        0.7656116338751069
+      ],
+      "confidence": 1.0,
+      "status": "auto_accepted",
+      "flags": []
+    },
+    {
+      "id": "f_6b1edb62f6c7",
+      "page_no": 31,
+      "chapter": "",
+      "role": "signature_checked",
+      "label": "Geprüft (Datum/Kürzel)",
+      "value": "10.06.2026 / ohp",
+      "value_raw": "10.06.2026 / ohp",
+      "unit": null,
+      "nks": null,
+      "bbox": [
+        0.11789600967351874,
+        0.20402053036783577,
+        0.9111245465538089,
+        0.7656116338751069
+      ],
+      "confidence": 1.0,
+      "status": "auto_accepted",
+      "flags": []
+    },
+    {
+      "id": "f_b7dd113bf3c8",
+      "page_no": 31,
+      "chapter": "",
+      "role": null,
+      "label": "SAP gebucht Ja",
+      "value": "Ja",
+      "value_raw": "Ja",
+      "unit": null,
+      "nks": null,
+      "bbox": null,
+      "confidence": 0.8,
+      "status": "needs_review",
+      "flags": [
+        {
+          "severity": "warning",
+          "category": "extraction",
+          "code": "EXTRACT_LOW_CONF",
+          "message": "Low extraction confidence (0.8); verify the value",
+          "expected": null,
+          "actual": null
+        }
+      ]
+    },
+    {
+      "id": "f_1483c7c54805",
+      "page_no": 31,
+      "chapter": "",
+      "role": null,
+      "label": "Anzahl pro Charge",
+      "value": "2",
+      "value_raw": "2",
+      "unit": null,
+      "nks": null,
+      "bbox": null,
+      "confidence": 0.8,
+      "status": "needs_review",
+      "flags": [
+        {
+          "severity": "warning",
+          "category": "extraction",
+          "code": "EXTRACT_LOW_CONF",
+          "message": "Low extraction confidence (0.8); verify the value",
+          "expected": null,
+          "actual": null
+        }
+      ]
+    },
+    {
+      "id": "f_df0b9ef29ebc",
+      "page_no": 31,
+      "chapter": "",
+      "role": "signature_processed",
+      "label": "Bearbeitet (Datum/Kürzel)",
+      "value": "2026-06-10",
+      "value_raw": "10.06.2026",
+      "unit": null,
+      "nks": null,
+      "bbox": [
+        0.11789600967351874,
+        0.20402053036783577,
+        0.9111245465538089,
+        0.7656116338751069
+      ],
+      "confidence": 1.0,
+      "status": "auto_accepted",
+      "flags": []
+    },
+    {
+      "id": "f_fca5256048d7",
+      "page_no": 31,
+      "chapter": "",
+      "role": "signature_checked",
+      "label": "Geprüft (Datum/Kürzel)",
+      "value": "10.06.2026 / ohp",
+      "value_raw": "10.06.2026 / ohp",
+      "unit": null,
+      "nks": null,
+      "bbox": [
+        0.11789600967351874,
+        0.20402053036783577,
+        0.9111245465538089,
+        0.7656116338751069
+      ],
+      "confidence": 1.0,
+      "status": "auto_accepted",
+      "flags": []
+    },
+    {
+      "id": "f_78d62967955f",
+      "page_no": 31,
+      "chapter": "",
+      "role": null,
+      "label": "SAP gebucht Ja",
+      "value": "Ja",
+      "value_raw": "Ja",
+      "unit": null,
+      "nks": null,
+      "bbox": null,
+      "confidence": 0.8,
+      "status": "needs_review",
+      "flags": [
+        {
+          "severity": "warning",
+          "category": "extraction",
+          "code": "EXTRACT_LOW_CONF",
+          "message": "Low extraction confidence (0.8); verify the value",
+          "expected": null,
+          "actual": null
+        }
+      ]
+    },
+    {
+      "id": "f_4a9fc5413235",
+      "page_no": 32,
+      "chapter": "",
+      "role": null,
+      "label": "Einsatz eines Kessels mit zwei Mixing Rodsn",
+      "value": "Ja",
+      "value_raw": "Ja",
+      "unit": null,
+      "nks": null,
+      "bbox": null,
+      "confidence": 0.8,
+      "status": "needs_review",
+      "flags": [
+        {
+          "severity": "warning",
+          "category": "extraction",
+          "code": "EXTRACT_LOW_CONF",
+          "message": "Low extraction confidence (0.8); verify the value",
+          "expected": null,
+          "actual": null
+        }
+      ]
+    },
+    {
+      "id": "f_6cf810cec069",
+      "page_no": 32,
+      "chapter": "",
+      "role": null,
+      "label": "Cake production involves combining dry ingredients, sweeteners, and egg-based components until a smooth batter is obtained. The batter is transferred into the appropriate vessel, baked under controlled conditions, and documented in a GMP-style format to support reproducible product quality.",
+      "value": "Ja",
+      "value_raw": "Ja",
+      "unit": null,
+      "nks": null,
+      "bbox": null,
+      "confidence": 0.8,
+      "status": "needs_review",
+      "flags": [
+        {
+          "severity": "warning",
+          "category": "extraction",
+          "code": "EXTRACT_LOW_CONF",
+          "message": "Low extraction confidence (0.8); verify the value",
+          "expected": null,
+          "actual": null
+        }
+      ]
+    },
+    {
+      "id": "f_f94e16b34c35",
+      "page_no": 32,
+      "chapter": "",
+      "role": null,
+      "label": "Anbringen von Material 7639225 am Kesselauslass gemäß Abbildung 4",
+      "value": "Ja",
+      "value_raw": "Ja",
+      "unit": null,
+      "nks": null,
+      "bbox": null,
+      "confidence": 0.8,
+      "status": "needs_review",
+      "flags": [
+        {
+          "severity": "warning",
+          "category": "extraction",
+          "code": "EXTRACT_LOW_CONF",
+          "message": "Low extraction confidence (0.8); verify the value",
+          "expected": null,
+          "actual": null
+        }
+      ]
+    },
+    {
+      "id": "f_bd4326f05e60",
+      "page_no": 32,
+      "chapter": "",
+      "role": null,
+      "label": "Baker Seven",
+      "value": "Ja",
+      "value_raw": "Ja",
+      "unit": null,
+      "nks": null,
+      "bbox": null,
+      "confidence": 0.8,
+      "status": "needs_review",
+      "flags": [
+        {
+          "severity": "warning",
+          "category": "extraction",
+          "code": "EXTRACT_LOW_CONF",
+          "message": "Low extraction confidence (0.8); verify the value",
+          "expected": null,
+          "actual": null
+        }
+      ]
+    },
+    {
+      "id": "f_502ac9c4f055",
+      "page_no": 32,
+      "chapter": "",
+      "role": null,
+      "label": "Baker Seven",
+      "value": "Ja",
+      "value_raw": "Ja",
+      "unit": null,
+      "nks": null,
+      "bbox": null,
+      "confidence": 0.8,
+      "status": "needs_review",
+      "flags": [
+        {
+          "severity": "warning",
+          "category": "extraction",
+          "code": "EXTRACT_LOW_CONF",
+          "message": "Low extraction confidence (0.8); verify the value",
+          "expected": null,
+          "actual": null
+        }
+      ]
+    },
+    {
+      "id": "f_c780c7f922ac",
+      "page_no": 32,
+      "chapter": "",
+      "role": "signature_processed",
+      "label": "Bearbeitet",
+      "value": "10.06.2026 / ohp",
+      "value_raw": "10.06.2026 / ohp",
+      "unit": null,
+      "nks": null,
+      "bbox": [
+        0.44135429262394194,
+        0.4576561163387511,
+        0.8706166868198307,
+        0.5064157399486741
+      ],
+      "confidence": 0.83,
+      "status": "needs_review",
+      "flags": [
+        {
+          "severity": "warning",
+          "category": "extraction",
+          "code": "EXTRACT_LOW_CONF",
+          "message": "Low extraction confidence (0.83); verify the value",
+          "expected": null,
+          "actual": null
+        }
+      ]
+    },
+    {
+      "id": "f_9608b82e0242",
+      "page_no": 32,
+      "chapter": "",
+      "role": "signature_checked",
+      "label": "Geprüft",
+      "value": "10.06.2026 / ohp",
+      "value_raw": "10.06.2026 / ohp",
+      "unit": null,
+      "nks": null,
+      "bbox": [
+        0.44135429262394194,
+        0.4576561163387511,
+        0.8706166868198307,
+        0.5064157399486741
+      ],
+      "confidence": 0.4,
+      "status": "needs_review",
+      "flags": [
+        {
+          "severity": "error",
+          "category": "four_eyes",
+          "code": "4EYES_DISTINCT",
+          "message": "Bearbeitet and Gepruft signed by the same person",
+          "expected": "two different Kurzel",
+          "actual": "ohp"
+        }
+      ]
+    },
+    {
+      "id": "f_ad69efb690b6",
+      "page_no": 33,
+      "chapter": "",
+      "role": null,
+      "label": "Sugar Syrup 247 Sweet Mix BAG 603 L - Anzahl gekoppelter Puffergebinde",
+      "value": "2",
+      "value_raw": "2",
+      "unit": "ST",
+      "nks": null,
+      "bbox": null,
+      "confidence": 0.8,
+      "status": "needs_review",
+      "flags": [
+        {
+          "severity": "warning",
+          "category": "extraction",
+          "code": "EXTRACT_LOW_CONF",
+          "message": "Low extraction confidence (0.8); verify the value",
+          "expected": null,
+          "actual": null
+        }
+      ]
+    },
+    {
+      "id": "f_ee263c6e0790",
+      "page_no": 33,
+      "chapter": "",
+      "role": null,
+      "label": "Caramel Syrup 172 Sweet Mix BAG 439 L - Anzahl gekoppelter Puffergebinde",
+      "value": "2",
+      "value_raw": "2",
+      "unit": "ST",
+      "nks": null,
+      "bbox": null,
+      "confidence": 0.8,
+      "status": "needs_review",
+      "flags": [
+        {
+          "severity": "warning",
+          "category": "extraction",
+          "code": "EXTRACT_LOW_CONF",
+          "message": "Low extraction confidence (0.8); verify the value",
+          "expected": null,
+          "actual": null
+        }
+      ]
+    },
+    {
+      "id": "f_985b8f6cc85e",
+      "page_no": 33,
+      "chapter": "",
+      "role": null,
+      "label": "Cream Blend 859 Flavor Mix BAG 280 L / Material Nr. 2839719 - Anzahl gekoppelter Puffergebinde",
+      "value": "1",
+      "value_raw": "1",
+      "unit": "ST",
+      "nks": null,
+      "bbox": null,
+      "confidence": 0.8,
+      "status": "needs_review",
+      "flags": [
+        {
+          "severity": "warning",
+          "category": "extraction",
+          "code": "EXTRACT_LOW_CONF",
+          "message": "Low extraction confidence (0.8); verify the value",
+          "expected": null,
+          "actual": null
+        }
+      ]
+    },
+    {
+      "id": "f_86e97f27aadb",
+      "page_no": 33,
+      "chapter": "",
+      "role": null,
+      "label": "Cream Blend 859 Flavor Mix BAG 280 L / Material Nr. 1057404 - Anzahl gekoppelter Puffergebinde",
+      "value": "1",
+      "value_raw": "1",
+      "unit": "ST",
+      "nks": null,
+      "bbox": null,
+      "confidence": 0.8,
+      "status": "needs_review",
+      "flags": [
+        {
+          "severity": "warning",
+          "category": "extraction",
+          "code": "EXTRACT_LOW_CONF",
+          "message": "Low extraction confidence (0.8); verify the value",
+          "expected": null,
+          "actual": null
+        }
+      ]
+    },
+    {
+      "id": "f_8d6aa14c0b4a",
+      "page_no": 33,
+      "chapter": "",
+      "role": null,
+      "label": "Cocoa Blend 778 Flavor Mix BAG 955 L - Anzahl gekoppelter Puffergebinde",
+      "value": "1",
+      "value_raw": "1",
+      "unit": "ST",
+      "nks": null,
+      "bbox": null,
+      "confidence": 0.8,
+      "status": "needs_review",
+      "flags": [
+        {
+          "severity": "warning",
+          "category": "extraction",
+          "code": "EXTRACT_LOW_CONF",
+          "message": "Low extraction confidence (0.8); verify the value",
+          "expected": null,
+          "actual": null
+        }
+      ]
+    },
+    {
+      "id": "f_f9fbde7b6932",
+      "page_no": 33,
+      "chapter": "",
+      "role": "signature_processed",
+      "label": "Bearbeitet",
+      "value": "10.06.2026 / ohe",
+      "value_raw": "10.06.2026 / ohe",
+      "unit": null,
+      "nks": null,
+      "bbox": [
+        0.12636033857315598,
+        0.4195893926432849,
+        0.880894800483676,
+        0.4704875962360992
+      ],
+      "confidence": 0.987,
+      "status": "auto_accepted",
+      "flags": []
+    },
+    {
+      "id": "f_e41899a0ea71",
+      "page_no": 33,
+      "chapter": "",
+      "role": "signature_checked",
+      "label": "Geprüft",
+      "value": "10.06.2026 / ohe",
+      "value_raw": "10.06.2026 / ohe",
+      "unit": null,
+      "nks": null,
+      "bbox": [
+        0.12636033857315598,
+        0.4195893926432849,
+        0.880894800483676,
+        0.4704875962360992
+      ],
+      "confidence": 0.4,
+      "status": "needs_review",
+      "flags": [
+        {
+          "severity": "error",
+          "category": "four_eyes",
+          "code": "4EYES_DISTINCT",
+          "message": "Bearbeitet and Gepruft signed by the same person",
+          "expected": "two different Kurzel",
+          "actual": "ohe"
+        }
+      ]
+    },
+    {
+      "id": "f_7cdaf4e882d1",
+      "page_no": 34,
+      "chapter": "",
+      "role": null,
+      "label": "pH Equi (extern)",
+      "value": "8.67",
+      "value_raw": "8,67",
+      "unit": null,
+      "nks": null,
+      "bbox": [
+        0.11729141475211609,
+        0.20017108639863132,
+        0.8996372430471584,
+        0.4076133447390932
+      ],
+      "confidence": 0.996,
+      "status": "auto_accepted",
+      "flags": []
+    },
+    {
+      "id": "f_e14af288c98e",
+      "page_no": 34,
+      "chapter": "",
+      "role": null,
+      "label": "LF Equi (extern)",
+      "value": "10.4",
+      "value_raw": "10,4",
+      "unit": "mS/cm",
+      "nks": null,
+      "bbox": [
+        0.11729141475211609,
+        0.20017108639863132,
+        0.8996372430471584,
+        0.4076133447390932
+      ],
+      "confidence": 0.996,
+      "status": "auto_accepted",
+      "flags": []
+    },
+    {
+      "id": "f_22ff99781b78",
+      "page_no": 34,
+      "chapter": "",
+      "role": "hold_start",
+      "label": "Start Auftrag",
+      "value": "13:27:00",
+      "value_raw": "13:27",
+      "unit": "Uhr",
+      "nks": null,
+      "bbox": [
+        0.11729141475211609,
+        0.20017108639863132,
+        0.8996372430471584,
+        0.4076133447390932
+      ],
+      "confidence": 0.996,
+      "status": "auto_accepted",
+      "flags": []
+    },
+    {
+      "id": "f_c5a50c4f900c",
+      "page_no": 34,
+      "chapter": "",
+      "role": null,
+      "label": "Baker Three",
+      "value": "Ja",
+      "value_raw": "Ja",
+      "unit": null,
+      "nks": null,
+      "bbox": null,
+      "confidence": 0.8,
+      "status": "needs_review",
+      "flags": [
+        {
+          "severity": "warning",
+          "category": "extraction",
+          "code": "EXTRACT_LOW_CONF",
+          "message": "Low extraction confidence (0.8); verify the value",
+          "expected": null,
+          "actual": null
+        }
+      ]
+    },
+    {
+      "id": "f_e9977f5488f8",
+      "page_no": 34,
+      "chapter": "",
+      "role": null,
+      "label": "Baker Four",
+      "value": "12.34",
+      "value_raw": "12,34",
+      "unit": null,
+      "nks": null,
+      "bbox": [
+        0.11426844014510278,
+        0.07313943541488452,
+        0.8996372430471584,
+        0.4076133447390932
+      ],
+      "confidence": 0.998,
+      "status": "auto_accepted",
+      "flags": []
+    },
+    {
+      "id": "f_788627453642",
+      "page_no": 34,
+      "chapter": "",
+      "role": null,
+      "label": "Baker Five",
+      "value": "80",
+      "value_raw": "80",
+      "unit": "mS/cm",
+      "nks": null,
+      "bbox": null,
+      "confidence": 0.8,
+      "status": "needs_review",
+      "flags": [
+        {
+          "severity": "warning",
+          "category": "extraction",
+          "code": "EXTRACT_LOW_CONF",
+          "message": "Low extraction confidence (0.8); verify the value",
+          "expected": null,
+          "actual": null
+        }
+      ]
+    },
+    {
+      "id": "f_3f9618009aa9",
+      "page_no": 34,
+      "chapter": "",
+      "role": "hold_end",
+      "label": "Ende Elution",
+      "value": "13:57:00",
+      "value_raw": "13:57",
+      "unit": "Uhr",
+      "nks": null,
+      "bbox": [
+        0.11729141475211609,
+        0.20017108639863132,
+        0.8996372430471584,
+        0.4076133447390932
+      ],
+      "confidence": 0.996,
+      "status": "auto_accepted",
+      "flags": []
+    },
+    {
+      "id": "f_c75e1082f8ad",
+      "page_no": 34,
+      "chapter": "",
+      "role": "signature_processed",
+      "label": "Bearbeitet (Datum/Kürzel)",
+      "value": "10.06.2026 / ohr",
+      "value_raw": "10.06.2026 / ohr",
+      "unit": null,
+      "nks": null,
+      "bbox": [
+        0.11729141475211609,
+        0.4195893926432849,
+        0.9020556227327691,
+        0.73267750213858
+      ],
+      "confidence": 0.988,
+      "status": "auto_accepted",
+      "flags": []
+    },
+    {
+      "id": "f_8c02f4850a6d",
+      "page_no": 34,
+      "chapter": "",
+      "role": "signature_checked",
+      "label": "Geprüft (Datum/Kürzel)",
+      "value": "10.06.2026 / ohr",
+      "value_raw": "10.06.2026 / ohr",
+      "unit": null,
+      "nks": null,
+      "bbox": [
+        0.11729141475211609,
+        0.4195893926432849,
+        0.9020556227327691,
+        0.73267750213858
+      ],
+      "confidence": 0.4,
+      "status": "needs_review",
+      "flags": [
+        {
+          "severity": "error",
+          "category": "four_eyes",
+          "code": "4EYES_DISTINCT",
+          "message": "Bearbeitet and Gepruft signed by the same person",
+          "expected": "two different Kurzel",
+          "actual": "ohr"
+        }
+      ]
+    },
+    {
+      "id": "f_76d15c13fe91",
+      "page_no": 34,
+      "chapter": "",
+      "role": null,
+      "label": "Warnungen/Alarme aufgetreten",
+      "value": "Nein",
+      "value_raw": "Nein",
+      "unit": null,
+      "nks": null,
+      "bbox": null,
+      "confidence": 0.8,
+      "status": "needs_review",
+      "flags": [
+        {
+          "severity": "warning",
+          "category": "extraction",
+          "code": "EXTRACT_LOW_CONF",
+          "message": "Low extraction confidence (0.8); verify the value",
+          "expected": null,
+          "actual": null
+        }
+      ]
+    },
+    {
+      "id": "f_bf332159d084",
+      "page_no": 34,
+      "chapter": "",
+      "role": null,
+      "label": "Ungeplante manuelle Eingriffe durchgeführt",
+      "value": "Nein",
+      "value_raw": "Nein",
+      "unit": null,
+      "nks": null,
+      "bbox": null,
+      "confidence": 0.8,
+      "status": "needs_review",
+      "flags": [
+        {
+          "severity": "warning",
+          "category": "extraction",
+          "code": "EXTRACT_LOW_CONF",
+          "message": "Low extraction confidence (0.8); verify the value",
+          "expected": null,
+          "actual": null
+        }
+      ]
+    },
+    {
+      "id": "f_093206aa36cb",
+      "page_no": 34,
+      "chapter": "",
+      "role": null,
+      "label": "Methode vollständig und korrekt durchgelaufen",
+      "value": "Siehe Kapitel Bemerkungen",
+      "value_raw": "Siehe Kapitel Bemerkungen",
+      "unit": null,
+      "nks": null,
+      "bbox": null,
+      "confidence": 0.8,
+      "status": "needs_review",
+      "flags": [
+        {
+          "severity": "warning",
+          "category": "extraction",
+          "code": "EXTRACT_LOW_CONF",
+          "message": "Low extraction confidence (0.8); verify the value",
+          "expected": null,
+          "actual": null
+        }
+      ]
+    },
+    {
+      "id": "f_b5bb440cfba0",
+      "page_no": 34,
+      "chapter": "",
+      "role": "hold_end",
+      "label": "Erlaubte Standzeit",
+      "value": "2026-06-14T18:47:00",
+      "value_raw": "14.06.2026 18:47",
+      "unit": "Uhr",
+      "nks": null,
+      "bbox": [
+        0.11729141475211609,
+        0.4974337040205304,
+        0.9020556227327691,
+        0.6548331907613345
+      ],
+      "confidence": 0.979,
+      "status": "auto_accepted",
+      "flags": []
+    },
+    {
+      "id": "f_8cf11b7b8501",
+      "page_no": 34,
+      "chapter": "",
+      "role": "signature_processed",
+      "label": "Bearbeitet (Datum/Kürzel)",
+      "value": "10.06.2026 / ohr",
+      "value_raw": "10.06.2026 / ohr",
+      "unit": null,
+      "nks": null,
+      "bbox": [
+        0.11729141475211609,
+        0.4195893926432849,
+        0.9020556227327691,
+        0.73267750213858
+      ],
+      "confidence": 0.988,
+      "status": "auto_accepted",
+      "flags": []
+    },
+    {
+      "id": "f_d31241d688d8",
+      "page_no": 34,
+      "chapter": "",
+      "role": "signature_checked",
+      "label": "Geprüft (Datum/Kürzel)",
+      "value": "10.06.2026 / ohr",
+      "value_raw": "10.06.2026 / ohr",
+      "unit": null,
+      "nks": null,
+      "bbox": [
+        0.11729141475211609,
+        0.4195893926432849,
+        0.9020556227327691,
+        0.73267750213858
+      ],
+      "confidence": 0.4,
+      "status": "needs_review",
+      "flags": [
+        {
+          "severity": "error",
+          "category": "four_eyes",
+          "code": "4EYES_DISTINCT",
+          "message": "Bearbeitet and Gepruft signed by the same person",
+          "expected": "two different Kurzel",
+          "actual": "ohr"
+        }
+      ]
+    },
+    {
+      "id": "f_86470873294c",
+      "page_no": 36,
+      "chapter": "",
+      "role": "hold_start",
+      "label": "Start Auftrag",
+      "value": "14:27:00",
+      "value_raw": "14:27",
+      "unit": "Uhr",
+      "nks": null,
+      "bbox": [
+        0.12636033857315598,
+        0.2981180496150556,
+        0.8730350665054414,
+        0.432420872540633
+      ],
+      "confidence": 0.979,
+      "status": "auto_accepted",
+      "flags": []
+    },
+    {
+      "id": "f_e9e92c43e199",
+      "page_no": 36,
+      "chapter": "",
+      "role": "hold_end",
+      "label": "Ende Auftrag",
+      "value": "15:12:00",
+      "value_raw": "15:12",
+      "unit": "Uhr",
+      "nks": null,
+      "bbox": [
+        0.12636033857315598,
+        0.2981180496150556,
+        0.8730350665054414,
+        0.432420872540633
+      ],
+      "confidence": 0.979,
+      "status": "auto_accepted",
+      "flags": []
+    },
+    {
+      "id": "f_573e64063172",
+      "page_no": 36,
+      "chapter": "",
+      "role": "hold_duration",
+      "label": "Dauer Auftrag Minuten",
+      "value": "45",
+      "value_raw": "45,00",
+      "unit": "min",
+      "nks": 2,
+      "bbox": [
+        0.12636033857315598,
+        0.2981180496150556,
+        0.8821039903264812,
+        0.6578272027373824
+      ],
+      "confidence": 0.958,
+      "status": "auto_accepted",
+      "flags": []
+    },
+    {
+      "id": "f_5bc60dec04dc",
+      "page_no": 36,
+      "chapter": "",
+      "role": null,
+      "label": "Mittlerer Fluss Pumpe A",
+      "value": "4.3",
+      "value_raw": "4,3",
+      "unit": "l/h",
+      "nks": 1,
+      "bbox": null,
+      "confidence": 0.8,
+      "status": "needs_review",
+      "flags": [
+        {
+          "severity": "warning",
+          "category": "extraction",
+          "code": "EXTRACT_LOW_CONF",
+          "message": "Low extraction confidence (0.8); verify the value",
+          "expected": null,
+          "actual": null
+        }
+      ]
+    },
+    {
+      "id": "f_39d30bf78519",
+      "page_no": 36,
+      "chapter": "",
+      "role": null,
+      "label": "Mittlerer Fluss vor Ofen",
+      "value": "6.6",
+      "value_raw": "6,6",
+      "unit": "l/h",
+      "nks": 1,
+      "bbox": null,
+      "confidence": 0.8,
+      "status": "needs_review",
+      "flags": [
+        {
+          "severity": "warning",
+          "category": "extraction",
+          "code": "EXTRACT_LOW_CONF",
+          "message": "Low extraction confidence (0.8); verify the value",
+          "expected": null,
+          "actual": null
+        }
+      ]
+    },
+    {
+      "id": "f_74b0a85d4998",
+      "page_no": 36,
+      "chapter": "",
+      "role": "hold_duration",
+      "label": "Dauer Auftrag Minuten",
+      "value": "45",
+      "value_raw": "45,00",
+      "unit": "min",
+      "nks": null,
+      "bbox": [
+        0.12636033857315598,
+        0.2981180496150556,
+        0.8821039903264812,
+        0.6578272027373824
+      ],
+      "confidence": 0.958,
+      "status": "auto_accepted",
+      "flags": []
+    },
+    {
+      "id": "f_60b03b176f38",
+      "page_no": 36,
+      "chapter": "",
+      "role": "hold_duration",
+      "label": "Dauer Auftrag Stunden",
+      "value": "0.75",
+      "value_raw": "0,750",
+      "unit": "h",
+      "nks": 3,
+      "bbox": [
+        0.12636033857315598,
+        0.47647562018819506,
+        0.8821039903264812,
+        0.6578272027373824
+      ],
+      "confidence": 0.948,
+      "status": "auto_accepted",
+      "flags": []
+    },
+    {
+      "id": "f_838047d26412",
+      "page_no": 36,
+      "chapter": "",
+      "role": "volume",
+      "label": "Load Volumen - Mittlerer Fluss vor Ofen",
+      "value": "6.6",
+      "value_raw": "6,6",
+      "unit": "l/h",
+      "nks": null,
+      "bbox": null,
+      "confidence": 0.8,
+      "status": "needs_review",
+      "flags": [
+        {
+          "severity": "warning",
+          "category": "extraction",
+          "code": "EXTRACT_LOW_CONF",
+          "message": "Low extraction confidence (0.8); verify the value",
+          "expected": null,
+          "actual": null
+        }
+      ]
+    },
+    {
+      "id": "f_fe47438b79c0",
+      "page_no": 36,
+      "chapter": "",
+      "role": "hold_duration",
+      "label": "Load Volumen - Dauer Auftrag Stunden",
+      "value": "45",
+      "value_raw": "45,00",
+      "unit": "h",
+      "nks": null,
+      "bbox": [
+        0.12636033857315598,
+        0.2981180496150556,
+        0.8821039903264812,
+        0.6578272027373824
+      ],
+      "confidence": 0.958,
+      "status": "auto_accepted",
+      "flags": []
+    },
+    {
+      "id": "f_11342774597c",
+      "page_no": 36,
+      "chapter": "",
+      "role": "volume",
+      "label": "Load Volumen - Mittlerer Fluss Pumpe A",
+      "value": "4.3",
+      "value_raw": "4,3",
+      "unit": "l/h",
+      "nks": null,
+      "bbox": null,
+      "confidence": 0.8,
+      "status": "needs_review",
+      "flags": [
+        {
+          "severity": "warning",
+          "category": "extraction",
+          "code": "EXTRACT_LOW_CONF",
+          "message": "Low extraction confidence (0.8); verify the value",
+          "expected": null,
+          "actual": null
+        }
+      ]
+    },
+    {
+      "id": "f_e0058baef456",
+      "page_no": 36,
+      "chapter": "",
+      "role": "hold_duration",
+      "label": "Load Volumen - Dauer Auftrag Stunden",
+      "value": "0.75",
+      "value_raw": "0,750",
+      "unit": "h",
+      "nks": null,
+      "bbox": [
+        0.12636033857315598,
+        0.47647562018819506,
+        0.8821039903264812,
+        0.6578272027373824
+      ],
+      "confidence": 0.948,
+      "status": "auto_accepted",
+      "flags": []
+    },
+    {
+      "id": "f_faffba49ea98",
+      "page_no": 36,
+      "chapter": "",
+      "role": "volume",
+      "label": "Load Volumen",
+      "value": "2021.78",
+      "value_raw": "2021,78",
+      "unit": "L",
+      "nks": 2,
+      "bbox": [
+        0.12636033857315598,
+        0.5547476475620188,
+        0.8821039903264812,
+        0.6578272027373824
+      ],
+      "confidence": 0.951,
+      "status": "auto_accepted",
+      "flags": []
+    },
+    {
+      "id": "f_ee09da692f40",
+      "page_no": 36,
+      "chapter": "",
+      "role": "signature_processed",
+      "label": "Bearbeitet",
+      "value": "10.06.2026 / ole",
+      "value_raw": "10.06.2026 / ole",
+      "unit": null,
+      "nks": null,
+      "bbox": [
+        0.12696493349455865,
+        0.6864841745081266,
+        0.8766626360338573,
+        0.7335329341317365
+      ],
+      "confidence": 0.953,
+      "status": "auto_accepted",
+      "flags": []
+    },
+    {
+      "id": "f_8a6c62907796",
+      "page_no": 36,
+      "chapter": "",
+      "role": "signature_checked",
+      "label": "Geprüft",
+      "value": "10.06.2026 / ole",
+      "value_raw": "10.06.2026 / ole",
+      "unit": null,
+      "nks": null,
+      "bbox": [
+        0.12696493349455865,
+        0.6864841745081266,
+        0.8766626360338573,
+        0.7335329341317365
+      ],
+      "confidence": 0.4,
+      "status": "needs_review",
+      "flags": [
+        {
+          "severity": "error",
+          "category": "four_eyes",
+          "code": "4EYES_DISTINCT",
+          "message": "Bearbeitet and Gepruft signed by the same person",
+          "expected": "two different Kurzel",
+          "actual": "ole"
+        }
+      ]
+    },
+    {
+      "id": "f_e8f220088c23",
+      "page_no": 37,
+      "chapter": "",
+      "role": null,
+      "label": "m B20-ST",
+      "value": "327",
+      "value_raw": "327",
+      "unit": "g",
+      "nks": null,
+      "bbox": [
+        0.11910519951632406,
+        0.20615911035072712,
+        0.9099153567110037,
+        0.6236099230111206
+      ],
+      "confidence": 0.989,
+      "status": "auto_accepted",
+      "flags": []
+    },
+    {
+      "id": "f_a9ed623fd3db",
+      "page_no": 37,
+      "chapter": "",
+      "role": "volume",
+      "label": "V B20-ST Netto nPz",
+      "value": "214",
+      "value_raw": "214",
+      "unit": "L",
+      "nks": null,
+      "bbox": [
+        0.11910519951632406,
+        0.20615911035072712,
+        0.9099153567110037,
+        0.6236099230111206
+      ],
+      "confidence": 0.989,
+      "status": "auto_accepted",
+      "flags": []
+    },
+    {
+      "id": "f_234297337fe4",
+      "page_no": 37,
+      "chapter": "",
+      "role": "concentration",
+      "label": "C B20-ST Cake",
+      "value": "2",
+      "value_raw": "2",
+      "unit": "g/L",
+      "nks": 0,
+      "bbox": null,
+      "confidence": 0.8,
+      "status": "needs_review",
+      "flags": [
+        {
+          "severity": "warning",
+          "category": "extraction",
+          "code": "EXTRACT_LOW_CONF",
+          "message": "Low extraction confidence (0.8); verify the value",
+          "expected": null,
+          "actual": null
+        }
+      ]
+    },
+    {
+      "id": "f_f6eb8719d4ad",
+      "page_no": 37,
+      "chapter": "",
+      "role": "volume",
+      "label": "V Loadvolumen",
+      "value": "400",
+      "value_raw": "400",
+      "unit": "L",
+      "nks": null,
+      "bbox": [
+        0.11910519951632406,
+        0.20615911035072712,
+        0.9099153567110037,
+        0.6236099230111206
+      ],
+      "confidence": 0.989,
+      "status": "auto_accepted",
+      "flags": []
+    },
+    {
+      "id": "f_d6fa76095eb5",
+      "page_no": 37,
+      "chapter": "",
+      "role": "concentration",
+      "label": "C B20-ST Cake",
+      "value": "2.1",
+      "value_raw": "2,1",
+      "unit": "g/L",
+      "nks": null,
+      "bbox": null,
+      "confidence": 0.8,
+      "status": "needs_review",
+      "flags": [
+        {
+          "severity": "warning",
+          "category": "extraction",
+          "code": "EXTRACT_LOW_CONF",
+          "message": "Low extraction confidence (0.8); verify the value",
+          "expected": null,
+          "actual": null
+        }
+      ]
+    },
+    {
+      "id": "f_3fe16a2f3d0f",
+      "page_no": 37,
+      "chapter": "",
+      "role": "volume",
+      "label": "V Ofen BAK B20",
+      "value": "50",
+      "value_raw": "50",
+      "unit": "L",
+      "nks": null,
+      "bbox": null,
+      "confidence": 0.8,
+      "status": "needs_review",
+      "flags": [
+        {
+          "severity": "warning",
+          "category": "extraction",
+          "code": "EXTRACT_LOW_CONF",
+          "message": "Low extraction confidence (0.8); verify the value",
+          "expected": null,
+          "actual": null
+        }
+      ]
+    },
+    {
+      "id": "f_1fc5ce928015",
+      "page_no": 37,
+      "chapter": "",
+      "role": null,
+      "label": "Beladung",
+      "value": "17",
+      "value_raw": "17",
+      "unit": "g Cake /LMilk",
+      "nks": 0,
+      "bbox": null,
+      "confidence": 0.8,
+      "status": "needs_review",
+      "flags": [
+        {
+          "severity": "warning",
+          "category": "extraction",
+          "code": "EXTRACT_LOW_CONF",
+          "message": "Low extraction confidence (0.8); verify the value",
+          "expected": null,
+          "actual": null
+        }
+      ]
+    },
+    {
+      "id": "f_756535744527",
+      "page_no": 37,
+      "chapter": "",
+      "role": null,
+      "label": "Beladung 7–19 g Cake /LMilk eingehalten",
+      "value": "Ja",
+      "value_raw": "Ja",
+      "unit": null,
+      "nks": null,
+      "bbox": null,
+      "confidence": 0.8,
+      "status": "needs_review",
+      "flags": [
+        {
+          "severity": "warning",
+          "category": "extraction",
+          "code": "EXTRACT_LOW_CONF",
+          "message": "Low extraction confidence (0.8); verify the value",
+          "expected": null,
+          "actual": null
+        }
+      ]
+    },
+    {
+      "id": "f_c8f8e95b5e43",
+      "page_no": 37,
+      "chapter": "",
+      "role": "signature_processed",
+      "label": "Bearbeitet",
+      "value": "10.06.2026 / ohp",
+      "value_raw": "10.06.2026 / ohp",
+      "unit": null,
+      "nks": null,
+      "bbox": [
+        0.12031438935912939,
+        0.6458511548331908,
+        0.8766626360338573,
+        0.7018819503849444
+      ],
+      "confidence": 0.99,
+      "status": "auto_accepted",
+      "flags": []
+    },
+    {
+      "id": "f_a5ca67c4cdfd",
+      "page_no": 37,
+      "chapter": "",
+      "role": "signature_checked",
+      "label": "Geprüft",
+      "value": "10.06.2026 / ohp",
+      "value_raw": "10.06.2026 / ohp",
+      "unit": null,
+      "nks": null,
+      "bbox": [
+        0.12031438935912939,
+        0.6458511548331908,
+        0.8766626360338573,
+        0.7018819503849444
+      ],
+      "confidence": 0.4,
+      "status": "needs_review",
+      "flags": [
+        {
+          "severity": "error",
+          "category": "four_eyes",
+          "code": "4EYES_DISTINCT",
+          "message": "Bearbeitet and Gepruft signed by the same person",
+          "expected": "two different Kurzel",
+          "actual": "ohp"
+        }
+      ]
+    },
+    {
+      "id": "f_d658b8ec61eb",
+      "page_no": 38,
+      "chapter": "",
+      "role": "hold_start",
+      "label": "Start Haltezeit (Übertrag Kapitel 5.3.1)",
+      "value": "2016-06-09T08:27:00",
+      "value_raw": "09.06.2016 / 8:27",
+      "unit": "Uhr",
+      "nks": null,
+      "bbox": null,
+      "confidence": 0.8,
+      "status": "needs_review",
+      "flags": [
+        {
+          "severity": "warning",
+          "category": "extraction",
+          "code": "EXTRACT_LOW_CONF",
+          "message": "Low extraction confidence (0.8); verify the value",
+          "expected": null,
+          "actual": null
+        }
+      ]
+    },
+    {
+      "id": "f_304af2792820",
+      "page_no": 38,
+      "chapter": "",
+      "role": "hold_end",
+      "label": "Ende Haltezeit (Übertrag Kapitel 5.12.1)",
+      "value": "2016-06-10T10:14:00",
+      "value_raw": "10.06.2016 / 10:14",
+      "unit": "Uhr",
+      "nks": null,
+      "bbox": null,
+      "confidence": 0.8,
+      "status": "needs_review",
+      "flags": [
+        {
+          "severity": "warning",
+          "category": "extraction",
+          "code": "EXTRACT_LOW_CONF",
+          "message": "Low extraction confidence (0.8); verify the value",
+          "expected": null,
+          "actual": null
+        }
+      ]
+    },
+    {
+      "id": "f_a81e58fa4382",
+      "page_no": 38,
+      "chapter": "",
+      "role": null,
+      "label": "Tatsächliche Haltezeit",
+      "value": "26",
+      "value_raw": "26",
+      "unit": "h",
+      "nks": null,
+      "bbox": null,
+      "confidence": 0.8,
+      "status": "needs_review",
+      "flags": [
+        {
+          "severity": "warning",
+          "category": "extraction",
+          "code": "EXTRACT_LOW_CONF",
+          "message": "Low extraction confidence (0.8); verify the value",
+          "expected": null,
+          "actual": null
+        }
+      ]
+    },
+    {
+      "id": "f_bd8916fc2bb0",
+      "page_no": 38,
+      "chapter": "",
+      "role": null,
+      "label": "B10-PP aus Zyklus 2 eingesetzt",
+      "value": "Nein, Feld findet keine Anwendung",
+      "value_raw": "Nein, Feld findet keine Anwendung",
+      "unit": null,
+      "nks": null,
+      "bbox": null,
+      "confidence": 0.8,
+      "status": "needs_review",
+      "flags": [
+        {
+          "severity": "warning",
+          "category": "extraction",
+          "code": "EXTRACT_LOW_CONF",
+          "message": "Low extraction confidence (0.8); verify the value",
+          "expected": null,
+          "actual": null
+        }
+      ]
+    },
+    {
+      "id": "f_40f872b2886f",
+      "page_no": 38,
+      "chapter": "",
+      "role": "signature_processed",
+      "label": "Bearbeitet",
+      "value": "10.06.2016 / dhr",
+      "value_raw": "10.06.2016 / dhr",
+      "unit": null,
+      "nks": null,
+      "bbox": null,
+      "confidence": 0.8,
+      "status": "needs_review",
+      "flags": [
+        {
+          "severity": "warning",
+          "category": "extraction",
+          "code": "EXTRACT_LOW_CONF",
+          "message": "Low extraction confidence (0.8); verify the value",
+          "expected": null,
+          "actual": null
+        }
+      ]
+    },
+    {
+      "id": "f_d4e4bc37be31",
+      "page_no": 38,
+      "chapter": "",
+      "role": "signature_checked",
+      "label": "Geprüft",
+      "value": "10.06.2016 / dhr",
+      "value_raw": "10.06.2016 / dhr",
+      "unit": null,
+      "nks": null,
+      "bbox": null,
+      "confidence": 0.4,
+      "status": "needs_review",
+      "flags": [
+        {
+          "severity": "error",
+          "category": "four_eyes",
+          "code": "4EYES_DISTINCT",
+          "message": "Bearbeitet and Gepruft signed by the same person",
+          "expected": "two different Kurzel",
+          "actual": "dhr"
+        }
+      ]
+    },
+    {
+      "id": "f_eef8a7affa8f",
+      "page_no": 39,
+      "chapter": "",
+      "role": "hold_start",
+      "label": "Start Temperierung (Übertrag Kapitel 5.4.1)",
+      "value": "2026-06-10T14:27:00",
+      "value_raw": "10.06.2026 / 14:27",
+      "unit": "Uhr",
+      "nks": null,
+      "bbox": [
+        0.11729141475211609,
+        0.20402053036783577,
+        0.9068923821039904,
+        0.5183917878528657
+      ],
+      "confidence": 0.996,
+      "status": "auto_accepted",
+      "flags": []
+    },
+    {
+      "id": "f_653cadb818d7",
+      "page_no": 39,
+      "chapter": "",
+      "role": "hold_end",
+      "label": "Ende Temperierung (Übertrag Kapitel 5.12.1)",
+      "value": "2026-06-10T16:14:00",
+      "value_raw": "10.06.2026 / 16:14",
+      "unit": "Uhr",
+      "nks": null,
+      "bbox": [
+        0.11729141475211609,
+        0.20402053036783577,
+        0.9068923821039904,
+        0.5183917878528657
+      ],
+      "confidence": 0.996,
+      "status": "auto_accepted",
+      "flags": []
+    },
+    {
+      "id": "f_57edfa828756",
+      "page_no": 39,
+      "chapter": "",
+      "role": "hold_duration",
+      "label": "Dauer Temperierung",
+      "value": "2",
+      "value_raw": "2",
+      "unit": "h",
+      "nks": null,
+      "bbox": null,
+      "confidence": 0.4,
+      "status": "needs_review",
+      "flags": [
+        {
+          "severity": "error",
+          "category": "range",
+          "code": "RANGE_SOLL",
+          "message": "2.0 below Soll min 72.0",
+          "expected": ">= 72.0",
+          "actual": "2.0"
+        }
+      ]
+    },
+    {
+      "id": "f_24760f92da8d",
+      "page_no": 39,
+      "chapter": "",
+      "role": null,
+      "label": "B10-PP aus Zyklus 2 eingesetzt",
+      "value": "Ja",
+      "value_raw": "Ja",
+      "unit": null,
+      "nks": null,
+      "bbox": null,
+      "confidence": 0.8,
+      "status": "needs_review",
+      "flags": [
+        {
+          "severity": "warning",
+          "category": "extraction",
+          "code": "EXTRACT_LOW_CONF",
+          "message": "Low extraction confidence (0.8); verify the value",
+          "expected": null,
+          "actual": null
+        }
+      ]
+    },
+    {
+      "id": "f_2250757ff4f8",
+      "page_no": 39,
+      "chapter": "",
+      "role": null,
+      "label": "Temperierung durchgeführt",
+      "value": "Ja",
+      "value_raw": "Ja",
+      "unit": null,
+      "nks": null,
+      "bbox": null,
+      "confidence": 0.8,
+      "status": "needs_review",
+      "flags": [
+        {
+          "severity": "warning",
+          "category": "extraction",
+          "code": "EXTRACT_LOW_CONF",
+          "message": "Low extraction confidence (0.8); verify the value",
+          "expected": null,
+          "actual": null
+        }
+      ]
+    },
+    {
+      "id": "f_6769864019bc",
+      "page_no": 39,
+      "chapter": "",
+      "role": "hold_start",
+      "label": "Start Temperierung (Übertrag Kapitel 5.5.1)",
+      "value": "2026-06-10T17:12:00",
+      "value_raw": "10.06.2026 / 17:12",
+      "unit": "Uhr",
+      "nks": null,
+      "bbox": [
+        0.11729141475211609,
+        0.20402053036783577,
+        0.9068923821039904,
+        0.5183917878528657
+      ],
+      "confidence": 0.996,
+      "status": "auto_accepted",
+      "flags": []
+    },
+    {
+      "id": "f_3230b1188e49",
+      "page_no": 39,
+      "chapter": "",
+      "role": "hold_end",
+      "label": "Ende Temperierung (Übertrag Kapitel 5.12.1)",
+      "value": "2026-06-10T19:24:00",
+      "value_raw": "10.06.2026 / 19:24",
+      "unit": "Uhr",
+      "nks": null,
+      "bbox": [
+        0.11729141475211609,
+        0.20402053036783577,
+        0.9068923821039904,
+        0.5183917878528657
+      ],
+      "confidence": 0.996,
+      "status": "auto_accepted",
+      "flags": []
+    },
+    {
+      "id": "f_3e2d2d9b485c",
+      "page_no": 39,
+      "chapter": "",
+      "role": "hold_duration",
+      "label": "Dauer Temperierung",
+      "value": "2",
+      "value_raw": "2",
+      "unit": "h",
+      "nks": null,
+      "bbox": null,
+      "confidence": 0.4,
+      "status": "needs_review",
+      "flags": [
+        {
+          "severity": "error",
+          "category": "range",
+          "code": "RANGE_SOLL",
+          "message": "2.0 below Soll min 72.0",
+          "expected": ">= 72.0",
+          "actual": "2.0"
+        }
+      ]
+    },
+    {
+      "id": "f_eed5a4ba9d4d",
+      "page_no": 39,
+      "chapter": "",
+      "role": "signature_processed",
+      "label": "Bearbeitet: (Datum/Kürzel)",
+      "value": "10.06.2026 / ohe",
+      "value_raw": "10.06.2026 / ohe",
+      "unit": null,
+      "nks": null,
+      "bbox": [
+        0.11729141475211609,
+        0.20402053036783577,
+        0.9068923821039904,
+        0.5975192472198461
+      ],
+      "confidence": 0.979,
+      "status": "auto_accepted",
+      "flags": []
+    },
+    {
+      "id": "f_c3598e147e07",
+      "page_no": 39,
+      "chapter": "",
+      "role": "signature_checked",
+      "label": "Geprüft: (Datum/Kürzel)",
+      "value": "10.06.2026 / ohr",
+      "value_raw": "10.06.2026 / ohr",
+      "unit": null,
+      "nks": null,
+      "bbox": [
+        0.11729141475211609,
+        0.20402053036783577,
+        0.9068923821039904,
+        0.5975192472198461
+      ],
+      "confidence": 0.979,
+      "status": "auto_accepted",
+      "flags": []
+    },
+    {
+      "id": "f_b80175ab8fca",
+      "page_no": 40,
+      "chapter": "",
+      "role": null,
+      "label": "Intermediat",
+      "value": "241",
+      "value_raw": "241",
+      "unit": null,
+      "nks": null,
+      "bbox": [
+        0.11729141475211609,
+        0.22840034217279725,
+        0.9026602176541717,
+        0.5654405474764757
+      ],
+      "confidence": 1.0,
+      "status": "auto_accepted",
+      "flags": []
+    },
+    {
+      "id": "f_ba563ce1db34",
+      "page_no": 40,
+      "chapter": "",
+      "role": "tare_mass",
+      "label": "m Tara",
+      "value": "100",
+      "value_raw": "100",
+      "unit": "kg",
+      "nks": null,
+      "bbox": [
+        0.11729141475211609,
+        0.22840034217279725,
+        0.9026602176541717,
+        0.6526946107784432
+      ],
+      "confidence": 0.999,
+      "status": "auto_accepted",
+      "flags": []
+    },
+    {
+      "id": "f_ab2569d01e48",
+      "page_no": 40,
+      "chapter": "",
+      "role": "gross_mass",
+      "label": "m Brutto vPZ",
+      "value": "300",
+      "value_raw": "300",
+      "unit": "kg",
+      "nks": null,
+      "bbox": [
+        0.11729141475211609,
+        0.22840034217279725,
+        0.9026602176541717,
+        0.5654405474764757
+      ],
+      "confidence": 1.0,
+      "status": "auto_accepted",
+      "flags": []
+    },
+    {
+      "id": "f_e4f5397c68c6",
+      "page_no": 40,
+      "chapter": "",
+      "role": "net_mass",
+      "label": "m Netto vPZ",
+      "value": "200",
+      "value_raw": "200",
+      "unit": "kg",
+      "nks": null,
+      "bbox": [
+        0.11729141475211609,
+        0.22840034217279725,
+        0.9026602176541717,
+        0.5654405474764757
+      ],
+      "confidence": 1.0,
+      "status": "auto_accepted",
+      "flags": []
+    },
+    {
+      "id": "f_64c713b724de",
+      "page_no": 40,
+      "chapter": "",
+      "role": "volume",
+      "label": "V Netto vPZ",
+      "value": "236",
+      "value_raw": "236",
+      "unit": "L",
+      "nks": null,
+      "bbox": [
+        0.11729141475211609,
+        0.22840034217279725,
+        0.9026602176541717,
+        0.5654405474764757
+      ],
+      "confidence": 1.0,
+      "status": "auto_accepted",
+      "flags": []
+    },
+    {
+      "id": "f_b3db26cfc240",
+      "page_no": 40,
+      "chapter": "",
+      "role": null,
+      "label": "Proben (QC) erforderlich",
+      "value": "Ja",
+      "value_raw": "Ja",
+      "unit": null,
+      "nks": null,
+      "bbox": null,
+      "confidence": 0.8,
+      "status": "needs_review",
+      "flags": [
+        {
+          "severity": "warning",
+          "category": "extraction",
+          "code": "EXTRACT_LOW_CONF",
+          "message": "Low extraction confidence (0.8); verify the value",
+          "expected": null,
+          "actual": null
+        }
+      ]
+    },
+    {
+      "id": "f_0baf6d6a7f88",
+      "page_no": 40,
+      "chapter": "",
+      "role": null,
+      "label": "Proben gemäß Sonderprobenzugplan erforderlich",
+      "value": "Ja",
+      "value_raw": "Ja",
+      "unit": null,
+      "nks": null,
+      "bbox": null,
+      "confidence": 0.8,
+      "status": "needs_review",
+      "flags": [
+        {
+          "severity": "warning",
+          "category": "extraction",
+          "code": "EXTRACT_LOW_CONF",
+          "message": "Low extraction confidence (0.8); verify the value",
+          "expected": null,
+          "actual": null
+        }
+      ]
+    },
+    {
+      "id": "f_256898e00825",
+      "page_no": 40,
+      "chapter": "",
+      "role": "gross_mass",
+      "label": "m Brutto nPZ",
+      "value": "100",
+      "value_raw": "100",
+      "unit": "kg",
+      "nks": null,
+      "bbox": [
+        0.11729141475211609,
+        0.22840034217279725,
+        0.9026602176541717,
+        0.6526946107784432
+      ],
+      "confidence": 0.999,
+      "status": "auto_accepted",
+      "flags": []
+    },
+    {
+      "id": "f_8d19389a4d28",
+      "page_no": 40,
+      "chapter": "",
+      "role": "net_mass",
+      "label": "m Netto nPZ",
+      "value": "200",
+      "value_raw": "200",
+      "unit": "kg",
+      "nks": null,
+      "bbox": [
+        0.11729141475211609,
+        0.22840034217279725,
+        0.9026602176541717,
+        0.5654405474764757
+      ],
+      "confidence": 1.0,
+      "status": "auto_accepted",
+      "flags": []
+    },
+    {
+      "id": "f_ba3dd6665e74",
+      "page_no": 40,
+      "chapter": "",
+      "role": "volume",
+      "label": "V Netto nPZ",
+      "value": "118",
+      "value_raw": "118",
+      "unit": "L",
+      "nks": null,
+      "bbox": [
+        0.11729141475211609,
+        0.22840034217279725,
+        0.9026602176541717,
+        0.5654405474764757
+      ],
+      "confidence": 1.0,
+      "status": "auto_accepted",
+      "flags": []
+    },
+    {
+      "id": "f_0428fe564d42",
+      "page_no": 40,
+      "chapter": "",
+      "role": "signature_processed",
+      "label": "Bearbeitet",
+      "value": "10.06.2026 / dhp",
+      "value_raw": "10.06.2026 / dhp",
+      "unit": null,
+      "nks": null,
+      "bbox": [
+        0.11729141475211609,
+        0.5846877673224978,
+        0.9026602176541717,
+        0.6526946107784432
+      ],
+      "confidence": 0.998,
+      "status": "auto_accepted",
+      "flags": []
+    },
+    {
+      "id": "f_da50afffe02a",
+      "page_no": 40,
+      "chapter": "",
+      "role": "signature_checked",
+      "label": "Geprüft",
+      "value": "10.06.2026 / dhp",
+      "value_raw": "10.06.2026 / dhp",
+      "unit": null,
+      "nks": null,
+      "bbox": [
+        0.11729141475211609,
+        0.5846877673224978,
+        0.9026602176541717,
+        0.6526946107784432
+      ],
+      "confidence": 0.4,
+      "status": "needs_review",
+      "flags": [
+        {
+          "severity": "error",
+          "category": "four_eyes",
+          "code": "4EYES_DISTINCT",
+          "message": "Bearbeitet and Gepruft signed by the same person",
+          "expected": "two different Kurzel",
+          "actual": "dhp"
+        }
+      ]
+    },
+    {
+      "id": "f_d393aabdbcbb",
+      "page_no": 40,
+      "chapter": "",
+      "role": null,
+      "label": "Baker Nine",
+      "value": "437",
+      "value_raw": "437",
+      "unit": "mAU",
+      "nks": 0,
+      "bbox": [
+        0.11729141475211609,
+        0.7258340461933276,
+        0.9026602176541717,
+        0.894781864841745
+      ],
+      "confidence": 1.0,
+      "status": "auto_accepted",
+      "flags": []
+    },
+    {
+      "id": "f_168cd68217c7",
+      "page_no": 40,
+      "chapter": "",
+      "role": null,
+      "label": "Browning Point 3 (Anstieg)",
+      "value": "1046",
+      "value_raw": "1046",
+      "unit": "mAU",
+      "nks": 0,
+      "bbox": [
+        0.11729141475211609,
+        0.7258340461933276,
+        0.9026602176541717,
+        0.894781864841745
+      ],
+      "confidence": 1.0,
+      "status": "auto_accepted",
+      "flags": []
+    },
+    {
+      "id": "f_3bf5e8721c93",
+      "page_no": 40,
+      "chapter": "",
+      "role": null,
+      "label": "Cake Lead",
+      "value": "15",
+      "value_raw": "15",
+      "unit": "mAU",
+      "nks": 0,
+      "bbox": null,
+      "confidence": 0.8,
+      "status": "needs_review",
+      "flags": [
+        {
+          "severity": "warning",
+          "category": "extraction",
+          "code": "EXTRACT_LOW_CONF",
+          "message": "Low extraction confidence (0.8); verify the value",
+          "expected": null,
+          "actual": null
+        }
+      ]
+    },
+    {
+      "id": "f_ffc9074a1ec5",
+      "page_no": 40,
+      "chapter": "",
+      "role": null,
+      "label": "Browning Point 7 (Abstieg)",
+      "value": "327",
+      "value_raw": "327",
+      "unit": "mAU",
+      "nks": 0,
+      "bbox": [
+        0.11729141475211609,
+        0.7258340461933276,
+        0.9026602176541717,
+        0.894781864841745
+      ],
+      "confidence": 1.0,
+      "status": "auto_accepted",
+      "flags": []
+    },
+    {
+      "id": "f_64f0a5680554",
+      "page_no": 41,
+      "chapter": "",
+      "role": "signature_processed",
+      "label": "Bearbeitet",
+      "value": "10.06.2026 / ohp",
+      "value_raw": "10.06.2026 / ohp",
+      "unit": null,
+      "nks": null,
+      "bbox": [
+        0.4607013301088271,
+        0.20530367835757057,
+        0.6668681983071342,
+        0.2523524379811805
+      ],
+      "confidence": 0.951,
+      "status": "auto_accepted",
+      "flags": []
+    },
+    {
+      "id": "f_393c1c01a7af",
+      "page_no": 41,
+      "chapter": "",
+      "role": "signature_checked",
+      "label": "Geprüft",
+      "value": "10.06.2026 / ohe",
+      "value_raw": "10.06.2026 / ohe",
+      "unit": null,
+      "nks": null,
+      "bbox": [
+        0.4607013301088271,
+        0.20530367835757057,
+        0.6668681983071342,
+        0.2523524379811805
+      ],
+      "confidence": 0.951,
+      "status": "auto_accepted",
+      "flags": []
+    },
+    {
+      "id": "f_0fa8579644c1",
+      "page_no": 41,
+      "chapter": "",
+      "role": null,
+      "label": "Probenzug",
+      "value": "2026-06-10T08:14:00",
+      "value_raw": "10.06.2026 / 8:14",
+      "unit": "Uhr",
+      "nks": null,
+      "bbox": [
+        0.12031438935912939,
+        0.28528656971770744,
+        0.9087061668681983,
+        0.41146278870829767
+      ],
+      "confidence": 0.983,
+      "status": "auto_accepted",
+      "flags": []
+    },
+    {
+      "id": "f_d9a169248c3e",
+      "page_no": 41,
+      "chapter": "",
+      "role": null,
+      "label": "Probenzugsetikett(en) auf Probe(n) mit eingeklebtem(n) Etikett(en) identisch",
+      "value": "Ja",
+      "value_raw": "Ja",
+      "unit": null,
+      "nks": null,
+      "bbox": null,
+      "confidence": 0.8,
+      "status": "needs_review",
+      "flags": [
+        {
+          "severity": "warning",
+          "category": "extraction",
+          "code": "EXTRACT_LOW_CONF",
+          "message": "Low extraction confidence (0.8); verify the value",
+          "expected": null,
+          "actual": null
+        }
+      ]
+    },
+    {
+      "id": "f_6063fa9adaaf",
+      "page_no": 41,
+      "chapter": "",
+      "role": null,
+      "label": "Stage Etikett und Probenzugsetikett(en) in LIMS received, sowie Lagerort (03er Proben Lagerort = „in Bearbeitung“) angegeben",
+      "value": "Ja",
+      "value_raw": "Ja",
+      "unit": null,
+      "nks": null,
+      "bbox": null,
+      "confidence": 0.8,
+      "status": "needs_review",
+      "flags": [
+        {
+          "severity": "warning",
+          "category": "extraction",
+          "code": "EXTRACT_LOW_CONF",
+          "message": "Low extraction confidence (0.8); verify the value",
+          "expected": null,
+          "actual": null
+        }
+      ]
+    },
+    {
+      "id": "f_187841866006",
+      "page_no": 41,
+      "chapter": "",
+      "role": null,
+      "label": "Probenzugsetikett(en) auf Probe(n) mit eingeklebtem(n) Etikett(en) identisch",
+      "value": "26.10.2025 / ohr",
+      "value_raw": "26.10.2025 / ohr",
+      "unit": null,
+      "nks": null,
+      "bbox": [
+        0.12031438935912939,
+        0.28528656971770744,
+        0.9087061668681983,
+        0.41146278870829767
+      ],
+      "confidence": 0.983,
+      "status": "auto_accepted",
+      "flags": []
+    },
+    {
+      "id": "f_4846d8fd49a9",
+      "page_no": 41,
+      "chapter": "",
+      "role": null,
+      "label": "Stage Etikett und Probenzugsetikett(en) in LIMS received, sowie Lagerort (03er Proben Lagerort = „in Bearbeitung“) angegeben",
+      "value": "10.06.2025 / ohe",
+      "value_raw": "10.06.2025 / ohe",
+      "unit": null,
+      "nks": null,
+      "bbox": [
+        0.12031438935912939,
+        0.28528656971770744,
+        0.9087061668681983,
+        0.41146278870829767
+      ],
+      "confidence": 0.983,
+      "status": "auto_accepted",
+      "flags": []
+    },
+    {
+      "id": "f_deadd1778b7c",
+      "page_no": 42,
+      "chapter": "",
+      "role": null,
+      "label": "Ja / Nein, Feld findet keine Anwendung",
+      "value": "Nein",
+      "value_raw": "Nein",
+      "unit": null,
+      "nks": null,
+      "bbox": null,
+      "confidence": 0.8,
+      "status": "needs_review",
+      "flags": [
+        {
+          "severity": "warning",
+          "category": "extraction",
+          "code": "EXTRACT_LOW_CONF",
+          "message": "Low extraction confidence (0.8); verify the value",
+          "expected": null,
+          "actual": null
+        }
+      ]
+    },
+    {
+      "id": "f_e43d81461df5",
+      "page_no": 43,
+      "chapter": "",
+      "role": null,
+      "label": "Feld findet keine Anwendung",
+      "value": "Ja",
+      "value_raw": "Ja",
+      "unit": null,
+      "nks": null,
+      "bbox": null,
+      "confidence": 0.8,
+      "status": "needs_review",
+      "flags": [
+        {
+          "severity": "warning",
+          "category": "extraction",
+          "code": "EXTRACT_LOW_CONF",
+          "message": "Low extraction confidence (0.8); verify the value",
+          "expected": null,
+          "actual": null
+        }
+      ]
+    },
+    {
+      "id": "f_e773ce98b961",
+      "page_no": 43,
+      "chapter": "",
+      "role": null,
+      "label": "Bemerkungen",
+      "value": "Fehler 404",
+      "value_raw": "Fehler 404",
+      "unit": null,
+      "nks": null,
+      "bbox": [
+        0.11910519951632406,
+        0.19632164242942687,
+        0.9068923821039904,
+        0.8297690333618477
+      ],
+      "confidence": 1.0,
+      "status": "auto_accepted",
+      "flags": []
+    },
+    {
+      "id": "f_45bb4999841c",
+      "page_no": 43,
+      "chapter": "",
+      "role": null,
+      "label": "Datum/Kürzel",
+      "value": "10.06.2026 / ohe",
+      "value_raw": "10.06.2026 / ohe",
+      "unit": null,
+      "nks": null,
+      "bbox": [
+        0.11910519951632406,
+        0.19632164242942687,
+        0.9068923821039904,
+        0.8297690333618477
+      ],
+      "confidence": 1.0,
+      "status": "auto_accepted",
+      "flags": []
+    },
+    {
+      "id": "f_257bbf59824b",
+      "page_no": 44,
+      "chapter": "",
+      "role": null,
+      "label": "Abweichungen vorhanden.",
+      "value": "Ja",
+      "value_raw": "Ja",
+      "unit": null,
+      "nks": null,
+      "bbox": null,
+      "confidence": 0.8,
+      "status": "needs_review",
+      "flags": [
+        {
+          "severity": "warning",
+          "category": "extraction",
+          "code": "EXTRACT_LOW_CONF",
+          "message": "Low extraction confidence (0.8); verify the value",
+          "expected": null,
+          "actual": null
+        }
+      ]
+    },
+    {
+      "id": "f_4d825a6161f2",
+      "page_no": 44,
+      "chapter": "",
+      "role": "signature_processed",
+      "label": "Bearbeitet: (Datum/Kürzel)",
+      "value": "10.06.2026 / olr",
+      "value_raw": "10.06.2026 / olr",
+      "unit": null,
+      "nks": null,
+      "bbox": [
+        0.11487303506650544,
+        0.19204448246364414,
+        0.8996372430471584,
+        0.2763045337895637
+      ],
+      "confidence": 0.961,
+      "status": "auto_accepted",
+      "flags": []
+    },
+    {
+      "id": "f_87af35cef946",
+      "page_no": 44,
+      "chapter": "",
+      "role": null,
+      "label": "zu Seite",
+      "value": "17",
+      "value_raw": "17",
+      "unit": null,
+      "nks": null,
+      "bbox": null,
+      "confidence": 0.8,
+      "status": "needs_review",
+      "flags": [
+        {
+          "severity": "warning",
+          "category": "extraction",
+          "code": "EXTRACT_LOW_CONF",
+          "message": "Low extraction confidence (0.8); verify the value",
+          "expected": null,
+          "actual": null
+        }
+      ]
+    },
+    {
+      "id": "f_ebae27068ac2",
+      "page_no": 44,
+      "chapter": "",
+      "role": null,
+      "label": "Referenz EV",
+      "value": "EV-20 26 - 001",
+      "value_raw": "EV-20 26 - 001",
+      "unit": null,
+      "nks": null,
+      "bbox": [
+        0.11487303506650544,
+        0.3023952095808383,
+        0.9081015719467956,
+        0.7459366980325064
+      ],
+      "confidence": 0.978,
+      "status": "auto_accepted",
+      "flags": []
+    },
+    {
+      "id": "f_40173e6db953",
+      "page_no": 44,
+      "chapter": "",
+      "role": null,
+      "label": "EV mündet in DEVI",
+      "value": "DEVI-20 26 - 001",
+      "value_raw": "DEVI-20 26 - 001",
+      "unit": null,
+      "nks": null,
+      "bbox": [
+        0.11487303506650544,
+        0.3023952095808383,
+        0.9081015719467956,
+        0.7459366980325064
+      ],
+      "confidence": 0.978,
+      "status": "auto_accepted",
+      "flags": []
+    },
+    {
+      "id": "f_79f9bf4a8f85",
+      "page_no": 44,
+      "chapter": "",
+      "role": null,
+      "label": "Datum/Kürzel",
+      "value": "10.06.2026 / olr",
+      "value_raw": "10.06.2026 / olr",
+      "unit": null,
+      "nks": null,
+      "bbox": [
+        0.11487303506650544,
+        0.19204448246364414,
+        0.8996372430471584,
+        0.2763045337895637
+      ],
+      "confidence": 0.961,
+      "status": "auto_accepted",
+      "flags": []
+    },
+    {
+      "id": "f_fe68e7494821",
+      "page_no": 44,
+      "chapter": "",
+      "role": null,
+      "label": "Weitere Abweichungen",
+      "value": "Ja",
+      "value_raw": "Ja",
+      "unit": null,
+      "nks": null,
+      "bbox": null,
+      "confidence": 0.8,
+      "status": "needs_review",
+      "flags": [
+        {
+          "severity": "warning",
+          "category": "extraction",
+          "code": "EXTRACT_LOW_CONF",
+          "message": "Low extraction confidence (0.8); verify the value",
+          "expected": null,
+          "actual": null
+        }
+      ]
+    },
+    {
+      "id": "f_0b6e3cf7cd50",
+      "page_no": 44,
+      "chapter": "",
+      "role": null,
+      "label": "zu Seite",
+      "value": "34",
+      "value_raw": "34",
+      "unit": null,
+      "nks": null,
+      "bbox": null,
+      "confidence": 0.8,
+      "status": "needs_review",
+      "flags": [
+        {
+          "severity": "warning",
+          "category": "extraction",
+          "code": "EXTRACT_LOW_CONF",
+          "message": "Low extraction confidence (0.8); verify the value",
+          "expected": null,
+          "actual": null
+        }
+      ]
+    },
+    {
+      "id": "f_759aae7a5e97",
+      "page_no": 44,
+      "chapter": "",
+      "role": null,
+      "label": "Referenz EV",
+      "value": "EV-20 25 - 043",
+      "value_raw": "EV-20 25 - 043",
+      "unit": null,
+      "nks": null,
+      "bbox": [
+        0.11487303506650544,
+        0.3023952095808383,
+        0.9081015719467956,
+        0.7459366980325064
+      ],
+      "confidence": 0.978,
+      "status": "auto_accepted",
+      "flags": []
+    },
+    {
+      "id": "f_c45509d5cf3e",
+      "page_no": 44,
+      "chapter": "",
+      "role": null,
+      "label": "EV mündet in DEVI",
+      "value": "DEVI-20 25 - 014",
+      "value_raw": "DEVI-20 25 - 014",
+      "unit": null,
+      "nks": null,
+      "bbox": [
+        0.11487303506650544,
+        0.3023952095808383,
+        0.9081015719467956,
+        0.7459366980325064
+      ],
+      "confidence": 0.978,
+      "status": "auto_accepted",
+      "flags": []
+    },
+    {
+      "id": "f_210accd99d62",
+      "page_no": 44,
+      "chapter": "",
+      "role": null,
+      "label": "Datum/Kürzel",
+      "value": "10.06.2026 / olr",
+      "value_raw": "10.06.2026 / olr",
+      "unit": null,
+      "nks": null,
+      "bbox": [
+        0.11487303506650544,
+        0.19204448246364414,
+        0.8996372430471584,
+        0.2763045337895637
+      ],
+      "confidence": 0.961,
+      "status": "auto_accepted",
+      "flags": []
+    },
+    {
+      "id": "f_ee73b7b07df4",
+      "page_no": 44,
+      "chapter": "",
+      "role": null,
+      "label": "Weitere Abweichungen",
+      "value": "Nein, restliches Kapitel findet keine Anwendung",
+      "value_raw": "Nein, restliches Kapitel findet keine Anwendung",
+      "unit": null,
+      "nks": null,
+      "bbox": null,
+      "confidence": 0.8,
+      "status": "needs_review",
+      "flags": [
+        {
+          "severity": "warning",
+          "category": "extraction",
+          "code": "EXTRACT_LOW_CONF",
+          "message": "Low extraction confidence (0.8); verify the value",
+          "expected": null,
+          "actual": null
+        }
+      ]
+    },
+    {
+      "id": "f_e6493ffd51c7",
+      "page_no": 45,
+      "chapter": "",
+      "role": null,
+      "label": "Review durchgeführt: Reviewer (Datum/Unterschrift)",
+      "value": "10.06.2026 / GhP",
+      "value_raw": "10.06.2026 / GhP",
+      "unit": null,
+      "nks": null,
+      "bbox": [
+        0.5804111245465539,
+        0.21300256629597947,
+        0.7345828295042321,
+        0.23438836612489308
+      ],
+      "confidence": 0.973,
+      "status": "auto_accepted",
+      "flags": []
+    }
+  ]
+}

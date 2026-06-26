@@ -1,0 +1,127 @@
+{
+  "document": "scanned_batch_documentation.pdf",
+  "model": {
+    "reader": "gpt-5.5 (OpenAI)",
+    "ocr": "mistral-ocr-4-0"
+  },
+  "n_fields": 326,
+  "n_errors": 21,
+  "n_warnings": 119,
+  "n_auto_accepted": 186,
+  "n_needs_review": 140,
+  "flags_by_code": {
+    "error:4EYES_DISTINCT": 13,
+    "error:4EYES_ORDER": 1,
+    "error:CALC_NET_MASS": 1,
+    "error:FMT_DATE_PADDING": 3,
+    "error:RANGE_SOLL": 3,
+    "warning:EXTRACT_LOW_CONF": 119
+  },
+  "errors": [
+    {
+      "page": 9,
+      "code": "4EYES_DISTINCT",
+      "message": "Bearbeitet and Gepruft signed by the same person"
+    },
+    {
+      "page": 10,
+      "code": "4EYES_DISTINCT",
+      "message": "Bearbeitet and Gepruft signed by the same person"
+    },
+    {
+      "page": 10,
+      "code": "4EYES_ORDER",
+      "message": "Gepruft date is before Bearbeitet date (review must follow processing)"
+    },
+    {
+      "page": 12,
+      "code": "CALC_NET_MASS",
+      "message": "net_mass should equal gross - tare = 400.0 - 200.0 = 200.0"
+    },
+    {
+      "page": 16,
+      "code": "4EYES_DISTINCT",
+      "message": "Bearbeitet and Gepruft signed by the same person"
+    },
+    {
+      "page": 17,
+      "code": "RANGE_SOLL",
+      "message": "32.0 above Soll max 30.0"
+    },
+    {
+      "page": 23,
+      "code": "4EYES_DISTINCT",
+      "message": "Bearbeitet and Gepruft signed by the same person"
+    },
+    {
+      "page": 30,
+      "code": "FMT_DATE_PADDING",
+      "message": "Date 'Ja' is not zero-padded DD.MM.YYYY"
+    },
+    {
+      "page": 30,
+      "code": "FMT_DATE_PADDING",
+      "message": "Date 'Ja' is not zero-padded DD.MM.YYYY"
+    },
+    {
+      "page": 30,
+      "code": "FMT_DATE_PADDING",
+      "message": "Date 'Ja' is not zero-padded DD.MM.YYYY"
+    },
+    {
+      "page": 31,
+      "code": "4EYES_DISTINCT",
+      "message": "Bearbeitet and Gepruft signed by the same person"
+    },
+    {
+      "page": 32,
+      "code": "4EYES_DISTINCT",
+      "message": "Bearbeitet and Gepruft signed by the same person"
+    },
+    {
+      "page": 33,
+      "code": "4EYES_DISTINCT",
+      "message": "Bearbeitet and Gepruft signed by the same person"
+    },
+    {
+      "page": 34,
+      "code": "4EYES_DISTINCT",
+      "message": "Bearbeitet and Gepruft signed by the same person"
+    },
+    {
+      "page": 34,
+      "code": "4EYES_DISTINCT",
+      "message": "Bearbeitet and Gepruft signed by the same person"
+    },
+    {
+      "page": 36,
+      "code": "4EYES_DISTINCT",
+      "message": "Bearbeitet and Gepruft signed by the same person"
+    },
+    {
+      "page": 37,
+      "code": "4EYES_DISTINCT",
+      "message": "Bearbeitet and Gepruft signed by the same person"
+    },
+    {
+      "page": 38,
+      "code": "4EYES_DISTINCT",
+      "message": "Bearbeitet and Gepruft signed by the same person"
+    },
+    {
+      "page": 39,
+      "code": "RANGE_SOLL",
+      "message": "2.0 below Soll min 72.0"
+    },
+    {
+      "page": 39,
+      "code": "RANGE_SOLL",
+      "message": "2.0 below Soll min 72.0"
+    },
+    {
+      "page": 40,
+      "code": "4EYES_DISTINCT",
+      "message": "Bearbeitet and Gepruft signed by the same person"
+    }
+  ]
+}
