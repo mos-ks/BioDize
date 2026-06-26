@@ -5,3 +5,9 @@ dist-ssr
 .env
 .DS_Store
 .vite
+
+# wrangler files
+.wrangler
+.dev.vars*
+!.dev.vars.example
+!.env.example
