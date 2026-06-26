@@ -32,6 +32,8 @@ def test_planted_errors_are_caught():
     assert "CALC_FORMULA" in codes
     # p36: signature dated 2016, before the record's print date (2026-06-09)
     assert "DATE_BEFORE_PRINT" in codes
+    # p36: signature Kuerzel 'abc' is not in the personnel registry {han, ohe}
+    assert "KUERZEL_UNKNOWN" in codes
 
 
 def test_clean_block_has_no_flags():

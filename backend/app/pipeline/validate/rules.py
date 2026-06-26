@@ -253,6 +253,56 @@ def rule_dates_document(doc: Document, ref: date | None) -> None:
                              expected=f"<= {horizon.isoformat()}", actual=d.isoformat()))
 
 
+def _within_one_edit(a: str, b: str) -> bool:
+    """True if a and b are within Levenshtein distance 1 (tolerates OCR noise)."""
+    if a == b:
+        return True
+    la, lb = len(a), len(b)
+    if abs(la - lb) > 1:
+        return False
+    if la == lb:
+        return sum(c1 != c2 for c1, c2 in zip(a, b)) <= 1
+    short, long = (a, b) if la < lb else (b, a)
+    i = j = edits = 0
+    while i < len(short) and j < len(long):
+        if short[i] == long[j]:
+            i, j = i + 1, j + 1
+        else:
+            edits += 1
+            if edits > 1:
+                return False
+            j += 1
+    return True
+
+
+def _registry_kuerzel(doc: Document) -> set[str]:
+    """Kürzel registered in the personnel table (a field labelled 'Kürzel')."""
+    reg: set[str] = set()
+    for f in doc.all_fields():
+        if (f.label_raw or "").strip().lower() == "kürzel" and f.value_raw:
+            reg.add(f.value_raw.strip().lower())
+    return reg
+
+
+def rule_kuerzel_document(doc: Document) -> None:
+    """Flag a signature Kürzel that isn't in the personnel list (Beteiligte Personen).
+    Edit-distance-1 tolerance absorbs OCR noise, so only clearly-unregistered initials
+    flag (warning — a human checks the original)."""
+    registry = _registry_kuerzel(doc)
+    if not registry:
+        return
+    for f in doc.all_fields():
+        if f.role not in (Role.SIGNATURE_PROCESSED, Role.SIGNATURE_CHECKED):
+            continue
+        _, _, k = parse_signature(f.value_raw)
+        if not k:
+            continue
+        if not any(_within_one_edit(k.lower(), r) for r in registry):
+            f.add_flag(_warn(Category.FOUR_EYES, "KUERZEL_UNKNOWN",
+                             f"Kuerzel '{k}' is not in the personnel list (Beteiligte Personen)",
+                             expected="a registered Kuerzel", actual=k))
+
+
 # --- registries -------------------------------------------------------------
 
 FIELD_RULES = [rule_date_format, rule_nks, rule_range, rule_formula]

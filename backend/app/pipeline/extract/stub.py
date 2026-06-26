@@ -93,11 +93,20 @@ class StubExtractor:
         b36.fields = [
             _f(Role.CALC_RESULT, "Load Volumen", "2021,78", unit="L",
                calc_expr="6,6 * 45 - 4,3 * 0,75", bbox=(0.61, 0.55, 0.80, 0.58), conf=0.95),
-            _f(Role.SIGNATURE_PROCESSED, "Bearbeitet", "10.06.2016 / ole", bbox=(0.40, 0.70, 0.70, 0.73), conf=0.95),
+            _f(Role.SIGNATURE_PROCESSED, "Bearbeitet", "10.06.2016 / abc", bbox=(0.40, 0.70, 0.70, 0.73), conf=0.95),
             _f(Role.SIGNATURE_CHECKED, "Geprueft", "10.06.2026 / han", bbox=(0.40, 0.74, 0.70, 0.77), conf=0.95),
         ]
 
-        for block in (b11, b10, b17, b40, b36):
+        # --- p4: Beteiligte Personen — the Kuerzel registry -----------------
+        b4 = Block(chapter="1", page_no=4, template="personnel")
+        b4.fields = [
+            _f(None, "Name Mitarbeiter", "Hans Mustermann", required=False),
+            _f(None, "Kürzel", "han", required=False),
+            _f(None, "Name Mitarbeiter", "Olga Herzig", required=False),
+            _f(None, "Kürzel", "ohe", required=False),
+        ]
+
+        for block in (b11, b10, b17, b40, b36, b4):
             for fld in block.fields:
                 fld.page_no = block.page_no
                 fld.chapter = block.chapter
