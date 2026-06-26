@@ -1,0 +1,230 @@
+// ReviewPage — the centerpiece review experience for a single batch record.
+//
+// Layout: a top document bar, then a tall two-column workspace. Left = a tabbed
+// list pane (Queue / All fields / Flags); right = the detail + confirm/correct
+// flow. Both panes scroll independently and the whole thing fits the viewport.
+//
+// Review flow: the queue is ordered errors -> warnings -> low-confidence by the
+// backend. Selecting a row opens its detail; confirming/correcting it patches
+// the field, refreshes the queue + document tallies, and auto-advances to the
+// next item for a fast keyboard-light review loop.
+
+import { useEffect, useMemo, useRef, useState } from "react";
+import { useNavigate, useParams } from "react-router-dom";
+import { ListChecks, PartyPopper, Sparkles, Table2, TriangleAlert } from "lucide-react";
+import { api } from "../api/client";
+import type { DocumentSummary, Field } from "../api/types";
+import { classNames, useApi } from "../lib/ui";
+import { EmptyState, ErrorBlock, LoadingBlock } from "../components/atoms";
+import DocumentBar from "./review/DocumentBar";
+import FieldRow from "./review/FieldRow";
+import FieldDetail from "./review/FieldDetail";
+import AllFieldsList from "./review/AllFieldsList";
+import FlagsOverview from "./review/FlagsOverview";
+
+type Tab = "queue" | "all" | "flags";
+
+export default function ReviewPage() {
+  const { documentId = "" } = useParams();
+  const navigate = useNavigate();
+
+  const [tab, setTab] = useState<Tab>("queue");
+  const [selectedId, setSelectedId] = useState<string | null>(null);
+  // Lets us auto-select the first queue item only on the very first load.
+  const autoSelectedRef = useRef(false);
+
+  const docState = useApi<DocumentSummary>(() => api.getDocument(documentId), [documentId]);
+  const queueState = useApi<Field[]>(() => api.getQueue(documentId), [documentId]);
+
+  const queue = useMemo(() => queueState.data ?? [], [queueState.data]);
+
+  // Auto-select the first queue item once the queue first arrives.
+  useEffect(() => {
+    if (!autoSelectedRef.current && queue.length > 0) {
+      autoSelectedRef.current = true;
+      setSelectedId((cur) => cur ?? queue[0].id);
+    }
+  }, [queue]);
+
+  function selectField(id: string) {
+    setSelectedId(id);
+  }
+
+  // After a confirm/correct: refresh tallies + queue, then advance to the next
+  // unresolved queue item (or clear selection when the queue empties).
+  function handleResolved() {
+    const idx = queue.findIndex((f) => f.id === selectedId);
+    const next = idx >= 0 ? queue.slice(idx + 1).find((f) => f.id !== selectedId) : undefined;
+    setSelectedId(next ? next.id : null);
+    docState.reload();
+    queueState.reload();
+  }
+
+  function advanceToNext() {
+    const idx = queue.findIndex((f) => f.id === selectedId);
+    const next = idx >= 0 ? queue[idx + 1] : queue[0];
+    setSelectedId(next ? next.id : null);
+  }
+
+  const selectedIndex = selectedId ? queue.findIndex((f) => f.id === selectedId) : -1;
+  const hasNext = selectedIndex >= 0 && selectedIndex < queue.length - 1;
+
+  const tabs: { id: Tab; label: string; icon: typeof ListChecks; count?: number }[] = [
+    { id: "queue", label: "Queue", icon: ListChecks, count: queue.length },
+    { id: "all", label: "All fields", icon: Table2 },
+    { id: "flags", label: "Flags", icon: TriangleAlert },
+  ];
+
+  // --- Document-level load/error gate ---------------------------------------
+  if (docState.loading) return <LoadingBlock label="Loading document…" />;
+  if (docState.error || !docState.data)
+    return (
+      <ErrorBlock
+        message={docState.error ?? "Document not found."}
+        onRetry={() => {
+          docState.reload();
+          queueState.reload();
+        }}
+      />
+    );
+
+  return (
+    <div className="flex flex-col gap-4">
+      <DocumentBar doc={docState.data} />
+
+      <div className="grid min-h-0 grid-cols-1 gap-4 lg:grid-cols-[minmax(360px,440px)_minmax(0,1fr)] lg:h-[calc(100vh-12rem)]">
+        {/* LEFT PANE — tabbed list */}
+        <section className="flex min-h-0 flex-col">
+          <div className="flex shrink-0 items-center gap-1 rounded-xl border border-slate-200 bg-white p-1 shadow-card">
+            {tabs.map((t) => {
+              const Icon = t.icon;
+              const selected = tab === t.id;
+              return (
+                <button
+                  key={t.id}
+                  onClick={() => setTab(t.id)}
+                  className={classNames(
+                    "flex flex-1 items-center justify-center gap-1.5 rounded-lg px-2 py-2 text-sm font-medium transition-colors",
+                    selected ? "bg-brand-600 text-white shadow-sm" : "text-slate-500 hover:bg-slate-100",
+                  )}
+                >
+                  <Icon className="h-4 w-4" />
+                  <span className="hidden sm:inline">{t.label}</span>
+                  {t.count !== undefined && t.count > 0 && (
+                    <span
+                      className={classNames(
+                        "rounded-full px-1.5 text-xs font-semibold tabular-nums",
+                        selected ? "bg-white/20 text-white" : "bg-slate-200 text-slate-600",
+                      )}
+                    >
+                      {t.count}
+                    </span>
+                  )}
+                </button>
+              );
+            })}
+          </div>
+
+          <div className="mt-3 min-h-0 flex-1 overflow-y-auto pr-1">
+            {tab === "queue" && (
+              <QueuePane
+                queueState={queueState}
+                queue={queue}
+                selectedId={selectedId}
+                onSelect={selectField}
+              />
+            )}
+            {tab === "all" && (
+              <AllFieldsList documentId={documentId} activeId={selectedId} onSelect={selectField} />
+            )}
+            {tab === "flags" && <FlagsOverview documentId={documentId} />}
+          </div>
+        </section>
+
+        {/* RIGHT PANE — detail */}
+        <section className="min-h-0 lg:overflow-y-auto">
+          <div className="card min-h-full p-4 sm:p-5">
+            {selectedId ? (
+              <FieldDetail
+                key={selectedId}
+                fieldId={selectedId}
+                onResolved={handleResolved}
+                hasNext={hasNext}
+                onSkipNext={advanceToNext}
+              />
+            ) : queue.length === 0 ? (
+              <AllClear onBrowseAll={() => setTab("all")} onStats={() => navigate(`/documents/${documentId}/stats`)} />
+            ) : (
+              <EmptyState
+                icon={<Sparkles className="h-8 w-8" />}
+                title="Pick a field to review"
+                hint="Select an item from the queue on the left to see its value, location on the page, and validation flags."
+                action={
+                  <button onClick={() => setSelectedId(queue[0].id)} className="btn-primary text-sm">
+                    Start with the first item
+                  </button>
+                }
+              />
+            )}
+          </div>
+        </section>
+      </div>
+    </div>
+  );
+}
+
+function QueuePane({
+  queueState,
+  queue,
+  selectedId,
+  onSelect,
+}: {
+  queueState: ReturnType<typeof useApi<Field[]>>;
+  queue: Field[];
+  selectedId: string | null;
+  onSelect: (id: string) => void;
+}) {
+  if (queueState.loading && queue.length === 0) return <LoadingBlock label="Loading queue…" />;
+  if (queueState.error) return <ErrorBlock message={queueState.error} onRetry={queueState.reload} />;
+  if (queue.length === 0) {
+    return (
+      <EmptyState
+        icon={<PartyPopper className="h-8 w-8 text-brand-400" />}
+        title="Queue is empty"
+        hint="Every field is auto-accepted or human-confirmed. Nothing left to review."
+      />
+    );
+  }
+  return (
+    <div className="animate-fade-in space-y-2">
+      {queue.map((f) => (
+        <FieldRow key={f.id} field={f} active={f.id === selectedId} onSelect={onSelect} />
+      ))}
+    </div>
+  );
+}
+
+function AllClear({ onBrowseAll, onStats }: { onBrowseAll: () => void; onStats: () => void }) {
+  return (
+    <div className="flex h-full flex-col items-center justify-center gap-4 rounded-xl bg-gradient-to-b from-brand-50/70 to-white px-6 py-16 text-center animate-slide-up">
+      <div className="grid h-16 w-16 place-items-center rounded-2xl bg-brand-100 text-brand-600 shadow-sm">
+        <PartyPopper className="h-8 w-8" />
+      </div>
+      <div>
+        <h2 className="text-xl font-bold text-slate-800">All clear</h2>
+        <p className="mx-auto mt-1 max-w-md text-sm text-slate-500">
+          Every field on this record is auto-accepted or human-confirmed. Right or it asks — and right
+          now, nothing is asking.
+        </p>
+      </div>
+      <div className="flex flex-wrap items-center justify-center gap-2">
+        <button onClick={onBrowseAll} className="btn-secondary">
+          <Table2 className="h-4 w-4" /> Browse all fields
+        </button>
+        <button onClick={onStats} className="btn-primary">
+          <Sparkles className="h-4 w-4" /> View stats
+        </button>
+      </div>
+    </div>
+  );
+}
