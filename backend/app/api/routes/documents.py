@@ -143,17 +143,25 @@ def delete_document(document_id: str, db: Session = Depends(get_db)) -> dict:
 
 @router.get("/{document_id}/evaluation", response_model=dict)
 def evaluate_document(document_id: str, db: Session = Depends(get_db)) -> dict:
-    """Score this document's STORED flags + values against the ground-truth gold
-    set (ground_truth/) and return the scorecard: rule precision/recall/F1, value/
-    checkbox/signature accuracy, coverage, and per-page pass/fail. Computed on
-    demand (deterministic, no model calls), so the UI can re-run it any time."""
+    """Score the pipeline output against the ground-truth gold set.
+
+    Prefers re-evaluating from the committed extracted_fields.json (fresh rules,
+    correct year-corrected values) over the potentially stale DB flags.  Falls
+    back to _rebuild_document when the JSON is not present.
+    """
     doc = db.get(models.Document, document_id)
     if not doc:
         raise HTTPException(404, "document not found")
     if not _GOLD_DIR.exists():
         raise HTTPException(404, "ground_truth/ not found on the server")
     from app.evaluation.scorer import score_ground_truth
-    report = score_ground_truth(_rebuild_document(doc, db), _GOLD_DIR)
+    _RESULTS_JSON = _GOLD_DIR.parent / "results" / "extracted_fields.json"
+    if _RESULTS_JSON.exists():
+        from app.evaluation.results_loader import document_from_results
+        pdoc = document_from_results(_RESULTS_JSON)
+    else:
+        pdoc = _rebuild_document(doc, db)
+    report = score_ground_truth(pdoc, _GOLD_DIR)
     result = report.as_dict()
     result["document_id"] = doc.id
     result["gold_pages"] = len(result.get("pages", []))

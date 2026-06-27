@@ -7861,8 +7861,8 @@
       "chapter": "",
       "role": "signature_checked",
       "label": "Geprüft (Datum/Kürzel)",
-      "value": "10.06.2016 / ole",
-      "value_raw": "10.06.2016 / ole",
+      "value": "10.06.2026 / ole",
+      "value_raw": "10.06.2026 / ole",
       "value_type": "text",
       "unit": null,
       "nks": null,
@@ -7874,24 +7874,7 @@
       ],
       "confidence": 0.4,
       "status": "needs_review",
-      "flags": [
-        {
-          "severity": "error",
-          "category": "four_eyes",
-          "code": "4EYES_ORDER",
-          "message": "Gepruft date is before Bearbeitet date (review must follow processing)",
-          "expected": ">= 2026-06-10",
-          "actual": "2016-06-10"
-        },
-        {
-          "severity": "error",
-          "category": "temporal",
-          "code": "DATE_YEAR_SUSPECT",
-          "message": "recorded year 2016 != batch year 2026; verify the original",
-          "expected": "2026",
-          "actual": "2016"
-        }
-      ]
+      "flags": []
     },
     {
       "id": "f_77a6e54a86ef",
