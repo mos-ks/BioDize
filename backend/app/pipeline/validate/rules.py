@@ -10,7 +10,7 @@ from __future__ import annotations
 import ast
 import operator
 import re
-from datetime import date, datetime, timedelta
+from datetime import date, datetime, time, timedelta
 
 from app.domain.roles import Role
 from app.domain.severity import Category, Severity
@@ -167,6 +167,35 @@ def rule_formula(field: Field) -> list[Flag]:
 
 # --- block-level rules ------------------------------------------------------
 
+
+def rule_presence(block: Block) -> list[Flag]:
+    """Presence is a first-class rule: signature present, checkmark present.
+    A blank Bearbeitet/Geprüft = a missing required signature; a date without a
+    Kürzel (or vice versa) = incomplete; a checkbox/selection with nothing marked
+    = an unanswered question (missing data). Use-case, not OCR — the exact
+    initials are irrelevant (4-eyes handles same-vs-different). Skipped when the
+    chapter is marked 'findet keine Anwendung' (N/A), where blanks are expected."""
+    if any("keine anwendung" in (f.value_raw or "").lower() for f in block.fields):
+        return []
+    for f in block.fields:
+        if f.role in (Role.SIGNATURE_PROCESSED, Role.SIGNATURE_CHECKED):
+            _, date_str, kz = parse_signature(f.value_raw)
+            has_date = bool(date_str and re.search(r"\d", date_str))
+            has_kz = bool(kz and re.search(r"[A-Za-zÄÖÜäöüß]", kz))
+            if not has_date and not has_kz:
+                f.add_flag(_err(Category.MISSING, "MISSING_SIGNATURE",
+                                "Required signature is blank (no date or Kürzel)",
+                                expected="signed", actual="blank"))
+            elif has_date != has_kz:
+                msg = "Signature has a date but no Kürzel" if has_date else "Signature has a Kürzel but no date"
+                f.add_flag(_warn(Category.MISSING, "SIG_INCOMPLETE", msg,
+                                 expected="date + Kürzel", actual=(f.value_raw or "").strip() or "(blank)"))
+        elif f.value_type == "checkbox" and not (f.value_raw or "").strip():
+            f.add_flag(_warn(Category.MISSING, "MISSING_CHECKMARK",
+                             "Checkbox/selection has nothing marked (unanswered)",
+                             expected="a marked option", actual="none"))
+    return []
+
 def rule_net_mass(block: Block) -> list[Flag]:
     tare, gross, net = block.role(Role.TARE_MASS), block.role(Role.GROSS_MASS), block.role(Role.NET_MASS)
     if not (tare and gross and net) or not all(isinstance(f.value, (int, float)) for f in (tare, gross, net)):
@@ -210,7 +239,10 @@ def rule_four_eyes(block: Block) -> list[Flag]:
 
 def rule_end_after_start(block: Block) -> list[Flag]:
     start, end = block.role(Role.HOLD_START), block.role(Role.HOLD_END)
-    if start and end and start.value and end.value and end.value <= start.value:
+    # Only compare when both parsed to the same comparable temporal type
+    # (a partial read may leave one as a raw string — don't crash on it).
+    if (start and end and type(start.value) is type(end.value)
+            and isinstance(start.value, (datetime, date, time)) and end.value <= start.value):
         end.add_flag(_err(Category.TEMPORAL, "TIME_END_AFTER_START",
                           "End timestamp is not after start", expected=f"> {start.value}", actual=str(end.value)))
     return []
@@ -374,4 +406,4 @@ def rule_xref_document(doc: Document) -> None:
 # --- registries -------------------------------------------------------------
 
 FIELD_RULES = [rule_date_format, rule_time_format, rule_nks, rule_range, rule_formula]
-BLOCK_RULES = [rule_net_mass, rule_volume, rule_four_eyes, rule_end_after_start]
+BLOCK_RULES = [rule_net_mass, rule_volume, rule_four_eyes, rule_end_after_start, rule_presence]

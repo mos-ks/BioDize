@@ -88,12 +88,14 @@ class StubExtractor:
             _f(Role.SIGNATURE_CHECKED, "Geprueft", "10.06.2026 / han", bbox=(0.40, 0.74, 0.70, 0.77)),
         ]
 
-        # --- p36-like: multi-input formula error + a year-misread (before-print) date
+        # --- p36-like: multi-input formula error + a same-year before-print date
+        # (cross-year misreads like 2016 are now auto-corrected by normalize._correct_year,
+        # so the planted before-print date is in-year to still exercise DATE_BEFORE_PRINT).
         b36 = Block(chapter="5.12.3", page_no=36, template="calc")
         b36.fields = [
             _f(Role.CALC_RESULT, "Load Volumen", "2021,78", unit="L",
                calc_expr="6,6 * 45 - 4,3 * 0,75", bbox=(0.61, 0.55, 0.80, 0.58), conf=0.95),
-            _f(Role.SIGNATURE_PROCESSED, "Bearbeitet", "10.06.2016 / abc", bbox=(0.40, 0.70, 0.70, 0.73), conf=0.95),
+            _f(Role.SIGNATURE_PROCESSED, "Bearbeitet", "05.06.2026 / abc", bbox=(0.40, 0.70, 0.70, 0.73), conf=0.95),
             _f(Role.SIGNATURE_CHECKED, "Geprueft", "10.06.2026 / han", bbox=(0.40, 0.74, 0.70, 0.77), conf=0.95),
         ]
 

@@ -174,6 +174,7 @@ _ROLE_KEYWORDS: list[tuple[str, str]] = [
     ("temperatur", Role.TEMPERATURE_SETPOINT),
     ("bearbeitet", Role.SIGNATURE_PROCESSED),
     ("geprueft", Role.SIGNATURE_CHECKED), ("geprüft", Role.SIGNATURE_CHECKED),
+    ("review", Role.SIGNATURE_CHECKED), ("unterschrift", Role.SIGNATURE_CHECKED),
     ("volumen", Role.VOLUME),
 ]
 
@@ -284,7 +285,8 @@ def normalize(doc: Document) -> Document:
             fld.role = assign_role(fld.label_raw, fld.unit)
 
         vtype = detect_value_type(fld.value_raw)
-        fld.value_type = vtype
+        if fld.value_type != "checkbox":     # preserve the extractor's checkbox marker
+            fld.value_type = vtype
 
         if vtype == "number":
             val, decimals = parse_german_number(fld.value_raw)

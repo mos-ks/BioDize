@@ -17,6 +17,7 @@ from app.pipeline.ingest import render_pdf
 from app.pipeline.localize import localize
 from app.pipeline.normalize import normalize
 from app.pipeline.ocr.base import get_ocr_engine
+from app.pipeline.resolve import resolve
 from app.pipeline.validate.engine import validate
 from app.pipeline.validate.uncertainty import score
 
@@ -55,8 +56,10 @@ def process(source_path: str | None, db: Session, max_pages: int | None = None) 
         ocr_by_page[page_no] = ocr_engine.recognize(img, page_no)
     localize(doc, ocr_by_page)
 
-    # 3. Normalize -> 4. Validate -> 5. Uncertainty/gate.
+    # 3. Normalize -> 3b. Domain resolution (snap Kürzel to roster, etc.)
+    #    -> 4. Validate -> 5. Uncertainty/gate.
     normalize(doc)
+    resolve(doc)
     validate(doc)
     score(doc)
 

@@ -4,10 +4,11 @@
 // and the show/hide-overlay toggle mirrored from the parent.
 
 import { useEffect, useRef } from "react";
-import { Eye, EyeOff, X, ZoomIn, ZoomOut } from "lucide-react";
+import { Boxes, Eye, EyeOff, X, ZoomIn, ZoomOut } from "lucide-react";
 import type { Field } from "../../api/types";
 import { classNames } from "../../lib/ui";
 import { HighlightBox } from "./HighlightBox";
+import { AllBoxesOverlay, countBoxed } from "./AllBoxesOverlay";
 
 const ZOOM_STEPS = [1, 1.5, 2, 3] as const;
 
@@ -18,6 +19,9 @@ export default function PageLightbox({
   hasBox,
   showOverlay,
   onToggleOverlay,
+  showAllBoxes,
+  onToggleAllBoxes,
+  pageFields,
   zoom,
   onZoomIn,
   onZoomOut,
@@ -29,6 +33,9 @@ export default function PageLightbox({
   hasBox: boolean;
   showOverlay: boolean;
   onToggleOverlay: () => void;
+  showAllBoxes: boolean;
+  onToggleAllBoxes: () => void;
+  pageFields: Field[];
   zoom: number;
   onZoomIn: () => void;
   onZoomOut: () => void;
@@ -74,8 +81,14 @@ export default function PageLightbox({
         className="flex items-center justify-between gap-2 px-4 py-3 text-white"
         onClick={(e) => e.stopPropagation()}
       >
-        <div className="flex items-center gap-1.5 text-sm font-semibold uppercase tracking-wide text-white/80">
+        <div className="flex items-center gap-2 text-sm font-semibold uppercase tracking-wide text-white/80">
           Page {field.page_no}
+          {showAllBoxes && (
+            <span className="inline-flex items-center gap-1 rounded-full bg-white/15 px-2 py-0.5 text-xs font-medium normal-case tracking-normal text-white">
+              <span className="font-semibold tabular-nums">{countBoxed(pageFields)}</span>
+              {countBoxed(pageFields) === 1 ? "field on page" : "fields on page"}
+            </span>
+          )}
         </div>
         <div className="flex items-center gap-1.5">
           {hasBox && (
@@ -90,6 +103,19 @@ export default function PageLightbox({
               {showOverlay ? <Eye className="h-5 w-5" /> : <EyeOff className="h-5 w-5" />}
             </button>
           )}
+          <button
+            type="button"
+            onClick={onToggleAllBoxes}
+            aria-label={showAllBoxes ? "Hide all fields on page" : "Show all fields on page"}
+            aria-pressed={showAllBoxes}
+            title={showAllBoxes ? "Hide all fields on page" : "Show all fields on page"}
+            className={classNames(
+              "inline-flex h-9 w-9 items-center justify-center rounded-lg transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-white/50",
+              showAllBoxes ? "bg-white text-slate-800 hover:bg-white/90" : "bg-white/10 text-white hover:bg-white/20",
+            )}
+          >
+            <Boxes className="h-5 w-5" />
+          </button>
           <button
             type="button"
             onClick={onZoomOut}
@@ -145,6 +171,7 @@ export default function PageLightbox({
               className="block max-h-[78vh] w-auto max-w-[90vw] rounded-lg bg-white object-contain shadow-panel"
               draggable={false}
             />
+            {showAllBoxes && <AllBoxesOverlay fields={pageFields} currentFieldId={field.id} />}
             {hasBox && showOverlay && <HighlightBox field={field} accent={accent} />}
           </div>
         </div>

@@ -55,6 +55,7 @@ export interface Field {
   label_raw?: string | null;
   value?: string | null; // normalized value
   value_raw?: string | null;
+  value_type?: string | null;
   unit?: string | null;
   nks?: number | null;
   bbox?: BBox | null;

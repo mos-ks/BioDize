@@ -30,12 +30,12 @@ def test_planted_errors_are_caught():
     assert "FMT_DATE_PADDING" in codes
     # p36: printed formula (6,6*45 - 4,3*0,75 = 293.775) vs recorded 2021,78
     assert "CALC_FORMULA" in codes
-    # p36: signature dated 2016, before the record's print date (2026-06-09)
+    # p36: signature dated 05.06.2026, before the record's print date (2026-06-09)
     assert "DATE_BEFORE_PRINT" in codes
     # p36: signature Kuerzel 'abc' is not in the personnel registry {han, ohe}
     assert "KUERZEL_UNKNOWN" in codes
     # p38: 'Uebertrag Kapitel 5.3.1' carried value mismatches the source on p11
-    assert "XREF_MISMATCH" in codes
+    assert "XREF_CARRIED_MATCH" in codes
 
 
 def test_clean_block_has_no_flags():

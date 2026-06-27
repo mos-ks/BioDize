@@ -7,11 +7,12 @@
 // expand the page into a zoomable full-screen lightbox to check the value.
 
 import { useEffect, useState } from "react";
-import { Eye, EyeOff, ImageOff, Maximize2, ScanSearch } from "lucide-react";
+import { Boxes, Eye, EyeOff, ImageOff, Maximize2, ScanSearch } from "lucide-react";
 import { api } from "../../api/client";
 import type { Field } from "../../api/types";
 import { classNames } from "../../lib/ui";
 import { HighlightBox } from "./HighlightBox";
+import { AllBoxesOverlay, countBoxed } from "./AllBoxesOverlay";
 import PageLightbox from "./PageLightbox";
 
 const ZOOM_STEPS = [1, 1.5, 2, 3];
@@ -33,6 +34,8 @@ function SchematicPaper() {
 export default function PageViewer({ field }: { field: Field }) {
   const [imgState, setImgState] = useState<"loading" | "ok" | "error">("loading");
   const [showOverlay, setShowOverlay] = useState(true);
+  const [showAllBoxes, setShowAllBoxes] = useState(false);
+  const [pageFields, setPageFields] = useState<Field[]>([]);
   const [lightboxOpen, setLightboxOpen] = useState(false);
   const [zoom, setZoom] = useState(1);
   const src = api.pageImageUrl(field.document_id, field.page_no);
@@ -45,6 +48,26 @@ export default function PageViewer({ field }: { field: Field }) {
     setImgState("loading");
   }, [src]);
 
+  // Fetch every field on this page (once, cached) when the all-boxes overlay is
+  // requested. Keyed on document + page so navigating pages refetches. Loading
+  // and errors are handled quietly — the overlay simply stays empty.
+  useEffect(() => {
+    if (!showAllBoxes) return;
+    let alive = true;
+    setPageFields([]);
+    api
+      .listFields(field.document_id, { page_no: field.page_no })
+      .then((fs) => {
+        if (alive) setPageFields(fs);
+      })
+      .catch(() => {
+        if (alive) setPageFields([]);
+      });
+    return () => {
+      alive = false;
+    };
+  }, [showAllBoxes, field.document_id, field.page_no]);
+
   // A different field may not have an image — never leave the lightbox open
   // pointing at the wrong/absent page.
   useEffect(() => {
@@ -54,6 +77,8 @@ export default function PageViewer({ field }: { field: Field }) {
 
   const showSchematic = imgState !== "ok";
   const canZoom = imgState === "ok"; // only the real image is worth enlarging
+  const canShowAll = imgState === "ok"; // only meaningful over the real scan
+  const boxCount = countBoxed(pageFields);
 
   function zoomIn() {
     setZoom((z) => ZOOM_STEPS.find((s) => s > z) ?? z);
@@ -74,6 +99,12 @@ export default function PageViewer({ field }: { field: Field }) {
           <ScanSearch className="h-3.5 w-3.5" /> Page {field.page_no}
         </div>
         <div className="flex items-center gap-1.5">
+          {showAllBoxes && canShowAll && (
+            <span className="chip bg-brand-50 text-brand-700 ring-1 ring-inset ring-brand-200">
+              <span className="font-semibold tabular-nums">{boxCount}</span>
+              {boxCount === 1 ? "field on page" : "fields on page"}
+            </span>
+          )}
           {showSchematic && imgState === "error" && (
             <span className="chip bg-slate-100 text-slate-500 ring-1 ring-inset ring-slate-200">
               <ImageOff className="h-3.5 w-3.5" /> schematic placeholder
@@ -89,6 +120,23 @@ export default function PageViewer({ field }: { field: Field }) {
               className="inline-flex h-7 w-7 items-center justify-center rounded-lg text-slate-500 transition-colors hover:bg-slate-100 hover:text-slate-700 focus:outline-none focus-visible:ring-2 focus-visible:ring-brand-500/40"
             >
               {showOverlay ? <Eye className="h-4 w-4" /> : <EyeOff className="h-4 w-4" />}
+            </button>
+          )}
+          {canShowAll && (
+            <button
+              type="button"
+              onClick={() => setShowAllBoxes((v) => !v)}
+              aria-label={showAllBoxes ? "Hide all fields on page" : "Show all fields on page"}
+              aria-pressed={showAllBoxes}
+              title={showAllBoxes ? "Hide all fields on page" : "Show all fields on page"}
+              className={classNames(
+                "inline-flex h-7 w-7 items-center justify-center rounded-lg transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-brand-500/40",
+                showAllBoxes
+                  ? "bg-brand-50 text-brand-700 hover:bg-brand-100"
+                  : "text-slate-500 hover:bg-slate-100 hover:text-slate-700",
+              )}
+            >
+              <Boxes className="h-4 w-4" />
             </button>
           )}
           {canZoom && (
@@ -143,14 +191,23 @@ export default function PageViewer({ field }: { field: Field }) {
 
           {showSchematic && <SchematicPaper />}
 
+          {/* All-extracted-boxes overlay (additive, independent of the Eye
+              single-field toggle). Drawn beneath the single highlight so the
+              current field's emphasized box stays on top. */}
+          {canShowAll && showAllBoxes && (
+            <AllBoxesOverlay fields={pageFields} currentFieldId={field.id} />
+          )}
+
           {hasBox ? (
             showOverlay && <HighlightBox field={field} accent={accent} />
           ) : (
-            <div className="absolute inset-0 grid place-items-center p-4">
-              <div className="rounded-lg border border-dashed border-slate-300 bg-white/70 px-3 py-2 text-center text-xs text-slate-400">
-                No location available for this field.
+            !showAllBoxes && (
+              <div className="absolute inset-0 grid place-items-center p-4">
+                <div className="rounded-lg border border-dashed border-slate-300 bg-white/70 px-3 py-2 text-center text-xs text-slate-400">
+                  No location available for this field.
+                </div>
               </div>
-            </div>
+            )
           )}
 
           {/* Hover affordance hinting the scan can be opened. */}
@@ -180,6 +237,9 @@ export default function PageViewer({ field }: { field: Field }) {
           hasBox={hasBox}
           showOverlay={showOverlay}
           onToggleOverlay={() => setShowOverlay((v) => !v)}
+          showAllBoxes={showAllBoxes}
+          onToggleAllBoxes={() => setShowAllBoxes((v) => !v)}
+          pageFields={pageFields}
           zoom={zoom}
           onZoomIn={zoomIn}
           onZoomOut={zoomOut}

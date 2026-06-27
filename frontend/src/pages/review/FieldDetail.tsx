@@ -31,6 +31,7 @@ import {
   StatusBadge,
 } from "../../components/atoms";
 import PageViewer from "./PageViewer";
+import PipelineTrace from "./PipelineTrace";
 
 function FlagRow({ flag }: { flag: Field["flags"][number] }) {
   const isError = flag.severity === "error";
@@ -261,6 +262,9 @@ export default function FieldDetail({
           </ul>
         )}
       </div>
+
+      {/* d2) Pipeline trace — collapsible provenance/audit view */}
+      <PipelineTrace field={field} />
 
       {/* e) Actions */}
       <div className="card p-4">

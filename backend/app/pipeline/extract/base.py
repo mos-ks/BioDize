@@ -27,6 +27,14 @@ def get_extractor(name: str) -> Extractor:
         from app.pipeline.extract.openai_extractor import OpenAIExtractor
 
         return OpenAIExtractor()
+    if name == "mistral_structured":
+        from app.pipeline.extract.mistral_structured import MistralStructuredExtractor
+
+        return MistralStructuredExtractor()
+    if name == "vlm_exhaustive":
+        from app.pipeline.extract.vlm_exhaustive import VlmExhaustiveExtractor
+
+        return VlmExhaustiveExtractor()
     from app.pipeline.extract.stub import StubExtractor
 
     return StubExtractor()
