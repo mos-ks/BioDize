@@ -1,0 +1,109 @@
+{
+  "page": 9,
+  "section": "4.3 Line Clearance und Produktionsvorbereitung",
+  "fields": [
+    {
+      "label": "GMP-Bereich (Pre)",
+      "kind": "value",
+      "value": "GMP",
+      "checkbox_state": null,
+      "signature_status": null,
+      "is_blank": false
+    },
+    {
+      "label": "GMP-Bereich (Pre): 294",
+      "kind": "checkbox",
+      "value": "",
+      "checkbox_state": "unchecked",
+      "signature_status": null,
+      "is_blank": false
+    },
+    {
+      "label": "GMP-Bereich (Pre): 869",
+      "kind": "checkbox",
+      "value": "",
+      "checkbox_state": "unchecked",
+      "signature_status": null,
+      "is_blank": false
+    },
+    {
+      "label": "GMP-Bereich (Pre): 931",
+      "kind": "checkbox",
+      "value": "",
+      "checkbox_state": "checked",
+      "signature_status": null,
+      "is_blank": false
+    },
+    {
+      "label": "GMP-Bereich (Pre): 281",
+      "kind": "checkbox",
+      "value": "",
+      "checkbox_state": "unchecked",
+      "signature_status": null,
+      "is_blank": false
+    },
+    {
+      "label": "GMP-Bereich (Pre): 757",
+      "kind": "checkbox",
+      "value": "",
+      "checkbox_state": "unchecked",
+      "signature_status": null,
+      "is_blank": false
+    },
+    {
+      "label": "GMP-Bereich (Pre): 232",
+      "kind": "checkbox",
+      "value": "",
+      "checkbox_state": "unchecked",
+      "signature_status": null,
+      "is_blank": false
+    },
+    {
+      "label": "GMP-Bereich (Pre): Ja",
+      "kind": "checkbox",
+      "value": "",
+      "checkbox_state": "checked",
+      "signature_status": null,
+      "is_blank": false
+    },
+    {
+      "label": "Area Clearance Freigabe im Raumlogbuch gemäß BK-SOP-51941 erfolgt.: Ja",
+      "kind": "checkbox",
+      "value": "",
+      "checkbox_state": "checked",
+      "signature_status": null,
+      "is_blank": false
+    },
+    {
+      "label": "GMP-Bereich aktiv: Ja",
+      "kind": "checkbox",
+      "value": "",
+      "checkbox_state": "checked",
+      "signature_status": null,
+      "is_blank": false
+    },
+    {
+      "label": "Bearbeitet: (Datum/Kürzel)",
+      "kind": "signature",
+      "value": "10.06.2026 / ohe",
+      "checkbox_state": null,
+      "signature_status": "signed",
+      "is_blank": false
+    },
+    {
+      "label": "Geprüft: (Datum/Kürzel)",
+      "kind": "signature",
+      "value": "10.06.2026 / ohe",
+      "checkbox_state": null,
+      "signature_status": "signed",
+      "is_blank": false
+    }
+  ],
+  "expected_violations": [
+    {
+      "rule": "4EYES_DISTINCT",
+      "field": "Geprüft: (Datum/Kürzel)",
+      "explanation": "The Bearbeitet entry and the Geprüft entry are both signed by the same Kürzel 'ohe' (10.06.2026 / ohe). The four-eyes principle requires the executor and the reviewer to be distinct persons, so the verification by the same individual who performed the work is invalid."
+    }
+  ]
+}

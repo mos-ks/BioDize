@@ -1,0 +1,85 @@
+{
+  "page": 17,
+  "section": "5.6.2 Durchführung - Herstellung von Kuchen",
+  "fields": [
+    {
+      "label": "Start Überführung",
+      "kind": "value",
+      "value": "9:26",
+      "checkbox_state": null,
+      "signature_status": null,
+      "is_blank": false
+    },
+    {
+      "label": "Ende Überführung",
+      "kind": "value",
+      "value": "10:12",
+      "checkbox_state": null,
+      "signature_status": null,
+      "is_blank": false
+    },
+    {
+      "label": "Wippgeschwindigkeit (Soll: 25 (20 – 30) Hübe/min)",
+      "kind": "value",
+      "value": "32",
+      "checkbox_state": null,
+      "signature_status": null,
+      "is_blank": false
+    },
+    {
+      "label": "Start Homogenisieren",
+      "kind": "value",
+      "value": "10:12",
+      "checkbox_state": null,
+      "signature_status": null,
+      "is_blank": false
+    },
+    {
+      "label": "Ende Homogenisieren",
+      "kind": "value",
+      "value": "10:24",
+      "checkbox_state": null,
+      "signature_status": null,
+      "is_blank": false
+    },
+    {
+      "label": "Dauer Homogenisieren nach Ende Überführung (Richtwert: ≥ 10 min)",
+      "kind": "value",
+      "value": "12",
+      "checkbox_state": null,
+      "signature_status": null,
+      "is_blank": false
+    },
+    {
+      "label": "Neues Intermediat (B20-ST 9784___)",
+      "kind": "value",
+      "value": "B20-ST 9784697",
+      "checkbox_state": null,
+      "signature_status": null,
+      "is_blank": false
+    },
+    {
+      "label": "Bearbeitet: (Datum/Kürzel)",
+      "kind": "signature",
+      "value": "10.06.2026 / ohe",
+      "checkbox_state": null,
+      "signature_status": "signed",
+      "is_blank": false
+    },
+    {
+      "label": "Geprüft: (Datum/Kürzel)",
+      "kind": "signature",
+      "value": "10.06.2026 / han",
+      "checkbox_state": null,
+      "signature_status": "signed",
+      "is_blank": false
+    }
+  ],
+  "expected_violations": [
+    {
+      "rule": "RANGE_SOLL",
+      "field": "Wippgeschwindigkeit (Soll: 25 (20 – 30) Hübe/min)",
+      "explanation": "Recorded value 32 Hübe/min exceeds the upper Soll limit of 30 (allowed range 20–30)."
+    }
+  ]
+}

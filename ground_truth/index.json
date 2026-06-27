@@ -1,0 +1,91 @@
+{
+  "generated_by": "3-reader Claude-vision consensus + adjudication (gold-standard workflow)",
+  "purpose": "Ground truth for the accuracy eval (use-case outcomes, NOT OCR exact spelling)",
+  "pages": [
+    {
+      "page": 9,
+      "section": "4.3 Line Clearance und Produktionsvorbereitung",
+      "n_fields": 12,
+      "n_checkboxes": 9,
+      "n_signatures": 2,
+      "n_violations": 1,
+      "violations": [
+        "4EYES_DISTINCT @ Geprüft: (Datum/Kürzel)"
+      ]
+    },
+    {
+      "page": 10,
+      "section": "Herstellung von Kuchen — 5 DURCHFÜHRUNG (5.1 Zyklus / 5.2 Produktionsbereich)",
+      "n_fields": 14,
+      "n_checkboxes": 7,
+      "n_signatures": 4,
+      "n_violations": 2,
+      "violations": [
+        "4EYES_DISTINCT @ Geprüft: (Datum/Kürzel)",
+        "4EYES_ORDER @ Geprüft: (Datum/Kürzel)"
+      ]
+    },
+    {
+      "page": 11,
+      "section": "5.3 Verwendete Intermediate ABC-DE / 5.3.1 Bilanzierung — Herstellung von Kuchen",
+      "n_fields": 13,
+      "n_checkboxes": 1,
+      "n_signatures": 2,
+      "n_violations": 1,
+      "violations": [
+        "CALC_ERROR @ V Netto (V = m / ρ; ρ = 1,100 kg/L)"
+      ]
+    },
+    {
+      "page": 14,
+      "section": "5.4 Temperierung B10-PP (Zyklus 1) / 5.4.1 Durchführung",
+      "n_fields": 9,
+      "n_checkboxes": 2,
+      "n_signatures": 4,
+      "n_violations": 0,
+      "violations": []
+    },
+    {
+      "page": 17,
+      "section": "5.6.2 Durchführung - Herstellung von Kuchen",
+      "n_fields": 9,
+      "n_checkboxes": 0,
+      "n_signatures": 2,
+      "n_violations": 1,
+      "violations": [
+        "RANGE_SOLL @ Wippgeschwindigkeit (Soll: 25 (20 – 30) Hübe/min)"
+      ]
+    },
+    {
+      "page": 18,
+      "section": "5.7.1 Geräte — Hergestelltes Intermediat B20-ST",
+      "n_fields": 17,
+      "n_checkboxes": 10,
+      "n_signatures": 2,
+      "n_violations": 0,
+      "violations": []
+    },
+    {
+      "page": 25,
+      "section": "5.9 Berechnung der Beladung — Herstellung von Kuchen",
+      "n_fields": 20,
+      "n_checkboxes": 2,
+      "n_signatures": 2,
+      "n_violations": 0,
+      "violations": []
+    },
+    {
+      "page": 31,
+      "section": "5.11.3 SAP Etiketten BK-SOP-38179 Materialien",
+      "n_fields": 15,
+      "n_checkboxes": 3,
+      "n_signatures": 6,
+      "n_violations": 3,
+      "violations": [
+        "4EYES_DISTINCT @ Geprüft (Datum/Kürzel) (Zeile 1)",
+        "SIG_INCOMPLETE @ Bearbeitet (Datum/Kürzel) (Zeile 2)",
+        "SIG_INCOMPLETE @ Bearbeitet (Datum/Kürzel) (Zeile 3)"
+      ]
+    }
+  ]
+}

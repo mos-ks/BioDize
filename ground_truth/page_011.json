@@ -1,0 +1,117 @@
+{
+  "page": 11,
+  "section": "5.3 Verwendete Intermediate ABC-DE / 5.3.1 Bilanzierung — Herstellung von Kuchen",
+  "fields": [
+    {
+      "label": "Intermediat: ABCE 12345",
+      "kind": "value",
+      "value": "123",
+      "checkbox_state": null,
+      "signature_status": null,
+      "is_blank": false
+    },
+    {
+      "label": "m Tara",
+      "kind": "value",
+      "value": "100",
+      "checkbox_state": null,
+      "signature_status": null,
+      "is_blank": false
+    },
+    {
+      "label": "m Brutto",
+      "kind": "value",
+      "value": "300",
+      "checkbox_state": null,
+      "signature_status": null,
+      "is_blank": false
+    },
+    {
+      "label": "m Netto",
+      "kind": "value",
+      "value": "200",
+      "checkbox_state": null,
+      "signature_status": null,
+      "is_blank": false
+    },
+    {
+      "label": "V Netto (V = m / ρ; ρ = 1,100 kg/L)",
+      "kind": "value",
+      "value": "220",
+      "checkbox_state": null,
+      "signature_status": null,
+      "is_blank": false
+    },
+    {
+      "label": "c ABC-DE (Blocking IPC)",
+      "kind": "value",
+      "value": "4,5",
+      "checkbox_state": null,
+      "signature_status": null,
+      "is_blank": false
+    },
+    {
+      "label": "Start Haltezeit (Datum)",
+      "kind": "value",
+      "value": "10.06.2026",
+      "checkbox_state": null,
+      "signature_status": null,
+      "is_blank": false
+    },
+    {
+      "label": "Start Haltezeit (Uhr)",
+      "kind": "value",
+      "value": "8:46",
+      "checkbox_state": null,
+      "signature_status": null,
+      "is_blank": false
+    },
+    {
+      "label": "Haltetemperatur (Soll: 2 - 8°C) - Ja",
+      "kind": "checkbox",
+      "value": "",
+      "checkbox_state": "unchecked",
+      "signature_status": null,
+      "is_blank": true
+    },
+    {
+      "label": "Erlaubte Haltezeit (Datum)",
+      "kind": "value",
+      "value": "10.06.2026",
+      "checkbox_state": null,
+      "signature_status": null,
+      "is_blank": false
+    },
+    {
+      "label": "Erlaubte Haltezeit (Uhr)",
+      "kind": "value",
+      "value": "14:46",
+      "checkbox_state": null,
+      "signature_status": null,
+      "is_blank": false
+    },
+    {
+      "label": "Bearbeitet: (Datum/Kürzel)",
+      "kind": "signature",
+      "value": "10.06.2026 / ohe",
+      "checkbox_state": null,
+      "signature_status": "signed",
+      "is_blank": false
+    },
+    {
+      "label": "Geprüft: (Datum/Kürzel)",
+      "kind": "signature",
+      "value": "10.06.2026 / hau",
+      "checkbox_state": null,
+      "signature_status": "signed",
+      "is_blank": false
+    }
+  ],
+  "expected_violations": [
+    {
+      "rule": "CALC_ERROR",
+      "field": "V Netto (V = m / ρ; ρ = 1,100 kg/L)",
+      "explanation": "Recomputing the printed formula V = m / ρ with m Netto = 200 and ρ = 1,100 kg/L gives 200 / 1.100 = 181.8, not the recorded 220. The recorded result does not match the formula applied to the handwritten numbers."
+    }
+  ]
+}
