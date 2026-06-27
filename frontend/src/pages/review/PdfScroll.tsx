@@ -4,12 +4,11 @@
 // selected, so opening a batch lets you scroll the PDF straight away.
 
 import { useRef, useState } from "react";
-import { Eye, EyeOff, ImageOff, SquarePen } from "lucide-react";
+import { Eye, EyeOff, ImageOff, MapPinPlus } from "lucide-react";
 import { api } from "../../api/client";
-import type { BBox, Field } from "../../api/types";
+import type { Field } from "../../api/types";
 import { classNames, useApi } from "../../lib/ui";
 import { AllBoxesOverlay } from "./AllBoxesOverlay";
-import { rectFromBBox } from "./HighlightBox";
 import { LoadingBlock } from "../../components/atoms";
 import AnnotationForm from "./AnnotationForm";
 
@@ -32,34 +31,22 @@ function PageItem({
 }) {
   const [state, setState] = useState<"loading" | "ok" | "error">("loading");
   const [ratio, setRatio] = useState<number | null>(null);
-  const [drag, setDrag] = useState<{ x0: number; y0: number; x1: number; y1: number } | null>(null);
   const wrapRef = useRef<HTMLDivElement>(null);
   const src = api.pageImageUrl(documentId, pageNo);
   const nFlagged = fields.filter((f) => f.flags.length > 0).length;
   const nErr = fields.filter((f) => f.flags.some((fl) => fl.severity === "error")).length;
 
-  function norm(e: React.MouseEvent) {
+  // Annotate mode: a single click drops a flag at that spot. Build a small box
+  // centered on the click so a pin renders exactly there.
+  function clickPage(e: React.MouseEvent) {
+    if (!annotate || state !== "ok") return;
     const r = wrapRef.current!.getBoundingClientRect();
     const c = (v: number) => Math.min(1, Math.max(0, v));
-    return { x: c((e.clientX - r.left) / r.width), y: c((e.clientY - r.top) / r.height) };
-  }
-  function down(e: React.MouseEvent) {
-    if (!annotate || state !== "ok") return;
-    const p = norm(e);
-    setDrag({ x0: p.x, y0: p.y, x1: p.x, y1: p.y });
-    e.preventDefault();
-  }
-  function move(e: React.MouseEvent) {
-    if (!drag) return;
-    const p = norm(e);
-    setDrag((d) => (d ? { ...d, x1: p.x, y1: p.y } : d));
-  }
-  function up() {
-    if (!drag) return;
-    const bb = [Math.min(drag.x0, drag.x1), Math.min(drag.y0, drag.y1),
-                Math.max(drag.x0, drag.x1), Math.max(drag.y0, drag.y1)];
-    setDrag(null);
-    if (bb[2] - bb[0] > 0.01 && bb[3] - bb[1] > 0.01) onDraw(pageNo, bb.map((v) => +v.toFixed(4)));
+    const x = c((e.clientX - r.left) / r.width);
+    const y = c((e.clientY - r.top) / r.height);
+    const h = 0.012;
+    const bb = [x - h, y - h, x + h, y + h].map((v) => +c(v).toFixed(4));
+    onDraw(pageNo, bb);
   }
 
   return (
@@ -76,10 +63,7 @@ function PageItem({
       </div>
       <div
         ref={wrapRef}
-        onMouseDown={down}
-        onMouseMove={move}
-        onMouseUp={up}
-        onMouseLeave={up}
+        onClick={clickPage}
         className={classNames(
           "relative mx-auto w-full max-w-[640px] overflow-hidden rounded-lg border border-slate-200 bg-white shadow-card",
           annotate && state === "ok" && "cursor-crosshair ring-2 ring-violet-300",
@@ -112,12 +96,6 @@ function PageItem({
         )}
         {state === "ok" && showBoxes && (
           <AllBoxesOverlay fields={fields} currentFieldId="" onSelect={annotate ? undefined : onSelect} />
-        )}
-        {drag && (
-          <div
-            className="pointer-events-none absolute rounded-[2px] border-2 border-violet-500 bg-violet-500/15"
-            style={rectFromBBox([drag.x0, drag.y0, drag.x1, drag.y1] as BBox)}
-          />
         )}
       </div>
     </div>
@@ -158,13 +136,13 @@ export default function PdfScroll({
         <h2 className="text-base font-semibold text-slate-800">Document</h2>
         <div className="flex items-center gap-2">
           <span className="hidden text-xs text-slate-400 sm:inline">
-            {annotate ? "drag a box to label" : "click a box to review"}
+            {annotate ? "click a spot to flag it" : "click a pin to review"}
           </span>
           <button
             type="button"
             onClick={() => setAnnotate((v) => !v)}
             aria-pressed={annotate}
-            title={annotate ? "Stop adding" : "Draw a box to add a human-labeled entry"}
+            title={annotate ? "Stop flagging" : "Click a spot on the PDF to add a human flag"}
             className={classNames(
               "inline-flex items-center gap-1.5 rounded-lg px-2 py-1 text-xs font-medium transition-colors",
               annotate
@@ -172,7 +150,7 @@ export default function PdfScroll({
                 : "text-slate-500 ring-1 ring-inset ring-slate-200 hover:bg-slate-100",
             )}
           >
-            <SquarePen className="h-3.5 w-3.5" /> {annotate ? "Drawing…" : "Add box"}
+            <MapPinPlus className="h-3.5 w-3.5" /> {annotate ? "Click to flag…" : "Add flag"}
           </button>
           <button
             type="button"

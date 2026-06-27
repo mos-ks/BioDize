@@ -70,6 +70,9 @@ def add_annotation(document_id: str, body: AnnotationIn, db: Session = Depends(g
     if not db.get(models.Document, document_id):
         raise HTTPException(404, "document not found")
     flagged = body.severity in ("error", "warning")
+    # The human's tag becomes the flag's code chip (e.g. "Rounding" -> ROUNDING).
+    code = "".join(c if c.isalnum() else "_" for c in (body.tag or "").strip().upper())
+    code = "_".join(p for p in code.split("_") if p)[:32] or "HUMAN_LABELED"
     mf = models.Field(
         document_id=document_id, page_no=body.page_no, chapter=None, block_key="human",
         role=None, label_raw=body.label or "Human annotation",
@@ -83,7 +86,7 @@ def add_annotation(document_id: str, body: AnnotationIn, db: Session = Depends(g
     if flagged:
         db.add(models.Flag(
             field_id=mf.id, block_key="human", severity=body.severity, category="human",
-            code="HUMAN_LABELED", message=body.note or "Human-labeled entry",
+            code=code, message=body.label or body.note or "Human-labeled entry",
             expected=None, actual=body.value,
         ))
     db.add(models.AuditLog(

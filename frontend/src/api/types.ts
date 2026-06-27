@@ -20,7 +20,8 @@ export type FlagCategory =
 export interface AnnotationInput {
   page_no: number;
   bbox?: number[] | null;
-  label?: string;
+  label?: string; // the title
+  tag?: string; // short category tag → becomes the flag code chip
   value?: string;
   note?: string;
   severity?: "error" | "warning" | null;

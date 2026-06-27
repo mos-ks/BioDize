@@ -58,9 +58,11 @@ export function AllBoxesOverlay({
             onClick={onSelect ? () => onSelect(f.id) : undefined}
             role={onSelect ? "button" : undefined}
             // Anchored at the value center; tip of the pin lands on the point.
+            // Non-interactive (no onSelect) → click-through so the page can be
+            // clicked beneath the pins (e.g. when placing a human flag).
             className={classNames(
-              "group/box pointer-events-auto absolute z-10 flex -translate-x-1/2 -translate-y-full flex-col items-center",
-              onSelect && "cursor-pointer",
+              "group/box absolute z-10 flex -translate-x-1/2 -translate-y-full flex-col items-center",
+              onSelect ? "pointer-events-auto cursor-pointer" : "pointer-events-none",
               isCurrent && "z-20",
             )}
             style={pos}

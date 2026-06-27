@@ -77,10 +77,11 @@ class CorrectionIn(BaseModel):
 
 
 class AnnotationIn(BaseModel):
-    """A human-drawn box on the PDF that becomes a human-labeled entry."""
+    """A human-placed flag on the PDF that becomes a human-labeled entry."""
     page_no: int
     bbox: list[float] | None = None   # [x0,y0,x1,y1] normalized 0-1
-    label: str | None = None
+    label: str | None = None          # the title
+    tag: str | None = None            # short category tag -> becomes the flag code chip
     value: str | None = None
     note: str | None = None
     severity: str | None = None       # error | warning | None (just a note)

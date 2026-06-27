@@ -31,7 +31,7 @@ export default function FieldRow({
       onClick={() => onSelect(field.id)}
       aria-current={active}
       className={classNames(
-        "group w-full rounded-xl border bg-white px-3.5 py-3 text-left transition-all",
+        "group w-full rounded-xl border bg-white px-3 py-2 text-left transition-all",
         "border-l-4 hover:border-slate-300 hover:shadow-card focus:outline-none focus-visible:ring-2 focus-visible:ring-brand-500/40",
         active
           ? "border-slate-200 border-l-brand-500 bg-brand-50/40 shadow-card ring-1 ring-brand-500/30"
@@ -62,31 +62,34 @@ export default function FieldRow({
         </span>
       </div>
 
-      {value && (
-        <div className="mt-2 flex items-baseline gap-1.5">
-          <span
-            className={classNames(
-              "truncate font-mono text-base font-semibold tabular-nums",
-              crossedOut ? "text-slate-400 line-through decoration-2 decoration-rose-400/70" : "text-slate-900",
-            )}
-          >
-            {value}
+      {/* Value + issue tags on one line to keep the card compact. */}
+      <div className="mt-1.5 flex min-w-0 flex-wrap items-center gap-x-2 gap-y-1">
+        {value ? (
+          <span className="flex items-baseline gap-1">
+            <span
+              className={classNames(
+                "truncate font-mono text-base font-semibold tabular-nums",
+                crossedOut ? "text-slate-400 line-through decoration-2 decoration-rose-400/70" : "text-slate-900",
+              )}
+            >
+              {value}
+            </span>
+            {field.unit && <span className="text-xs font-medium text-slate-400">{field.unit}</span>}
           </span>
-          {field.unit && <span className="text-xs font-medium text-slate-400">{field.unit}</span>}
-        </div>
-      )}
-      {flag ? (
-        <div className="mt-1.5 flex min-w-0 flex-wrap items-center gap-1.5">
-          <CategoryChip category={flag.category} />
-          <code className="chip bg-slate-50 font-mono text-[11px] text-slate-500 ring-1 ring-inset ring-slate-200">
-            {flag.code}
-          </code>
-        </div>
-      ) : (
-        !value && <div className="mt-2 font-mono text-base font-semibold text-slate-300">—</div>
-      )}
+        ) : (
+          !flag && <span className="font-mono text-base font-semibold text-slate-300">—</span>
+        )}
+        {flag && (
+          <span className="flex min-w-0 items-center gap-1.5">
+            <CategoryChip category={flag.category} />
+            <code className="chip bg-slate-50 font-mono text-[11px] text-slate-500 ring-1 ring-inset ring-slate-200">
+              {flag.code}
+            </code>
+          </span>
+        )}
+      </div>
 
-      <div className="mt-2.5 flex items-center gap-3">
+      <div className="mt-2 flex items-center gap-3">
         <ConfidenceMeter confidence={displayConfidence(field)} className="max-w-[140px]" />
         <div className="ml-auto">
           <FieldFlagSummary field={field} />
