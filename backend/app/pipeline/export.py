@@ -44,14 +44,19 @@ def solution_condition(field) -> str:
     """Map a stored field's flags onto the host's `Condition` verdict taxonomy."""
     flags = list(field.flags)
     if not flags:
-        return "Online / confirmed by second value" if field.role in _CONFIRMED_ROLES else "Online"
+        # Corroborated (by calculation or a second identical value) -> the host's
+        # "confirmed by second value"; mass-balance roles count as corroborated too.
+        confirmed = getattr(field, "is_verified", False) or field.role in _CONFIRMED_ROLES
+        return "Online / confirmed by second value" if confirmed else "Online"
     err = {fl.code for fl in flags if fl.severity == "error"}
     codes = err or {fl.code for fl in flags}
     if any(c.startswith("MISSING") for c in codes):
         return "Suspect / missing"
     if "CALC_VOLUME" in codes:
         return "Suspect / Value does not fit volume calculation"
-    if any(c.startswith("CALC") for c in codes):
+    # Rounding (CALC_ROUNDING) and Nachkommastellen (FMT_NKS) fold into the host's
+    # "Value does not fit calculation" bucket.
+    if any(c.startswith("CALC") or c == "FMT_NKS" for c in codes):
         return "Suspect / Value does not fit calculation"
     return "Suspect / unexpected value"
 
@@ -114,34 +119,67 @@ def export_xlsx(document_id: str, db: Session) -> bytes:
     fill_err  = PatternFill("solid", fgColor="FFE0E0")
     fill_warn = PatternFill("solid", fgColor="FFF3CD")
 
-    # ── Sheet 1: SOLUTION format (gradable, matches the host grading sheet) ──
+    def _style_header(ws, ncols):
+        for ci in range(1, ncols + 1):
+            c = ws.cell(1, ci)
+            c.fill = hdr_fill; c.font = hdr_font
+            c.alignment = Alignment(horizontal="center", vertical="center"); c.border = cell_border
+        ws.row_dimensions[1].height = 20
+
+    # ── Sheet 1: SOLUTION (gradable). The FIRST 11 columns are exactly the host's
+    #    grading format; we append a few extra columns after them for traceability. ──
+    EXTRA = ["Page", "Verified", "Confidence", "Flag codes"]
+    full_header = SOLUTION_HEADER + EXTRA
+    ncol = len(full_header)
     sol = wb.active
     sol.title = "Solution"
-    sol.append(SOLUTION_HEADER)
-    for ci in range(1, len(SOLUTION_HEADER) + 1):
-        c = sol.cell(1, ci)
-        c.fill = hdr_fill; c.font = hdr_font
-        c.alignment = Alignment(horizontal="center", vertical="center"); c.border = cell_border
-    sol.row_dimensions[1].height = 20
+    sol.append(full_header)
+    _style_header(sol, ncol)
 
     batch, stufe = _batch_no(doc), _prozessstufe(doc)
     for f in fields:
         text, num = solution_text_value(f)
         cond = solution_condition(f)
+        codes = ";".join(sorted({fl.code for fl in f.flags}))
+        verified = "Yes" if getattr(f, "is_verified", False) else ""
         sol.append([batch, stufe, f.chapter or "", "", "",
                     f.label_raw or "", f.unit or "", "",
-                    cond, "" if text is None else text, "" if num is None else num])
+                    cond, "" if text is None else text, "" if num is None else num,
+                    f.page_no, verified, round(f.confidence or 0, 2), codes])
         r = sol.max_row
         if cond.lower().startswith(("suspect", "supect")):
             fill = fill_err if any(fl.severity == "error" for fl in f.flags) else fill_warn
-            for ci in range(1, len(SOLUTION_HEADER) + 1):
+            for ci in range(1, ncol + 1):
                 sol.cell(r, ci).fill = fill
-        for ci in range(1, len(SOLUTION_HEADER) + 1):
+        for ci in range(1, ncol + 1):
             sol.cell(r, ci).border = cell_border
     sol.auto_filter.ref = sol.dimensions
     sol.freeze_panes = "A2"
-    for i, w in enumerate([12, 12, 18, 18, 18, 28, 14, 12, 32, 22, 12], 1):
+    for i, w in enumerate([12, 12, 18, 18, 18, 28, 14, 12, 32, 22, 12, 8, 10, 12, 26], 1):
         sol.column_dimensions[get_column_letter(i)].width = w
+
+    # ── Sheet 2: FINDINGS — only the suspect rows (errors + warnings), the focused
+    #    issue list a reviewer works through. ──
+    fnd = wb.create_sheet("Findings")
+    FH = ["Page", "Chapter", "Parameter", "Condition", "Severity", "Flag codes", "Message"]
+    fnd.append(FH)
+    _style_header(fnd, len(FH))
+    for f in fields:
+        if not f.flags:
+            continue
+        sev = "error" if any(fl.severity == "error" for fl in f.flags) else "warning"
+        codes = ";".join(sorted({fl.code for fl in f.flags}))
+        msg = " · ".join(fl.message for fl in f.flags if fl.message)
+        fnd.append([f.page_no, f.chapter or "", f.label_raw or "",
+                    solution_condition(f), sev, codes, msg])
+        r = fnd.max_row
+        fill = fill_err if sev == "error" else fill_warn
+        for ci in range(1, len(FH) + 1):
+            fnd.cell(r, ci).fill = fill; fnd.cell(r, ci).border = cell_border
+    fnd.auto_filter.ref = fnd.dimensions
+    fnd.freeze_panes = "A2"
+    for i, w in enumerate([8, 18, 30, 38, 10, 26, 60], 1):
+        fnd.column_dimensions[get_column_letter(i)].width = w
 
     buf = io.BytesIO()
     wb.save(buf)

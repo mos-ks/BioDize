@@ -51,7 +51,8 @@ class FieldOut(BaseModel):
             page_no=f.page_no, role=f.role, label_raw=f.label_raw, value=f.value_norm,
             value_raw=f.value_raw, unit=f.unit, nks=f.nks, bbox=f.bbox,
             confidence=f.confidence, status=f.status, is_handwritten=getattr(f, "is_handwritten", None),
-            is_verified=getattr(f, "is_verified", False), verified_reason=getattr(f, "verified_reason", None),
+            is_verified=bool(getattr(f, "is_verified", None)),  # coerce NULL (old rows) -> False
+            verified_reason=getattr(f, "verified_reason", None),
             reads=[ReadOut.model_validate(r) for r in f.reads],
             flags=[FlagOut.model_validate(fl) for fl in f.flags],
         )
