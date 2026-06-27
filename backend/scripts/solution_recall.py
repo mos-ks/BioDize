@@ -91,26 +91,46 @@ def main() -> None:
         print("no document found — process one first"); return
     fields = our_fields(db, doc.id)
 
-    # index our fields by normalized label; a label is "flagged" if any of its
-    # fields carries a flag (we caught a problem there).
-    by_label: dict[str, list[models.Field]] = defaultdict(list)
-    for f in fields:
-        by_label[_norm(f.label_raw)].append(f)
-    flagged_labels = {lab for lab, fs in by_label.items() if any(x.flags for x in fs)}
+    # Fuzzy match each host row to our field(s): exact normalized label, OR strong
+    # token overlap (host label is a substring of a longer field label), OR same
+    # numeric value. A host error is "caught" if any matched field carries a flag.
+    def _num(v):
+        try:
+            return float(str(v).replace(",", "."))
+        except (TypeError, ValueError):
+            return None
+
+    field_info = [(f, _norm(f.label_raw), _num(f.value_norm)) for f in fields]
     our_flag_count = sum(1 for f in fields if f.flags)
+
+    def candidates(r) -> list[models.Field]:
+        toks = [t for t in r["norm"].split() if len(t) > 2]
+        need = max(2, round(len(toks) * 0.7))
+        hv = _num(r["value"] if r["value"] is not None else r["text"])
+        out = []
+        for f, fnl, fv in field_info:
+            same = fnl == r["norm"]
+            overlap = bool(toks) and sum(1 for t in toks if t in fnl) >= need
+            sub = len(r["norm"]) >= 4 and r["norm"] in fnl   # short host label inside a longer field label
+            valmatch = hv is not None and fv is not None and abs(hv - fv) < 1e-6
+            if same or overlap or sub or valmatch:
+                out.append(f)
+        return out
 
     sol = load_solution(Path(args.xlsx))
     host_suspect = [r for r in sol if _is_suspect(r["condition"])]
 
     caught, missed = [], []
+    matched_ids: set[int] = set()
     for r in host_suspect:
-        present = r["norm"] in by_label
-        hit = r["norm"] in flagged_labels
+        cands = candidates(r)
+        matched_ids.update(id(f) for f in cands)
+        present = bool(cands)
+        hit = any(f.flags for f in cands)
         (caught if hit else missed).append({**r, "extracted": present})
 
-    # our flags that have NO matching host-suspect row (potential false positives)
-    host_suspect_norms = {r["norm"] for r in host_suspect}
-    extra = sorted({f.label_raw for f in fields if f.flags and _norm(f.label_raw) not in host_suspect_norms})
+    # our flagged fields not matched to any host-suspect row (potential false positives)
+    extra = sorted({f.label_raw for f in fields if f.flags and id(f) not in matched_ids})
 
     n = len(host_suspect)
     rec = len(caught) / n if n else 0.0

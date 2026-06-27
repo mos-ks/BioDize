@@ -113,6 +113,32 @@ def test_verified_marks_corroborated_handwritten_numbers():
     assert not printed.is_verified  # printed (black) numbers are not "verified"
 
 
+# --- MISSING_VALUE: blank required fields -----------------------------------
+
+def test_missing_value_flags_blank_required_entries():
+    from app.pipeline.validate.rules import rule_presence
+    anlagen = _f("Oven C - Anlagen-nummer", "")          # blank equipment number
+    soll_f = _f("Haltetemperatur", "", soll="2 - 8 C")   # blank but has a Soll
+    note = _f("Bemerkung", "")                            # blank free text -> optional
+    b = Block(chapter="", page_no=27, template="x"); b.fields = [anlagen, soll_f, note]
+    rule_presence(b)
+    assert any(fl.code == "MISSING_VALUE" for fl in anlagen.flags)
+    assert any(fl.code == "MISSING_VALUE" for fl in soll_f.flags)
+    assert not note.flags                                  # no keyword / Soll -> not flagged
+
+
+def test_void_mark_checkbox_counts_as_unmarked():
+    from app.pipeline.validate.rules import rule_presence
+    slash = _f("Homogenisieren durchgeführt", "/"); slash.value_type = "checkbox"
+    blank = _f("Box", ""); blank.value_type = "checkbox"
+    answered = _f("Ofen erfasst", "Ja"); answered.value_type = "checkbox"
+    b = Block(chapter="", page_no=19, template="x"); b.fields = [slash, blank, answered]
+    rule_presence(b)
+    assert any(fl.code == "MISSING_CHECKMARK" for fl in slash.flags)   # '/' is a void mark
+    assert any(fl.code == "MISSING_CHECKMARK" for fl in blank.flags)
+    assert not answered.flags                                          # 'Ja' is a real answer
+
+
 # --- solution-format Condition verdict mapping ------------------------------
 
 def _flag(code, sev):

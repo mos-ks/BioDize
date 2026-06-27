@@ -202,6 +202,32 @@ def rule_formula(field: Field) -> list[Flag]:
 # --- block-level rules ------------------------------------------------------
 
 
+# A blank field "expects a value" (-> Suspect/missing when empty) when it carries a
+# Soll target or its label names a concrete required entry. This keeps the blank-value
+# check from firing on every optional free-text line. Tunable: widen/narrow this set
+# against the real document to balance FP vs FN (we err toward FP — better than FN).
+_EXPECTS_VALUE_KW = re.compile(
+    r"\b(nummer|nr\.?|anlagen|datum|uhrzeit|menge|gewicht|masse|volumen|temperatur|"
+    r"charge|seite|wert|konzentration|dichte|zeit)\b", re.I)
+
+
+def _expects_value(f: Field) -> bool:
+    if (f.value_raw or "").strip():
+        return False                      # not blank -> nothing to flag
+    if f.soll:
+        return True                       # has a Soll/Richtwert -> an entry is expected
+    return bool(_EXPECTS_VALUE_KW.search(f.label_raw or ""))
+
+
+# A checkbox carrying only a void mark (a slash/dash through an empty box, etc.) is
+# NOT a real answer — the host reads these as "not checked". Treat them as unmarked.
+_VOID_MARKS = {"", "/", "\\", "-", "–", "—", ".", "·", "n/a", "-/-", "()", "[]"}
+
+
+def _checkbox_unmarked(value_raw: str | None) -> bool:
+    return (value_raw or "").strip().lower() in _VOID_MARKS
+
+
 def rule_presence(block: Block) -> list[Flag]:
     """Presence is a first-class rule: signature present, checkmark present.
     A blank Bearbeitet/Geprüft = a missing required signature; a date without a
@@ -229,10 +255,16 @@ def rule_presence(block: Block) -> list[Flag]:
                 msg = "Signature has a date but no Kürzel" if has_date else "Signature has a Kürzel but no date"
                 f.add_flag(_warn(Category.MISSING, "SIG_INCOMPLETE", msg,
                                  expected="date + Kürzel", actual=(f.value_raw or "").strip() or "(blank)"))
-        elif f.value_type == "checkbox" and not (f.value_raw or "").strip():
+        elif f.value_type == "checkbox" and _checkbox_unmarked(f.value_raw):
             f.add_flag(_err(Category.MISSING, "MISSING_CHECKMARK",
                             "Checkbox/selection has nothing marked (unanswered)",
-                            expected="a marked option", actual="none"))
+                            expected="a marked option", actual=(f.value_raw or "").strip() or "none"))
+        elif _expects_value(f):
+            # A blank field that clearly expects an entry (Anlagennummer, Datum,
+            # a Soll-bearing value, ...) — the host marks these "Suspect / missing".
+            f.add_flag(_err(Category.MISSING, "MISSING_VALUE",
+                            "Required value is blank (no entry)",
+                            expected="a value", actual="blank"))
     return []
 
 def rule_net_mass(block: Block) -> list[Flag]:
