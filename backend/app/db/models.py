@@ -144,6 +144,19 @@ class AuditLog(Base):
     created_at: Mapped[datetime] = mapped_column(DateTime, default=_now)
 
 
+class ParameterHistory(Base):
+    """Append-only log of every numeric parameter value across ALL processed records,
+    keyed by a stable parameter signature (role|label|unit). Lets us flag when a
+    parameter 'suddenly' reads differently than it has in prior batch records."""
+    __tablename__ = "parameter_history"
+
+    id: Mapped[str] = mapped_column(String, primary_key=True, default=_uuid("ph"))
+    param_key: Mapped[str] = mapped_column(String, index=True)
+    value: Mapped[float] = mapped_column(Float)
+    document_id: Mapped[str] = mapped_column(String, index=True)
+    created_at: Mapped[datetime] = mapped_column(DateTime, default=_now)
+
+
 class RoleStat(Base):
     """Running aggregates per role for Bayesian priors / distribution plots."""
     __tablename__ = "role_stats"

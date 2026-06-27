@@ -11,7 +11,7 @@ from sqlalchemy.orm import Session
 
 from app.core.config import settings
 from app.domain.severity import FieldStatus, Severity
-from app.pipeline import store
+from app.pipeline import history, store
 from app.pipeline.extract.base import get_extractor
 from app.pipeline.ingest import render_pdf
 from app.pipeline.localize import localize, ocr_crosscheck
@@ -69,10 +69,12 @@ def process(source_path: str | None, db: Session, max_pages: int | None = None,
     normalize(doc)
     resolve(doc)
     validate(doc)
+    history.check_consistency(doc, db)   # cross-document: value drift vs prior records
     score(doc)
 
     # 6. Persist (with page-image paths so the review UI can serve them).
     document_id = store.persist(doc, db, page_images)
+    history.record(doc, db, document_id)  # append this record's values to the history
 
     fields = doc.all_fields()
     n_err = sum(1 for f in fields for fl in f.flags if fl.severity is Severity.ERROR)

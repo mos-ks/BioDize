@@ -87,3 +87,36 @@ def test_printed_clean_field_auto_accepts_handwritten_stays():
     score(doc)
     assert printed.status == FieldStatus.AUTO_ACCEPTED       # printed (black) → out of the queue
     assert hand.status == FieldStatus.NEEDS_REVIEW           # handwritten (blue) → reviewed
+
+
+# --- cross-document value history -------------------------------------------
+
+def test_cross_doc_drift_flags_value_far_from_prior_records():
+    from sqlalchemy import create_engine
+    from sqlalchemy.orm import Session as SASession
+    from app.db.base import Base
+    from app.db import models
+    from app.pipeline import history
+
+    eng = create_engine("sqlite://")
+    Base.metadata.create_all(eng)
+    db = SASession(eng)
+    for v in (200.0, 201.0, 199.0, 200.0):  # this parameter has read ~200 before
+        db.add(models.ParameterHistory(param_key="net_mass|m netto|kg", value=v, document_id="d_old"))
+    db.commit()
+
+    def doc_with(value):
+        f = Field(page_no=1, chapter="", role="net_mass", label_raw="m Netto", value_raw=str(value), unit="kg")
+        f.value = float(value)
+        b = Block(chapter="", page_no=1, template="x"); b.fields = [f]
+        d = Document(doc_no="d", title="t"); d.blocks = [b]
+        return d, f
+
+    drift_doc, drift_f = doc_with(350)
+    history.check_consistency(drift_doc, db)
+    assert any(fl.code == "CROSS_DOC_DRIFT" for fl in drift_f.flags)
+
+    ok_doc, ok_f = doc_with(200)
+    history.check_consistency(ok_doc, db)
+    assert not ok_f.flags
+    db.close()
