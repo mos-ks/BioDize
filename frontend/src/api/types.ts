@@ -100,6 +100,18 @@ export interface ProcessResult {
   n_needs_review: number;
 }
 
+/** Background processing job (polled while a live run is in progress). */
+export interface JobStatus {
+  job_id: string;
+  status: "processing" | "processed" | "failed";
+  stage: string;
+  page_done: number;
+  page_total: number;
+  document_id?: string | null;
+  error?: string | null;
+  elapsed_ms: number;
+}
+
 export interface HistogramBin {
   start: number;
   end: number;

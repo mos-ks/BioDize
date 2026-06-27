@@ -275,7 +275,7 @@ _sim_idx = 0
 class StubExtractor:
     name = "stub"
 
-    def extract(self, source_path: str | None = None, pages=None) -> Document:
+    def extract(self, source_path: str | None = None, pages=None, progress=None) -> Document:
         # Only the SIMULATE_NEXT sentinel advances the simulated carousel; everything
         # else (incl. the ground-truth tests) gets the canonical sample.
         if source_path == SIMULATE_NEXT:

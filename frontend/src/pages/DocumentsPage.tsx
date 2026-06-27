@@ -27,7 +27,7 @@ import {
   X,
 } from "lucide-react";
 import { api } from "../api/client";
-import type { DocumentSummary, ProcessResult } from "../api/types";
+import type { DocumentSummary, JobStatus } from "../api/types";
 import {
   classNames,
   displayDocNo,
@@ -81,6 +81,15 @@ function formatDuration(ms: number): string {
   const s = ms / 1000;
   if (s < 60) return `${s < 10 ? s.toFixed(1) : Math.round(s)} s`;
   return `${Math.floor(s / 60)}m ${Math.round(s % 60)}s`;
+}
+
+const sleep = (ms: number) => new Promise<void>((r) => setTimeout(r, ms));
+
+// Progress line for the running background job: "Reading page 12 of 46… · 1m 03s".
+function jobLabel(job: JobStatus): string {
+  const secs = Math.floor((job.elapsed_ms || 0) / 1000);
+  const t = secs >= 60 ? `${Math.floor(secs / 60)}m ${String(secs % 60).padStart(2, "0")}s` : `${secs}s`;
+  return `${job.stage || "Processing…"} · ${t}`;
 }
 
 // --- "Yield": rough review effort/cost the tool saves ----------------------
@@ -328,13 +337,6 @@ export default function DocumentsPage() {
     return Number.isFinite(n) && n > 0 ? n : undefined;
   }
 
-  // After a successful pipeline run: refresh the list and jump into review.
-  function onProcessed(res: ProcessResult | undefined) {
-    if (!res) return;
-    reload();
-    navigate(`/documents/${res.document_id}`);
-  }
-
   // (a) Upload a PDF and STAGE it (no auto-processing) so the Process button only
   // becomes available once a document is present.
   const uploadAction = useAsyncAction(async (file: File) => {
@@ -346,14 +348,41 @@ export default function DocumentsPage() {
   });
 
   // (b) Process the staged upload. Disabled until something is uploaded.
+  // Runs in the background (survives long runs / tunnel request limits): start a
+  // job, then poll its progress until it finishes. Transient poll failures are
+  // tolerated — the backend keeps working even if a poll blips.
   const processAction = useAsyncAction(async () => {
     if (!uploaded) return undefined;
-    setUploadStep("Processing pages…");
-    const res = await api.processDocument({ source_path: uploaded.source_path, max_pages: parsedMaxPages() });
-    setUploadStep(null);
-    setUploaded(null);
-    onProcessed(res);
-    return res;
+    setUploadStep("Starting…");
+    const { job_id } = await api.processDocumentAsync({
+      source_path: uploaded.source_path,
+      max_pages: parsedMaxPages(),
+    });
+    let fails = 0;
+    for (;;) {
+      await sleep(1500);
+      let job: JobStatus;
+      try {
+        job = await api.getJob(job_id);
+        fails = 0;
+      } catch (e) {
+        if (++fails > 40) throw e; // ~1 min of failed polls → give up
+        setUploadStep("Reconnecting…");
+        continue;
+      }
+      if (job.status === "processed") {
+        setUploadStep(null);
+        setUploaded(null);
+        reload();
+        if (job.document_id) navigate(`/documents/${job.document_id}`);
+        return;
+      }
+      if (job.status === "failed") {
+        setUploadStep(null);
+        throw new Error(job.error || "Processing failed");
+      }
+      setUploadStep(jobLabel(job));
+    }
   });
 
   // (c) Create a simulated demo batch (no upload, no API). Stays on the page so the

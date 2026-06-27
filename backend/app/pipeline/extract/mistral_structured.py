@@ -120,7 +120,8 @@ class MistralStructuredExtractor:
     def __init__(self) -> None:
         self._ocr = MistralOcr()
 
-    def extract(self, source_path: str | None, pages: list[PageImage] | None = None) -> Document:
+    def extract(self, source_path: str | None, pages: list[PageImage] | None = None,
+                progress=None) -> Document:
         if pages is None:
             if not source_path:
                 raise ValueError("MistralStructuredExtractor needs a PDF source_path or pages.")

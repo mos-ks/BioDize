@@ -16,9 +16,12 @@ from app.pipeline.model import Document
 class Extractor(Protocol):
     name: str
 
-    def extract(self, source_path: str | None, pages: list[PageImage] | None = None) -> Document:
+    def extract(self, source_path: str | None, pages: list[PageImage] | None = None,
+                progress=None) -> Document:
         """Return a Document. `pages` are pre-rendered images (so the PDF is
-        rendered once and shared with the OCR layer); the stub ignores both."""
+        rendered once and shared with the OCR layer); the stub ignores both.
+        `progress`, if given, is called as progress(stage=..., page_done=...,
+        page_total=...) so a background job can report per-page progress."""
         ...
 
 

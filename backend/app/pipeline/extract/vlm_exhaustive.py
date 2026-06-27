@@ -103,7 +103,8 @@ class VlmExhaustiveExtractor:
                               base_url=settings.openai_base_url or None)
         self._model = settings.openai_model
 
-    def extract(self, source_path: str | None, pages: list[PageImage] | None = None) -> Document:
+    def extract(self, source_path: str | None, pages: list[PageImage] | None = None,
+                progress=None) -> Document:
         if pages is None:
             pages = render_pdf(source_path).pages if source_path else []
         doc = Document(
@@ -117,7 +118,10 @@ class VlmExhaustiveExtractor:
         if first:
             self._apply_identity(doc, first.image_path)
 
-        for page in pages:
+        n = len(pages)
+        for i, page in enumerate(pages, 1):
+            if progress:
+                progress(stage=f"Reading page {i} of {n}…", page_done=i, page_total=n)
             if page.is_blank or not page.image_path:
                 continue
             block = Block(chapter="", page_no=page.page_no, template="page")

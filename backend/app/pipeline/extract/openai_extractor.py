@@ -85,7 +85,8 @@ class OpenAIExtractor:
         )
         self._model = settings.openai_model
 
-    def extract(self, source_path: str | None, pages: list[PageImage] | None = None) -> Document:
+    def extract(self, source_path: str | None, pages: list[PageImage] | None = None,
+                progress=None) -> Document:
         if pages is None:
             if not source_path:
                 raise ValueError("OpenAIExtractor requires a PDF source_path or pre-rendered pages.")

@@ -15,6 +15,7 @@ import type {
   FieldFilters,
   Flag,
   Health,
+  JobStatus,
   ProcessResult,
 } from "./types";
 
@@ -106,9 +107,20 @@ export const api = {
   listDocuments: () => request<DocumentSummary[]>(`${API_PREFIX}/documents`),
   getDocument: (id: string) => request<DocumentSummary>(`${API_PREFIX}/documents/${id}`),
 
-  /** Run the full pipeline. With the stub extractor source_path is ignored. */
+  /** Run the full pipeline synchronously (holds the request open). */
   processDocument: (opts: { source_path?: string; max_pages?: number } = {}) =>
     request<ProcessResult>(`${API_PREFIX}/documents/process${qs(opts)}`, { method: "POST" }),
+
+  /** Start the pipeline in the background; returns a job id to poll. Use this for
+   *  live runs — it survives long durations and proxy/tunnel request limits. */
+  processDocumentAsync: (opts: { source_path?: string; max_pages?: number } = {}) =>
+    request<{ job_id: string; status: string }>(
+      `${API_PREFIX}/documents/process_async${qs(opts)}`,
+      { method: "POST" },
+    ),
+
+  /** Poll a background processing job's progress. */
+  getJob: (jobId: string) => request<JobStatus>(`${API_PREFIX}/documents/jobs/${jobId}`),
 
   /** Create the next simulated demo batch (offline, no upload). */
   simulateDocument: () =>

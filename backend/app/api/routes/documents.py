@@ -3,6 +3,7 @@ from __future__ import annotations
 
 import os
 import shutil
+import threading
 from pathlib import Path
 
 from fastapi import APIRouter, Depends, File, HTTPException, UploadFile
@@ -12,7 +13,8 @@ from sqlalchemy.orm import Session
 from app.api.deps import get_db
 from app.core.config import settings
 from app.db import models
-from app.pipeline import orchestrator
+from app.db.base import SessionLocal
+from app.pipeline import jobs, orchestrator
 from app.schemas.schemas import DocumentSummary, ProcessResult
 
 router = APIRouter(prefix="/documents", tags=["documents"])
@@ -39,14 +41,61 @@ def process_document(
 ) -> ProcessResult:
     """Run the full pipeline. With EXTRACTOR=stub, source_path is ignored.
     Otherwise, defaults to the bundled sample scan when source_path is omitted.
-    Pass max_pages=N for a cheap first run (limits model calls)."""
-    if settings.extractor != "stub" and not source_path:
-        if os.path.exists(settings.sample_pdf_path):
-            source_path = settings.sample_pdf_path
-        else:
-            raise HTTPException(400, "source_path is required (sample PDF not found)")
+    Pass max_pages=N for a cheap first run (limits model calls).
+
+    Note: this holds the request open for the whole run. The UI uses the async
+    variant (/process_async + /jobs/{id}); this stays for tests and CLI use."""
+    source_path = _resolve_source(source_path)
     summary = orchestrator.process(source_path, db, max_pages=max_pages)
     return _process_result(summary)
+
+
+def _resolve_source(source_path: str | None) -> str | None:
+    """Live extraction needs a PDF; fall back to the bundled sample if none given."""
+    if settings.extractor != "stub" and not source_path:
+        if os.path.exists(settings.sample_pdf_path):
+            return settings.sample_pdf_path
+        raise HTTPException(400, "source_path is required (sample PDF not found)")
+    return source_path
+
+
+def _run_process_job(job_id: str, source_path: str | None, max_pages: int | None) -> None:
+    """Run the pipeline in a background thread with its own DB session and report
+    progress to the in-memory job registry. Errors are captured on the job, never
+    raised (nothing is awaiting this thread)."""
+    db = SessionLocal()
+    try:
+        def progress(**kw) -> None:
+            jobs.update(job_id, **kw)
+        summary = orchestrator.process(source_path, db, max_pages=max_pages, progress=progress)
+        jobs.finish(job_id, summary.document_id)
+    except Exception as exc:  # noqa: BLE001 — surface any failure to the poller
+        jobs.fail(job_id, str(exc) or exc.__class__.__name__)
+    finally:
+        db.close()
+
+
+@router.post("/process_async", response_model=dict)
+def process_document_async(source_path: str | None = None, max_pages: int | None = None) -> dict:
+    """Kick off the pipeline in the background and return a job id immediately.
+
+    Live runs take minutes — longer than a quick-tunnel's request limit — so the
+    UI polls GET /documents/jobs/{id} instead of holding one long HTTP request open."""
+    source_path = _resolve_source(source_path)
+    job = jobs.create()
+    threading.Thread(target=_run_process_job, args=(job.id, source_path, max_pages),
+                     daemon=True).start()
+    return {"job_id": job.id, "status": job.status}
+
+
+@router.get("/jobs/{job_id}", response_model=dict)
+def get_job(job_id: str) -> dict:
+    """Poll a background processing job: stage, page progress, elapsed_ms, and the
+    final document_id once status == 'processed' (or error if 'failed')."""
+    snap = jobs.get(job_id)
+    if snap is None:
+        raise HTTPException(404, "job not found")
+    return snap
 
 
 @router.post("/simulate", response_model=ProcessResult)

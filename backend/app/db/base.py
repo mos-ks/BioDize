@@ -3,7 +3,7 @@ from __future__ import annotations
 
 from collections.abc import Iterator
 
-from sqlalchemy import create_engine
+from sqlalchemy import create_engine, event
 from sqlalchemy.orm import DeclarativeBase, Session, sessionmaker
 
 from app.core.config import settings
@@ -12,6 +12,17 @@ from app.core.config import settings
 _connect_args = {"check_same_thread": False} if settings.database_url.startswith("sqlite") else {}
 
 engine = create_engine(settings.database_url, connect_args=_connect_args, future=True)
+
+if settings.database_url.startswith("sqlite"):
+    # Background processing runs in a worker thread while the API serves reads.
+    # WAL lets readers and the writer proceed concurrently; busy_timeout makes the
+    # rare write contention wait briefly instead of raising "database is locked".
+    @event.listens_for(engine, "connect")
+    def _sqlite_pragmas(dbapi_conn, _record) -> None:  # noqa: ANN001
+        cur = dbapi_conn.cursor()
+        cur.execute("PRAGMA journal_mode=WAL")
+        cur.execute("PRAGMA busy_timeout=5000")
+        cur.close()
 SessionLocal = sessionmaker(bind=engine, autoflush=False, autocommit=False, future=True)
 
 
