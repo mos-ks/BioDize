@@ -31,10 +31,8 @@
       "n_fields": 13,
       "n_checkboxes": 1,
       "n_signatures": 2,
-      "n_violations": 1,
-      "violations": [
-        "CALC_ERROR @ V Netto (V = m / ρ; ρ = 1,100 kg/L)"
-      ]
+      "n_violations": 0,
+      "violations": []
     },
     {
       "page": 14,

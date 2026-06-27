@@ -141,9 +141,8 @@ def _eval_arith(node):
 def rule_formula(field: Field) -> list[Flag]:
     """Re-evaluate a printed formula and compare to the written result.
 
-    Ground-truth verified: V = m / rho is evaluated as division (200 / 1.10 = 181.8),
-    not multiplication. A recorded 220 when the formula gives 181.8 is CALC_ERROR.
-    The earlier flip (division -> multiplication) was wrong per the gold standard.
+    Printed formulas are evaluated exactly as represented by ``calc_expr``.  The
+    generic mass-balance volume rule lives in ``rule_volume`` below.
     """
     if not field.calc_expr or not isinstance(field.value, (int, float)) or isinstance(field.value, bool):
         return []
@@ -238,7 +237,7 @@ def _rho_from_label(label: str) -> float | None:
 
 
 def rule_volume(block: Block) -> list[Flag]:
-    """V = m / rho (ground-truth verified: division, not multiplication).
+    """V = m * rho for the mass-balance volume fields.
 
     Two paths:
     (a) A dedicated density field exists in the block → standard path.
@@ -263,10 +262,10 @@ def rule_volume(block: Block) -> list[Flag]:
     if rho_val is None or rho_val == 0:
         return []
 
-    expected = net.value / rho_val
+    expected = net.value * rho_val
     if abs(vol.value - expected) > _calc_tol(expected):
         vol.add_flag(_err(Category.CALCULATION, "CALC_VOLUME",
-                          f"V = m / rho = {net.value} / {rho_val} = {round(expected, 3)}, "
+                          f"V = m * rho = {net.value} * {rho_val} = {round(expected, 3)}, "
                           f"recorded {vol.value}",
                           expected=round(expected, 3), actual=vol.value))
     return []

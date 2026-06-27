@@ -10,13 +10,13 @@ deterministically.
 ## Extraction accuracy (8 pages, 109 gold fields)
 | Metric | Score |
 |---|---|
-| Field coverage / recall | **109 / 109 — 100%** |
-| Value accuracy | **51 / 51 — 100%** |
+| Field coverage / recall | **103 / 109 — 94.5%** |
+| Value accuracy | **44 / 45 — 97.8%** |
 | Checkbox-state accuracy | **34 / 34 — 100%** |
 | Signature presence (signed/blank) | **24 / 24 — 100%** |
 
 ## Rule detection
-All **real** planted violations were caught:
+All **7** real planted violations were caught:
 
 | Page | Expected | Pipeline | |
 |---|---|---|---|

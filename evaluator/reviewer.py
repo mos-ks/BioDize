@@ -776,16 +776,15 @@ class App:
             ox = (cw-pw)//2;   oy = (ch-ph)//2
             return pil, iw, ih, base, ox, oy, pw, ph, 0.0, 0.0, float(iw), float(ih)
         else:
-            vw = iw/self.zoom; vh = ih/self.zoom
+            # Zoom: fill the full canvas (original behaviour)
+            ts = base*self.zoom
+            vw = cw/ts; vh = ch/ts
             x0 = max(0.0, self.zoom_x*iw - vw/2)
             y0 = max(0.0, self.zoom_y*ih - vh/2)
             x1 = min(float(iw), x0+vw); y1 = min(float(ih), y0+vh)
             if x1 >= iw: x0 = max(0.0, iw-vw)
             if y1 >= ih: y0 = max(0.0, ih-vh)
-            pw = max(1, min(cw, int((x1-x0)*base*self.zoom)))
-            ph = max(1, min(ch, int((y1-y0)*base*self.zoom)))
-            ox = (cw-pw)//2; oy = (ch-ph)//2
-            return pil, iw, ih, base, ox, oy, pw, ph, x0, y0, x1, y1
+            return pil, iw, ih, base, 0, 0, cw, ch, x0, y0, x1, y1
 
     def _canvas_to_img(self, cx, cy):
         """Canvas coordinate -> normalized image coordinate (0-1)."""
@@ -1194,46 +1193,25 @@ class App:
                 self.canvas.create_rectangle(bx0, by0, bx1, by1, outline=color, width=3)
 
         else:
-            # ── Zoom path: crop from PIL, resize preserving aspect ratio ─────
-            # Visible region in image pixels (same ratio as fit-to-canvas)
-            view_w = iw / self.zoom
-            view_h = ih / self.zoom
-            cx_img = self.zoom_x * iw
-            cy_img = self.zoom_y * ih
-            x0 = max(0.0, cx_img - view_w / 2)
-            y0 = max(0.0, cy_img - view_h / 2)
-            x1 = min(float(iw), x0 + view_w)
-            y1 = min(float(ih), y0 + view_h)
-            if x1 >= iw: x0 = max(0.0, iw - view_w)
-            if y1 >= ih: y0 = max(0.0, ih - view_h)
-
-            crop = pil.crop((int(x0), int(y0), int(x1), int(y1)))
-            # Scale the crop by (base * zoom), then letterbox on canvas
-            out_w = max(1, min(cw, int(crop.width  * base * self.zoom)))
-            out_h = max(1, min(ch, int(crop.height * base * self.zoom)))
-            disp  = crop.resize((out_w, out_h), Image.BILINEAR)
+            # ── Zoom path: crop fills full canvas (original behaviour) ────────
+            _, _, _, _, ox, oy, pw, ph, x0v, y0v, x1v, y1v = v
+            crop  = pil.crop((int(x0v), int(y0v), int(x1v), int(y1v)))
+            disp  = crop.resize((cw, ch), Image.BILINEAR)
             photo = ImageTk.PhotoImage(disp)
             self._img_ref = photo
-            ox = (cw - out_w) // 2   # center on canvas (no distortion)
-            oy = (ch - out_h) // 2
-            self.canvas.create_image(ox, oy, image=photo, anchor="nw")
+            self.canvas.create_image(0, 0, image=photo, anchor="nw")
 
-            # Bbox in zoomed view (map image coords -> canvas coords)
             bbox = self.cur_bbox; sev = self.cur_sev
-            rw = x1 - x0; rh = y1 - y0
-            def _to_canvas(nx, ny):
-                return ox + (nx*iw - x0)/rw * out_w, oy + (ny*ih - y0)/rh * out_h
             if bbox and len(bbox) == 4:
-                bx0c, by0c = _to_canvas(bbox[0], bbox[1])
-                bx1c, by1c = _to_canvas(bbox[2], bbox[3])
-                if bx1c > ox and bx0c < ox+out_w and by1c > oy and by0c < oy+out_h:
+                bx0c, by0c = _ic(bbox[0], bbox[1])
+                bx1c, by1c = _ic(bbox[2], bbox[3])
+                if bx1c > 0 and bx0c < cw and by1c > 0 and by0c < ch:
                     color = "#ef4444" if sev == "error" else "#f59e0b"
                     self.canvas.create_rectangle(
-                        max(ox, bx0c), max(oy, by0c),
-                        min(ox+out_w, bx1c), min(oy+out_h, by1c),
+                        max(0, bx0c), max(0, by0c),
+                        min(cw, bx1c), min(ch, by1c),
                         outline=color, width=3)
 
-            # Zoom indicator
             self.canvas.create_text(cw-8, 8,
                 text=f"{self.zoom:.1f}x  (double-click = reset)",
                 fill="white", font=("Segoe UI", 8, "bold"), anchor="ne")

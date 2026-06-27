@@ -474,42 +474,18 @@ class CompareWindow(tk.Toplevel):
 
     def _score_run(self, run: dict, gt_dir: Path) -> dict:
         """Fuehrt Pipeline aus und bewertet gegen Ground Truth."""
-        import os, json as _json
+        import os
         sys.path.insert(0, str(ROOT/"backend"))
         os.chdir(str(ROOT/"backend"))
 
-        from app.pipeline.model import Block, BBox, Document, Field, Read
-        from app.pipeline.normalize import normalize
-        from app.pipeline.resolve import resolve
-        from app.pipeline.validate.engine import validate
-        from app.pipeline.validate.uncertainty import score
+        from app.evaluation.results_loader import document_from_results
         from app.evaluation.scorer import score_ground_truth
 
         results_json = ROOT / "results" / "extracted_fields.json"
         if not results_json.exists():
             raise FileNotFoundError("results/extracted_fields.json nicht gefunden.")
 
-        data    = _json.loads(results_json.read_text(encoding="utf-8"))
-        entries = data["fields"]
-        doc     = Document(doc_no="eval", title="eval", page_count=46)
-        bmap: dict = {}
-        for e in entries:
-            chap = (e.get("chapter") or "").strip(); pno = e["page_no"]
-            key  = (chap, pno)
-            if key not in bmap:
-                bmap[key] = Block(chapter=chap, page_no=pno, template="real")
-            b = bmap[key]
-            bbox_raw = e.get("bbox")
-            bbox = BBox(*bbox_raw) if bbox_raw and len(bbox_raw)==4 else None
-            vr   = str(e.get("value_raw") or e.get("value") or "")
-            f    = Field(page_no=pno, chapter=chap, role=e.get("role"),
-                         label_raw=e.get("label") or "", value_raw=vr, bbox=bbox)
-            f.reads = [Read(model="eval", value_raw=vr,
-                            confidence=e.get("confidence", 1.0))]
-            b.fields.append(f); f.block_key = b.key
-        doc.blocks = list(bmap.values())
-
-        normalize(doc); resolve(doc); validate(doc); score(doc)
+        doc = document_from_results(results_json, model_name="eval")
         report = score_ground_truth(doc, gt_dir)
         return report.as_dict()
 

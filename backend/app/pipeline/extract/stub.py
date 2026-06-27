@@ -46,7 +46,7 @@ class StubExtractor:
         )
 
         # --- p11: Bilanzierung ABCE (clean mass balance) ---------------------
-        # V = m / rho (physics: density kg/L). 200 / 1,10 = 181.8 -> ~182 is clean.
+        # V = m * rho (physics: density kg/L). 200 * 1,10 = 220 is clean.
         b11 = Block(chapter="5.3.1", page_no=11, template="bilanzierung")
         b11.fields = [
             # low-confidence read -> EXTRACT_LOW_CONF warning ("ask when unsure")
@@ -55,7 +55,7 @@ class StubExtractor:
             _f(Role.GROSS_MASS, "m Brutto", "300", unit="kg", bbox=(0.61, 0.31, 0.78, 0.34)),
             _f(Role.NET_MASS, "m Netto", "200", unit="kg", bbox=(0.61, 0.34, 0.78, 0.37)),
             _f(Role.DENSITY, "rho", "1,10", unit="kg/L", bbox=(0.45, 0.38, 0.55, 0.41)),
-            _f(Role.VOLUME, "V Netto", "182", unit="L", calc_expr="200 / 1,10", bbox=(0.61, 0.38, 0.78, 0.41)),
+            _f(Role.VOLUME, "V Netto", "220", unit="L", calc_expr="200 * 1,10", bbox=(0.61, 0.38, 0.78, 0.41)),
             # form states (2 NKS) but only 1 decimal written -> FMT_NKS warning
             _f(Role.CONCENTRATION, "c ABC-DE (Blocking IPC)", "4,5", unit="g/L", nks=2, bbox=(0.61, 0.42, 0.78, 0.45)),
             _f(Role.HOLD_START, "Start Haltezeit", "10.06.2026 08:46", bbox=(0.45, 0.50, 0.70, 0.53)),

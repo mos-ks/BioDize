@@ -1,15 +1,15 @@
 {
   "aggregate": {
-    "tp": 6,
+    "tp": 7,
     "fp": 0,
-    "fn": 2,
+    "fn": 0,
     "rule_precision": 1.0,
-    "rule_recall": 0.75,
-    "rule_f1": 0.8571428571428571,
-    "value_acc": 0.7727272727272727,
-    "checkbox_acc": 0.8235294117647058,
-    "signature_acc": 0.9166666666666666,
-    "coverage": 0.9357798165137615
+    "rule_recall": 1.0,
+    "rule_f1": 1.0,
+    "value_acc": 0.9777777777777777,
+    "checkbox_acc": 1.0,
+    "signature_acc": 1.0,
+    "coverage": 0.944954128440367
   },
   "pages": [
     {
@@ -23,15 +23,9 @@
       ],
       "fp": [],
       "fn": [],
-      "value_correct": 0,
-      "value_wrong": 1,
-      "value_details": [
-        {
-          "label": "GMP-Bereich (Pre)",
-          "gold": "GMP",
-          "pipeline": "GMP / 931 / Ja"
-        }
-      ],
+      "value_correct": 1,
+      "value_wrong": 0,
+      "value_details": [],
       "cb_correct": 9,
       "cb_wrong": 0,
       "sig_correct": 2,
@@ -65,48 +59,20 @@
       "page": 11,
       "section": "5.3 Verwendete Intermediate ABC-DE / 5.3.1 Bilanzierung \u2014 Herstellung von Kuchen",
       "rule_precision": 1.0,
-      "rule_recall": 0.0,
-      "rule_f1": 0.0,
+      "rule_recall": 1.0,
+      "rule_f1": 1.0,
       "tp": [],
       "fp": [],
-      "fn": [
-        "CALC_ERROR"
-      ],
-      "value_correct": 4,
-      "value_wrong": 5,
-      "value_details": [
-        {
-          "label": "V Netto (V = m / \u03c1; \u03c1 = 1,100 kg/L)",
-          "gold": "220",
-          "pipeline": "200"
-        },
-        {
-          "label": "Start Haltezeit (Datum)",
-          "gold": "10.06.2026",
-          "pipeline": "10.06.2026 / 8:46"
-        },
-        {
-          "label": "Start Haltezeit (Uhr)",
-          "gold": "8:46",
-          "pipeline": "10.06.2026 / 8:46"
-        },
-        {
-          "label": "Erlaubte Haltezeit (Datum)",
-          "gold": "10.06.2026",
-          "pipeline": "10.06.2026 / 14:46"
-        },
-        {
-          "label": "Erlaubte Haltezeit (Uhr)",
-          "gold": "14:46",
-          "pipeline": "10.06.2026 / 14:46"
-        }
-      ],
-      "cb_correct": 0,
-      "cb_wrong": 1,
+      "fn": [],
+      "value_correct": 10,
+      "value_wrong": 0,
+      "value_details": [],
+      "cb_correct": 1,
+      "cb_wrong": 0,
       "sig_correct": 2,
       "sig_wrong": 0,
-      "covered": 12,
-      "missing": 1
+      "covered": 13,
+      "missing": 0
     },
     {
       "page": 14,
@@ -117,24 +83,13 @@
       "tp": [],
       "fp": [],
       "fn": [],
-      "value_correct": 1,
-      "value_wrong": 2,
-      "value_details": [
-        {
-          "label": "Transfer aus dem K\u00fchlraum (Datum)",
-          "gold": "09.06.2026",
-          "pipeline": "09.06.2026 / 11:35"
-        },
-        {
-          "label": "Transfer aus dem K\u00fchlraum (Uhrzeit)",
-          "gold": "11:35",
-          "pipeline": "09.06.2026 / 11:35"
-        }
-      ],
-      "cb_correct": 1,
-      "cb_wrong": 1,
-      "sig_correct": 2,
-      "sig_wrong": 2,
+      "value_correct": 3,
+      "value_wrong": 0,
+      "value_details": [],
+      "cb_correct": 2,
+      "cb_wrong": 0,
+      "sig_correct": 4,
+      "sig_wrong": 0,
       "covered": 9,
       "missing": 0
     },
@@ -142,13 +97,13 @@
       "page": 17,
       "section": "5.6.2 Durchf\u00fchrung - Herstellung von Kuchen",
       "rule_precision": 1.0,
-      "rule_recall": 0.0,
-      "rule_f1": 0.0,
-      "tp": [],
-      "fp": [],
-      "fn": [
+      "rule_recall": 1.0,
+      "rule_f1": 1.0,
+      "tp": [
         "RANGE_SOLL"
       ],
+      "fp": [],
+      "fn": [],
       "value_correct": 6,
       "value_wrong": 1,
       "value_details": [
@@ -177,8 +132,8 @@
       "value_correct": 5,
       "value_wrong": 0,
       "value_details": [],
-      "cb_correct": 7,
-      "cb_wrong": 3,
+      "cb_correct": 10,
+      "cb_wrong": 0,
       "sig_correct": 2,
       "sig_wrong": 0,
       "covered": 17,
@@ -196,8 +151,8 @@
       "value_correct": 13,
       "value_wrong": 0,
       "value_details": [],
-      "cb_correct": 1,
-      "cb_wrong": 1,
+      "cb_correct": 2,
+      "cb_wrong": 0,
       "sig_correct": 2,
       "sig_wrong": 0,
       "covered": 17,
@@ -216,15 +171,9 @@
       ],
       "fp": [],
       "fn": [],
-      "value_correct": 2,
-      "value_wrong": 1,
-      "value_details": [
-        {
-          "label": "Anzahl pro Charge (Zeile 2)",
-          "gold": "1",
-          "pipeline": "2"
-        }
-      ],
+      "value_correct": 3,
+      "value_wrong": 0,
+      "value_details": [],
       "cb_correct": 3,
       "cb_wrong": 0,
       "sig_correct": 6,

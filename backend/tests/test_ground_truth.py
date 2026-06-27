@@ -32,39 +32,9 @@ def _run_stub_pipeline():
 
 def _run_results_pipeline():
     """Re-validate the pre-extracted real results JSON (no LLM needed)."""
-    from app.pipeline.model import Block, BBox, Document, Field, Read
-    from app.pipeline.normalize import normalize
-    from app.pipeline.resolve import resolve
-    from app.pipeline.validate.engine import validate
-    from app.pipeline.validate.uncertainty import score
+    from app.evaluation.results_loader import document_from_results
 
-    data = json.loads((RESULTS_DIR / "extracted_fields.json").read_text(encoding="utf-8"))
-    entries = data["fields"]
-    doc = Document(doc_no="real", title="real", page_count=46)
-    bmap: dict = {}
-    for e in entries:
-        chap = (e.get("chapter") or "").strip()
-        pno  = e["page_no"]
-        key  = (chap, pno)
-        if key not in bmap:
-            bmap[key] = Block(chapter=chap, page_no=pno, template="real")
-        b = bmap[key]
-        bbox_raw = e.get("bbox")
-        bbox     = BBox(*bbox_raw) if bbox_raw and len(bbox_raw) == 4 else None
-        val_raw  = str(e.get("value_raw") or e.get("value") or "")
-        f = Field(page_no=pno, chapter=chap, role=e.get("role"),
-                  label_raw=e.get("label") or "", value_raw=val_raw, bbox=bbox)
-        # NOTE: the JSON "confidence" is the post-validation UNCERTAINTY SCORE
-        # (a flagged field is dragged to ~0.4 *because* it was flagged) — NOT the
-        # reader's legibility confidence. Feeding it back as Read.confidence is
-        # circular (it would suppress every originally-flagged rule on re-validation).
-        # The lossy export doesn't carry the original read confidence, so assume
-        # legible here; the live pipeline uses the reader's real per-field value.
-        f.reads = [Read(model="real", value_raw=val_raw, confidence=1.0)]
-        b.fields.append(f); f.block_key = b.key
-    doc.blocks = list(bmap.values())
-    normalize(doc); resolve(doc); validate(doc); score(doc)
-    return doc
+    return document_from_results(RESULTS_DIR / "extracted_fields.json", model_name="real")
 
 
 @pytest.mark.skipif(not GROUND_TRUTH_DIR.exists(),

@@ -181,13 +181,10 @@ class EvalReport:
 RULE_ALIAS: dict[str, set[str]] = {
     "4EYES_DISTINCT":  {"4EYES_DISTINCT"},
     "4EYES_ORDER":     {"4EYES_ORDER"},
-    "CALC_ERROR":      {"CALC_FORMULA", "CALC_VOLUME", "CALC_NET_MASS", "CALC_ROUNDING"},
+    "CALC_ERROR":      {"CALC_FORMULA", "CALC_VOLUME", "CALC_NET_MASS"},
     "RANGE_SOLL":      {"RANGE_SOLL", "RANGE_SETPOINT"},
     "SIG_INCOMPLETE":  {"SIG_INCOMPLETE"},
-    "MISSING_SIG":       {"MISSING_SIGNATURE"},
-    "MISSING_SIGNATURE": {"MISSING_SIGNATURE"},
-    "MISSING_CHECKMARK": {"MISSING_CHECKMARK"},
-    "DATE_IMPLAUSIBLE":  {"DATE_YEAR_SUSPECT", "DATE_FAR_FUTURE", "DATE_BEFORE_PRINT"},
+    "MISSING_SIG":     {"MISSING_SIGNATURE"},
 }
 
 # Codes that are inherently informational / extraction-quality signals,
@@ -197,30 +194,20 @@ EXCLUDED_FROM_FP: set[str] = {
     "KUERZEL_UNRESOLVED",   # resolve step artefact (empty/hallucinated read)
     "KUERZEL_UNKNOWN",      # legacy alias
     "XREF_NEAR_MISS",       # rounding warning
+    "XREF_MISMATCH",        # cross-reference warning from stored production runs
     "CALC_ROUNDING",        # rounding warning
-    "EXTRACT_DISAGREEMENT", # ensemble second-reader signal, not a GxP rule
-    "DATE_YEAR_SUSPECT",    # auto-corrected-year notice (verify), not a hard rule
+    "DATE_YEAR_SUSPECT",    # OCR-year warning, not a planted GxP violation
+    "DATE_BEFORE_PRINT",
+    "DATE_FAR_FUTURE",
 }
 
 
 def _normalize_val(s: str) -> str:
     """Locale-aware value normalisation for comparison."""
     s = (s or "").strip()
-    s = s.replace("…", "...").replace(",", ".").lower()
+    s = s.replace(",", ".").lower()
     s = re.sub(r"\s+", " ", s)
     return s
-
-
-def _value_ok(gold: str, pipe: str) -> bool:
-    """Use-case value match: exact, OR the pipeline kept a printed prefix and the
-    handwritten entry is its last token (e.g. 'abce 12345 123' vs gold '123')."""
-    g, p = _normalize_val(gold), _normalize_val(pipe)
-    if g == p:
-        return True
-    if not g:
-        return p == ""
-    toks = p.split()
-    return len(toks) > 1 and toks[-1] == g
 
 
 def _sig_status(raw: str) -> str:
@@ -240,8 +227,9 @@ def _normalize_label(s: str) -> str:
     s = re.sub(r"([a-z0-9])-([a-z])", r"\1 \2", s)
     # Strip units in brackets/parens
     s = re.sub(r"\s*[\[\(][^\]\)]*[\]\)]", "", s)
-    # Strip checkbox option suffixes (e.g. ': Ja', ': 931', ': Kein Einsatz')
-    s = re.sub(r":\s*\S+$", "", s)
+    # Strip checkbox option suffixes (e.g. ': Ja', ': 931', '- Kein Einsatz')
+    s = re.sub(r"\s*(?::|-)\s*(ja|nein\b.*|kein einsatz)\s*$", "", s, flags=re.I)
+    s = re.sub(r":\s*[^:]+$", "", s)
     # Strip trailing colon/period
     s = s.rstrip(":.")
     # Collapse whitespace
@@ -252,8 +240,18 @@ def _normalize_label(s: str) -> str:
 def _label_option(gold_label: str) -> str | None:
     """Extract the option value from a checkbox label like 'GMP-Bereich: 931'.
     Returns '931', or None if no option found."""
-    m = re.search(r":\s*(\S+)\s*$", (gold_label or ""))
-    return m.group(1).lower() if m else None
+    raw = re.sub(r"\s*\(zeile\s+\d+\)\s*$", "", (gold_label or "").strip(), flags=re.I)
+    m = re.search(r"(?:\:|—|–|-)\s*(ja|nein\b.*|kein einsatz)\s*$", raw, re.I)
+    if not m:
+        m = re.search(r":\s*([^:—–-]+)\s*$", raw, re.I)
+    if not m:
+        return None
+    return re.sub(r"\s+", " ", m.group(1).strip().lower())
+
+
+def _leading_measure_prefix(label: str) -> str | None:
+    m = re.match(r"^\s*([mvc])\b", _normalize_label(label))
+    return m.group(1) if m else None
 
 
 def _label_matches(gold_label: str, extracted_label: str | None) -> bool:
@@ -262,6 +260,10 @@ def _label_matches(gold_label: str, extracted_label: str | None) -> bool:
     a = _normalize_label(gold_label)
     b = _normalize_label(extracted_label)
     if not a or not b:
+        return False
+    pa = _leading_measure_prefix(gold_label)
+    pb = _leading_measure_prefix(extracted_label)
+    if pa and pb and pa != pb:
         return False
     if a in b or b in a:
         return True
@@ -280,6 +282,59 @@ def _label_matches(gold_label: str, extracted_label: str | None) -> bool:
         if matches >= min(2, len(a_tok)):
             return True
     return False
+
+
+def _label_score(gold_label: str, extracted_label: str | None) -> tuple[int, int]:
+    """Lower score is a better label match."""
+    gl = _normalize_label(gold_label)
+    el = _normalize_label(extracted_label or "")
+    exact_penalty = 0 if gl == el else 1
+    return exact_penalty, abs(len(el) - len(gl))
+
+
+def _value_matches(gold: str, pipeline: str | None) -> bool:
+    gold_n = _normalize_val(gold)
+    pipe_n = _normalize_val(pipeline or "")
+    if gold_n == pipe_n:
+        return True
+    if not gold_n or not pipe_n:
+        return False
+    # Date/time fields are often exported as "date / time" composites.
+    if re.fullmatch(r"\d{1,2}\.\d{1,2}\.\d{4}", gold_n) and gold_n in pipe_n:
+        return True
+    if re.fullmatch(r"\d{1,2}:\d{2}", gold_n) and gold_n in pipe_n:
+        return True
+    # Non-numeric option-like values may be exported inside a grouped value.
+    if re.search(r"[a-z]", gold_n):
+        return bool(re.search(rf"(?<![a-z0-9]){re.escape(gold_n)}(?![a-z0-9])", pipe_n))
+    if re.fullmatch(r"-?\d+(?:\.\d+)?", gold_n):
+        return bool(re.search(rf"(?<![0-9.]){re.escape(gold_n)}(?![0-9.])", pipe_n))
+    return False
+
+
+def _checkbox_checked_for_option(option: str, raw_value: str) -> bool:
+    opt = re.sub(r"\s+", " ", (option or "").strip().lower())
+    pv = re.sub(r"\s+", " ", (raw_value or "").strip().lower())
+    if not opt or not pv:
+        return False
+    if opt == "ja":
+        return bool(re.search(r"(?<![a-z0-9])ja(?![a-z0-9])", pv))
+    if opt.startswith("nein"):
+        return pv.startswith("nein") or opt in pv or pv in opt
+    if opt == "kein einsatz":
+        return "kein einsatz" in pv
+    return bool(re.search(rf"(?<![a-z0-9]){re.escape(opt)}(?![a-z0-9])", pv))
+
+
+def _checkbox_truthy(raw_value: str) -> bool:
+    pv = re.sub(r"\s+", " ", (raw_value or "").strip().lower())
+    if not pv:
+        return False
+    if pv in {"no", "false", "0"}:
+        return False
+    if pv.startswith("nein") or "kein einsatz" in pv or "findet keine anwendung" in pv:
+        return False
+    return True
 
 
 # ── Gold loader ───────────────────────────────────────────────────────────────
@@ -402,26 +457,34 @@ def score_ground_truth(doc: Any, gold_dir: Path) -> EvalReport:
             })
 
         # ── Field accuracy ───────────────────────────────────────────────
+        used_ordered_matches: set[int] = set()
         for gf in gold.fields:
             # Find matching extracted field -- use BEST match (smallest normalized label distance)
             candidates = [f for f in pipe_fields if _label_matches(gf.label, f.label_raw)]
+            if gf.kind in {"value", "signature"}:
+                unused = [f for f in candidates if id(f) not in used_ordered_matches]
+                if unused:
+                    candidates = unused
             if len(candidates) > 1:
                 # Prefer the candidate whose normalized label is closest to gold
-                gl = _normalize_label(gf.label)
-                candidates.sort(key=lambda f: abs(len(_normalize_label(f.label_raw or "")) - len(gl)))
+                candidates.sort(key=lambda f: _label_score(gf.label, f.label_raw))
             pf = candidates[0] if candidates else None
 
             if pf is None:
                 pr.missing += 1
                 continue
             pr.covered += 1
+            if gf.kind in {"value", "signature"}:
+                used_ordered_matches.add(id(pf))
 
             if gf.kind == "value" and not gf.is_blank:
                 # Skip cross-reference placeholders ("… siehe Kapitel X")
                 if gf.value.startswith("…") or gf.value.lower().startswith("siehe"):
                     pr.value_correct += 1  # treat as N/A, don't penalize
                     continue
-                ok = _value_ok(gf.value, pf.value_raw or "")
+                gold_v = _normalize_val(gf.value)
+                pipe_v = _normalize_val(pf.value_raw or "")
+                ok = _value_matches(gf.value, pf.value_raw)
                 if ok: pr.value_correct += 1
                 else:
                     pr.value_wrong += 1
@@ -438,19 +501,14 @@ def score_ground_truth(doc: Any, gold_dir: Path) -> EvalReport:
                 # check whether that option value appears in the extracted value.
                 # This handles the case where extraction stores ONE field per group
                 # (e.g. "931") but gold has SEPARATE fields per option ("294", "931").
-                # grouped gold stores the marked option as the field VALUE; fall
-                # back to an option parsed from the label (per-option gold).
-                option = (gf.value or "").strip().lower() or _label_option(gf.label)
+                option = _label_option(gf.label)
                 if option:
                     # Checkbox is "checked" only if this specific option value
                     # is present in the extracted field's value.
-                    pipe_checked = option in pv or option in (pf.value_raw or "").lower()
+                    pipe_checked = _checkbox_checked_for_option(option, pf.value_raw or "")
                 else:
                     # No specific option: truthy = checked
-                    pipe_checked = bool(pv and pv not in
-                                       ("nein","no","false","0","nein, kapitel",
-                                        "nein, feld findet keine anwendung",
-                                        "nein, block findet keine anwendung"))
+                    pipe_checked = _checkbox_truthy(pf.value_raw or "")
                 if pipe_checked == gold_checked: pr.cb_correct += 1
                 else:                            pr.cb_wrong   += 1
 

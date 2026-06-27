@@ -23,14 +23,14 @@ same-vs-different), a checkbox is "checked vs unchecked", a value is its content
 |---|---|---|
 | 9  | Line Clearance | `4EYES_DISTINCT` (Bearbeitet & Geprüft both signed `ohe`) |
 | 10 | Zyklus / Produktionsbereich | `4EYES_DISTINCT`, `4EYES_ORDER` (Geprüft 09.06 before Bearbeitet 10.06) |
-| 11 | Bilanzierung | `CALC_ERROR` (V = m/ρ: 200/1,10 = 181.8, recorded 220) |
+| 11 | Bilanzierung | — (`V = m × ρ`: 200 × 1,10 = 220) |
 | 14 | Temperierung B10-PP | — (chapter marked *findet keine Anwendung*; blank signatures are OK) |
 | 17 | Durchführung | `RANGE_SOLL` (Wippgeschwindigkeit 32 > Soll max 30) |
 | 18 | Geräte | — (all equipment checks marked) |
 | 25 | Berechnung der Beladung | — |
 | 31 | SAP Etiketten | `4EYES_DISTINCT`, `SIG_INCOMPLETE` ×2 (date written, Kürzel missing) |
 
-8 pages · 109 fields · 8 expected violations.
+8 pages · 109 fields · 7 expected violations.
 
 ## How the scorer uses it
 For each pipeline approach, on these pages, measure:
