@@ -3,6 +3,7 @@ from __future__ import annotations
 
 import os
 import shutil
+from pathlib import Path
 
 from fastapi import APIRouter, Depends, File, HTTPException, UploadFile
 from sqlalchemy import func
@@ -15,6 +16,9 @@ from app.pipeline import orchestrator
 from app.schemas.schemas import DocumentSummary, ProcessResult
 
 router = APIRouter(prefix="/documents", tags=["documents"])
+
+# repo-root/ground_truth (backend/app/api/routes/documents.py -> repo root is parents[4])
+_GOLD_DIR = Path(__file__).resolve().parents[4] / "ground_truth"
 
 
 @router.post("", response_model=dict)
@@ -61,6 +65,53 @@ def get_document(document_id: str, db: Session = Depends(get_db)) -> DocumentSum
     if not doc:
         raise HTTPException(404, "document not found")
     return _summary(doc, db)
+
+
+@router.get("/{document_id}/evaluation", response_model=dict)
+def evaluate_document(document_id: str, db: Session = Depends(get_db)) -> dict:
+    """Score this document's STORED flags + values against the ground-truth gold
+    set (ground_truth/) and return the scorecard: rule precision/recall/F1, value/
+    checkbox/signature accuracy, coverage, and per-page pass/fail. Computed on
+    demand (deterministic, no model calls), so the UI can re-run it any time."""
+    doc = db.get(models.Document, document_id)
+    if not doc:
+        raise HTTPException(404, "document not found")
+    if not _GOLD_DIR.exists():
+        raise HTTPException(404, "ground_truth/ not found on the server")
+    from app.evaluation.scorer import score_ground_truth
+    report = score_ground_truth(_rebuild_document(doc, db), _GOLD_DIR)
+    result = report.as_dict()
+    result["document_id"] = doc.id
+    result["gold_pages"] = len(result.get("pages", []))
+    return result
+
+
+def _rebuild_document(doc: models.Document, db: Session):
+    """Reconstruct an app.pipeline.model.Document from the STORED rows (fields +
+    flags) so the scorer sees exactly what the pipeline committed — no re-validation."""
+    from app.domain.severity import Category, Severity
+    from app.pipeline.model import Block, Document, Field, Flag
+
+    pdoc = Document(doc_no=doc.doc_no or "doc", title=doc.title or "doc")
+    blocks: dict[int, Block] = {}
+    for fr in db.query(models.Field).filter(models.Field.document_id == doc.id).all():
+        b = blocks.get(fr.page_no)
+        if b is None:
+            b = Block(chapter=fr.chapter or "", page_no=fr.page_no, template="stored")
+            blocks[fr.page_no] = b
+        pf = Field(page_no=fr.page_no, chapter=fr.chapter or "", role=fr.role,
+                   label_raw=fr.label_raw or "", value_raw=fr.value_raw or "")
+        pf.value = fr.value_norm
+        pf.value_type = fr.value_type
+        for fl in fr.flags:
+            try:
+                sev, cat = Severity(fl.severity), Category(fl.category)
+            except ValueError:
+                continue
+            pf.flags.append(Flag(sev, cat, fl.code, fl.message or "", fl.expected, fl.actual))
+        b.fields.append(pf)
+    pdoc.blocks = list(blocks.values())
+    return pdoc
 
 
 def _summary(doc: models.Document, db: Session) -> DocumentSummary:
