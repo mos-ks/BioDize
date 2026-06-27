@@ -12,9 +12,25 @@ import { Spinner } from "./atoms";
 function Brand() {
   return (
     <Link to="/" className="flex items-center gap-2.5">
-      <span className="grid h-9 w-9 place-items-center rounded-xl bg-brand-600 text-white shadow-sm">
-        <svg viewBox="0 0 32 32" className="h-5 w-5" fill="currentColor" aria-hidden>
-          <path d="M9 22V10h5.4c2.4 0 3.9 1.2 3.9 3.1 0 1.3-.7 2.2-1.8 2.6 1.4.3 2.3 1.4 2.3 2.9 0 2-1.6 3.4-4.2 3.4H9Zm2.6-7.1h2.3c1 0 1.6-.5 1.6-1.4 0-.8-.6-1.3-1.6-1.3h-2.3v2.7Zm0 5h2.5c1.1 0 1.7-.5 1.7-1.5s-.6-1.5-1.8-1.5h-2.4v3Z" />
+      <span className="grid h-9 w-9 place-items-center rounded-xl bg-gradient-to-br from-brand-500 to-brand-700 text-white shadow-sm">
+        <svg
+          viewBox="0 0 32 32"
+          className="h-[22px] w-[22px]"
+          fill="none"
+          stroke="currentColor"
+          strokeWidth={2.3}
+          strokeLinecap="round"
+          strokeLinejoin="round"
+          aria-hidden
+        >
+          {/* pharma capsule — one half tinted */}
+          <g transform="rotate(-32 13 13)">
+            <rect x="5" y="9.5" width="16" height="7" rx="3.5" />
+            <path d="M13 9.5 V16.5 M21 13 a3.5 3.5 0 0 0 -3.5 -3.5 H13 v7 h4.5 A3.5 3.5 0 0 0 21 13 Z"
+                  fill="currentColor" fillOpacity={0.35} stroke="none" />
+          </g>
+          {/* rising analytics line */}
+          <polyline points="16 25 20 20 23.5 22.5 28 15.5" />
         </svg>
       </span>
       <div className="leading-tight">
@@ -159,22 +175,19 @@ export default function Layout({ children }: { children: React.ReactNode }) {
           <Brand />
           <button
             onClick={() => setOpen(true)}
-            className="group flex items-center gap-2.5 rounded-xl border border-slate-200 bg-white px-3 py-1.5 text-left transition hover:border-slate-300 hover:shadow-sm"
-            title="Configure backend API"
+            className="group flex items-center gap-2 rounded-xl border border-slate-200 bg-white px-2.5 py-2 transition hover:border-slate-300 hover:shadow-sm"
+            title={
+              loading
+                ? "Checking backend…"
+                : error
+                  ? "Backend unreachable — click to configure"
+                  : health
+                    ? `Connected · ${shortBase} · ${health.extractor} · ${health.ocr_engine}`
+                    : "Backend settings"
+            }
+            aria-label="Backend settings"
           >
             <HealthDot health={health} loading={loading} error={error} />
-            <div className="hidden leading-tight sm:block">
-              <div className="max-w-[220px] truncate font-mono text-[11px] text-slate-500">{shortBase}</div>
-              <div className="text-[11px] font-medium text-slate-400">
-                {loading
-                  ? "checking…"
-                  : error
-                    ? "unreachable"
-                    : health
-                      ? `${health.extractor} · ${health.ocr_engine}`
-                      : "connected"}
-              </div>
-            </div>
             <Settings2 className="h-4 w-4 text-slate-400 group-hover:text-slate-600" />
           </button>
         </div>

@@ -233,16 +233,8 @@ export default function FieldDetail({
           {field.flags.some((fl) => fl.code === "STAT_OUTLIER") && (
             <OutlierDistribution field={field} />
           )}
-        </div>
-
-        {/* RIGHT: page viewer, hugs its own content */}
-        <div className="card order-1 self-start p-4 lg:order-2">
-          <PageViewer field={field} />
-        </div>
-      </div>
-
-      {/* d2) Pipeline trace — collapsible provenance/audit view */}
-      <PipelineTrace field={field} />
+          {/* Pipeline trace + Confirm/Correct actions live under validation here */}
+          <PipelineTrace field={field} />
 
       {/* e) Actions */}
       <div className="card p-4">
@@ -318,6 +310,13 @@ export default function FieldDetail({
             </div>
           </div>
         )}
+      </div>
+        </div>
+
+        {/* RIGHT: page viewer, hugs its own content */}
+        <div className="card order-1 self-start p-4 lg:order-2">
+          <PageViewer field={field} />
+        </div>
       </div>
     </div>
   );
