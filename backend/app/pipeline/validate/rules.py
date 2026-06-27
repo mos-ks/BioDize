@@ -194,9 +194,9 @@ def rule_presence(block: Block) -> list[Flag]:
                 f.add_flag(_warn(Category.MISSING, "SIG_INCOMPLETE", msg,
                                  expected="date + Kürzel", actual=(f.value_raw or "").strip() or "(blank)"))
         elif f.value_type == "checkbox" and not (f.value_raw or "").strip():
-            f.add_flag(_warn(Category.MISSING, "MISSING_CHECKMARK",
-                             "Checkbox/selection has nothing marked (unanswered)",
-                             expected="a marked option", actual="none"))
+            f.add_flag(_err(Category.MISSING, "MISSING_CHECKMARK",
+                            "Checkbox/selection has nothing marked (unanswered)",
+                            expected="a marked option", actual="none"))
     return []
 
 def rule_net_mass(block: Block) -> list[Flag]:
@@ -422,10 +422,10 @@ def rule_dates_document(doc: Document, ref: date | None) -> None:
         # differs from the document's batch year, so a human verifies the original.
         rawm = re.search(r"\b\d{1,2}\.\d{1,2}\.(\d{4})\b", f.value_raw or "")
         if batch_year and rawm and int(rawm.group(1)) != batch_year:
-            f.add_flag(_warn(Category.TEMPORAL, "DATE_YEAR_SUSPECT",
-                             f"recorded year {rawm.group(1)} != batch year {batch_year}; "
-                             f"verify the original",
-                             expected=str(batch_year), actual=rawm.group(1)))
+            f.add_flag(_err(Category.TEMPORAL, "DATE_YEAR_SUSPECT",
+                            f"recorded year {rawm.group(1)} != batch year {batch_year}; "
+                            f"verify the original",
+                            expected=str(batch_year), actual=rawm.group(1)))
         if not ref:
             continue                      # the remaining checks need an actual print DATE
         d = _field_date(f)

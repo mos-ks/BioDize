@@ -23,7 +23,6 @@ import {
 import {
   CategoryChip,
   ConfidenceGauge,
-  ConfidenceMeter,
   ErrorBlock,
   LoadingBlock,
   SectionLabel,
@@ -197,46 +196,19 @@ export default function FieldDetail({
         {/* c) Value block + reads */}
         <div className="card order-2 space-y-4 p-4 lg:order-1">
           <div>
-            <SectionLabel>Proposed value</SectionLabel>
+            <SectionLabel>Extracted value</SectionLabel>
             <div className="mt-1.5 flex items-baseline gap-2">
               <span className="font-mono text-3xl font-bold tabular-nums text-slate-900">
-                {fieldDisplayValue(field.value, field.value_raw)}
+                {field.value_raw?.trim() ? field.value_raw : fieldDisplayValue(field.value, field.value_raw)}
               </span>
               {field.unit && <span className="text-base font-medium text-slate-400">{field.unit}</span>}
             </div>
-            <div className="mt-2 flex flex-wrap items-center gap-x-4 gap-y-1 text-xs text-slate-500">
-              {field.value_raw && field.value_raw !== field.value && (
-                <span>
-                  raw:{" "}
-                  <span className="font-mono text-slate-600">{field.value_raw}</span>
-                </span>
-              )}
-              {field.nks != null && (
-                <span>
-                  decimals: <span className="font-mono tabular-nums text-slate-600">{field.nks}</span>
-                </span>
-              )}
-            </div>
+            {field.nks != null && (
+              <div className="mt-2 text-xs text-slate-500">
+                decimals: <span className="font-mono tabular-nums text-slate-600">{field.nks}</span>
+              </div>
+            )}
           </div>
-
-          {field.reads.length > 0 && (
-            <div>
-              <SectionLabel>Model reads</SectionLabel>
-              <ul className="mt-2 space-y-2">
-                {field.reads.map((r, i) => (
-                  <li key={`${r.model}-${i}`} className="flex items-center gap-3 text-sm">
-                    <span className="w-16 shrink-0 truncate font-mono text-xs text-slate-500" title={r.model}>
-                      {r.model}
-                    </span>
-                    <span className="min-w-0 flex-1 truncate font-mono text-slate-700">
-                      {r.value_raw ?? "—"}
-                    </span>
-                    <ConfidenceMeter confidence={r.confidence} className="w-28 shrink-0" />
-                  </li>
-                ))}
-              </ul>
-            </div>
-          )}
         </div>
 
         {/* b) Page viewer */}

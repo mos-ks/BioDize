@@ -17,10 +17,10 @@ import type { DocumentSummary, Field } from "../api/types";
 import { classNames, useApi } from "../lib/ui";
 import { EmptyState, ErrorBlock, LoadingBlock } from "../components/atoms";
 import DocumentBar from "./review/DocumentBar";
-import FieldRow from "./review/FieldRow";
 import FieldDetail from "./review/FieldDetail";
 import AllFieldsList from "./review/AllFieldsList";
 import ExtractionList from "./review/ExtractionList";
+import PageGroupedQueue from "./review/PageGroupedQueue";
 import FlagsOverview from "./review/FlagsOverview";
 
 type Tab = "queue" | "extraction" | "all" | "flags";
@@ -129,12 +129,7 @@ export default function ReviewPage() {
 
           <div className="mt-3 min-h-0 flex-1 overflow-y-auto pr-1">
             {tab === "queue" && (
-              <QueuePane
-                queueState={queueState}
-                queue={queue}
-                selectedId={selectedId}
-                onSelect={selectField}
-              />
+              <PageGroupedQueue documentId={documentId} selectedId={selectedId} onSelect={selectField} />
             )}
             {tab === "extraction" && (
               <ExtractionList documentId={documentId} activeId={selectedId} onSelect={selectField} />
@@ -174,37 +169,6 @@ export default function ReviewPage() {
           </div>
         </section>
       </div>
-    </div>
-  );
-}
-
-function QueuePane({
-  queueState,
-  queue,
-  selectedId,
-  onSelect,
-}: {
-  queueState: ReturnType<typeof useApi<Field[]>>;
-  queue: Field[];
-  selectedId: string | null;
-  onSelect: (id: string) => void;
-}) {
-  if (queueState.loading && queue.length === 0) return <LoadingBlock label="Loading queue…" />;
-  if (queueState.error) return <ErrorBlock message={queueState.error} onRetry={queueState.reload} />;
-  if (queue.length === 0) {
-    return (
-      <EmptyState
-        icon={<PartyPopper className="h-8 w-8 text-brand-400" />}
-        title="Queue is empty"
-        hint="Every field is auto-accepted or human-confirmed. Nothing left to review."
-      />
-    );
-  }
-  return (
-    <div className="animate-fade-in space-y-2">
-      {queue.map((f) => (
-        <FieldRow key={f.id} field={f} active={f.id === selectedId} onSelect={onSelect} />
-      ))}
     </div>
   );
 }

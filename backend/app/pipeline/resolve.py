@@ -182,4 +182,11 @@ def resolve_kuerzel(doc: Document) -> Document:
 def resolve(doc: Document) -> Document:
     """Per-step domain resolution (extensible: dates window, number ranges...)."""
     resolve_kuerzel(doc)
+    # Keep the displayed value in sync with the resolved Kürzel. normalize_kuerzel
+    # corrects value_raw/reads but not `value`, which left a STALE "proposed value"
+    # (e.g. value_raw 'han' but value still the misread 'hau'). The final value_raw
+    # is authoritative for a signature, so mirror it.
+    for f in doc.all_fields():
+        if f.role in _SIGN_ROLES:
+            f.value = f.value_raw
     return doc
