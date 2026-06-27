@@ -7,6 +7,8 @@ __pycache__/
 backend/.venv/
 backend/var/
 backend/biodize.db
+backend/biodize.db-wal
+backend/biodize.db-shm
 backend/_requirements_no_pymupdf.txt
 
 # Frontend
