@@ -4,12 +4,13 @@
 // ErrorBlock atoms and the useApi fetch-on-mount hook (its reload() powers the
 // "Eval now" re-run affordance).
 
-import { useEffect } from "react";
-import { RefreshCw, Sparkles, X } from "lucide-react";
+import { useEffect, useState } from "react";
+import { RefreshCw, ScanSearch, Sparkles, X } from "lucide-react";
 import { api } from "../../api/client";
 import type { EvalAggregate, EvalPage } from "../../api/types";
 import { ErrorBlock, LoadingBlock } from "../../components/atoms";
 import { classNames, useApi } from "../../lib/ui";
+import PageBoxesModal from "./PageBoxesModal";
 
 // Bucketed tone for an accuracy ratio (0..1): >=0.9 emerald, >=0.7 amber, else
 // rose. Mirrors confidenceTone but uses the thresholds/palette for eval scores.
@@ -34,14 +35,21 @@ function MetricCard({ label, ratio }: { label: string; ratio: number | null }) {
   );
 }
 
-function PageRow({ p }: { p: EvalPage }) {
+function PageRow({ p, onOpenPage }: { p: EvalPage; onOpenPage: (page: number) => void }) {
   // "PASS" only when rules AND the read values/checkboxes all match the gold —
   // a page can have perfect rules yet misread a value, which still needs a look.
   const misreads = p.value_wrong + p.cb_wrong;
   const pass = p.fp.length === 0 && p.fn.length === 0 && misreads === 0;
   return (
     <div className="flex flex-wrap items-center gap-x-3 gap-y-1.5 border-t border-slate-100 px-4 py-2.5 first:border-t-0">
-      <span className="w-16 shrink-0 text-sm font-semibold text-slate-700">Page {p.page}</span>
+      <button
+        type="button"
+        onClick={() => onOpenPage(p.page)}
+        title={`Open page ${p.page} scan`}
+        className="flex w-16 shrink-0 items-center gap-1 text-left text-sm font-semibold text-brand-700 hover:text-brand-800 hover:underline"
+      >
+        <ScanSearch className="h-3.5 w-3.5" /> P{p.page}
+      </button>
       <span
         className={classNames(
           "chip ring-1 ring-inset",
@@ -80,14 +88,17 @@ function PageRow({ p }: { p: EvalPage }) {
           </span>
         )}
       </div>
-      {/* The exact value differences (read vs correct) on this page. */}
+      {/* The exact value differences on this page: what the AI read vs the correct
+          (gold) value, so it's unambiguous which number is ours. */}
       {p.value_details?.length > 0 && (
         <div className="mt-1 w-full space-y-0.5 pl-16">
           {p.value_details.map((vd, i) => (
             <div key={i} className="text-xs">
               <span className="text-slate-400">{vd.label}: </span>
+              <span className="text-[10px] font-semibold uppercase tracking-wide text-rose-400">AI read </span>
               <span className="font-mono text-rose-600 line-through">{vd.pipeline || "∅"}</span>
-              <span className="mx-1 text-slate-300">→</span>
+              <span className="mx-1.5 text-slate-300">→</span>
+              <span className="text-[10px] font-semibold uppercase tracking-wide text-emerald-500">correct </span>
               <span className="font-mono font-semibold text-emerald-700">{vd.gold || "∅"}</span>
             </div>
           ))}
@@ -106,7 +117,15 @@ function CountStat({ label, value, tone }: { label: string; value: number; tone:
   );
 }
 
-function Scorecard({ aggregate, pages }: { aggregate: EvalAggregate; pages: EvalPage[] }) {
+function Scorecard({
+  aggregate,
+  pages,
+  onOpenPage,
+}: {
+  aggregate: EvalAggregate;
+  pages: EvalPage[];
+  onOpenPage: (page: number) => void;
+}) {
   return (
     <>
       <div className="grid grid-cols-2 gap-2 sm:grid-cols-3 lg:grid-cols-4">
@@ -133,7 +152,7 @@ function Scorecard({ aggregate, pages }: { aggregate: EvalAggregate; pages: Eval
           {pages.length === 0 ? (
             <div className="px-4 py-6 text-center text-sm text-slate-400">No pages evaluated.</div>
           ) : (
-            pages.map((p) => <PageRow key={p.page} p={p} />)
+            pages.map((p) => <PageRow key={p.page} p={p} onOpenPage={onOpenPage} />)
           )}
         </div>
       </div>
@@ -149,11 +168,13 @@ export default function EvalModal({
   onClose: () => void;
 }) {
   const { data, loading, error, reload } = useApi(() => api.getEvaluation(documentId), [documentId]);
+  const [openPage, setOpenPage] = useState<number | null>(null);
 
-  // Close on Escape; lock body scroll while open.
+  // Close on Escape; lock body scroll while open. When the page-scan viewer is
+  // open, Escape closes that first (not the whole scorecard).
   useEffect(() => {
     function onKey(e: KeyboardEvent) {
-      if (e.key === "Escape") onClose();
+      if (e.key === "Escape" && openPage == null) onClose();
     }
     window.addEventListener("keydown", onKey);
     const prevOverflow = document.body.style.overflow;
@@ -162,7 +183,7 @@ export default function EvalModal({
       window.removeEventListener("keydown", onKey);
       document.body.style.overflow = prevOverflow;
     };
-  }, [onClose]);
+  }, [onClose, openPage]);
 
   return (
     <div
@@ -220,10 +241,19 @@ export default function EvalModal({
           ) : error ? (
             <ErrorBlock message={error} onRetry={reload} />
           ) : data ? (
-            <Scorecard aggregate={data.aggregate} pages={data.pages} />
+            <Scorecard aggregate={data.aggregate} pages={data.pages} onOpenPage={setOpenPage} />
           ) : null}
         </div>
       </div>
+
+      {openPage != null && (
+        <PageBoxesModal
+          documentId={documentId}
+          pageNo={openPage}
+          fields={[]}
+          onClose={() => setOpenPage(null)}
+        />
+      )}
     </div>
   );
 }

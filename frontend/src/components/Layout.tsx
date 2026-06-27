@@ -196,9 +196,10 @@ export default function Layout({ children }: { children: React.ReactNode }) {
                 type="button"
                 onClick={() => setEvalOpen(true)}
                 className="btn-secondary"
-                title="Evaluate the AI output against ground truth"
+                title="Eval AI — evaluate the AI output against ground truth"
+                aria-label="Eval AI"
               >
-                <Gauge className="h-4 w-4" /> Eval AI
+                <Gauge className="h-4 w-4" />
               </button>
             )}
             <button
