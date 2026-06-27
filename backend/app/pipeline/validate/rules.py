@@ -177,6 +177,11 @@ def rule_presence(block: Block) -> list[Flag]:
         return []
     for f in block.fields:
         if f.role in (Role.SIGNATURE_PROCESSED, Role.SIGNATURE_CHECKED):
+            # A checkbox whose label happens to contain 'geprüft' (e.g. "BK-SOP-xyz
+            # geprüft" -> Ja) gets a signature role by keyword, but an answered
+            # 'Ja'/'Nein' is NOT a blank signature — don't fire MISSING_SIGNATURE.
+            if (f.value_raw or "").strip().lower() in {"ja", "nein", "x", "✓", "n/a"}:
+                continue
             _, date_str, kz = parse_signature(f.value_raw)
             has_date = bool(date_str and re.search(r"\d", date_str))
             has_kz = bool(kz and re.search(r"[A-Za-zÄÖÜäöüß]", kz))
@@ -195,14 +200,25 @@ def rule_presence(block: Block) -> list[Flag]:
     return []
 
 def rule_net_mass(block: Block) -> list[Flag]:
-    tare, gross, net = block.role(Role.TARE_MASS), block.role(Role.GROSS_MASS), block.role(Role.NET_MASS)
-    if not (tare and gross and net) or not all(isinstance(f.value, (int, float)) for f in (tare, gross, net)):
+    """net = gross - tare, for EVERY mass group in the block. A page often carries
+    two groups (vPz and nPZ) plus a single shared tare; the old single-group check
+    only validated the first, so the second group's net (e.g. nPZ 395 vs 527-127
+    = 400) slipped through. Pair gross/net in order; reuse the shared tare."""
+    def nums(role):
+        return [f for f in block.roles(role)
+                if isinstance(f.value, (int, float)) and not isinstance(f.value, bool)]
+    tares, grosses, nets = nums(Role.TARE_MASS), nums(Role.GROSS_MASS), nums(Role.NET_MASS)
+    if not grosses or not nets:
         return []
-    expected = gross.value - tare.value
-    if abs(net.value - expected) > _calc_tol(expected):
-        net.add_flag(_err(Category.CALCULATION, "CALC_NET_MASS",
-                          f"net_mass should equal gross - tare = {gross.value} - {tare.value} = {expected}",
-                          expected=expected, actual=net.value))
+    for i, (g, n) in enumerate(zip(grosses, nets)):
+        t = tares[i] if i < len(tares) else (tares[0] if tares else None)
+        if t is None:
+            continue
+        expected = g.value - t.value
+        if abs(n.value - expected) > _calc_tol(expected):
+            n.add_flag(_err(Category.CALCULATION, "CALC_NET_MASS",
+                            f"net should equal gross - tare = {g.value} - {t.value} = {expected}",
+                            expected=expected, actual=n.value))
     return []
 
 
