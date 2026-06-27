@@ -218,9 +218,10 @@ export default function EvalModal({
               onClick={reload}
               disabled={loading}
               className="btn-secondary"
-              title="Run an updated evaluation"
+              title="Eval now — run an updated evaluation"
+              aria-label="Eval now"
             >
-              <RefreshCw className={classNames("h-4 w-4", loading && "animate-spin")} /> Eval now
+              <RefreshCw className={classNames("h-4 w-4", loading && "animate-spin")} />
             </button>
             <button
               type="button"
