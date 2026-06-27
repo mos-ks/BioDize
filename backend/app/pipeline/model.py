@@ -88,6 +88,11 @@ class Field:
     value_type: str | None = None     # number|date|time|datetime|bool|text|checkbox
     decimals: int | None = None
 
+    # enriched by validate: a clean handwritten number corroborated by a calculation
+    # or by appearing identically elsewhere (host taxonomy: "confirmed by second value").
+    is_verified: bool = False
+    verified_reason: str | None = None
+
     # enriched by localize (OCR per-word confidence of the matched token)
     ocr_confidence: float | None = None
     # enriched by validate / uncertainty

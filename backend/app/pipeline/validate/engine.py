@@ -75,6 +75,42 @@ def consolidate_crossed_out(doc: Document) -> Document:
     return doc
 
 
+def _num(v) -> float | None:
+    return float(v) if isinstance(v, (int, float)) and not isinstance(v, bool) else None
+
+
+_CALC_ROLES = {"net_mass", "volume", "calc_result"}
+
+
+def mark_verified(doc: Document) -> Document:
+    """Mark clean HANDWRITTEN numbers that are corroborated — the positive twin of a
+    flag (host taxonomy: 'Online / confirmed by second value'). Two signals:
+      1. confirmed by a SECOND value — the same number appears for the same parameter
+         elsewhere in the record; and
+      2. confirmed by CALCULATION — the value is a formula result (or mass-balance
+         result role) that validated clean.
+    Surfaced as a non-blocking blue 'Verified' chip; never affects error/warning counts.
+    """
+    clean = [f for f in doc.all_fields()
+             if f.is_handwritten and not f.flags and _num(f.value) is not None]
+
+    groups: dict[tuple, list] = collections.defaultdict(list)
+    for f in clean:
+        groups[(f.role or (f.label_raw or "").strip().lower(), round(_num(f.value), 6))].append(f)
+    for items in groups.values():
+        if len(items) >= 2:
+            for f in items:
+                f.is_verified = True
+                f.verified_reason = f"confirmed by a second identical value ({len(items)}×)"
+
+    for f in clean:
+        if f.calc_expr or f.role in _CALC_ROLES:
+            f.is_verified = True
+            if not f.verified_reason:
+                f.verified_reason = "confirmed by calculation"
+    return doc
+
+
 def validate(doc: Document) -> Document:
     for block in doc.blocks:
         # A block declared N-A by a gate / Kreuzung is skipped for "missing"
@@ -99,4 +135,5 @@ def validate(doc: Document) -> Document:
 
     consolidate_flags(doc)              # post-process: drop redundant / duplicate flags
     consolidate_crossed_out(doc)        # a struck-through section -> one flag, not dozens
+    mark_verified(doc)                  # positive marker: corroborated handwritten numbers
     return doc

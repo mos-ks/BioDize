@@ -93,6 +93,26 @@ def test_crossed_out_keeps_individual_corrections():
     assert n == 2
 
 
+# --- verified (positive marker) ---------------------------------------------
+
+def test_verified_marks_corroborated_handwritten_numbers():
+    from app.pipeline.validate.engine import mark_verified
+
+    def hw(label, raw, val, role=None):
+        f = _f(label, raw); f.value = val; f.is_handwritten = True; f.role = role; return f
+
+    a1 = hw("m", "12,6", 12.6, role="net_mass")
+    a2 = hw("m", "12,6", 12.6, role="net_mass")          # same value twice -> 2nd-value
+    c = hw("V", "220", 220.0); c.calc_expr = "200 * 1,1"  # calc result -> by calculation
+    printed = _f("x", "5"); printed.value = 5.0; printed.is_handwritten = False
+    b = Block(chapter="", page_no=1, template="x"); b.fields = [a1, a2, c, printed]
+    doc = Document(doc_no="d", title="t"); doc.blocks = [b]
+    mark_verified(doc)
+    assert a1.is_verified and a2.is_verified and "second" in (a1.verified_reason or "")
+    assert c.is_verified and "calc" in (c.verified_reason or "").lower()
+    assert not printed.is_verified  # printed (black) numbers are not "verified"
+
+
 # --- solution-format Condition verdict mapping ------------------------------
 
 def _flag(code, sev):

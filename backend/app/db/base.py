@@ -51,7 +51,8 @@ def _ensure_columns() -> None:
     """Add columns introduced after a DB already exists (no Alembic). SQLite only;
     on other backends the PRAGMA fails and is skipped (create_all covers new DBs)."""
     from sqlalchemy import text
-    wanted = {"fields": [("is_handwritten", "BOOLEAN")],
+    wanted = {"fields": [("is_handwritten", "BOOLEAN"), ("is_verified", "BOOLEAN"),
+                         ("verified_reason", "VARCHAR")],
               "documents": [("processing_ms", "INTEGER")]}
     try:
         with engine.begin() as conn:

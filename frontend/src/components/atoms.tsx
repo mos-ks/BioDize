@@ -1,7 +1,7 @@
 // Shared presentational atoms. Frozen layer — pages compose these.
 
 import type { ReactNode } from "react";
-import { Loader2, Inbox, AlertCircle, FlaskConical, PenLine, Type } from "lucide-react";
+import { Loader2, Inbox, AlertCircle, BadgeCheck, FlaskConical, PenLine, Type } from "lucide-react";
 import type { Field, FieldStatus, Flag, Severity } from "../api/types";
 import {
   categoryMeta,
@@ -44,6 +44,20 @@ export function HandwrittenChip({ handwritten }: { handwritten: boolean }) {
   ) : (
     <span className="chip bg-slate-100 text-slate-500 ring-1 ring-inset ring-slate-200">
       <Type className="h-3.5 w-3.5" /> Printed
+    </span>
+  );
+}
+
+/** A clean handwritten number corroborated by a calculation or a second identical
+ *  value (host taxonomy: "confirmed by second value"). Positive, blue — the
+ *  opposite of an error/warning. */
+export function VerifiedChip({ reason }: { reason?: string | null }) {
+  return (
+    <span
+      className="chip bg-blue-50 text-blue-700 ring-1 ring-inset ring-blue-200"
+      title={reason || "Confirmed by calculation or a second value"}
+    >
+      <BadgeCheck className="h-3.5 w-3.5" /> Verified
     </span>
   );
 }

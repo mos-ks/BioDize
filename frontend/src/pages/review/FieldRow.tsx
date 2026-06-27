@@ -8,7 +8,7 @@ import {
   roleIcon,
   roleLabel,
 } from "../../lib/ui";
-import { CategoryChip, ConfidenceMeter, FieldFlagSummary } from "../../components/atoms";
+import { CategoryChip, ConfidenceMeter, FieldFlagSummary, VerifiedChip } from "../../components/atoms";
 
 export default function FieldRow({
   field,
@@ -87,6 +87,7 @@ export default function FieldRow({
             </code>
           </span>
         )}
+        {!flag && field.is_verified && <VerifiedChip reason={field.verified_reason} />}
       </div>
 
       <div className="mt-2 flex items-center gap-3">

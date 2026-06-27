@@ -74,6 +74,8 @@ export interface Field {
   confidence: number;
   status: FieldStatus;
   is_handwritten?: boolean | null; // blue (hand-filled) vs black (printed)
+  is_verified?: boolean; // corroborated by calculation or a second identical value
+  verified_reason?: string | null;
   reads: Read[];
   flags: Flag[];
 }

@@ -42,6 +42,7 @@ def persist(doc: Document, db: Session, page_images: dict[int, str] | None = Non
                 role=fld.role, label_raw=fld.label_raw, value_raw=fld.value_raw,
                 value_norm=_to_str(fld.value), value_type=fld.value_type, unit=fld.unit,
                 is_handwritten=fld.is_handwritten,
+                is_verified=fld.is_verified, verified_reason=fld.verified_reason,
                 nks=fld.nks, bbox=fld.bbox.to_list() if fld.bbox else None,
                 confidence=fld.confidence, status=fld.status.value, is_required=fld.is_required,
             )
