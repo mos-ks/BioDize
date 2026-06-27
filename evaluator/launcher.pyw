@@ -192,29 +192,72 @@ class App:
     # ── Schritt 1: App starten ─────────────────────────────────────────────
 
     def _start_app(self):
-        self._status("Starte Backend...")
+        self._status("Schritt 0/4  Update pruefen...")
         def _bg():
             global _backend, _frontend
-            # Backend
+
+            # ── 0/4  Git pull ────────────────────────────────────────────────
+            import shutil as _sh
+            if _sh.which("git"):
+                try:
+                    import subprocess as _sp
+                    def _git(*args):
+                        r = _sp.run(["git", *args], cwd=str(ROOT),
+                                    capture_output=True, text=True)
+                        return r.returncode, (r.stdout+r.stderr).strip()
+
+                    _, branch = _git("rev-parse", "--abbrev-ref", "HEAD")
+                    rc, _ = _git("fetch", "--quiet", "origin")
+                    if rc == 0:
+                        _, local  = _git("rev-parse", "HEAD")
+                        _, remote = _git("rev-parse", f"origin/{branch}")
+                        if local != remote:
+                            # Reset generated files so pull can overwrite
+                            SAFE = {"results","ground_truth","crops","evaluator","var"}
+                            _, dirty = _git("status", "--porcelain")
+                            for ln in dirty.splitlines():
+                                if len(ln) < 4: continue
+                                xy, path = ln[:2], ln[3:].strip()
+                                if xy.strip() == "??": continue
+                                if any(p in path.split("/") for p in SAFE):
+                                    _git("checkout", "--", path)
+                            self.root.after(0, lambda: self._status("Update wird installiert..."))
+                            _git("pull", "--ff-only", "origin", branch)
+                            # Reset install sentinels so deps get refreshed
+                            for s in [(ROOT/"backend"/".venv"/".installed_stamp"),
+                                      (ROOT/"frontend"/"node_modules"/".install_stamp")]:
+                                if s.exists(): s.unlink()
+                            self.root.after(0, lambda: self._status("Update installiert!"))
+                        else:
+                            self.root.after(0, lambda: self._status("Bereits aktuell."))
+                    else:
+                        self.root.after(0, lambda: self._status("Kein Internet -- starte mit lokaler Version."))
+                except Exception as e:
+                    self.root.after(0, lambda: self._status(f"Update-Fehler: {e}"))
+            time.sleep(0.5)
+
+            # ── 1/4  Backend ─────────────────────────────────────────────────
+            self.root.after(0, lambda: self._status("Schritt 1/4  Backend starten..."))
             if not api_get("/health"):
                 _backend = silent_popen(
                     [PY, "-m", "uvicorn", "app.main:app",
                      "--host", "127.0.0.1", "--port", "8000"],
                     cwd=ROOT / "backend")
                 _procs.append(_backend)
-                # Warten bis bereit
                 for _ in range(30):
                     time.sleep(0.5)
                     if api_get("/health"): break
-            self.root.after(0, lambda: self._status("Backend laeuft. Starte Frontend..."))
-            # Frontend
+            self.root.after(0, lambda: self._status("Schritt 2/4  Frontend starten..."))
+            # ── 3/4  Frontend ────────────────────────────────────────────────
+            self.root.after(0, lambda: self._status("Schritt 3/4  Frontend starten..."))
             npm = "npm.cmd" if sys.platform=="win32" else "npm"
             _frontend = silent_popen(
                 [npm, "run", "dev", "--", "--config", "vite.config.dev.ts"],
                 cwd=ROOT / "frontend")
             _procs.append(_frontend)
             time.sleep(3)
-            # Browser
+            # ── 4/4  Browser ─────────────────────────────────────────────────
+            self.root.after(0, lambda: self._status("Schritt 4/4  Browser oeffnen..."))
             port = 5173
             for p in range(5173, 5183):
                 try:
