@@ -67,6 +67,7 @@ def validate(doc: Document) -> Document:
     rules.rule_dates_document(doc, rules.print_date(doc))
     rules.rule_kuerzel_document(doc)
     rules.rule_xref_document(doc)
+    rules.rule_identifier_consistency(doc)  # Batch/Dok-Nr/Projektcode must be constant across the record
     rules.rule_stat_outlier(doc)        # anomaly detection: values beyond k std of role-peers
 
     consolidate_flags(doc)              # post-process: drop redundant / duplicate flags

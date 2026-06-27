@@ -138,6 +138,16 @@ def _eval_arith(node):
     raise ValueError("unsupported expression")
 
 
+def _kfm_round(x: float, n: int) -> float:
+    """Kaufmännische Rundung (round half AWAY from zero) to n decimal places —
+    the convention these forms use, unlike Python's round() (half-to-even)."""
+    from decimal import Decimal, InvalidOperation, ROUND_HALF_UP
+    try:
+        return float(Decimal(str(x)).quantize(Decimal(1).scaleb(-n), rounding=ROUND_HALF_UP))
+    except (InvalidOperation, ValueError):
+        return round(x, n)
+
+
 def rule_formula(field: Field) -> list[Flag]:
     """Re-evaluate a printed formula and compare to the written result.
 
@@ -151,14 +161,21 @@ def rule_formula(field: Field) -> list[Flag]:
     if computed is None:
         return []
     diff = abs(computed - float(field.value))
-    # NKS-aware tolerance: a correctly-rounded result is within half the last place.
-    place = 10 ** (-(field.nks if field.nks is not None else 0))
+    nks = field.nks if field.nks is not None else 0
+    place = 10 ** (-nks)
+    correct = _kfm_round(computed, nks)        # kaufmännisch-correct rounding
     if diff <= 0.5 * place:
-        return []
+        # within one rounding step: clean only if it IS the exact value or the
+        # kaufmännisch-correct rounding; a wrong-direction round is a Rundungsfehler.
+        if diff < 1e-9 or abs(float(field.value) - correct) < 0.5 * place:
+            return []
+        return [_warn(Category.CALCULATION, "CALC_ROUNDING",
+                      f"{field.value}: Rundungsfehler — kaufmännisch gerundet wäre {correct} ({round(computed, 3)})",
+                      expected=correct, actual=field.value)]
     if diff <= 1.5 * place:
         return [_warn(Category.CALCULATION, "CALC_ROUNDING",
-                      f"result {field.value} vs formula {round(computed, 3)} (rounding)",
-                      expected=round(computed, 3), actual=field.value)]
+                      f"result {field.value} vs formula {round(computed, 3)} — Rundungsfehler (korrekt {correct})",
+                      expected=correct, actual=field.value)]
     return [_err(Category.CALCULATION, "CALC_FORMULA",
                  f"{field.calc_expr.strip()} = {round(computed, 3)}, but {field.value} was recorded",
                  expected=round(computed, 3), actual=field.value)]
@@ -583,6 +600,46 @@ def rule_stat_outlier(doc: Document) -> None:
                                  f"{f.value} is {abs(z):.1f}σ from its {label} peers "
                                  f"(mean {round(pmean, 2)}, n={pn}) — possible anomaly",
                                  expected=f"{round(pmean, 2)} ± {round(psd, 2)}", actual=f.value))
+
+
+def _identifier_key(label: str | None) -> str | None:
+    """Map a label to a doc-CONSTANT identifier class (these must read the same
+    everywhere in one batch record). Excludes Production Code — it varies per step."""
+    l = (label or "").lower()
+    if re.search(r"\bbatch\s*(no|nr)\b", l) or "chargennummer" in l or re.fullmatch(r"\s*batch\s*", l):
+        return "Batch No."
+    if re.search(r"\bdok[\s.\-]?nr\b", l):
+        return "Dok-Nr."
+    if "projektcode" in l:
+        return "Projektcode"
+    return None
+
+
+def rule_identifier_consistency(doc: Document) -> None:
+    """Cross-check that a parameter which must be CONSTANT across the whole record
+    (Batch No., Dok-Nr, Projektcode) reads the same everywhere — if one occurrence
+    suddenly differs, flag it (the foundation for the value-history database check)."""
+    from collections import Counter
+
+    def _norm(v: str | None) -> str:
+        return re.sub(r"\s+", "", (v or "").upper())
+
+    groups: dict[str, list[Field]] = {}
+    for f in doc.all_fields():
+        key = _identifier_key(f.label_raw)
+        if key and (f.value_raw or "").strip():
+            groups.setdefault(key, []).append(f)
+
+    for key, flds in groups.items():
+        counts = Counter(_norm(f.value_raw) for f in flds)
+        if len(counts) < 2:
+            continue
+        majority = counts.most_common(1)[0][0]
+        for f in flds:
+            if _norm(f.value_raw) != majority:
+                f.add_flag(_warn(Category.CROSS_REFERENCE, "CONSISTENCY_MISMATCH",
+                                 f"{key} '{f.value_raw}' differs from '{majority}' used elsewhere in this batch record",
+                                 expected=majority, actual=f.value_raw))
 
 
 # --- registries -------------------------------------------------------------
