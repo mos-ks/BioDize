@@ -479,10 +479,10 @@ export default function DocumentsPage() {
               onClick={() => simulateAction.run()}
               disabled={busy}
               className="btn-secondary"
-              title="Create a simulated demo batch (no upload, offline)"
+              title="Simulated batch — create a demo batch (no upload, offline)"
+              aria-label="Simulated batch"
             >
               {simulateAction.pending ? <Spinner /> : <FlaskConical className="h-4 w-4" />}
-              Simulated batch
             </button>
 
             <button
@@ -490,10 +490,10 @@ export default function DocumentsPage() {
               onClick={pickFile}
               disabled={busy}
               className="btn-secondary"
-              title="Upload a PDF to process"
+              title="Upload PDF to process"
+              aria-label="Upload PDF"
             >
               {uploadAction.pending ? <Spinner /> : <Upload className="h-4 w-4" />}
-              Upload PDF
             </button>
             <input
               ref={fileInputRef}
