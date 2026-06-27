@@ -73,6 +73,9 @@ class Field:
     # Mistral OCR returns whole tables as ONE block, so this is how the VLM rescues
     # per-row box placement when the OCR box is table-granular (see localize.py).
     vlm_ypos: float | None = None
+    # Reader's estimated horizontal position (0=left, 1=right) of this field's value.
+    # Lets localize narrow a full-width table ROW box down to the value's COLUMN.
+    vlm_xpos: float | None = None
     reads: list[Read] = field(default_factory=list)
 
     # enriched by normalize

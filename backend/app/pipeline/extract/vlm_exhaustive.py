@@ -40,8 +40,9 @@ _SCHEMA = {
           "calc_expr": {"type": ["string", "null"], "description": "if the value is a printed formula's result, the arithmetic with the handwritten numbers substituted (e.g. '6,6 * 45 - 4,3 * 0,75'); else null"},
           "confidence": {"type": "number", "description": "your 0.0-1.0 certainty this value is read correctly. Be HONEST: use LOW (<0.5) for hard-to-read/ambiguous handwriting — ESPECIALLY 2-3 letter signature Kürzel and smudged digits; HIGH (>0.9) only for clearly printed text or unambiguous handwriting. A blank field is 1.0 (certainly blank)."},
           "ypos": {"type": "number", "description": "vertical position of THIS field's row on the page: 0.0 = very top edge, 1.0 = very bottom edge. Estimate the center of the row the value/checkbox/signature sits on, as accurately as you can."},
+          "xpos": {"type": "number", "description": "horizontal position of THIS field's VALUE on the page: 0.0 = very left edge, 1.0 = very right edge. Estimate the horizontal center of the handwritten value / checkbox / signature itself (in a table, the COLUMN it sits in), as accurately as you can."},
           "is_blank": {"type": "boolean"}},
-        "required": ["label", "kind", "value", "options", "selected", "unit", "soll", "calc_expr", "confidence", "ypos", "is_blank"]}}},
+        "required": ["label", "kind", "value", "options", "selected", "unit", "soll", "calc_expr", "confidence", "ypos", "xpos", "is_blank"]}}},
     "required": ["section", "fields"]}}
 
 _PROMPT = (
@@ -196,4 +197,11 @@ class VlmExhaustiveExtractor:
             f.vlm_ypos = yp if 0.0 <= yp <= 1.0 else None
         except (TypeError, ValueError):
             f.vlm_ypos = None
+        # reader's horizontal position estimate -> narrows a full-width table ROW
+        # box down to the value's COLUMN (see localize x-split).
+        try:
+            xp = float(raw.get("xpos"))
+            f.vlm_xpos = xp if 0.0 <= xp <= 1.0 else None
+        except (TypeError, ValueError):
+            f.vlm_xpos = None
         return f

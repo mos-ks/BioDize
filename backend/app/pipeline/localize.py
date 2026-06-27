@@ -105,20 +105,27 @@ def localize(doc: Document, ocr_by_page: dict[int, OcrResult]) -> Document:
             used.add(idx)
             shared.setdefault(idx, []).append(fld)
 
-        # Fallback for fields with NO vertical estimate that still collapsed onto a
-        # shared tall block: split it into equal vertical bands in reading order, so
-        # they don't all stack on one identical box.
         for idx, flds in shared.items():
-            no_yp = [f for f in flds if f.vlm_ypos is None]
-            if len(no_yp) < 2:
-                continue
             b = blocks[idx].bbox
-            if (b.y1 - b.y0) < 0.05:
-                continue  # too short to subdivide meaningfully
-            step = (b.y1 - b.y0) / len(no_yp)
-            for i, f in enumerate(no_yp):
-                top = b.y0 + i * step
-                f.bbox = BBox(b.x0, top, b.x1, top + step)
+            # X-split: a FULL-WIDTH row that several cells collapsed onto (a table
+            # row) — narrow each cell's box to its COLUMN using the reader's xpos,
+            # so the box sits on the value, not across the whole row.
+            if len(flds) >= 2 and (b.x1 - b.x0) > _COL_WIDE:
+                for f in flds:
+                    if f.vlm_xpos is None or f.bbox is None:
+                        continue
+                    hw = _col_half(f.value_raw)
+                    cx = min(max(f.vlm_xpos, b.x0 + hw), b.x1 - hw)
+                    f.bbox = BBox(cx - hw, f.bbox.y0, cx + hw, f.bbox.y1)
+
+            # Y fallback: fields with NO vertical estimate that still collapsed onto a
+            # shared tall block — split it into equal vertical bands in reading order.
+            no_yp = [f for f in flds if f.vlm_ypos is None]
+            if len(no_yp) >= 2 and (b.y1 - b.y0) >= 0.05:
+                step = (b.y1 - b.y0) / len(no_yp)
+                for i, f in enumerate(no_yp):
+                    top = b.y0 + i * step
+                    f.bbox = BBox(f.bbox.x0, top, f.bbox.x1, top + step)
     return doc
 
 
@@ -126,6 +133,16 @@ def localize(doc: Document, ocr_by_page: dict[int, OcrResult]) -> Document:
 # its box must be narrowed to the field's row. A typical handwritten row is ~2.5%.
 _ROW_TALL = 0.045
 _ROW_HALF = 0.012
+# A block wider than this spans multiple columns (a full-width table row), so a
+# multi-cell row gets each cell narrowed to its column via xpos.
+_COL_WIDE = 0.40
+
+
+def _col_half(value: str | None) -> float:
+    """Half-width of a value's column box, scaled a little by value length so a long
+    material name gets a wider box than a 4-digit number."""
+    n = len((value or "").strip())
+    return min(max(0.035 + n * 0.006, 0.04), 0.18)
 
 
 def _ydist(b: BBox, yp: float | None) -> float:

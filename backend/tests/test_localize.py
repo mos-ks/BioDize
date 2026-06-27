@@ -5,9 +5,10 @@ from app.pipeline.model import BBox, Block, Document, Field
 from app.pipeline.ocr.base import OcrResult, OcrWord
 
 
-def _fld(label: str, value: str, ypos: float | None = None) -> Field:
+def _fld(label: str, value: str, ypos: float | None = None, xpos: float | None = None) -> Field:
     f = Field(page_no=1, chapter="", role=None, label_raw=label, value_raw=value)
     f.vlm_ypos = ypos
+    f.vlm_xpos = xpos
     return f
 
 
@@ -49,6 +50,24 @@ def test_tall_table_block_is_narrowed_to_a_row_band():
     assert abs(cy - 0.55) < 0.02, "row band should be centered on the field's ypos"
     # x extent is preserved from the block (reliable horizontally)
     assert abs(f.bbox.x0 - 0.10) < 1e-6 and abs(f.bbox.x1 - 0.90) < 1e-6
+
+
+def test_full_width_table_row_is_split_into_columns_via_xpos():
+    # Mistral returns a whole table ROW as one full-width block; the three cells
+    # that land on it must each be narrowed to their column, not span the row.
+    row = OcrWord("1720 0724228 5142", BBox(0.10, 0.60, 0.90, 0.62))
+    f_a = _fld("Pos", "1720", ypos=0.61, xpos=0.20)
+    f_b = _fld("Charge", "0724228", ypos=0.61, xpos=0.50)
+    f_c = _fld("Menge", "5142", ypos=0.61, xpos=0.80)
+    doc = _doc([f_a, f_b, f_c])
+    localize(doc, {1: OcrResult(page_no=1, words=[row])})
+    for f, xp in [(f_a, 0.20), (f_b, 0.50), (f_c, 0.80)]:
+        assert f.bbox is not None
+        assert (f.bbox.x1 - f.bbox.x0) < 0.79, "cell should be narrower than the full row"
+        cx = (f.bbox.x0 + f.bbox.x1) / 2
+        assert abs(cx - xp) < 0.06, "cell box should be centered on the value's column"
+    # left-to-right column order preserved
+    assert f_a.bbox.x0 < f_b.bbox.x0 < f_c.bbox.x0
 
 
 def test_tight_cell_beats_whole_table_and_is_kept():

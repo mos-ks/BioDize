@@ -21,9 +21,11 @@ def test_planted_errors_are_caught():
     codes = _codes(_run())
     # p40: net 200 but gross - tare = 0
     assert "CALC_NET_MASS" in codes
-    # p10 §5.2: Gepruft before Bearbeitet + same Kuerzel
-    assert "4EYES_ORDER" in codes
+    # p10 §5.2: Gepruft before Bearbeitet AND same Kuerzel are ONE four-eyes failure —
+    # consolidated into a single flag (DISTINCT kept; the order reason is merged into
+    # its message), so the redundant second code is intentionally gone.
     assert "4EYES_DISTINCT" in codes
+    assert "4EYES_ORDER" not in codes
     # p17: 32 above Soll 20-30
     assert "RANGE_SOLL" in codes
     # p40: "10.6.2026" not zero-padded
@@ -86,9 +88,40 @@ def test_four_eyes_requires_legible_reads():
 
     illegible = Block(chapter="", page_no=1, template="signature")
     illegible.fields = [_sig(Role.SIGNATURE_PROCESSED, "ohe", 0.92),
-                        _sig(Role.SIGNATURE_CHECKED, "ohe", 0.40)]   # Geprüft illegible
+                        _sig(Role.SIGNATURE_CHECKED, "ohe", 0.30)]   # Geprüft below legible threshold
     rule_four_eyes(illegible)
     assert not any(fl.code == "4EYES_DISTINCT" for f in illegible.fields for fl in f.flags)
+
+
+def test_four_eyes_errors_are_consolidated():
+    """A single signature can trip BOTH same-signer and wrong-order; the post-process
+    must collapse them into one four-eyes error (no redundant stack)."""
+    from app.domain.roles import Role
+    from app.domain.severity import Category, Severity
+    from app.pipeline.model import Block, Document, Field, Read
+    from app.pipeline.validate.engine import consolidate_flags
+    from app.pipeline.validate.rules import rule_four_eyes
+
+    def sig(role, value):
+        f = Field(page_no=1, chapter="", role=role, label_raw="Bearbeitet", value_raw=value)
+        f.reads = [Read(model="x", value_raw=value, confidence=0.92)]
+        return f
+
+    b = Block(chapter="", page_no=1, template="signature")
+    # same Kürzel (ohe) AND Geprüft (09.06) before Bearbeitet (10.06)
+    b.fields = [sig(Role.SIGNATURE_PROCESSED, "10.06.2026 / ohe"),
+                sig(Role.SIGNATURE_CHECKED, "09.06.2026 / ohe")]
+    rule_four_eyes(b)
+    fe = [fl for f in b.fields for fl in f.flags
+          if fl.category is Category.FOUR_EYES and fl.severity is Severity.ERROR]
+    assert len(fe) >= 2, "both order + same-signer should fire pre-consolidation"
+
+    doc = Document(doc_no="d", title="t")
+    doc.blocks = [b]
+    consolidate_flags(doc)
+    fe2 = [fl for f in b.fields for fl in f.flags
+           if fl.category is Category.FOUR_EYES and fl.severity is Severity.ERROR]
+    assert len(fe2) == 1, "four-eyes errors should consolidate to one"
 
 
 def test_cross_field_label_formula():
