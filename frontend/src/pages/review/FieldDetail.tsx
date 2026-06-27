@@ -85,12 +85,15 @@ export default function FieldDetail({
   onResolved,
   hasNext,
   onSkipNext,
+  onClose,
 }: {
   fieldId: string;
   /** Called after a successful confirm/correct so the parent can refresh + advance. */
   onResolved: (updated: Field) => void;
   hasNext: boolean;
   onSkipNext: () => void;
+  /** Deselect this field and return to the full-PDF scroll view. */
+  onClose: () => void;
 }) {
   const { data: field, loading, error, reload } = useApi<Field>(
     () => api.getField(fieldId),
@@ -179,9 +182,19 @@ export default function FieldDetail({
             </div>
           </div>
         </div>
-        <div className="shrink-0 text-center">
-          <ConfidenceGauge confidence={conf} size={60} />
-          <div className={classNames("text-[11px] font-semibold", tone.text)}>{tone.label}</div>
+        <div className="flex shrink-0 flex-col items-end gap-1">
+          <button
+            onClick={onClose}
+            title="Back to full PDF view"
+            aria-label="Back to full PDF view"
+            className="-mr-1 -mt-1 rounded-lg p-1.5 text-slate-400 transition-colors hover:bg-slate-100 hover:text-slate-600"
+          >
+            <X className="h-4 w-4" />
+          </button>
+          <div className="text-center">
+            <ConfidenceGauge confidence={conf} size={60} />
+            <div className={classNames("text-[11px] font-semibold", tone.text)}>{tone.label}</div>
+          </div>
         </div>
       </div>
 
