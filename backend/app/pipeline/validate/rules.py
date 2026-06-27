@@ -335,21 +335,27 @@ def _field_date(field: Field) -> date | None:
 
 def rule_dates_document(doc: Document, ref: date | None) -> None:
     """Flag batch-execution dates that fall before the record's print date or far
-    in the future — typically year misreads (e.g. p38 2026->2016, p17 ->2028)."""
-    if not ref:
-        return
-    horizon = ref + timedelta(days=180)
+    in the future — typically year misreads (e.g. p38 2026->2016, p17 ->2028).
+
+    The YEAR check works even without an explicit print date: the batch year is the
+    document's own modal year, so a lone '2025' among '2026' dates is caught. The
+    before-print / far-future checks still need an actual print DATE."""
+    from app.pipeline.normalize import _doc_reference_year
+    batch_year = ref.year if ref else _doc_reference_year(doc)
+    horizon = ref + timedelta(days=180) if ref else None
     for f in doc.all_fields():
         if f.role not in _BATCH_DATE_ROLES:
             continue
-        # GxP: never silently hide a year the auto-corrector rewrote — surface the
-        # RAW recorded year (e.g. 2028/2016) so a human verifies the original.
+        # GxP: surface the RAW recorded year (e.g. 2025/2028/2016) whenever it
+        # differs from the document's batch year, so a human verifies the original.
         rawm = re.search(r"\b\d{1,2}\.\d{1,2}\.(\d{4})\b", f.value_raw or "")
-        if rawm and int(rawm.group(1)) != ref.year:
+        if batch_year and rawm and int(rawm.group(1)) != batch_year:
             f.add_flag(_warn(Category.TEMPORAL, "DATE_YEAR_SUSPECT",
-                             f"recorded year {rawm.group(1)} != batch year {ref.year} "
-                             f"(auto-corrected to {ref.year}); verify the original",
-                             expected=str(ref.year), actual=rawm.group(1)))
+                             f"recorded year {rawm.group(1)} != batch year {batch_year}; "
+                             f"verify the original",
+                             expected=str(batch_year), actual=rawm.group(1)))
+        if not ref:
+            continue                      # the remaining checks need an actual print DATE
         d = _field_date(f)
         if d is None:
             continue

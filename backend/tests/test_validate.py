@@ -91,6 +91,32 @@ def test_four_eyes_requires_legible_reads():
     assert not any(fl.code == "4EYES_DISTINCT" for f in illegible.fields for fl in f.flags)
 
 
+def test_date_year_suspect_without_print_date():
+    """A lone wrong-year date (2025 among 2026) must be caught even when the doc has
+    NO print date — using the document's own modal batch year as the reference."""
+    from app.domain.roles import Role
+    from app.pipeline.model import Block, Document, Field
+    from app.pipeline.normalize import normalize
+    from app.pipeline.validate.engine import validate
+
+    def sig(role, v):
+        return Field(page_no=1, chapter="", role=role,
+                     label_raw="Bearbeitet: (Datum/Kürzel)", value_raw=v)
+
+    b = Block(chapter="", page_no=1, template="signature")
+    b.fields = [
+        sig(Role.SIGNATURE_PROCESSED, "10.06.2026 / ole"),
+        sig(Role.SIGNATURE_CHECKED, "10.06.2026 / han"),
+        sig(Role.SIGNATURE_PROCESSED, "10.06.2025 / ole"),   # wrong year
+    ]
+    doc = Document(doc_no="x", title="x")                     # generated_at=None -> no print date
+    doc.blocks = [b]
+    normalize(doc)
+    validate(doc)
+    codes = {fl.code for f in doc.all_fields() for fl in f.flags}
+    assert "DATE_YEAR_SUSPECT" in codes
+
+
 def test_kuerzel_resolves_by_name_initials():
     """'hm' is equidistant from registered 'han' and 'ohe' — pure edit distance
     can't choose. The name 'Hans Mustermann' (initials hm) breaks the tie -> han,
