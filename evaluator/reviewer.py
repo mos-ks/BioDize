@@ -352,6 +352,7 @@ class App:
         self.btn_edit.pack(side="right", padx=4)
 
         for text, cmd in [("Tastenkuerzel", lambda: KeyDialog(self.root,self._keys,self._save_keys)),
+                          ("Ground Truth",   self._open_gt),
                           ("Tabelle (Strg+D)", self._open_table),
                           ("Debugger (Strg+L)", self._open_debugger)]:
             tk.Button(hdr, text=text, font=("Segoe UI",8),
@@ -1320,6 +1321,250 @@ class App:
     def _open_debugger(self):
         subprocess.Popen([str(VENV_PY), str(ROOT/"debugger.py")],
                          creationflags=subprocess.CREATE_NEW_CONSOLE)
+
+    def _open_gt(self):
+        GtWindow(self.root)
+
+
+# ── Ground-Truth-Fenster ──────────────────────────────────────────────────────
+
+class GtWindow(tk.Toplevel):
+    """Zeigt Ground-Truth-Evaluationsergebnisse und ermoeglicht Neuberechnung."""
+
+    GT_DIR   = ROOT / "ground_truth"
+    RESULT_F = ROOT / "ground_truth" / "eval_result.json"
+    METRIC_LABELS = {
+        "rule_precision": "Regel-Precision",
+        "rule_recall":    "Regel-Recall",
+        "rule_f1":        "Regel-F1",
+        "coverage":       "Feld-Coverage",
+        "value_acc":      "Wert-Genauigkeit",
+        "checkbox_acc":   "Checkbox-Genauigkeit",
+        "signature_acc":  "Signatur-Genauigkeit",
+    }
+    METRIC_TARGETS = {
+        "rule_precision": 0.90, "rule_recall": 0.80, "rule_f1": 0.85,
+        "coverage": 0.90, "value_acc": 0.80,
+        "checkbox_acc": 0.75, "signature_acc": 0.90,
+    }
+
+    def __init__(self, parent):
+        super().__init__(parent)
+        self.title("BioDize -- Ground-Truth-Auswertung")
+        self.configure(bg=C["bg"]); self.geometry("860x640")
+        self.resizable(True, True)
+        self._build()
+        self._load_result()
+
+    def _build(self):
+        # Header
+        hdr = tk.Frame(self, bg=C["hdr"], height=44); hdr.pack(fill="x"); hdr.pack_propagate(False)
+        tk.Label(hdr, text="Ground-Truth-Auswertung",
+                 font=("Segoe UI",13,"bold"), bg=C["hdr"], fg=C["fg"]
+                 ).pack(side="left", padx=14, pady=10)
+        tk.Button(hdr, text="Neu berechnen", font=("Segoe UI",8,"bold"),
+                  bg="#7c3aed", fg="white", activebackground="#6d28d9",
+                  relief="flat", bd=0, padx=10, pady=5, cursor="hand2",
+                  command=self._recompute, takefocus=False
+                  ).pack(side="right", padx=12)
+        self.lbl_ts = tk.Label(hdr, text="", font=("Segoe UI",8),
+                               bg=C["hdr"], fg=C["dim"])
+        self.lbl_ts.pack(side="right", padx=8)
+
+        # Aggregierte Metriken (oben)
+        agg_frame = tk.Frame(self, bg=C["side"]); agg_frame.pack(fill="x", padx=16, pady=(12,4))
+        tk.Label(agg_frame, text="Gesamt-Metriken",
+                 font=("Segoe UI",9,"bold"), bg=C["side"], fg=C["dim"],
+                 anchor="w").pack(fill="x", padx=12, pady=(8,4))
+
+        self.agg_cards = tk.Frame(agg_frame, bg=C["side"])
+        self.agg_cards.pack(fill="x", padx=12, pady=(0,10))
+
+        # Per-Seite-Tabelle (mitte)
+        pg_frame = tk.Frame(self, bg=C["side"]); pg_frame.pack(fill="both", expand=True, padx=16, pady=(0,4))
+        tk.Label(pg_frame, text="Ergebnisse pro Gold-Seite",
+                 font=("Segoe UI",9,"bold"), bg=C["side"], fg=C["dim"],
+                 anchor="w").pack(fill="x", padx=12, pady=(8,4))
+
+        style = ttk.Style(self); style.theme_use("clam")
+        style.configure("GT.Treeview", background=C["bg"], foreground=C["fg"],
+                        rowheight=24, fieldbackground=C["bg"], font=("Segoe UI",9))
+        style.configure("GT.Treeview.Heading", background=C["hdr"],
+                        foreground=C["fg"], font=("Segoe UI",9,"bold"))
+        style.map("GT.Treeview", background=[("selected",C["sel"])])
+
+        cols = ("Seite","Abschnitt","Status","Precision","Recall","Coverage","Wert","Checkbox","Sig","FN","FP")
+        self.tv = ttk.Treeview(pg_frame, columns=cols, show="headings",
+                               style="GT.Treeview", selectmode="browse")
+        widths = [50,220,60,75,75,75,65,75,55,120,120]
+        for col,w in zip(cols,widths):
+            self.tv.heading(col, text=col); self.tv.column(col, width=w, minwidth=40)
+        self.tv.tag_configure("pass",  background="#052e16", foreground=C["grn"])
+        self.tv.tag_configure("fail",  background="#450a0a", foreground=C["red"])
+        self.tv.tag_configure("warn",  background="#422006", foreground=C["yel"])
+        self.tv.bind("<<TreeviewSelect>>", self._on_row_select)
+
+        vsb = ttk.Scrollbar(pg_frame, orient="vertical",   command=self.tv.yview)
+        hsb = ttk.Scrollbar(pg_frame, orient="horizontal", command=self.tv.xview)
+        self.tv.configure(yscrollcommand=vsb.set, xscrollcommand=hsb.set)
+        vsb.pack(side="right", fill="y"); hsb.pack(side="bottom", fill="x")
+        self.tv.pack(fill="both", expand=True, padx=(12,0), pady=(0,6))
+
+        # Detail-Panel (unten)
+        det_frame = tk.Frame(self, bg=C["side"], height=130); det_frame.pack(fill="x", padx=16, pady=(0,12)); det_frame.pack_propagate(False)
+        tk.Label(det_frame, text="Detail (Seite auswaehlen)",
+                 font=("Segoe UI",9,"bold"), bg=C["side"], fg=C["dim"],
+                 anchor="w").pack(fill="x", padx=12, pady=(8,4))
+        self.det_text = tk.Text(det_frame, bg=C["bg"], fg=C["fg"],
+                                font=("Consolas",8), relief="flat", bd=0,
+                                height=6, state="disabled", wrap="none")
+        ds = ttk.Scrollbar(det_frame, command=self.det_text.yview)
+        self.det_text.configure(yscrollcommand=ds.set)
+        ds.pack(side="right", fill="y")
+        self.det_text.pack(fill="both", expand=True, padx=(12,0), pady=(0,8))
+
+    # ── Laden ─────────────────────────────────────────────────────────────────
+
+    def _load_result(self):
+        if not self.RESULT_F.exists():
+            self._show_no_result()
+            return
+        try:
+            data = json.loads(self.RESULT_F.read_text(encoding="utf-8"))
+        except Exception as e:
+            self._show_no_result(str(e)); return
+
+        import os
+        mtime = os.path.getmtime(self.RESULT_F)
+        import datetime
+        ts = datetime.datetime.fromtimestamp(mtime).strftime("%d.%m.%Y %H:%M")
+        self.lbl_ts.config(text=f"Letzte Berechnung: {ts}")
+
+        self._render_agg(data.get("aggregate", {}))
+        self._render_pages(data.get("pages", []))
+
+    def _show_no_result(self, err=""):
+        for w in self.agg_cards.winfo_children(): w.destroy()
+        tk.Label(self.agg_cards,
+                 text=f"Keine Ergebnisse vorhanden.\n{err}\nBitte 'Neu berechnen' klicken.",
+                 font=("Segoe UI",10), bg=C["side"], fg=C["yel"],
+                 justify="center").pack(pady=20)
+
+    def _render_agg(self, agg: dict):
+        for w in self.agg_cards.winfo_children(): w.destroy()
+        for key, label in self.METRIC_LABELS.items():
+            val = agg.get(key)
+            if val is None: continue
+            target = self.METRIC_TARGETS.get(key, 0.0)
+            pct    = f"{val:.1%}"
+            color  = C["grn"] if val >= target else C["yel"] if val >= target*0.85 else C["red"]
+            card   = tk.Frame(self.agg_cards, bg=C["bg"], padx=8, pady=6)
+            card.pack(side="left", padx=(0,8), pady=2)
+            tk.Label(card, text=label, font=("Segoe UI",7), bg=C["bg"],
+                     fg=C["dim"]).pack()
+            tk.Label(card, text=pct, font=("Segoe UI",14,"bold"),
+                     bg=C["bg"], fg=color).pack()
+            tk.Label(card, text=f"Ziel: {target:.0%}", font=("Segoe UI",6),
+                     bg=C["bg"], fg=C["dim"]).pack()
+
+    def _render_pages(self, pages: list):
+        self.tv.delete(*self.tv.get_children())
+        self._page_data = pages
+        for p in pages:
+            fn = p.get("fn",[]); fp = p.get("fp",[])
+            has_fn = bool(fn); has_fp = bool(fp)
+            status = "PASS" if not has_fn and not has_fp else "FAIL"
+            tag    = "pass" if status=="PASS" else "fail"
+            prec   = f"{p.get('rule_precision',0):.0%}"
+            rec    = f"{p.get('rule_recall',0):.0%}"
+            cov    = f"{p.get('coverage', p.get('covered',0)/(p.get('covered',0)+p.get('missing',0)) if p.get('covered',0)+p.get('missing',0) else 0):.0%}" if isinstance(p.get('covered'), int) else "—"
+            val    = f"{p.get('value_correct',0)}/{p.get('value_correct',0)+p.get('value_wrong',0)}"
+            cb_c   = p.get("cb_correct",0); cb_w = p.get("cb_wrong",0)
+            cb     = f"{cb_c}/{cb_c+cb_w}" if cb_c+cb_w else "—"
+            sig_c  = p.get("sig_correct",0); sig_w = p.get("sig_wrong",0)
+            sig    = f"{sig_c}/{sig_c+sig_w}" if sig_c+sig_w else "—"
+            fn_str = ", ".join(fn) if fn else ""
+            fp_str = ", ".join(fp) if fp else ""
+            sect   = p.get("section","")[:35]
+            self.tv.insert("","end", iid=str(p["page"]),
+                           values=(f"p{p['page']:02d}", sect, status,
+                                   prec, rec, cov, val, cb, sig,
+                                   fn_str, fp_str),
+                           tags=(tag,))
+
+    def _on_row_select(self, _=None):
+        sel = self.tv.selection()
+        if not sel: return
+        pg_no = int(sel[0])
+        page  = next((p for p in self._page_data if p["page"]==pg_no), None)
+        if not page: return
+        lines = [f"Seite {pg_no}: {page.get('section','')}"]
+        if page.get("fn"):   lines.append(f"FN (nicht erkannt): {', '.join(page['fn'])}")
+        if page.get("fp"):   lines.append(f"FP (falsch erkannt): {', '.join(page['fp'])}")
+        if page.get("value_details"):
+            lines.append("Falsche Werte:")
+            for d in page["value_details"][:5]:
+                if d.get("label") != "_extraction_fp":
+                    lines.append(f"  {d.get('label','?')[:35]}: Gold={d.get('gold','?')!r}  OCR={d.get('pipeline','?')!r}")
+        if page.get("missing"): lines.append(f"Fehlende Felder: {page['missing']}")
+        txt = "\n".join(lines)
+        self.det_text.configure(state="normal")
+        self.det_text.delete("1.0","end"); self.det_text.insert("end",txt)
+        self.det_text.configure(state="disabled")
+
+    # ── Neuberechnung ─────────────────────────────────────────────────────────
+
+    def _recompute(self):
+        self.lbl_ts.config(text="Berechne...", fg=C["yel"])
+        for w in self.agg_cards.winfo_children(): w.destroy()
+        tk.Label(self.agg_cards, text="Berechnung laeuft...",
+                 font=("Segoe UI",10), bg=C["side"], fg=C["yel"]).pack(pady=20)
+        self.tv.delete(*self.tv.get_children())
+
+        def _bg():
+            try:
+                import os as _os; sys.path.insert(0, str(ROOT/"backend"))
+                _os.chdir(str(ROOT/"backend"))
+                from app.pipeline.model import Block, BBox, Document, Field, Read
+                from app.pipeline.normalize import normalize
+                from app.pipeline.resolve import resolve
+                from app.pipeline.validate.engine import validate
+                from app.pipeline.validate.uncertainty import score
+                from app.evaluation.scorer import score_ground_truth
+                import json as _json
+
+                results_f = ROOT/"results"/"extracted_fields.json"
+                if not results_f.exists():
+                    self.after(0, lambda: self.lbl_ts.config(
+                        text="results/extracted_fields.json fehlt!", fg=C["red"]))
+                    return
+
+                data    = _json.loads(results_f.read_text(encoding="utf-8"))
+                doc     = Document(doc_no="gt", title="gt", page_count=46)
+                bmap: dict = {}
+                for e in data["fields"]:
+                    chap=(e.get("chapter") or "").strip(); pno=e["page_no"]; key=(chap,pno)
+                    if key not in bmap: bmap[key]=Block(chapter=chap,page_no=pno,template="real")
+                    b=bmap[key]
+                    bbox_raw=e.get("bbox"); bbox=BBox(*bbox_raw) if bbox_raw and len(bbox_raw)==4 else None
+                    vr=str(e.get("value_raw") or e.get("value") or "")
+                    f=Field(page_no=pno,chapter=chap,role=e.get("role"),
+                            label_raw=e.get("label") or "",value_raw=vr,bbox=bbox)
+                    f.reads=[Read(model="eval",value_raw=vr,confidence=e.get("confidence",1.0))]
+                    b.fields.append(f); f.block_key=b.key
+                doc.blocks=list(bmap.values())
+                normalize(doc); resolve(doc); validate(doc); score(doc)
+                report = score_ground_truth(doc, ROOT/"ground_truth")
+                result = report.as_dict()
+                # Speichern
+                (ROOT/"ground_truth"/"eval_result.json").write_text(
+                    _json.dumps(result,indent=2), encoding="utf-8")
+                self.after(0, lambda: self._load_result())
+            except Exception as e:
+                self.after(0, lambda: self.lbl_ts.config(
+                    text=f"Fehler: {e}", fg=C["red"]))
+
+        threading.Thread(target=_bg, daemon=True).start()
 
 
 # ── Start ─────────────────────────────────────────────────────────────────────
