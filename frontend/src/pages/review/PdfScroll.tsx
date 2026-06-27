@@ -4,7 +4,7 @@
 // selected, so opening a batch lets you scroll the PDF straight away.
 
 import { useState } from "react";
-import { ImageOff } from "lucide-react";
+import { Eye, EyeOff, ImageOff } from "lucide-react";
 import { api } from "../../api/client";
 import type { Field } from "../../api/types";
 import { classNames, useApi } from "../../lib/ui";
@@ -16,11 +16,13 @@ function PageItem({
   pageNo,
   fields,
   onSelect,
+  showBoxes,
 }: {
   documentId: string;
   pageNo: number;
   fields: Field[];
   onSelect: (id: string) => void;
+  showBoxes: boolean;
 }) {
   const [state, setState] = useState<"loading" | "ok" | "error">("loading");
   const [ratio, setRatio] = useState<number | null>(null);
@@ -68,7 +70,9 @@ function PageItem({
             <span className="text-[11px] text-slate-400">No scan for this page</span>
           </div>
         )}
-        {state === "ok" && <AllBoxesOverlay fields={fields} currentFieldId="" onSelect={onSelect} />}
+        {state === "ok" && showBoxes && (
+          <AllBoxesOverlay fields={fields} currentFieldId="" onSelect={onSelect} />
+        )}
       </div>
     </div>
   );
@@ -84,6 +88,7 @@ export default function PdfScroll({
   onSelect: (id: string) => void;
 }) {
   const { data: fields, loading } = useApi<Field[]>(() => api.listFields(documentId, {}), [documentId]);
+  const [showBoxes, setShowBoxes] = useState(true);
 
   const byPage = new Map<number, Field[]>();
   for (const f of fields ?? []) {
@@ -101,7 +106,24 @@ export default function PdfScroll({
     <div className="animate-fade-in space-y-2">
       <div className="sticky top-0 z-10 -mx-1 flex items-center justify-between gap-2 bg-white/90 px-1 pb-2 backdrop-blur">
         <h2 className="text-base font-semibold text-slate-800">Document</h2>
-        <span className="text-xs text-slate-400">Scroll the scan · click any box to review</span>
+        <div className="flex items-center gap-2">
+          <span className="hidden text-xs text-slate-400 sm:inline">click a box to review</span>
+          <button
+            type="button"
+            onClick={() => setShowBoxes((v) => !v)}
+            aria-pressed={showBoxes}
+            title={showBoxes ? "Hide all detections" : "Show all detections"}
+            className={classNames(
+              "inline-flex items-center gap-1.5 rounded-lg px-2 py-1 text-xs font-medium transition-colors",
+              showBoxes
+                ? "bg-brand-50 text-brand-700 ring-1 ring-inset ring-brand-200 hover:bg-brand-100"
+                : "text-slate-500 ring-1 ring-inset ring-slate-200 hover:bg-slate-100",
+            )}
+          >
+            {showBoxes ? <Eye className="h-3.5 w-3.5" /> : <EyeOff className="h-3.5 w-3.5" />}
+            Detections
+          </button>
+        </div>
       </div>
       <div className="space-y-5">
         {pages.map((pg) => (
@@ -111,6 +133,7 @@ export default function PdfScroll({
             pageNo={pg}
             fields={byPage.get(pg) ?? []}
             onSelect={onSelect}
+            showBoxes={showBoxes}
           />
         ))}
       </div>
