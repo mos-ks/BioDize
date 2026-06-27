@@ -1,0 +1,227 @@
+{
+  "aggregate": {
+    "tp": 6,
+    "fp": 0,
+    "fn": 3,
+    "rule_precision": 1.0,
+    "rule_recall": 0.6666666666666666,
+    "rule_f1": 0.8,
+    "value_acc": 0.8108108108108109,
+    "checkbox_acc": 0.9411764705882353,
+    "signature_acc": 0.9130434782608695,
+    "coverage": 0.9885057471264368
+  },
+  "pages": [
+    {
+      "page": 9,
+      "section": "",
+      "rule_precision": 1.0,
+      "rule_recall": 1.0,
+      "rule_f1": 1.0,
+      "tp": [
+        "4EYES_DISTINCT"
+      ],
+      "fp": [],
+      "fn": [],
+      "value_correct": 0,
+      "value_wrong": 0,
+      "value_details": [],
+      "cb_correct": 3,
+      "cb_wrong": 1,
+      "sig_correct": 2,
+      "sig_wrong": 0,
+      "covered": 6,
+      "missing": 0
+    },
+    {
+      "page": 10,
+      "section": "",
+      "rule_precision": 1.0,
+      "rule_recall": 1.0,
+      "rule_f1": 1.0,
+      "tp": [
+        "4EYES_DISTINCT",
+        "4EYES_ORDER"
+      ],
+      "fp": [],
+      "fn": [],
+      "value_correct": 2,
+      "value_wrong": 1,
+      "value_details": [
+        {
+          "label": "Production Code (59030 ...)",
+          "gold": "127",
+          "pipeline": "59030 123"
+        }
+      ],
+      "cb_correct": 2,
+      "cb_wrong": 0,
+      "sig_correct": 4,
+      "sig_wrong": 0,
+      "covered": 9,
+      "missing": 0
+    },
+    {
+      "page": 11,
+      "section": "",
+      "rule_precision": 1.0,
+      "rule_recall": 0.0,
+      "rule_f1": 0.0,
+      "tp": [],
+      "fp": [],
+      "fn": [
+        "MISSING_CHECKMARK"
+      ],
+      "value_correct": 7,
+      "value_wrong": 1,
+      "value_details": [
+        {
+          "label": "V Netto (V = m / rho, rho = 1,100 kg/L)",
+          "gold": "220",
+          "pipeline": "200"
+        }
+      ],
+      "cb_correct": 1,
+      "cb_wrong": 0,
+      "sig_correct": 1,
+      "sig_wrong": 0,
+      "covered": 11,
+      "missing": 1
+    },
+    {
+      "page": 14,
+      "section": "",
+      "rule_precision": 1.0,
+      "rule_recall": 1.0,
+      "rule_f1": 1.0,
+      "tp": [],
+      "fp": [],
+      "fn": [],
+      "value_correct": 2,
+      "value_wrong": 0,
+      "value_details": [],
+      "cb_correct": 1,
+      "cb_wrong": 0,
+      "sig_correct": 2,
+      "sig_wrong": 2,
+      "covered": 7,
+      "missing": 0
+    },
+    {
+      "page": 17,
+      "section": "",
+      "rule_precision": 1.0,
+      "rule_recall": 0.0,
+      "rule_f1": 0.0,
+      "tp": [],
+      "fp": [],
+      "fn": [
+        "RANGE_SOLL"
+      ],
+      "value_correct": 7,
+      "value_wrong": 0,
+      "value_details": [],
+      "cb_correct": 0,
+      "cb_wrong": 0,
+      "sig_correct": 2,
+      "sig_wrong": 0,
+      "covered": 9,
+      "missing": 0
+    },
+    {
+      "page": 18,
+      "section": "",
+      "rule_precision": 1.0,
+      "rule_recall": 1.0,
+      "rule_f1": 1.0,
+      "tp": [],
+      "fp": [],
+      "fn": [],
+      "value_correct": 5,
+      "value_wrong": 0,
+      "value_details": [],
+      "cb_correct": 5,
+      "cb_wrong": 0,
+      "sig_correct": 2,
+      "sig_wrong": 0,
+      "covered": 12,
+      "missing": 0
+    },
+    {
+      "page": 25,
+      "section": "",
+      "rule_precision": 1.0,
+      "rule_recall": 0.0,
+      "rule_f1": 0.0,
+      "tp": [],
+      "fp": [],
+      "fn": [
+        "CALC_ERROR"
+      ],
+      "value_correct": 5,
+      "value_wrong": 4,
+      "value_details": [
+        {
+          "label": "_extraction_fp",
+          "gold": "different signers",
+          "pipeline": "4EYES_DISTINCT[extraction_error]"
+        },
+        {
+          "label": "Produktmenge B10-PP Zyklus 1 - m B10-PP Netto nPZ Z1 [kg]",
+          "gold": "321",
+          "pipeline": "... siehe Kapitel 6.3.1"
+        },
+        {
+          "label": "Produktmenge B10-PP Zyklus 1 - c B10-PP Z1 [g/L]",
+          "gold": "4,35",
+          "pipeline": "... siehe Kapitel 6.3.1"
+        },
+        {
+          "label": "Produktmenge B10-PP Zyklus 2 - m B10-PP Netto nPZ Z2 [kg]",
+          "gold": "220",
+          "pipeline": "... siehe Kapitel 5.3.2"
+        },
+        {
+          "label": "Produktmenge B10-PP Zyklus 2 - c B10-PP Z2 [g/L]",
+          "gold": "3,94",
+          "pipeline": "... siehe Kapitel 5.3.2"
+        }
+      ],
+      "cb_correct": 1,
+      "cb_wrong": 0,
+      "sig_correct": 2,
+      "sig_wrong": 0,
+      "covered": 17,
+      "missing": 0
+    },
+    {
+      "page": 31,
+      "section": "",
+      "rule_precision": 1.0,
+      "rule_recall": 1.0,
+      "rule_f1": 1.0,
+      "tp": [
+        "4EYES_DISTINCT",
+        "SIG_INCOMPLETE",
+        "SIG_INCOMPLETE"
+      ],
+      "fp": [],
+      "fn": [],
+      "value_correct": 2,
+      "value_wrong": 1,
+      "value_details": [
+        {
+          "label": "Anzahl pro Charge (Zeile 2)",
+          "gold": "1",
+          "pipeline": "2"
+        }
+      ],
+      "cb_correct": 3,
+      "cb_wrong": 0,
+      "sig_correct": 6,
+      "sig_wrong": 0,
+      "covered": 15,
+      "missing": 0
+    }
+  ]
+}

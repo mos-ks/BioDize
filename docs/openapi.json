@@ -691,8 +691,48 @@
         "tags": [
           "export"
         ],
-        "summary": "Export Document",
-        "operationId": "export_document_api_v1_documents__document_id__export_xlsx_get",
+        "summary": "Export Document Xlsx",
+        "operationId": "export_document_xlsx_api_v1_documents__document_id__export_xlsx_get",
+        "parameters": [
+          {
+            "name": "document_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Document Id"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/documents/{document_id}/export.csv": {
+      "get": {
+        "tags": [
+          "export"
+        ],
+        "summary": "Export Document Csv",
+        "operationId": "export_document_csv_api_v1_documents__document_id__export_csv_get",
         "parameters": [
           {
             "name": "document_id",
@@ -802,6 +842,20 @@
               }
             ],
             "title": "Actor"
+          },
+          "bbox": {
+            "anyOf": [
+              {
+                "items": {
+                  "type": "number"
+                },
+                "type": "array"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Bbox"
           }
         },
         "type": "object",
