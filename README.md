@@ -62,9 +62,9 @@ browser, no rebuild).
   is queued. *Right or it asks, never silently wrong.*
 - **Exact-location boxes** — each value links to its bounding box on the scan (row + column
   estimate snapped to OCR geometry); a redundant-flag post-process keeps the queue clean.
-- **Review UI** — per-page queue, full-page "all boxes" view, one-click confirm/correct, batch
-  **Compare**, **Eval AI** scorecard vs ground truth, **Excel export**, **simulated** demo batches,
-  delete.
+- **Review UI** — page-grouped queue (sort by **severity** or **page**; nothing selected by default),
+  full-page "all boxes" view, the model's **real per-field confidence**, one-click confirm/correct, batch
+  **Compare**, **Eval AI** vs ground truth, **Excel export**, **simulated** demo batches, delete.
 
 ## Status
 - [x] Full pipeline: extract → OCR/localize → normalize → resolve → validate → uncertainty → store → export

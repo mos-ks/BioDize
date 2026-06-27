@@ -21,12 +21,14 @@ PDF (scanned, handwritten)
   │                (OpenAI vision now; provider-agnostic; structured JSON output;
   │                 parameters NOT hardcoded; prose dropped)
   │
-  5. LOCALIZE      bind each field's value_raw to OCR words → bbox (the click-to-locate box)
+  5. LOCALIZE      bind each field's value to its best OCR block; the VLM's per-field row (ypos)
+  │                + column (xpos) estimate narrows a table-granular block to the exact CELL → bbox
   │
   6. NORMALIZE     EU numbers ("1,100"→1.1, "4,50"→4.50), dates DD.MM.YYYY, 24h time, units;
   │                role assignment; applicability (gate) state machine
   │
-  7. VALIDATE      rule engine → flags[] (error|warning)  + UQ posterior confidence
+  7. VALIDATE      rule engine → flags[] (error|warning), incl. anomaly detection (value beyond k·σ
+  │                of its role-peers); a post-process consolidates redundant flags; + UQ confidence
   │
   8. STORE         SQLite: Document→Chapter→Block→Field (+ reads, flags, corrections, audit, role_stats)
   │
@@ -36,10 +38,14 @@ PDF (scanned, handwritten)
 ```
 
 ## Why OCR-box + VLM-read (not VLM boxes)
-General VLMs (GPT included) **cannot produce reliable bounding boxes** (OCRBench v2: GPT-4o = 0 on
-text-spotting; see `MODEL_RESEARCH.md`). So: the **OCR engine** provides geometry (word polygons +
-confidence), the **VLM** provides the *reading* of messy handwriting. The field's box is the union of the
-OCR polygons its value matched. This makes the reviewer's one-click jump accurate.
+General VLMs **cannot produce reliable bounding boxes** (OCRBench v2 text-spotting; see
+`MODEL_RESEARCH.md`). So the **OCR engine** provides geometry (block boxes + per-word confidence) and the
+**VLM** provides the *reading* of messy handwriting. OCR boxes are often **block/row-granular** (a whole
+table comes back as one block), so each field would otherwise get a page-tall, full-width smear. To fix
+that, the VLM also returns a coarse **row (`ypos`) and column (`xpos`) estimate** per field; `localize`
+picks the single best block for a value (disambiguating a repeated value — a date, "Ja", a mass — to the
+*right* row via `ypos`) and narrows a tall/wide table block down to the field's **cell**. The result is a
+box on the value, and an accurate one-click jump for the reviewer.
 
 ## The `Extractor` interface (provider-agnostic, ensemble-ready)
 ```python
@@ -73,9 +79,9 @@ class FieldRead:
 | `pipeline/preprocess` | deskew/denoise/crop |
 | `pipeline/ocr` | OCR engine adapter → words + polygons + confidence |
 | `pipeline/extract` | `Extractor` interface + OpenAI / Stub (/ later local, consensus) impls |
-| `pipeline/localize` | value → OCR polygon binding → bbox |
+| `pipeline/localize` | value → best OCR block; narrow to the cell via the VLM's row/column (`ypos`/`xpos`) estimate |
 | `pipeline/normalize` | EU number/date/time/unit parsing, role assignment, gate state machine |
-| `pipeline/validate` | rule engine (`rules.py`) + UQ scorer → flags + confidence |
+| `pipeline/validate` | rule engine (`rules.py`, incl. anomaly detection) + redundant-flag consolidation (`engine.py`) + UQ scorer |
 | `pipeline/store` | persist to DB; update `role_stats` priors |
 | `pipeline/export` | Excel (tidy + pivot) |
 | `api/*` | FastAPI routes (ingest, extract, validate, review, export, stats, health) |
@@ -93,4 +99,14 @@ NumPy/SciPy (stats). Docker + docker-compose. Config via `.env` / pydantic-setti
 5. `PATCH /fields/{id}` → human confirms/corrects (audit-logged).
 6. `GET /documents/{id}/export.xlsx`.
 
-See [`API.md`](API.md) and [`DATA_MODEL.md`](DATA_MODEL.md).
+## Review UI (frontend)
+React + TypeScript + Vite + Tailwind SPA; retargets at any backend at runtime (in-app gear, saved to the
+browser — no rebuild). Implemented:
+- **Page-grouped review queue**, sortable by **severity** (red→yellow→green) or **page number**; nothing
+  is selected by default — the reviewer picks.
+- **Per-field detail** showing the model's *real* read confidence (not the rule-gated score), the page
+  scan, and the exact bbox; plus a full-page **"all boxes"** overlay to eyeball a whole page.
+- **One-click confirm/correct** (audited), batch **Compare**, **Eval AI** scorecard vs ground truth,
+  **Excel export**, **simulated** offline demo batches, and delete.
+
+See [`API.md`](API.md), [`DATA_MODEL.md`](DATA_MODEL.md) and [`TECH_STACK.md`](TECH_STACK.md).
