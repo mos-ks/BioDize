@@ -1,11 +1,11 @@
 {
   "aggregate": {
-    "tp": 13,
-    "fp": 2,
+    "tp": 14,
+    "fp": 1,
     "fn": 0,
-    "rule_precision": 0.8666666666666667,
+    "rule_precision": 0.9333333333333333,
     "rule_recall": 1.0,
-    "rule_f1": 0.9285714285714286,
+    "rule_f1": 0.9655172413793104,
     "value_acc": 0.8723404255319149,
     "checkbox_acc": 0.7391304347826086,
     "signature_acc": 0.9615384615384616,
@@ -151,17 +151,16 @@
     {
       "page": 19,
       "section": "5.7.2 Bilanzierung",
-      "rule_precision": 0.75,
+      "rule_precision": 1.0,
       "rule_recall": 1.0,
-      "rule_f1": 0.8571428571428571,
+      "rule_f1": 1.0,
       "tp": [
+        "CALC_NET_MASS",
         "CALC_FORMULA",
         "CALC_FORMULA",
         "MISSING_CHECKMARK"
       ],
-      "fp": [
-        "CALC_NET_MASS"
-      ],
+      "fp": [],
       "fn": [],
       "value_correct": 8,
       "value_wrong": 0,
