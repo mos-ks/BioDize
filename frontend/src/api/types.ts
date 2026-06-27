@@ -203,4 +203,11 @@ export interface EvalResult {
   pages: EvalPage[];
   document_id: string;
   gold_pages: number;
+  /** Which snapshot was scored: "extracted_fields.live.json" (current run),
+   *  "extracted_fields.json" (committed baseline), or "db" (rebuilt from rows). */
+  source?: string;
+  /** True when this response came from the re-eval refresh (snapshot regenerated). */
+  refreshed?: boolean;
+  /** Fields written to the live snapshot on refresh. */
+  n_fields?: number;
 }

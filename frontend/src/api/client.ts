@@ -154,6 +154,12 @@ export const api = {
   // AI evaluation vs ground truth
   getEvaluation: (documentId: string) =>
     request<EvalResult>(`${API_PREFIX}/documents/${documentId}/evaluation`),
+  /** Re-eval: regenerate the extracted-fields snapshot from the current DB doc
+   *  (no model calls / credits), then re-score so the card reflects this run. */
+  refreshEvaluation: (documentId: string) =>
+    request<EvalResult>(`${API_PREFIX}/documents/${documentId}/evaluation/refresh`, {
+      method: "POST",
+    }),
   patchField: (fieldId: string, body: CorrectionInput) =>
     request<Field>(`${API_PREFIX}/fields/${fieldId}`, {
       method: "PATCH",

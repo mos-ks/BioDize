@@ -31,6 +31,7 @@ evaluator/autopatch_report.json
 evaluator/autopatch_last_crop.png
 
 # Root generated files
+results/extracted_fields.live.json
 crops/
 *.csv
 *.xlsx

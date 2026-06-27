@@ -4,12 +4,12 @@
 // ErrorBlock atoms and the useApi fetch-on-mount hook (its reload() powers the
 // "Eval now" re-run affordance).
 
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { RefreshCw, ScanSearch, Sparkles, X } from "lucide-react";
 import { api } from "../../api/client";
-import type { EvalAggregate, EvalPage } from "../../api/types";
+import type { EvalAggregate, EvalPage, EvalResult } from "../../api/types";
 import { ErrorBlock, LoadingBlock } from "../../components/atoms";
-import { classNames, useApi } from "../../lib/ui";
+import { classNames } from "../../lib/ui";
 import PageBoxesModal from "./PageBoxesModal";
 
 // Bucketed tone for an accuracy ratio (0..1): >=0.9 emerald, >=0.7 amber, else
@@ -167,8 +167,36 @@ export default function EvalModal({
   documentId: string;
   onClose: () => void;
 }) {
-  const { data, loading, error, reload } = useApi(() => api.getEvaluation(documentId), [documentId]);
+  const [data, setData] = useState<EvalResult | null>(null);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
   const [openPage, setOpenPage] = useState<number | null>(null);
+
+  // "score" re-reads whatever snapshot the server already has; "refresh" first
+  // regenerates that snapshot from THIS document's live DB rows (no model calls /
+  // credits) so the scorecard reflects the current pipeline run, then re-scores.
+  const run = useCallback(
+    async (mode: "score" | "refresh") => {
+      setLoading(true);
+      setError(null);
+      try {
+        const res =
+          mode === "refresh"
+            ? await api.refreshEvaluation(documentId)
+            : await api.getEvaluation(documentId);
+        setData(res);
+      } catch (e: any) {
+        setError(e?.message ?? "Evaluation failed");
+      } finally {
+        setLoading(false);
+      }
+    },
+    [documentId],
+  );
+
+  useEffect(() => {
+    run("score");
+  }, [run]);
 
   // Close on Escape; lock body scroll while open. When the page-scan viewer is
   // open, Escape closes that first (not the whole scorecard).
@@ -209,17 +237,24 @@ export default function EvalModal({
                 Scored against{" "}
                 <span className="font-semibold tabular-nums text-slate-700">{data.gold_pages}</span>{" "}
                 gold {data.gold_pages === 1 ? "page" : "pages"}.
+                {data.source === "extracted_fields.live.json" ? (
+                  <span className="ml-1 font-medium text-emerald-600">Reflecting this run.</span>
+                ) : data.source === "extracted_fields.json" ? (
+                  <span className="ml-1 text-slate-400">
+                    Baseline snapshot — hit Re-eval to score this run.
+                  </span>
+                ) : null}
               </p>
             )}
           </div>
           <div className="flex shrink-0 items-center gap-1.5">
             <button
               type="button"
-              onClick={reload}
+              onClick={() => run("refresh")}
               disabled={loading}
               className="btn-secondary"
-              title="Eval now — run an updated evaluation"
-              aria-label="Eval now"
+              title="Re-eval — regenerate extracted fields from this run, then re-score"
+              aria-label="Re-eval"
             >
               <RefreshCw className={classNames("h-4 w-4", loading && "animate-spin")} />
             </button>
@@ -240,7 +275,7 @@ export default function EvalModal({
           {loading ? (
             <LoadingBlock label="Evaluating…" />
           ) : error ? (
-            <ErrorBlock message={error} onRetry={reload} />
+            <ErrorBlock message={error} onRetry={() => run("score")} />
           ) : data ? (
             <Scorecard aggregate={data.aggregate} pages={data.pages} onOpenPage={setOpenPage} />
           ) : null}

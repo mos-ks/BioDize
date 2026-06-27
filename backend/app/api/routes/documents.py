@@ -21,6 +21,12 @@ router = APIRouter(prefix="/documents", tags=["documents"])
 
 # repo-root/ground_truth (backend/app/api/routes/documents.py -> repo root is parents[4])
 _GOLD_DIR = Path(__file__).resolve().parents[4] / "ground_truth"
+_RESULTS_DIR = _GOLD_DIR.parent / "results"
+# Committed baseline snapshot (frozen) vs. the live snapshot the "Re-eval" button
+# regenerates from the current DB doc. GET prefers live when present so the
+# scorecard reflects the latest pipeline run; the baseline is the fallback.
+_BASE_JSON = _RESULTS_DIR / "extracted_fields.json"
+_LIVE_JSON = _RESULTS_DIR / "extracted_fields.live.json"
 
 
 @router.post("", response_model=dict)
@@ -141,30 +147,57 @@ def delete_document(document_id: str, db: Session = Depends(get_db)) -> dict:
     return {"deleted": document_id}
 
 
+def _score_against_gold(doc: models.Document, db: Session, snapshot: Path | None) -> dict:
+    """Score one document against the gold set. Uses ``snapshot`` (a results JSON)
+    when given — re-running validators over it — else rebuilds from stored rows."""
+    from app.evaluation.scorer import score_ground_truth
+    if snapshot is not None and snapshot.exists():
+        from app.evaluation.results_loader import document_from_results
+        pdoc = document_from_results(snapshot)
+        source = snapshot.name
+    else:
+        pdoc = _rebuild_document(doc, db)
+        source = "db"
+    report = score_ground_truth(pdoc, _GOLD_DIR)
+    result = report.as_dict()
+    result["document_id"] = doc.id
+    result["gold_pages"] = len(result.get("pages", []))
+    result["source"] = source
+    return result
+
+
 @router.get("/{document_id}/evaluation", response_model=dict)
 def evaluate_document(document_id: str, db: Session = Depends(get_db)) -> dict:
     """Score the pipeline output against the ground-truth gold set.
 
-    Prefers re-evaluating from the committed extracted_fields.json (fresh rules,
-    correct year-corrected values) over the potentially stale DB flags.  Falls
-    back to _rebuild_document when the JSON is not present.
+    Prefers the live snapshot the "Re-eval" button regenerates, then the committed
+    baseline, then a rebuild from the stored DB rows.
     """
     doc = db.get(models.Document, document_id)
     if not doc:
         raise HTTPException(404, "document not found")
     if not _GOLD_DIR.exists():
         raise HTTPException(404, "ground_truth/ not found on the server")
-    from app.evaluation.scorer import score_ground_truth
-    _RESULTS_JSON = _GOLD_DIR.parent / "results" / "extracted_fields.json"
-    if _RESULTS_JSON.exists():
-        from app.evaluation.results_loader import document_from_results
-        pdoc = document_from_results(_RESULTS_JSON)
-    else:
-        pdoc = _rebuild_document(doc, db)
-    report = score_ground_truth(pdoc, _GOLD_DIR)
-    result = report.as_dict()
-    result["document_id"] = doc.id
-    result["gold_pages"] = len(result.get("pages", []))
+    snapshot = _LIVE_JSON if _LIVE_JSON.exists() else (_BASE_JSON if _BASE_JSON.exists() else None)
+    return _score_against_gold(doc, db, snapshot)
+
+
+@router.post("/{document_id}/evaluation/refresh", response_model=dict)
+def refresh_evaluation(document_id: str, db: Session = Depends(get_db)) -> dict:
+    """Re-eval: regenerate the extracted-fields snapshot from THIS document's current
+    DB rows (no model calls, no credits), then re-score it against gold. This is what
+    makes the scorecard reflect the latest pipeline run instead of the frozen baseline.
+    """
+    doc = db.get(models.Document, document_id)
+    if not doc:
+        raise HTTPException(404, "document not found")
+    if not _GOLD_DIR.exists():
+        raise HTTPException(404, "ground_truth/ not found on the server")
+    from app.evaluation.results_dump import write_results
+    n_fields = write_results(doc, db, _LIVE_JSON)
+    result = _score_against_gold(doc, db, _LIVE_JSON)
+    result["refreshed"] = True
+    result["n_fields"] = n_fields
     return result
 
 

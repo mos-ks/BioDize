@@ -12,12 +12,18 @@ import base64
 import json
 import logging
 import os
+import random
 import re
+import time
 from concurrent.futures import ThreadPoolExecutor, as_completed
 
 from app.core.config import settings
 from app.pipeline.ingest import PageImage, render_pdf
 from app.pipeline.model import Block, Document, Field, Read
+
+# Retry budget per VLM call (1 try + 3 retries). Absorbs transient 429/5xx that the
+# 10-worker fan-out provokes, so a throttled page is retried, never silently dropped.
+_MAX_ATTEMPTS = 4
 
 # doc-meta / boilerplate labels to drop (headers, footers, legends) — not data fields
 _NOISE = re.compile(
@@ -172,12 +178,32 @@ class VlmExhaustiveExtractor:
         doc.blocks = [blocks_by_page[pno] for pno in sorted(blocks_by_page)]
         return doc
 
+    def _completion(self, **kwargs):
+        """OpenAI chat completion with exponential backoff. Running PIPELINE_WORKERS
+        pages concurrently invites transient 429 rate-limits / 5xx; without retries a
+        single throttled response silently dropped that whole page to zero fields
+        (extract() swallows the exception). Retry-with-jitter instead of losing it."""
+        last: Exception | None = None
+        for attempt in range(_MAX_ATTEMPTS):
+            try:
+                return self._client.chat.completions.create(**kwargs)
+            except Exception as exc:  # RateLimitError / APITimeoutError / APIError / 5xx
+                last = exc
+                if attempt == _MAX_ATTEMPTS - 1:
+                    break
+                delay = min(2 ** attempt, 20) + random.uniform(0, 0.75)
+                logging.getLogger(__name__).warning(
+                    "VLM completion attempt %d/%d failed (%s); retrying in %.1fs",
+                    attempt + 1, _MAX_ATTEMPTS, exc, delay)
+                time.sleep(delay)
+        raise last  # type: ignore[misc]
+
     def _fetch_identity(self, image_path: str) -> dict:
         """Fetch doc identity from cover page. Returns raw dict; safe to call from a thread."""
         try:
             with open(image_path, "rb") as fh:
                 b64 = base64.b64encode(fh.read()).decode()
-            resp = self._client.chat.completions.create(
+            resp = self._completion(
                 model=self._model,
                 response_format={"type": "json_schema", "json_schema": _META_SCHEMA},
                 messages=[{"role": "user", "content": [
@@ -203,7 +229,7 @@ class VlmExhaustiveExtractor:
     def _read_page(self, image_path: str) -> list[dict]:
         with open(image_path, "rb") as fh:
             b64 = base64.b64encode(fh.read()).decode()
-        resp = self._client.chat.completions.create(
+        resp = self._completion(
             model=self._model,
             response_format={"type": "json_schema", "json_schema": _SCHEMA},
             messages=[{"role": "user", "content": [
