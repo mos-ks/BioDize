@@ -241,6 +241,9 @@ def _label_option(gold_label: str) -> str | None:
     """Extract the option value from a checkbox label like 'GMP-Bereich: 931'.
     Returns '931', or None if no option found."""
     raw = re.sub(r"\s*\(zeile\s+\d+\)\s*$", "", (gold_label or "").strip(), flags=re.I)
+    # Drop parenthetical hints ('(Soll: Pre)', '(GMP)', '(GPDSF)') — they are targets /
+    # category tags, NOT the checked option, and must never be mistaken for one.
+    raw = re.sub(r"\s*\([^)]*\)", "", raw).strip()
     m = re.search(r"(?:\:|—|–|-)\s*(ja|nein\b.*|kein einsatz)\s*$", raw, re.I)
     if not m:
         m = re.search(r":\s*([^:—–-]+)\s*$", raw, re.I)
@@ -465,6 +468,14 @@ def score_ground_truth(doc: Any, gold_dir: Path) -> EvalReport:
                 unused = [f for f in candidates if id(f) not in used_ordered_matches]
                 if unused:
                     candidates = unused
+            if gf.kind == "checkbox" and gf.value and len(candidates) > 1:
+                # A checkbox group is split per option in BOTH gold and extraction
+                # (e.g. GMP "294/869/931/…" plus a separate "Ja"). Prefer the sibling
+                # whose value captures THIS gold option, so we compare like-for-like
+                # instead of letting label-length proximity pick the wrong row.
+                val_hits = [f for f in candidates if _value_matches(gf.value, f.value_raw)]
+                if val_hits:
+                    candidates = val_hits
             if len(candidates) > 1:
                 # Prefer the candidate whose normalized label is closest to gold
                 candidates.sort(key=lambda f: _label_score(gf.label, f.label_raw))
@@ -496,7 +507,6 @@ def score_ground_truth(doc: Any, gold_dir: Path) -> EvalReport:
 
             elif gf.kind == "checkbox" and gf.checkbox_state:
                 gold_checked = (gf.checkbox_state == "checked")
-                pv = (pf.value_raw or "").strip().lower()
                 # If the gold label has an option suffix (e.g. "GMP: 931"),
                 # check whether that option value appears in the extracted value.
                 # This handles the case where extraction stores ONE field per group
@@ -506,8 +516,18 @@ def score_ground_truth(doc: Any, gold_dir: Path) -> EvalReport:
                     # Checkbox is "checked" only if this specific option value
                     # is present in the extracted field's value.
                     pipe_checked = _checkbox_checked_for_option(option, pf.value_raw or "")
+                elif gold_checked:
+                    # No label option: the gold VALUE *is* the selected option
+                    # (Ja / Nein / Kein Einsatz / …). We're correct when we captured
+                    # that SAME option — "Nein"/"Kein Einsatz" are valid *selected*
+                    # options, not "unchecked". (Empty gold value → plain truthiness.)
+                    pipe_checked = (
+                        _value_matches(gf.value, pf.value_raw) if gf.value
+                        else _checkbox_truthy(pf.value_raw or "")
+                    )
                 else:
-                    # No specific option: truthy = checked
+                    # Gold is explicitly unchecked/blank: correct iff we also read
+                    # nothing selected (a stray "Ja" here is a genuine misread).
                     pipe_checked = _checkbox_truthy(pf.value_raw or "")
                 if pipe_checked == gold_checked: pr.cb_correct += 1
                 else:                            pr.cb_wrong   += 1
