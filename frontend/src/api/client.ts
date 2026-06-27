@@ -20,7 +20,7 @@ const LS_KEY = "biodize_api_base";
 
 const DEFAULT_API_BASE =
   (import.meta.env.VITE_API_BASE && import.meta.env.VITE_API_BASE.trim()) ||
-  "https://interfaces-offices-listings-whenever.trycloudflare.com";
+  "https://counted-attending-stephanie-senate.trycloudflare.com";
 
 function clean(base: string): string {
   return base.trim().replace(/\/+$/, "");
