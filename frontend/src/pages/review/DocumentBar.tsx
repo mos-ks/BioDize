@@ -51,7 +51,7 @@ export default function DocumentBar({ doc }: { doc: DocumentSummary }) {
         <Link to={`/documents/${doc.id}/stats`} className="btn-secondary">
           <BarChart3 className="h-4 w-4" /> Stats
         </Link>
-        <a href={api.exportUrl(doc.id)} download className="btn-primary">
+        <a href={api.exportUrl(doc.id)} download className="btn-accent">
           <FileSpreadsheet className="h-4 w-4" /> Export .xlsx
         </a>
       </div>

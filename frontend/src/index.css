@@ -62,6 +62,9 @@ body {
   .btn-ghost {
     @apply btn text-slate-600 hover:bg-slate-100;
   }
+  .btn-accent {
+    @apply btn bg-accent-500 text-slate-900 hover:bg-accent-400 focus-visible:ring-accent-500/50;
+  }
   .input {
     @apply w-full rounded-lg border border-slate-300 bg-white px-3 py-2 text-sm text-slate-800
       placeholder:text-slate-400 focus:border-brand-500 focus:outline-none focus:ring-2

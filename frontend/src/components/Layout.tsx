@@ -29,8 +29,8 @@ function Brand() {
             <path d="M13 9.5 V16.5 M21 13 a3.5 3.5 0 0 0 -3.5 -3.5 H13 v7 h4.5 A3.5 3.5 0 0 0 21 13 Z"
                   fill="currentColor" fillOpacity={0.35} stroke="none" />
           </g>
-          {/* rising analytics line */}
-          <polyline points="16 25 20 20 23.5 22.5 28 15.5" />
+          {/* rising analytics line — Rentschler yellow accent */}
+          <polyline points="16 25 20 20 23.5 22.5 28 15.5" stroke="#FFD700" />
         </svg>
       </span>
       <div className="leading-tight">
