@@ -149,38 +149,47 @@ def auto_update() -> None:
         print(f"    + {line}")
     print()
 
-    # Lokale ungespeicherte Änderungen prüfen.
-    # Nur *verfolgte* geänderte Dateien blockieren den Pull (kein "??").
-    # .env, .db, __pycache__, results/ sind immer harmlos.
+    # Classify local changes: reset safe ones, block on risky ones.
+    # "Safe" = generated/runtime files whose upstream version should always win.
+    # "Risky" = hand-edited source files that could have real conflicts.
     _IGNORE_SUFFIXES = (".env", ".db", ".pyc")
-    _IGNORE_PARTS    = {"__pycache__", "results", ".venv", "node_modules", "var"}
+    _IGNORE_PARTS    = {"__pycache__", "results", "ground_truth", "crops",
+                        ".venv", "node_modules", "var", "evaluator"}
     _, dirty = _git("status", "--porcelain")
+    to_reset   = []   # safe files to reset so pull can overwrite them
     local_edits = set()
     for ln in dirty.splitlines():
         if len(ln) < 4:
             continue
         xy, path = ln[:2], ln[3:].strip()
-        # "??" = untracked -> kein Problem für pull
         if xy.strip() == "??":
-            continue
-        if any(path.endswith(s) for s in _IGNORE_SUFFIXES):
-            continue
-        if any(part in path.split("/") for part in _IGNORE_PARTS):
-            continue
-        local_edits.add(path)
+            continue   # untracked -- pull never touches these
+        is_safe = (any(path.endswith(s) for s in _IGNORE_SUFFIXES) or
+                   any(part in path.split("/") for part in _IGNORE_PARTS))
+        if is_safe:
+            to_reset.append(path)  # reset before pull so git doesn't refuse
+        else:
+            local_edits.add(path)
+
     if local_edits:
         warn(
-            "Lokale Änderungen vorhanden - git pull wird übersprungen um Datenverlust zu vermeiden:\n"
+            "Local changes found -- skipping pull to avoid data loss:\n"
             + "".join(f"    {f}\n" for f in sorted(local_edits))
-            + "  Führe 'git stash' aus um sie temporär zu sichern."
+            + "  Run 'git stash' to save them temporarily."
         )
         return
 
-    # Pull durchführen
-    info(f"Führe git pull origin {branch} aus ...")
+    # Reset generated/runtime files so the incoming commits can overwrite them
+    if to_reset:
+        for p in to_reset:
+            _git("checkout", "--", p)
+        info(f"Reset {len(to_reset)} generated file(s) before pull.")
+
+    # Pull
+    info(f"Running git pull origin {branch} ...")
     rc, out = _git("pull", "--ff-only", "origin", branch)
     if rc != 0:
-        warn(f"git pull fehlgeschlagen - starte mit lokaler Version.\n  {out}")
+        warn(f"git pull failed -- running with local version.\n  {out}")
         return
 
     info(f"Update erfolgreich. ({local_sha[:7]} -> {remote_sha[:7]})")
