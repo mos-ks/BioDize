@@ -104,12 +104,11 @@ class VlmExhaustiveExtractor:
             return None
         kind = raw.get("kind")
         if kind == "selection":
-            options = raw.get("options") or []
             selected = [s for s in (raw.get("selected") or []) if s.strip()]
             value = ", ".join(selected)             # the checked option(s); '' if none
-            # Only a genuine multi-option decision is "answerable" (missing-checkmark
-            # eligible); a lone Ja confirmation left blank isn't a violation (eval FP).
-            vtype = "checkbox" if len(options) >= 2 else None
+            # An empty checkbox/selection is a missing answer — a lone mandatory "Ja"
+            # left unchecked is a violation (there is no other option to pick).
+            vtype = "checkbox"
         else:
             value = (raw.get("value") or "").strip()
             vtype = None

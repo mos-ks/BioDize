@@ -138,6 +138,10 @@ def parse_soll(soll: str | None) -> dict | None:
     """
     if not soll:
         return None
+    # Cross-references ("Siehe Kapitel 5.12.3") are not a spec — don't mine their
+    # chapter numbers as a Soll target.
+    if re.search(r"\b(siehe|kapitel)\b", soll, re.I):
+        return None
     s = soll.replace("≤", "<=").replace("≥", ">=")
     s = s.replace("–", "-").replace("—", "-").strip()      # en/em dash -> hyphen
     nums = [_num(t) for t in _NUM_TOKEN.findall(s) if _num(t) is not None]

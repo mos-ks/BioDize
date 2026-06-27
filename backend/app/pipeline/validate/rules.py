@@ -320,6 +320,14 @@ def rule_dates_document(doc: Document, ref: date | None) -> None:
     for f in doc.all_fields():
         if f.role not in _BATCH_DATE_ROLES:
             continue
+        # GxP: never silently hide a year the auto-corrector rewrote — surface the
+        # RAW recorded year (e.g. 2028/2016) so a human verifies the original.
+        rawm = re.search(r"\b\d{1,2}\.\d{1,2}\.(\d{4})\b", f.value_raw or "")
+        if rawm and int(rawm.group(1)) != ref.year:
+            f.add_flag(_warn(Category.TEMPORAL, "DATE_YEAR_SUSPECT",
+                             f"recorded year {rawm.group(1)} != batch year {ref.year} "
+                             f"(auto-corrected to {ref.year}); verify the original",
+                             expected=str(ref.year), actual=rawm.group(1)))
         d = _field_date(f)
         if d is None:
             continue
