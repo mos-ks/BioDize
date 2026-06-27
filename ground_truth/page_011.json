@@ -70,9 +70,9 @@
       "label": "Haltetemperatur (Soll: 2 - 8°C) - Ja",
       "kind": "checkbox",
       "value": "",
-      "checkbox_state": "checked",
+      "checkbox_state": "unchecked",
       "signature_status": null,
-      "is_blank": false
+      "is_blank": true
     },
     {
       "label": "Erlaubte Haltezeit (Datum)",
@@ -101,7 +101,7 @@
     {
       "label": "Geprüft: (Datum/Kürzel)",
       "kind": "signature",
-      "value": "10.06.2026 / hau",
+      "value": "10.06.2026 / han",
       "checkbox_state": null,
       "signature_status": "signed",
       "is_blank": false
@@ -111,12 +111,13 @@
     {
       "rule": "CALC_ERROR",
       "field": "V Netto (V = m / ρ; ρ = 1,100 kg/L)",
-      "explanation": "V = m_netto / rho = 200 / 1.100 = 181.8 L, but 220 was recorded"
+      "explanation": "V = m_netto / rho = 200 / 1.100 = 181.8 L, but 220 was recorded. Source: Solution example.xlsx — marked 'Suspect / Value does not fit calculation'."
     },
     {
       "rule": "MISSING_CHECKMARK",
       "field": "Haltetemperatur (Soll: 2 - 8°C) - Ja",
-      "explanation": "Required checkmark not marked in the document"
+      "explanation": "Checkbox not marked. Source: Solution example.xlsx — marked 'Suspect / unexpected value', condition Not checked."
     }
-  ]
+  ],
+  "source": "Excel Solution example.xlsx cross-checked (2026-06-27)"
 }

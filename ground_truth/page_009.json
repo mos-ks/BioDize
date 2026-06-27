@@ -37,7 +37,7 @@
     {
       "label": "Bearbeitet: (Datum/Kürzel)",
       "kind": "signature",
-      "value": "10.06.2026 / ohp",
+      "value": "10.06.2026 / ohe",
       "checkbox_state": null,
       "signature_status": "signed",
       "is_blank": false
@@ -45,7 +45,7 @@
     {
       "label": "Geprüft: (Datum/Kürzel)",
       "kind": "signature",
-      "value": "10.06.2026 / ohp",
+      "value": "10.06.2026 / ohe",
       "checkbox_state": null,
       "signature_status": "signed",
       "is_blank": false
@@ -55,7 +55,7 @@
     {
       "rule": "4EYES_DISTINCT",
       "field": "Bearbeitet / Geprüft (Datum/Kürzel)",
-      "explanation": "Both Bearbeitet and Geprüft are signed with the same Kürzel (ohp) and same date 10.06.2026, so the same person performed and checked the work, violating four-eyes distinctness."
+      "explanation": "Both Bearbeitet and Geprüft are signed with the same Kürzel (ohe) and same date 10.06.2026, so the same person performed and checked the work, violating four-eyes distinctness. Source: Solution example.xlsx, Prozessvorbereitung > Line Clearance."
     }
   ],
   "source": "per-page vision agents (image-grounded, aligned to pipeline schema)"
