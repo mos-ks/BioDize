@@ -222,8 +222,17 @@ export function Stat({
 export function FieldFlagSummary({ field }: { field: Field }) {
   const worst = worstSeverity(field.flags);
   if (!worst) {
-    return (
-      <span className="chip bg-brand-50 text-brand-700 ring-1 ring-inset ring-brand-200">clean</span>
+    // No issue found: distinguish a value that's within margin from a field we
+    // simply have no data for (blank) and couldn't assess.
+    const blank = !`${field.value ?? field.value_raw ?? ""}`.trim();
+    return blank ? (
+      <span className="chip bg-slate-100 text-slate-500 ring-1 ring-inset ring-slate-200">
+        unknown · no data
+      </span>
+    ) : (
+      <span className="chip bg-emerald-50 text-emerald-700 ring-1 ring-inset ring-emerald-200">
+        within margin
+      </span>
     );
   }
   const topByWorst = field.flags.filter((f) => f.severity === worst);
