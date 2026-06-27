@@ -59,12 +59,19 @@ export default function DocumentBar({ doc }: { doc: DocumentSummary }) {
           <CountPill tone="neutral" count={doc.n_needs_review} label="to review" />
         </div>
         <div className="mx-1 hidden h-6 w-px bg-slate-200 lg:block" />
-        <Link to={`/documents/${doc.id}/stats`} className="btn-secondary">
-          <BarChart3 className="h-4 w-4" /> Stats
+        <Link to={`/documents/${doc.id}/stats`} className="btn-secondary" title="Stats" aria-label="Stats">
+          <BarChart3 className="h-4 w-4" />
         </Link>
         <div className="relative">
-          <button type="button" onClick={() => setDlOpen((v) => !v)} className="btn-accent" aria-expanded={dlOpen}>
-            <Download className="h-4 w-4" /> Download <ChevronDown className="h-3.5 w-3.5" />
+          <button
+            type="button"
+            onClick={() => setDlOpen((v) => !v)}
+            className="btn-accent"
+            aria-expanded={dlOpen}
+            title="Download"
+            aria-label="Download"
+          >
+            <Download className="h-4 w-4" /> <ChevronDown className="h-3.5 w-3.5" />
           </button>
           {dlOpen && (
             <>

@@ -35,7 +35,10 @@ function MetricCard({ label, ratio }: { label: string; ratio: number | null }) {
 }
 
 function PageRow({ p }: { p: EvalPage }) {
-  const pass = p.fp.length === 0 && p.fn.length === 0;
+  // "PASS" only when rules AND the read values/checkboxes all match the gold —
+  // a page can have perfect rules yet misread a value, which still needs a look.
+  const misreads = p.value_wrong + p.cb_wrong;
+  const pass = p.fp.length === 0 && p.fn.length === 0 && misreads === 0;
   return (
     <div className="flex flex-wrap items-center gap-x-3 gap-y-1.5 border-t border-slate-100 px-4 py-2.5 first:border-t-0">
       <span className="w-16 shrink-0 text-sm font-semibold text-slate-700">Page {p.page}</span>
@@ -55,25 +58,38 @@ function PageRow({ p }: { p: EvalPage }) {
         rec <span className="font-semibold text-slate-700">{pctLabel(p.rule_recall)}</span>
       </span>
       {p.section && <span className="truncate text-xs text-slate-400">{p.section}</span>}
-      {(p.fp.length > 0 || p.fn.length > 0) && (
-        <div className="flex flex-wrap items-center gap-1">
-          {p.fp.map((code) => (
-            <span
-              key={`fp-${code}`}
-              className="chip bg-rose-50 text-rose-700 ring-1 ring-inset ring-rose-200"
-              title="False positive"
-            >
-              FP {code}
-            </span>
-          ))}
-          {p.fn.map((code) => (
-            <span
-              key={`fn-${code}`}
-              className="chip bg-amber-50 text-amber-700 ring-1 ring-inset ring-amber-200"
-              title="False negative"
-            >
-              FN {code}
-            </span>
+      <div className="flex flex-wrap items-center gap-1">
+        {p.fp.map((code) => (
+          <span key={`fp-${code}`} className="chip bg-rose-50 text-rose-700 ring-1 ring-inset ring-rose-200" title="False positive">
+            FP {code}
+          </span>
+        ))}
+        {p.fn.map((code) => (
+          <span key={`fn-${code}`} className="chip bg-amber-50 text-amber-700 ring-1 ring-inset ring-amber-200" title="False negative">
+            FN {code}
+          </span>
+        ))}
+        {p.value_wrong > 0 && (
+          <span className="chip bg-orange-50 text-orange-700 ring-1 ring-inset ring-orange-200" title="Handwriting read differently from the gold value">
+            {p.value_wrong} value misread{p.value_wrong > 1 ? "s" : ""}
+          </span>
+        )}
+        {p.cb_wrong > 0 && (
+          <span className="chip bg-orange-50 text-orange-700 ring-1 ring-inset ring-orange-200" title="Checkbox state read differently from the gold">
+            {p.cb_wrong} checkbox misread{p.cb_wrong > 1 ? "s" : ""}
+          </span>
+        )}
+      </div>
+      {/* The exact value differences (read vs correct) on this page. */}
+      {p.value_details?.length > 0 && (
+        <div className="mt-1 w-full space-y-0.5 pl-16">
+          {p.value_details.map((vd, i) => (
+            <div key={i} className="text-xs">
+              <span className="text-slate-400">{vd.label}: </span>
+              <span className="font-mono text-rose-600 line-through">{vd.pipeline || "∅"}</span>
+              <span className="mx-1 text-slate-300">→</span>
+              <span className="font-mono font-semibold text-emerald-700">{vd.gold || "∅"}</span>
+            </div>
           ))}
         </div>
       )}

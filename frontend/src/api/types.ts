@@ -171,6 +171,13 @@ export interface EvalAggregate {
   coverage: number | null;
 }
 
+/** One value the pipeline read differently from the gold transcription. */
+export interface ValueDiff {
+  label: string;
+  gold: string;
+  pipeline: string;
+}
+
 export interface EvalPage {
   page: number;
   section: string;
@@ -182,7 +189,7 @@ export interface EvalPage {
   fn: string[];
   value_correct: number;
   value_wrong: number;
-  value_details: unknown[];
+  value_details: ValueDiff[];
   cb_correct: number;
   cb_wrong: number;
   sig_correct: number;
