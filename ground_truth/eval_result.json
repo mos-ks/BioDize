@@ -1,15 +1,15 @@
 {
   "aggregate": {
     "tp": 6,
-    "fp": 1,
+    "fp": 0,
     "fn": 2,
-    "rule_precision": 0.8571428571428571,
+    "rule_precision": 1.0,
     "rule_recall": 0.75,
-    "rule_f1": 0.7999999999999999,
-    "value_acc": 0.696969696969697,
-    "checkbox_acc": 0.4583333333333333,
-    "signature_acc": 0.9090909090909091,
-    "coverage": 0.7247706422018348
+    "rule_f1": 0.8571428571428571,
+    "value_acc": 0.7727272727272727,
+    "checkbox_acc": 0.8235294117647058,
+    "signature_acc": 0.9166666666666666,
+    "coverage": 0.9357798165137615
   },
   "pages": [
     {
@@ -32,8 +32,8 @@
           "pipeline": "GMP / 931 / Ja"
         }
       ],
-      "cb_correct": 4,
-      "cb_wrong": 5,
+      "cb_correct": 9,
+      "cb_wrong": 0,
       "sig_correct": 2,
       "sig_wrong": 0,
       "covered": 12,
@@ -54,8 +54,8 @@
       "value_correct": 3,
       "value_wrong": 0,
       "value_details": [],
-      "cb_correct": 2,
-      "cb_wrong": 5,
+      "cb_correct": 7,
+      "cb_wrong": 0,
       "sig_correct": 4,
       "sig_wrong": 0,
       "covered": 14,
@@ -72,9 +72,14 @@
       "fn": [
         "CALC_ERROR"
       ],
-      "value_correct": 5,
-      "value_wrong": 4,
+      "value_correct": 4,
+      "value_wrong": 5,
       "value_details": [
+        {
+          "label": "V Netto (V = m / \u03c1; \u03c1 = 1,100 kg/L)",
+          "gold": "220",
+          "pipeline": "200"
+        },
         {
           "label": "Start Haltezeit (Datum)",
           "gold": "10.06.2026",
@@ -144,14 +149,9 @@
       "fn": [
         "RANGE_SOLL"
       ],
-      "value_correct": 5,
-      "value_wrong": 2,
+      "value_correct": 6,
+      "value_wrong": 1,
       "value_details": [
-        {
-          "label": "Dauer Homogenisieren nach Ende \u00dcberf\u00fchrung (Richtwert: \u2265 10 min)",
-          "gold": "12",
-          "pipeline": "10:12"
-        },
         {
           "label": "Neues Intermediat (B20-ST 9784___)",
           "gold": "B20-ST 9784697",
@@ -174,36 +174,34 @@
       "tp": [],
       "fp": [],
       "fn": [],
-      "value_correct": 0,
+      "value_correct": 5,
       "value_wrong": 0,
       "value_details": [],
-      "cb_correct": 0,
-      "cb_wrong": 0,
-      "sig_correct": 0,
+      "cb_correct": 7,
+      "cb_wrong": 3,
+      "sig_correct": 2,
       "sig_wrong": 0,
-      "covered": 0,
-      "missing": 17
+      "covered": 17,
+      "missing": 0
     },
     {
       "page": 25,
       "section": "5.9 Berechnung der Beladung \u2014 Herstellung von Kuchen",
-      "rule_precision": 0.0,
+      "rule_precision": 1.0,
       "rule_recall": 1.0,
-      "rule_f1": 0.0,
+      "rule_f1": 1.0,
       "tp": [],
-      "fp": [
-        "4EYES_DISTINCT"
-      ],
+      "fp": [],
       "fn": [],
-      "value_correct": 7,
+      "value_correct": 13,
       "value_wrong": 0,
       "value_details": [],
       "cb_correct": 1,
       "cb_wrong": 1,
       "sig_correct": 2,
       "sig_wrong": 0,
-      "covered": 11,
-      "missing": 9
+      "covered": 17,
+      "missing": 3
     },
     {
       "page": 31,

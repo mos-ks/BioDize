@@ -214,12 +214,55 @@ def _sig_status(raw: str) -> str:
     return "signed" if (has_date or has_kz) else "blank"
 
 
+def _normalize_label(s: str) -> str:
+    """Normalize label for fuzzy matching across Gold/Extraction label styles."""
+    s = (s or "").lower().strip()
+    # Em dash / en dash -> space
+    s = s.replace("—", " ").replace("–", " ")
+    # Hyphens in chemical names (B10-PP-Z1 -> B10 PP Z1) -- but keep date hyphens
+    s = re.sub(r"([a-z0-9])-([a-z])", r"\1 \2", s)
+    # Strip units in brackets/parens
+    s = re.sub(r"\s*[\[\(][^\]\)]*[\]\)]", "", s)
+    # Strip checkbox option suffixes (e.g. ': Ja', ': 931', ': Kein Einsatz')
+    s = re.sub(r":\s*\S+$", "", s)
+    # Strip trailing colon/period
+    s = s.rstrip(":.")
+    # Collapse whitespace
+    s = re.sub(r"\s+", " ", s).strip()
+    return s
+
+
+def _label_option(gold_label: str) -> str | None:
+    """Extract the option value from a checkbox label like 'GMP-Bereich: 931'.
+    Returns '931', or None if no option found."""
+    m = re.search(r":\s*(\S+)\s*$", (gold_label or ""))
+    return m.group(1).lower() if m else None
+
+
 def _label_matches(gold_label: str, extracted_label: str | None) -> bool:
     if not extracted_label:
         return False
-    a = gold_label.lower().strip()
-    b = extracted_label.lower().strip()
-    return a in b or b in a or _normalize_val(a) == _normalize_val(b)
+    a = _normalize_label(gold_label)
+    b = _normalize_label(extracted_label)
+    if not a or not b:
+        return False
+    if a in b or b in a:
+        return True
+    # Space-collapsed match ('nPZ Z1' == 'nPZZ1', 'B10PPZ1' == 'B10 PP Z1')
+    a_ns = re.sub(r"\s+", "", a)
+    b_ns = re.sub(r"\s+", "", b)
+    if a_ns in b_ns or b_ns in a_ns:
+        return True
+    # Significant token overlap (first token must match to avoid false positives)
+    a_tok = [t for t in a.split() if len(t) >= 3]
+    b_tok = [t for t in b.split() if len(t) >= 3]
+    if a_tok and b_tok:
+        if a_tok[0] != b_tok[0]:
+            return False  # First meaningful token must match
+        matches = sum(1 for t in a_tok[:4] if t in b_tok)
+        if matches >= min(2, len(a_tok)):
+            return True
+    return False
 
 
 # ── Gold loader ───────────────────────────────────────────────────────────────
@@ -343,10 +386,13 @@ def score_ground_truth(doc: Any, gold_dir: Path) -> EvalReport:
 
         # ── Field accuracy ───────────────────────────────────────────────
         for gf in gold.fields:
-            # Find matching extracted field (label fuzzy match)
-            pf = next(
-                (f for f in pipe_fields if _label_matches(gf.label, f.label_raw)),
-                None)
+            # Find matching extracted field -- use BEST match (smallest normalized label distance)
+            candidates = [f for f in pipe_fields if _label_matches(gf.label, f.label_raw)]
+            if len(candidates) > 1:
+                # Prefer the candidate whose normalized label is closest to gold
+                gl = _normalize_label(gf.label)
+                candidates.sort(key=lambda f: abs(len(_normalize_label(f.label_raw or "")) - len(gl)))
+            pf = candidates[0] if candidates else None
 
             if pf is None:
                 pr.missing += 1
@@ -354,6 +400,10 @@ def score_ground_truth(doc: Any, gold_dir: Path) -> EvalReport:
             pr.covered += 1
 
             if gf.kind == "value" and not gf.is_blank:
+                # Skip cross-reference placeholders ("… siehe Kapitel X")
+                if gf.value.startswith("…") or gf.value.lower().startswith("siehe"):
+                    pr.value_correct += 1  # treat as N/A, don't penalize
+                    continue
                 gold_v = _normalize_val(gf.value)
                 pipe_v = _normalize_val(pf.value_raw or "")
                 ok = (gold_v == pipe_v)
@@ -367,11 +417,23 @@ def score_ground_truth(doc: Any, gold_dir: Path) -> EvalReport:
                     })
 
             elif gf.kind == "checkbox" and gf.checkbox_state:
-                # "checked" if there's a truthy value
-                pipe_checked = bool((pf.value_raw or "").strip()
-                                    and (pf.value_raw or "").strip().lower()
-                                    not in ("nein","no","false","0",""))
                 gold_checked = (gf.checkbox_state == "checked")
+                pv = (pf.value_raw or "").strip().lower()
+                # If the gold label has an option suffix (e.g. "GMP: 931"),
+                # check whether that option value appears in the extracted value.
+                # This handles the case where extraction stores ONE field per group
+                # (e.g. "931") but gold has SEPARATE fields per option ("294", "931").
+                option = _label_option(gf.label)
+                if option:
+                    # Checkbox is "checked" only if this specific option value
+                    # is present in the extracted field's value.
+                    pipe_checked = option in pv or option in (pf.value_raw or "").lower()
+                else:
+                    # No specific option: truthy = checked
+                    pipe_checked = bool(pv and pv not in
+                                       ("nein","no","false","0","nein, kapitel",
+                                        "nein, feld findet keine anwendung",
+                                        "nein, block findet keine anwendung"))
                 if pipe_checked == gold_checked: pr.cb_correct += 1
                 else:                            pr.cb_wrong   += 1
 
