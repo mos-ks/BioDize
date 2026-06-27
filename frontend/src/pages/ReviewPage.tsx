@@ -15,9 +15,10 @@ import { ListChecks, PartyPopper, ScanLine, Sparkles, Table2 } from "lucide-reac
 import { api } from "../api/client";
 import type { DocumentSummary, Field } from "../api/types";
 import { classNames, useApi } from "../lib/ui";
-import { EmptyState, ErrorBlock, LoadingBlock } from "../components/atoms";
+import { ErrorBlock, LoadingBlock } from "../components/atoms";
 import DocumentBar from "./review/DocumentBar";
 import FieldDetail from "./review/FieldDetail";
+import FieldRow from "./review/FieldRow";
 import ExtractionList from "./review/ExtractionList";
 import PageGroupedQueue from "./review/PageGroupedQueue";
 
@@ -152,16 +153,19 @@ export default function ReviewPage() {
             ) : queue.length === 0 ? (
               <AllClear onBrowseAll={() => setTab("extraction")} onStats={() => navigate(`/documents/${documentId}/stats`)} />
             ) : (
-              <EmptyState
-                icon={<Sparkles className="h-8 w-8" />}
-                title="Pick a field to review"
-                hint="Select an item from the queue on the left to see its value, location on the page, and validation flags."
-                action={
-                  <button onClick={() => setSelectedId(queue[0].id)} className="btn-primary text-sm">
-                    Start with the first item
-                  </button>
-                }
-              />
+              // Nothing selected yet: scroll through ALL detections (errors → warnings →
+              // low-confidence) and click any to open its detail.
+              <div className="animate-fade-in space-y-2">
+                <div className="flex items-center justify-between gap-2">
+                  <h2 className="text-base font-semibold text-slate-800">All detections</h2>
+                  <span className="text-xs text-slate-400">
+                    {queue.length} to review · scroll &amp; click any
+                  </span>
+                </div>
+                {queue.map((f) => (
+                  <FieldRow key={f.id} field={f} active={false} onSelect={selectField} />
+                ))}
+              </div>
             )}
           </div>
         </section>
