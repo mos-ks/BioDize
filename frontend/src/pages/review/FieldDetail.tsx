@@ -193,53 +193,53 @@ export default function FieldDetail({
         </div>
       )}
 
-      <div className="grid grid-cols-1 gap-4 lg:grid-cols-[minmax(0,1fr)_320px]">
-        {/* c) Value block + reads */}
-        <div className="card order-2 space-y-4 p-4 lg:order-1">
-          <div>
+      <div className="grid grid-cols-1 items-start gap-4 lg:grid-cols-[minmax(0,1fr)_320px]">
+        {/* LEFT: value + validation, stacked so the column is filled (no dead space) */}
+        <div className="order-2 space-y-4 lg:order-1">
+          <div className="card flex flex-wrap items-baseline gap-x-3 gap-y-1 p-4">
             <SectionLabel>Extracted value</SectionLabel>
-            <div className="mt-1.5 flex items-baseline gap-2">
+            <div className="flex w-full items-baseline gap-2">
               <span className="font-mono text-3xl font-bold tabular-nums text-slate-900">
                 {field.value_raw?.trim() ? field.value_raw : fieldDisplayValue(field.value, field.value_raw)}
               </span>
               {field.unit && <span className="text-base font-medium text-slate-400">{field.unit}</span>}
+              {field.nks != null && (
+                <span className="ml-auto text-xs text-slate-400">
+                  {field.nks} dp
+                </span>
+              )}
             </div>
-            {field.nks != null && (
-              <div className="mt-2 text-xs text-slate-500">
-                decimals: <span className="font-mono tabular-nums text-slate-600">{field.nks}</span>
+          </div>
+
+          {/* Validation */}
+          <div>
+            <SectionLabel>
+              Validation {field.flags.length > 0 ? `· ${field.flags.length}` : ""}
+            </SectionLabel>
+            {field.flags.length === 0 ? (
+              <div className="mt-2 flex items-center gap-2 rounded-lg bg-brand-50/60 px-3 py-3 text-sm font-medium text-brand-700 ring-1 ring-inset ring-brand-200">
+                <ShieldCheck className="h-4 w-4" /> No validation issues on this field.
               </div>
+            ) : (
+              <ul className="mt-2 space-y-2">
+                {field.flags.map((f) => (
+                  <FlagRow key={f.id} flag={f} />
+                ))}
+              </ul>
             )}
           </div>
+
+          {/* Anomaly distribution — only when this value is a statistical outlier */}
+          {field.flags.some((fl) => fl.code === "STAT_OUTLIER") && (
+            <OutlierDistribution field={field} />
+          )}
         </div>
 
-        {/* b) Page viewer */}
-        <div className="card order-1 p-4 lg:order-2">
+        {/* RIGHT: page viewer, hugs its own content */}
+        <div className="card order-1 self-start p-4 lg:order-2">
           <PageViewer field={field} />
         </div>
       </div>
-
-      {/* d) Flags */}
-      <div>
-        <SectionLabel>
-          Validation {field.flags.length > 0 ? `· ${field.flags.length}` : ""}
-        </SectionLabel>
-        {field.flags.length === 0 ? (
-          <div className="mt-2 flex items-center gap-2 rounded-lg bg-brand-50/60 px-3 py-3 text-sm font-medium text-brand-700 ring-1 ring-inset ring-brand-200">
-            <ShieldCheck className="h-4 w-4" /> No validation issues on this field.
-          </div>
-        ) : (
-          <ul className="mt-2 space-y-2">
-            {field.flags.map((f) => (
-              <FlagRow key={f.id} flag={f} />
-            ))}
-          </ul>
-        )}
-      </div>
-
-      {/* d1b) Anomaly distribution — only when this value is a statistical outlier */}
-      {field.flags.some((fl) => fl.code === "STAT_OUTLIER") && (
-        <OutlierDistribution field={field} />
-      )}
 
       {/* d2) Pipeline trace — collapsible provenance/audit view */}
       <PipelineTrace field={field} />

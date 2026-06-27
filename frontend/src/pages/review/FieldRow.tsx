@@ -20,9 +20,9 @@ export default function FieldRow({
 }) {
   const Icon = roleIcon(field.role);
   const value = (field.value ?? field.value_raw ?? "").trim();
-  // When a field is blank but flagged, surface the issue type in place of the
-  // meaningless dash so the row tells you *why* it needs review.
-  const flag = value ? null : primaryFlag(field.flags);
+  // Surface the issue type (category + code) whenever a field is flagged —
+  // beside its value if it has one, or in place of the dash when it's blank.
+  const flag = primaryFlag(field.flags);
   return (
     <button
       type="button"
@@ -60,20 +60,23 @@ export default function FieldRow({
         </span>
       </div>
 
+      {value && (
+        <div className="mt-2 flex items-baseline gap-1.5">
+          <span className="truncate font-mono text-base font-semibold tabular-nums text-slate-900">
+            {value}
+          </span>
+          {field.unit && <span className="text-xs font-medium text-slate-400">{field.unit}</span>}
+        </div>
+      )}
       {flag ? (
-        <div className="mt-2 flex min-w-0 flex-wrap items-center gap-1.5">
+        <div className="mt-1.5 flex min-w-0 flex-wrap items-center gap-1.5">
           <CategoryChip category={flag.category} />
           <code className="chip bg-slate-50 font-mono text-[11px] text-slate-500 ring-1 ring-inset ring-slate-200">
             {flag.code}
           </code>
         </div>
       ) : (
-        <div className="mt-2 flex items-baseline gap-1.5">
-          <span className="truncate font-mono text-base font-semibold tabular-nums text-slate-900">
-            {value || "—"}
-          </span>
-          {field.unit && <span className="text-xs font-medium text-slate-400">{field.unit}</span>}
-        </div>
+        !value && <div className="mt-2 font-mono text-base font-semibold text-slate-300">—</div>
       )}
 
       <div className="mt-2.5 flex items-center gap-3">
