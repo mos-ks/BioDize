@@ -1,15 +1,15 @@
 {
   "aggregate": {
-    "tp": 6,
-    "fp": 1,
-    "fn": 6,
-    "rule_precision": 0.8571428571428571,
-    "rule_recall": 0.5,
-    "rule_f1": 0.631578947368421,
-    "value_acc": 0.8,
-    "checkbox_acc": 0.9565217391304348,
-    "signature_acc": 0.92,
-    "coverage": 0.9902912621359223
+    "tp": 13,
+    "fp": 2,
+    "fn": 0,
+    "rule_precision": 0.8666666666666667,
+    "rule_recall": 1.0,
+    "rule_f1": 0.9285714285714286,
+    "value_acc": 0.8723404255319149,
+    "checkbox_acc": 0.7391304347826086,
+    "signature_acc": 0.9615384615384616,
+    "coverage": 1.0
   },
   "pages": [
     {
@@ -26,8 +26,8 @@
       "value_correct": 0,
       "value_wrong": 0,
       "value_details": [],
-      "cb_correct": 3,
-      "cb_wrong": 1,
+      "cb_correct": 4,
+      "cb_wrong": 0,
       "sig_correct": 2,
       "sig_wrong": 0,
       "covered": 6,
@@ -54,8 +54,8 @@
           "pipeline": "59030 123"
         }
       ],
-      "cb_correct": 2,
-      "cb_wrong": 0,
+      "cb_correct": 1,
+      "cb_wrong": 1,
       "sig_correct": 4,
       "sig_wrong": 0,
       "covered": 9,
@@ -63,30 +63,25 @@
     },
     {
       "page": 11,
-      "section": "",
+      "section": "5.3 Verwendete Intermediate ABC-DE / 5.3.1 Bilanzierung \u2014 Herstellung von Kuchen",
       "rule_precision": 1.0,
-      "rule_recall": 0.0,
-      "rule_f1": 0.0,
-      "tp": [],
-      "fp": [],
-      "fn": [
+      "rule_recall": 1.0,
+      "rule_f1": 1.0,
+      "tp": [
+        "CALC_ERROR",
         "MISSING_CHECKMARK"
       ],
-      "value_correct": 7,
-      "value_wrong": 1,
-      "value_details": [
-        {
-          "label": "V Netto (V = m / rho, rho = 1,100 kg/L)",
-          "gold": "220",
-          "pipeline": "200"
-        }
-      ],
-      "cb_correct": 1,
-      "cb_wrong": 0,
-      "sig_correct": 1,
+      "fp": [],
+      "fn": [],
+      "value_correct": 10,
+      "value_wrong": 0,
+      "value_details": [],
+      "cb_correct": 0,
+      "cb_wrong": 1,
+      "sig_correct": 2,
       "sig_wrong": 0,
-      "covered": 11,
-      "missing": 1
+      "covered": 13,
+      "missing": 0
     },
     {
       "page": 14,
@@ -97,13 +92,19 @@
       "tp": [],
       "fp": [],
       "fn": [],
-      "value_correct": 2,
-      "value_wrong": 0,
-      "value_details": [],
-      "cb_correct": 1,
-      "cb_wrong": 0,
-      "sig_correct": 2,
-      "sig_wrong": 2,
+      "value_correct": 1,
+      "value_wrong": 1,
+      "value_details": [
+        {
+          "label": "Intermediat",
+          "gold": "678",
+          "pipeline": "B10-PP 67436 078"
+        }
+      ],
+      "cb_correct": 0,
+      "cb_wrong": 1,
+      "sig_correct": 3,
+      "sig_wrong": 1,
       "covered": 7,
       "missing": 0
     },
@@ -111,13 +112,13 @@
       "page": 17,
       "section": "",
       "rule_precision": 1.0,
-      "rule_recall": 0.0,
-      "rule_f1": 0.0,
-      "tp": [],
-      "fp": [],
-      "fn": [
+      "rule_recall": 1.0,
+      "rule_f1": 1.0,
+      "tp": [
         "RANGE_SOLL"
       ],
+      "fp": [],
+      "fn": [],
       "value_correct": 7,
       "value_wrong": 0,
       "value_details": [],
@@ -140,8 +141,8 @@
       "value_correct": 5,
       "value_wrong": 0,
       "value_details": [],
-      "cb_correct": 5,
-      "cb_wrong": 0,
+      "cb_correct": 3,
+      "cb_wrong": 2,
       "sig_correct": 2,
       "sig_wrong": 0,
       "covered": 12,
@@ -150,34 +151,23 @@
     {
       "page": 19,
       "section": "5.7.2 Bilanzierung",
-      "rule_precision": 0.0,
-      "rule_recall": 0.0,
-      "rule_f1": 0.0,
-      "tp": [],
-      "fp": [
-        "CALC_NET_MASS"
-      ],
-      "fn": [
+      "rule_precision": 0.75,
+      "rule_recall": 1.0,
+      "rule_f1": 0.8571428571428571,
+      "tp": [
         "CALC_FORMULA",
         "CALC_FORMULA",
         "MISSING_CHECKMARK"
       ],
-      "value_correct": 6,
-      "value_wrong": 2,
-      "value_details": [
-        {
-          "label": "V Netto vPz (V = m / \u03c1; \u03c1 = 1,81 kg/L)",
-          "gold": "543",
-          "pipeline": "300"
-        },
-        {
-          "label": "V Netto nPZ (V = m / \u03c1; \u03c1 = 1,81 kg/L)",
-          "gold": "715",
-          "pipeline": "395"
-        }
+      "fp": [
+        "CALC_NET_MASS"
       ],
-      "cb_correct": 6,
-      "cb_wrong": 0,
+      "fn": [],
+      "value_correct": 8,
+      "value_wrong": 0,
+      "value_details": [],
+      "cb_correct": 5,
+      "cb_wrong": 1,
       "sig_correct": 2,
       "sig_wrong": 0,
       "covered": 16,
@@ -187,40 +177,35 @@
       "page": 25,
       "section": "",
       "rule_precision": 1.0,
-      "rule_recall": 0.0,
-      "rule_f1": 0.0,
-      "tp": [],
-      "fp": [],
-      "fn": [
-        "CALC_ERROR"
+      "rule_recall": 1.0,
+      "rule_f1": 1.0,
+      "tp": [
+        "STAT_OUTLIER"
       ],
+      "fp": [],
+      "fn": [],
       "value_correct": 5,
       "value_wrong": 4,
       "value_details": [
         {
-          "label": "_extraction_fp",
-          "gold": "different signers",
-          "pipeline": "4EYES_DISTINCT[extraction_error]"
-        },
-        {
-          "label": "Produktmenge B10-PP Zyklus 1 - m B10-PP Netto nPZ Z1 [kg]",
-          "gold": "321",
-          "pipeline": "... siehe Kapitel 6.3.1"
-        },
-        {
           "label": "Produktmenge B10-PP Zyklus 1 - c B10-PP Z1 [g/L]",
           "gold": "4,35",
-          "pipeline": "... siehe Kapitel 6.3.1"
+          "pipeline": "1,31"
         },
         {
-          "label": "Produktmenge B10-PP Zyklus 2 - m B10-PP Netto nPZ Z2 [kg]",
-          "gold": "220",
-          "pipeline": "... siehe Kapitel 5.3.2"
+          "label": "Produktmenge B10-PP Zyklus 1 - m B10-PP Z1 [g] Ergebnis (0 NKS)",
+          "gold": "1065",
+          "pipeline": "4,35"
         },
         {
           "label": "Produktmenge B10-PP Zyklus 2 - c B10-PP Z2 [g/L]",
           "gold": "3,94",
-          "pipeline": "... siehe Kapitel 5.3.2"
+          "pipeline": "1,81"
+        },
+        {
+          "label": "Produktmenge B10-PP Zyklus 2 - m B10-PP Z2 [g] Ergebnis (0 NKS)",
+          "gold": "479",
+          "pipeline": "3,94"
         }
       ],
       "cb_correct": 1,
@@ -233,25 +218,21 @@
     {
       "page": 31,
       "section": "",
-      "rule_precision": 1.0,
+      "rule_precision": 0.75,
       "rule_recall": 1.0,
-      "rule_f1": 1.0,
+      "rule_f1": 0.8571428571428571,
       "tp": [
         "4EYES_DISTINCT",
         "SIG_INCOMPLETE",
         "SIG_INCOMPLETE"
       ],
-      "fp": [],
-      "fn": [],
-      "value_correct": 2,
-      "value_wrong": 1,
-      "value_details": [
-        {
-          "label": "Anzahl pro Charge (Zeile 2)",
-          "gold": "1",
-          "pipeline": "2"
-        }
+      "fp": [
+        "4EYES_ORDER"
       ],
+      "fn": [],
+      "value_correct": 3,
+      "value_wrong": 0,
+      "value_details": [],
       "cb_correct": 3,
       "cb_wrong": 0,
       "sig_correct": 6,
