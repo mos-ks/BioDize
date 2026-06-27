@@ -18,6 +18,8 @@ function Brand() {
   return (
     <Link to="/" className="flex items-center gap-2.5">
       {srcIdx < LOGO_SOURCES.length && (
+        // Mark is a navy→brand-blue gradient (no white), so it reads on the white
+        // header directly — no backdrop tile needed.
         <img
           src={LOGO_SOURCES[srcIdx]}
           alt="BioDize"
