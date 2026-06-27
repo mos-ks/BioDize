@@ -71,7 +71,7 @@ def _correct_year_in_str(s: str) -> str:
     return _DATE_RE.sub(_fix, s or "")
 
 
-_DATE_FLAGS = {"DATE_BEFORE_PRINT", "DATE_FAR_FUTURE"}
+_DATE_FLAGS = {"DATE_BEFORE_PRINT", "DATE_FAR_FUTURE", "4EYES_ORDER", "DATE_YEAR_SUSPECT"}
 
 
 def _apply_year_corrections(fields: list) -> list:
