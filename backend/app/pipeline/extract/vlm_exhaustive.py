@@ -78,6 +78,16 @@ _META_PROMPT = (
   "Projektcode, and Rev. Return '' for any field that is not present.")
 
 
+def _prettify_name(source_path: str | None) -> str:
+    """Human-readable fallback title from a filename — used only when the header
+    identity can't be read, so a document never shows as a raw 'foo_bar.pdf'."""
+    if not source_path:
+        return "Batch record"
+    stem = os.path.splitext(os.path.basename(source_path))[0]
+    stem = " ".join(stem.replace("_", " ").replace("-", " ").split())
+    return stem.title() if stem else "Batch record"
+
+
 class VlmExhaustiveExtractor:
     name = "vlm_exhaustive"
 
@@ -91,8 +101,8 @@ class VlmExhaustiveExtractor:
         if pages is None:
             pages = render_pdf(source_path).pages if source_path else []
         doc = Document(
-            doc_no=(os.path.basename(source_path) if source_path else "document") + " [ensemble]",
-            title=os.path.basename(source_path) if source_path else "document",
+            doc_no="Batch record",
+            title=_prettify_name(source_path),
             page_count=len(pages), source_path=source_path)
 
         # Name the experiment by its extracted identity (product + batch), not the

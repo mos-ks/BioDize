@@ -40,7 +40,13 @@ def process_document(
     """Run the full pipeline. With EXTRACTOR=stub, source_path is ignored.
     Otherwise, defaults to the bundled sample scan when source_path is omitted.
     Pass max_pages=N for a cheap first run (limits model calls)."""
-    if settings.extractor != "stub" and not source_path:
+    if settings.extractor == "stub":
+        # Offline demo: the stub can't read an uploaded PDF, so rotate through the
+        # canonical sample + simulated batches regardless of what was uploaded. Each
+        # process call yields the next distinct record.
+        from app.pipeline.extract.stub import ROTATE_SAMPLE
+        source_path = ROTATE_SAMPLE
+    elif not source_path:
         if os.path.exists(settings.sample_pdf_path):
             source_path = settings.sample_pdf_path
         else:
