@@ -15,6 +15,7 @@ import FieldRow from "./FieldRow";
 
 type PageGroup = {
   page: number;
+  all: Field[];
   flagged: Field[];
   nErr: number;
   nWarn: number;
@@ -60,7 +61,7 @@ export default function PageGroupedQueue({
             (active.size === 0 || f.flags.some((fl) => active.has(fl.category))),
         );
         const nErr = flagged.filter((f) => f.flags.some((fl) => fl.severity === "error")).length;
-        return { page, flagged, nErr, nWarn: flagged.length - nErr };
+        return { page, all: fs, flagged, nErr, nWarn: flagged.length - nErr };
       });
   }, [fields, active]);
 
@@ -142,20 +143,18 @@ export default function PageGroupedQueue({
       ) : (
         visible.map((g) => {
           const clean = g.flagged.length === 0;
-          const open = clean ? false : expanded[g.page] ?? g.nErr > 0;
+          const open = expanded[g.page] ?? (clean ? false : g.nErr > 0);
+          // Clean pages expand to ALL their fields so a reviewer can quickly
+          // eyeball the whole page against the scan; errored pages show the flags.
+          const rows = clean ? g.all : g.flagged;
           return (
             <div key={g.page} className="overflow-hidden rounded-xl border border-slate-200 bg-white shadow-card">
               <button
                 type="button"
-                onClick={() => !clean && setExpanded((e) => ({ ...e, [g.page]: !open }))}
-                className={classNames(
-                  "flex w-full items-center gap-2 px-3 py-2.5 text-left transition-colors",
-                  clean ? "cursor-default" : "hover:bg-slate-50",
-                )}
+                onClick={() => setExpanded((e) => ({ ...e, [g.page]: !open }))}
+                className="flex w-full items-center gap-2 px-3 py-2.5 text-left transition-colors hover:bg-slate-50"
               >
-                {clean ? (
-                  <CheckCircle2 className="h-4 w-4 shrink-0 text-emerald-500" />
-                ) : open ? (
+                {open ? (
                   <ChevronDown className="h-4 w-4 shrink-0 text-slate-400" />
                 ) : (
                   <ChevronRight className="h-4 w-4 shrink-0 text-slate-400" />
@@ -163,7 +162,9 @@ export default function PageGroupedQueue({
                 <span className="text-sm font-semibold text-slate-700">Page {g.page}</span>
                 <span className="ml-auto flex items-center gap-1.5">
                   {clean ? (
-                    <span className="text-xs font-medium text-emerald-600">clean</span>
+                    <span className="flex items-center gap-1 text-xs font-medium text-emerald-600">
+                      <CheckCircle2 className="h-3.5 w-3.5" /> clean · {g.all.length} field{g.all.length !== 1 ? "s" : ""}
+                    </span>
                   ) : (
                     <>
                       {g.nErr > 0 && (
@@ -180,9 +181,14 @@ export default function PageGroupedQueue({
                   )}
                 </span>
               </button>
-              {open && !clean && (
+              {open && (
                 <div className="space-y-1.5 border-t border-slate-100 p-2">
-                  {g.flagged.map((f) => (
+                  {clean && (
+                    <p className="px-1 pb-0.5 text-[11px] text-slate-400">
+                      No issues — review all {g.all.length} fields against the scan:
+                    </p>
+                  )}
+                  {rows.map((f) => (
                     <FieldRow key={f.id} field={f} active={f.id === selectedId} onSelect={onSelect} />
                   ))}
                 </div>
