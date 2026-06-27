@@ -133,6 +133,11 @@
   ],
   "expected_violations": [
     {
+      "rule": "CALC_NET_MASS",
+      "field": "m Netto nPZ",
+      "explanation": "m Netto nPZ should equal m Brutto nPZ - m Tara = 527 - 127 = 400 kg, but 395 kg was recorded (5 kg off, outside 4 kg tolerance)."
+    },
+    {
       "rule": "CALC_FORMULA",
       "field": "V Netto vPz",
       "explanation": "Printed formula V = m/ρ = 300/1.81 = 165.7 L, but 543 L was recorded. 543 = 300×1.81 — the operator multiplied instead of dividing (543 L is physically impossible for 300 kg at ρ=1.81 kg/L). Human-verified error."
