@@ -1,10 +1,29 @@
 """Unit tests for EU-format parsing and Soll ranges."""
 from app.pipeline.normalize import (
+    _doc_reference_year,
     detect_value_type,
     is_zero_padded_date,
+    normalize,
     parse_german_number,
     parse_soll,
 )
+from app.pipeline.model import Block, Document, Field
+
+
+def test_year_correction_is_doc_derived_not_hardcoded():
+    """Generalization guard: the batch year must come from the DOCUMENT, never a
+    constant. A 2027 record with one misread 2037 must snap to 2027 — not 2026."""
+    doc = Document(doc_no="x", title="x")
+    b = Block(chapter="", page_no=1, template="t")
+    b.fields = [
+        Field(page_no=1, chapter="", role=None, label_raw="Datum", value_raw=v)
+        for v in ("01.03.2027", "05.03.2027", "09.03.2027", "10.03.2037")
+    ]
+    doc.blocks = [b]
+    assert _doc_reference_year(doc) == 2027         # modal year of the doc's own dates
+    normalize(doc)
+    assert b.fields[3].value is not None
+    assert b.fields[3].value.year == 2027           # snapped to 2027, NOT the old 2026
 
 
 def test_german_decimal_comma():

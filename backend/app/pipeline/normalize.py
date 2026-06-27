@@ -50,19 +50,17 @@ def is_zero_padded_date(raw: str) -> bool:
     return bool(re.match(r"^\s*\d{2}\.\d{2}\.\d{4}\s*$", raw or ""))
 
 
-def _correct_year(y: int, ref_year: int = 2026) -> int:
+def _correct_year(y: int, ref_year: int | None = None) -> int:
     """Korrigiert OCR-Jahresfehler wenn genau eine Ziffer falsch gelesen wurde.
 
-    Pharma-Batch-Records werden in einem einzigen Jahr ausgefuehrt.
-    Alle Daten muessen ref_year sein. Ein-Ziffer-Fehler werden korrigiert:
-      2016 -> 2026 (1 statt 2)
-      2025 -> 2026 (5 statt 6)
-      2027 -> 2026 (7 statt 6)
-      2028 -> 2026 (8 statt 6)
-      2076 -> 2026 (7 statt 2)
-    Zwei-Ziffer-Fehler (z.B. 2018) bleiben erhalten -- zu riskant.
+    ref_year is NOT hardcoded — it is the batch year DERIVED from the document
+    (the modal year of its own dates, see _doc_reference_year). This keeps the
+    correction valid for any year's record (next test = different content, same
+    structure). Without a reference, nothing is corrected (return as-read).
+    A single-digit misread is snapped toward the batch year:
+      e.g. ref 2026: 2016/2025/2027/2076 -> 2026.  Two-digit misreads are kept.
     """
-    if y == ref_year:
+    if ref_year is None or y == ref_year:
         return y
     y_str, ref_str = str(y), str(ref_year)
     if len(y_str) == len(ref_str):
@@ -76,12 +74,12 @@ def _correct_year(y: int, ref_year: int = 2026) -> int:
     return y
 
 
-def parse_date(raw: str) -> date | None:
+def parse_date(raw: str, ref_year: int | None = None) -> date | None:
     m = _DATE.match(raw or "")
     if not m:
         return None
     d, mo, y = (int(x) for x in m.groups())
-    y = _correct_year(y)
+    y = _correct_year(y, ref_year)
     try:
         return date(y, mo, d)
     except ValueError:
@@ -98,11 +96,11 @@ def parse_time(raw: str) -> time | None:
     return time(h, mi)
 
 
-def parse_datetime(raw: str) -> datetime | None:
+def parse_datetime(raw: str, ref_year: int | None = None) -> datetime | None:
     m = _DATETIME.match(raw or "")
     if not m:
         return None
-    d = parse_date(m.group(1))
+    d = parse_date(m.group(1), ref_year)
     t = parse_time(m.group(2))
     if d and t:
         return datetime.combine(d, t)
@@ -315,8 +313,21 @@ def normalize_kuerzel(doc: Document) -> None:
 
 # --- entry point ------------------------------------------------------------
 
+def _doc_reference_year(doc: Document) -> int | None:
+    """The batch year of THIS document = the modal year across its own dates.
+    Derived, never hardcoded — so year-correction stays valid for any record.
+    A few planted/misread years can't outvote the bulk of correct ones."""
+    from collections import Counter
+    years: Counter = Counter()
+    for f in doc.all_fields():
+        for m in re.finditer(r"\b\d{1,2}\.\d{1,2}\.(\d{4})\b", f.value_raw or ""):
+            years[int(m.group(1))] += 1
+    return years.most_common(1)[0][0] if years else None
+
+
 def normalize(doc: Document) -> Document:
     drop_navigation_fields(doc)               # strip TOC/index page-number "fields"
+    ref_year = _doc_reference_year(doc)       # batch year from the doc, not a constant
     for fld in doc.all_fields():
         if fld.role is None:
             fld.role = assign_role(fld.label_raw, fld.unit)
@@ -330,11 +341,11 @@ def normalize(doc: Document) -> Document:
             fld.value = val
             fld.decimals = decimals
         elif vtype == "date":
-            fld.value = parse_date(fld.value_raw)
+            fld.value = parse_date(fld.value_raw, ref_year)
         elif vtype == "time":
             fld.value = parse_time(fld.value_raw)
         elif vtype == "datetime":
-            fld.value = parse_datetime(fld.value_raw)
+            fld.value = parse_datetime(fld.value_raw, ref_year)
         elif vtype == "bool":
             fld.value = fld.value_raw.strip().lower() in {"ja", "x", "✓", "true"}
         else:
