@@ -274,7 +274,7 @@ def rule_volume(block: Block) -> list[Flag]:
 # Below this recognition confidence a 2-3 letter Kürzel is considered illegible:
 # two such reads matching is more likely an OCR collision than a real same-signer
 # violation, so route to review instead of asserting an error.
-_SIG_LEGIBLE_MIN = 0.55
+_SIG_LEGIBLE_MIN = 0.40
 
 
 def _recog_conf(f: Field) -> float | None:
@@ -347,7 +347,9 @@ def rule_four_eyes(block: Block) -> list[Flag]:
     for proc, chk in zip(block.roles(Role.SIGNATURE_PROCESSED), block.roles(Role.SIGNATURE_CHECKED)):
         d_proc, _, k_proc = parse_signature(proc.value_raw)
         d_chk, _, k_chk = parse_signature(chk.value_raw)
-        if d_proc and d_chk and d_chk < d_proc:
+        cp, cc = _recog_conf(proc), _recog_conf(chk)
+        dates_legible = (cp is None or cp >= _SIG_LEGIBLE_MIN) and (cc is None or cc >= _SIG_LEGIBLE_MIN)
+        if dates_legible and d_proc and d_chk and d_chk < d_proc:
             chk.add_flag(_err(Category.FOUR_EYES, "4EYES_ORDER",
                               "Gepruft date is before Bearbeitet date (review must follow processing)",
                               expected=f">= {d_proc.isoformat()}", actual=d_chk.isoformat()))
@@ -357,8 +359,7 @@ def rule_four_eyes(block: Block) -> list[Flag]:
             # different scrawls (e.g. Hans's 'hm' misread as 'ohe') onto one Kürzel —
             # that field is already routed to review by its low confidence; don't
             # stack a false "same person" error on top.
-            cp, cc = _recog_conf(proc), _recog_conf(chk)
-            legible = (cp is None or cp >= _SIG_LEGIBLE_MIN) and (cc is None or cc >= _SIG_LEGIBLE_MIN)
+            legible = dates_legible
             if legible:
                 chk.add_flag(_err(Category.FOUR_EYES, "4EYES_DISTINCT",
                                   "Bearbeitet and Gepruft signed by the same person",
