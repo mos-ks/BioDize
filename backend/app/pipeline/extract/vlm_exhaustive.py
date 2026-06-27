@@ -37,8 +37,9 @@ _SCHEMA = {
           "selected": {"type": "array", "items": {"type": "string"}, "description": "selection: which options are marked (empty if none)"},
           "unit": {"type": ["string", "null"]},
           "soll": {"type": ["string", "null"]},
+          "calc_expr": {"type": ["string", "null"], "description": "if the value is a printed formula's result, the arithmetic with the handwritten numbers substituted (e.g. '6,6 * 45 - 4,3 * 0,75'); else null"},
           "is_blank": {"type": "boolean"}},
-        "required": ["label", "kind", "value", "options", "selected", "unit", "soll", "is_blank"]}}},
+        "required": ["label", "kind", "value", "options", "selected", "unit", "soll", "calc_expr", "is_blank"]}}},
     "required": ["section", "fields"]}}
 
 _PROMPT = (
@@ -48,7 +49,9 @@ _PROMPT = (
   "'selection' for a checkbox or option group — put ALL options in `options` and the MARKED "
   "ones in `selected` (empty if none is checked); 'signature' for Bearbeitet/Geprüft/Reviewer "
   "fields — if signed put 'DD.MM.YYYY / Kürzel' in `value`, if blank set is_blank=true. "
-  "Put any 'Soll'/'Richtwert' target in `soll` and a unit in `unit`. Do NOT skip anything. "
+  "Put any 'Soll'/'Richtwert' target in `soll` and a unit in `unit`. When a value is the "
+  "result of a printed formula, fill `calc_expr` with that formula's arithmetic using the "
+  "handwritten numbers (e.g. '6,6 * 45 - 4,3 * 0,75'); otherwise null. Do NOT skip anything. "
   "Read handwriting verbatim; keep the German decimal comma (e.g. '4,50'). Ignore page "
   "headers/footers (Dok-Nr, Rev., Seite) and abbreviation legends."
 )
@@ -101,15 +104,18 @@ class VlmExhaustiveExtractor:
             return None
         kind = raw.get("kind")
         if kind == "selection":
+            options = raw.get("options") or []
             selected = [s for s in (raw.get("selected") or []) if s.strip()]
             value = ", ".join(selected)             # the checked option(s); '' if none
-            vtype = "checkbox"
+            # Only a genuine multi-option decision is "answerable" (missing-checkmark
+            # eligible); a lone Ja confirmation left blank isn't a violation (eval FP).
+            vtype = "checkbox" if len(options) >= 2 else None
         else:
             value = (raw.get("value") or "").strip()
             vtype = None
         f = Field(page_no=page_no, chapter="", role=None, label_raw=label,
                   value_raw=value, unit=raw.get("unit"), soll=raw.get("soll"),
-                  block_key=block_key, is_required=True)
+                  calc_expr=raw.get("calc_expr"), block_key=block_key, is_required=True)
         f.value_type = vtype
         # confidence seeded modestly; OCR/localize + ensemble refine it downstream
         f.reads = [Read(model=self._model, value_raw=value, confidence=0.8)]
