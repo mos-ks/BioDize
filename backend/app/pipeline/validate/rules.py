@@ -137,18 +137,16 @@ def _eval_arith(node):
 
 
 def rule_formula(field: Field) -> list[Flag]:
-    """Re-evaluate a printed formula (with the handwritten numbers) and compare
-    to the written result. Catches arithmetic/unit mistakes (e.g. p36 Load Volumen)."""
+    """Re-evaluate a printed formula and compare to the written result.
+
+    Ground-truth verified: V = m / rho is evaluated as division (200 / 1.10 = 181.8),
+    not multiplication. A recorded 220 when the formula gives 181.8 is CALC_ERROR.
+    The earlier flip (division -> multiplication) was wrong per the gold standard.
+    """
     if not field.calc_expr or not isinstance(field.value, (int, float)) or isinstance(field.value, bool):
         return []
-    expr = field.calc_expr.strip()
-    # The form prints "V = m / rho", but the domain physics is V = m x rho. For a
-    # volume written as a simple division, verify the multiplication instead.
-    if field.role == Role.VOLUME and re.fullmatch(r"[\d.,]+\s*/\s*[\d.,]+", expr):
-        a, b = expr.split("/", 1)
-        computed = safe_arith(f"{a} * {b}")
-    else:
-        computed = safe_arith(expr)
+    expr     = field.calc_expr.strip()
+    computed = safe_arith(expr)
     if computed is None:
         return []
     diff = abs(computed - float(field.value))
@@ -208,14 +206,50 @@ def rule_net_mass(block: Block) -> list[Flag]:
     return []
 
 
+_RHO_IN_LABEL = re.compile(r"[ρr]\s*=\s*([\d,.]+)\s*kg/L", re.IGNORECASE)
+
+
+def _rho_from_label(label: str) -> float | None:
+    """Extract density from a label like 'V Netto (V = m / ρ; ρ = 1,100 kg/L)'."""
+    from app.pipeline.normalize import parse_german_number
+    m = _RHO_IN_LABEL.search(label or "")
+    if m:
+        val, _ = parse_german_number(m.group(1))
+        return val
+    return None
+
+
 def rule_volume(block: Block) -> list[Flag]:
-    net, rho, vol = block.role(Role.NET_MASS), block.role(Role.DENSITY), block.role(Role.VOLUME)
-    if not (net and rho and vol) or not all(isinstance(f.value, (int, float)) for f in (net, rho, vol)):
+    """V = m / rho (ground-truth verified: division, not multiplication).
+
+    Two paths:
+    (a) A dedicated density field exists in the block → standard path.
+    (b) Density is embedded in the volume field's label text (e.g. 'ρ = 1,100 kg/L')
+        → parse from label so the rule fires even without an explicit rho field.
+    """
+    net = block.role(Role.NET_MASS)
+    vol = block.role(Role.VOLUME)
+    if not (net and vol):
         return []
-    expected = net.value * rho.value  # physics-based per host (V = m x rho with given rho)
+    if not isinstance(vol.value, (int, float)) or not isinstance(net.value, (int, float)):
+        return []
+
+    # Path (a): explicit density field
+    rho_f = block.role(Role.DENSITY)
+    if rho_f and isinstance(rho_f.value, (int, float)) and rho_f.value != 0:
+        rho_val = rho_f.value
+    else:
+        # Path (b): density in label text
+        rho_val = _rho_from_label(vol.label_raw)
+
+    if rho_val is None or rho_val == 0:
+        return []
+
+    expected = net.value / rho_val
     if abs(vol.value - expected) > _calc_tol(expected):
         vol.add_flag(_err(Category.CALCULATION, "CALC_VOLUME",
-                          f"volume should equal net x rho = {net.value} x {rho.value} = {round(expected, 3)}",
+                          f"V = m / rho = {net.value} / {rho_val} = {round(expected, 3)}, "
+                          f"recorded {vol.value}",
                           expected=round(expected, 3), actual=vol.value))
     return []
 
