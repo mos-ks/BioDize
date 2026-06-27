@@ -63,7 +63,11 @@ body {
     @apply btn text-slate-600 hover:bg-slate-100;
   }
   .btn-accent {
-    @apply btn bg-accent-500 text-slate-900 hover:bg-accent-400 focus-visible:ring-accent-500/50;
+    @apply btn text-slate-900;
+    background-color: #ffd700; /* accent-500 — raw so it never depends on a stale config */
+  }
+  .btn-accent:hover {
+    background-color: #ffe24d; /* accent-300 */
   }
   .input {
     @apply w-full rounded-lg border border-slate-300 bg-white px-3 py-2 text-sm text-slate-800
