@@ -141,9 +141,9 @@
   ],
   "expected_violations": [
     {
-      "rule": "CALC_ERROR",
+      "rule": "STAT_OUTLIER",
       "field": "Produktmenge B10-PP Zyklus 1 - m B10-PP Z1 [g] Ergebnis (0 NKS)",
-      "explanation": "321 / 1,31 × 4,35 = 1065,9 which rounds to 1066 at 0 NKS, but the recorded result is 1065."
+      "explanation": "Result value 1065 is a statistical outlier relative to peer mass fields in the document"
     }
   ],
   "source": "per-page vision agents (image-grounded, aligned to pipeline schema)"

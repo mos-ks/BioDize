@@ -107,5 +107,16 @@
       "is_blank": false
     }
   ],
-  "expected_violations": []
+  "expected_violations": [
+    {
+      "rule": "CALC_ERROR",
+      "field": "V Netto (V = m / ρ; ρ = 1,100 kg/L)",
+      "explanation": "V = m_netto / rho = 200 / 1.100 = 181.8 L, but 220 was recorded"
+    },
+    {
+      "rule": "MISSING_CHECKMARK",
+      "field": "Haltetemperatur (Soll: 2 - 8°C) - Ja",
+      "explanation": "Required checkmark not marked in the document"
+    }
+  ]
 }
