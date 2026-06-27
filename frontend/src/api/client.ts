@@ -147,6 +147,10 @@ export const api = {
     request<Field[]>(`${API_PREFIX}/documents/${documentId}/queue`),
   getField: (fieldId: string) => request<Field>(`${API_PREFIX}/fields/${fieldId}`),
 
+  /** Delete a human-added entry (model fields can't be deleted, only corrected). */
+  deleteField: (fieldId: string) =>
+    request<{ deleted: string }>(`${API_PREFIX}/fields/${fieldId}`, { method: "DELETE" }),
+
   // AI evaluation vs ground truth
   getEvaluation: (documentId: string) =>
     request<EvalResult>(`${API_PREFIX}/documents/${documentId}/evaluation`),

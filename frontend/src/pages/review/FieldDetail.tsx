@@ -7,6 +7,7 @@ import {
   CheckCircle2,
   Pencil,
   ShieldCheck,
+  Trash2,
   X,
 } from "lucide-react";
 import { api } from "../../api/client";
@@ -87,6 +88,7 @@ export default function FieldDetail({
   hasNext,
   onSkipNext,
   onClose,
+  onDeleted,
 }: {
   fieldId: string;
   /** Called after a successful confirm/correct so the parent can refresh + advance. */
@@ -95,6 +97,8 @@ export default function FieldDetail({
   onSkipNext: () => void;
   /** Deselect this field and return to the full-PDF scroll view. */
   onClose: () => void;
+  /** Called after a human-added entry is deleted (refresh + deselect). */
+  onDeleted: () => void;
 }) {
   const { data: field, loading, error, reload } = useApi<Field>(
     () => api.getField(fieldId),
@@ -112,6 +116,14 @@ export default function FieldDetail({
       actor: "reviewer",
     }),
   );
+  const deleteAction = useAsyncAction((id: string) => api.deleteField(id));
+
+  async function handleDelete() {
+    if (!field) return;
+    if (!window.confirm(`Delete this human-added entry${field.label_raw ? ` "${field.label_raw}"` : ""}?`)) return;
+    const res = await deleteAction.run(field.id);
+    if (res) onDeleted();
+  }
 
   const [editing, setEditing] = useState(false);
   const [draft, setDraft] = useState("");
@@ -185,14 +197,27 @@ export default function FieldDetail({
           </div>
         </div>
         <div className="flex shrink-0 flex-col items-end gap-1">
-          <button
-            onClick={onClose}
-            title="Back to full PDF view"
-            aria-label="Back to full PDF view"
-            className="-mr-1 -mt-1 rounded-lg p-1.5 text-slate-400 transition-colors hover:bg-slate-100 hover:text-slate-600"
-          >
-            <X className="h-4 w-4" />
-          </button>
+          <div className="-mr-1 -mt-1 flex items-center gap-1">
+            {field.source === "human" && (
+              <button
+                onClick={handleDelete}
+                disabled={deleteAction.pending}
+                title="Delete this human-added entry"
+                aria-label="Delete this human-added entry"
+                className="rounded-lg p-1.5 text-slate-400 transition-colors hover:bg-rose-50 hover:text-rose-600 disabled:opacity-40"
+              >
+                <Trash2 className="h-4 w-4" />
+              </button>
+            )}
+            <button
+              onClick={onClose}
+              title="Back to full PDF view"
+              aria-label="Back to full PDF view"
+              className="rounded-lg p-1.5 text-slate-400 transition-colors hover:bg-slate-100 hover:text-slate-600"
+            >
+              <X className="h-4 w-4" />
+            </button>
+          </div>
           <div className="text-center">
             <ConfidenceGauge confidence={conf} size={60} />
             <div className={classNames("text-[11px] font-semibold", tone.text)}>{tone.label}</div>

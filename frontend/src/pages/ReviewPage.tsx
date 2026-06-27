@@ -150,6 +150,11 @@ export default function ReviewPage() {
                 hasNext={hasNext}
                 onSkipNext={advanceToNext}
                 onClose={() => setSelectedId(null)}
+                onDeleted={() => {
+                  setSelectedId(null);
+                  docState.reload();
+                  queueState.reload();
+                }}
               />
             ) : queue.length === 0 ? (
               <AllClear onBrowseAll={() => setTab("extraction")} onStats={() => navigate(`/documents/${documentId}/stats`)} />

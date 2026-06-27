@@ -73,6 +73,7 @@ export interface Field {
   bbox?: BBox | null;
   confidence: number;
   status: FieldStatus;
+  source?: string; // model | ocr | human (human entries are deletable)
   is_handwritten?: boolean | null; // blue (hand-filled) vs black (printed)
   is_verified?: boolean; // corroborated by calculation or a second identical value
   verified_reason?: string | null;

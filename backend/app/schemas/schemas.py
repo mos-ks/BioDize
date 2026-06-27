@@ -38,6 +38,7 @@ class FieldOut(BaseModel):
     bbox: list[float] | None = None
     confidence: float
     status: str
+    source: str = "model"             # model | ocr | human (human entries are deletable)
     is_handwritten: bool | None = None
     is_verified: bool = False
     verified_reason: str | None = None
@@ -50,7 +51,8 @@ class FieldOut(BaseModel):
             id=f.id, document_id=f.document_id, chapter=f.chapter, block_key=f.block_key,
             page_no=f.page_no, role=f.role, label_raw=f.label_raw, value=f.value_norm,
             value_raw=f.value_raw, unit=f.unit, nks=f.nks, bbox=f.bbox,
-            confidence=f.confidence, status=f.status, is_handwritten=getattr(f, "is_handwritten", None),
+            confidence=f.confidence, status=f.status, source=getattr(f, "source", "model"),
+            is_handwritten=getattr(f, "is_handwritten", None),
             is_verified=bool(getattr(f, "is_verified", None)),  # coerce NULL (old rows) -> False
             verified_reason=getattr(f, "verified_reason", None),
             reads=[ReadOut.model_validate(r) for r in f.reads],

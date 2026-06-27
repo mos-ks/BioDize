@@ -142,3 +142,21 @@ def correct_field(field_id: str, body: CorrectionIn, db: Session = Depends(get_d
 
     db.commit(); db.refresh(f)
     return FieldOut.from_orm_field(f)
+
+
+@router.delete("/fields/{field_id}", response_model=dict)
+def delete_field(field_id: str, db: Session = Depends(get_db)) -> dict:
+    """Delete a HUMAN-labeled entry (one a reviewer added via the PDF flag tool).
+    Model-extracted fields cannot be deleted — correct them instead. Cascades to
+    its flags/reads via the ORM relationships. Audit-logged."""
+    f = db.get(models.Field, field_id)
+    if not f:
+        raise HTTPException(404, "field not found")
+    if f.source != "human":
+        raise HTTPException(400, "only human-added entries can be deleted (correct model fields instead)")
+    db.add(models.AuditLog(entity_type="field", entity_id=field_id, action="delete",
+                           actor="reviewer", before={"label": f.label_raw, "value": f.value_norm},
+                           after=None))
+    db.delete(f)
+    db.commit()
+    return {"deleted": field_id}
