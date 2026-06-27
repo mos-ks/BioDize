@@ -6,7 +6,7 @@ from sqlalchemy.orm import Session
 
 from app.api.deps import get_db
 from app.db import models
-from app.schemas.schemas import CorrectionIn, FieldOut
+from app.schemas.schemas import AnnotationIn, CorrectionIn, FieldOut
 
 router = APIRouter(tags=["fields"])
 
@@ -61,6 +61,39 @@ def get_field(field_id: str, db: Session = Depends(get_db)) -> FieldOut:
     if not f:
         raise HTTPException(404, "field not found")
     return FieldOut.from_orm_field(f)
+
+
+@router.post("/documents/{document_id}/annotations", response_model=FieldOut)
+def add_annotation(document_id: str, body: AnnotationIn, db: Session = Depends(get_db)) -> FieldOut:
+    """A human drew a box on the PDF: create a HUMAN-LABELED field entry (with that
+    box) so it lands in the database and the review list. Audit-logged."""
+    if not db.get(models.Document, document_id):
+        raise HTTPException(404, "document not found")
+    flagged = body.severity in ("error", "warning")
+    mf = models.Field(
+        document_id=document_id, page_no=body.page_no, chapter=None, block_key="human",
+        role=None, label_raw=body.label or "Human annotation",
+        value_raw=body.value, value_norm=body.value, value_type=None, unit=None, nks=None,
+        bbox=[round(v, 6) for v in body.bbox] if body.bbox else None,
+        confidence=1.0, source="human",
+        status="needs_review" if flagged else "confirmed", is_required=False,
+    )
+    db.add(mf)
+    db.flush()
+    if flagged:
+        db.add(models.Flag(
+            field_id=mf.id, block_key="human", severity=body.severity, category="human",
+            code="HUMAN_LABELED", message=body.note or "Human-labeled entry",
+            expected=None, actual=body.value,
+        ))
+    db.add(models.AuditLog(
+        entity_type="field", entity_id=mf.id, action="annotate", actor=body.actor,
+        before=None,
+        after={"label": body.label, "value": body.value, "bbox": mf.bbox, "severity": body.severity},
+    ))
+    db.commit()
+    db.refresh(mf)
+    return FieldOut.from_orm_field(mf)
 
 
 @router.patch("/fields/{field_id}", response_model=FieldOut)

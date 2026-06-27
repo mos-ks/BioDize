@@ -75,6 +75,17 @@ class CorrectionIn(BaseModel):
     bbox: list[float] | None = None   # [x0,y0,x1,y1] normiert 0-1
 
 
+class AnnotationIn(BaseModel):
+    """A human-drawn box on the PDF that becomes a human-labeled entry."""
+    page_no: int
+    bbox: list[float] | None = None   # [x0,y0,x1,y1] normalized 0-1
+    label: str | None = None
+    value: str | None = None
+    note: str | None = None
+    severity: str | None = None       # error | warning | None (just a note)
+    actor: str | None = None
+
+
 class ProcessResult(BaseModel):
     document_id: str
     status: str
