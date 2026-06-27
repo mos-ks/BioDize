@@ -291,7 +291,9 @@ class App:
                 [str(VENV_PY), "-m", "uvicorn", "app.main:app",
                  "--host", "127.0.0.1", "--port", "8000"],
                 cwd=str(ROOT / "backend"),
-                stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL,
+                stdout=subprocess.DEVNULL,
+                stderr=subprocess.DEVNULL,
+                creationflags=subprocess.CREATE_NO_WINDOW,
             )
             # Warten bis erreichbar (max 30s)
             for _ in range(60):

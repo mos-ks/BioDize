@@ -3,10 +3,22 @@ import tkinter as tk
 import subprocess, sys
 from pathlib import Path
 
-SCRIPTS_DIR = Path(__file__).parent.resolve()          # evaluator/  -- alle .py Skripte
-ROOT        = SCRIPTS_DIR.parent                        # repo root   -- backend/, results/
-VENV_PY     = ROOT / "backend" / ".venv" / "Scripts" / "python.exe"
-PY          = str(VENV_PY) if VENV_PY.exists() else sys.executable
+SCRIPTS_DIR  = Path(__file__).parent.resolve()
+ROOT         = SCRIPTS_DIR.parent
+VENV_PY      = ROOT / "backend" / ".venv" / "Scripts" / "python.exe"
+VENV_PYTHONW = ROOT / "backend" / ".venv" / "Scripts" / "pythonw.exe"
+SYS_PYTHONW  = Path(r"C:\Temp\py313-arm64-full\pythonw.exe")
+
+PY  = str(VENV_PY)      if VENV_PY.exists()      else sys.executable
+PWW = str(VENV_PYTHONW) if VENV_PYTHONW.exists() \
+      else str(SYS_PYTHONW) if SYS_PYTHONW.exists() \
+      else PY.replace("python.exe", "pythonw.exe")
+
+# Scripts that are GUI apps -- no console window
+GUI_SCRIPTS = {"reviewer.py"}
+# Scripts that need a visible console for output/interaction
+CLI_SCRIPTS = {"debugger.py", "autopatch.py", "start.py",
+               "load_results.py", "bulk_review.py", "export_csv.py"}
 
 BG        = "#0f1117"
 CARD_BG   = "#1a1d27"
@@ -28,9 +40,13 @@ def launch(script: str, label: str, btn: tk.Button,
     set_status(f"{label} wird gestartet...", MUTED)
     btn.config(state="disabled", text="Laedt...")
     try:
-        parts = script.split()
-        cmd   = [PY, str(SCRIPTS_DIR / parts[0])] + parts[1:]
-        p     = subprocess.Popen(cmd, creationflags=subprocess.CREATE_NEW_CONSOLE)
+        parts      = script.split()
+        script_name= parts[0]
+        is_gui     = script_name in GUI_SCRIPTS
+        interpreter= PWW if is_gui else PY
+        cmd        = [interpreter, str(SCRIPTS_DIR / script_name)] + parts[1:]
+        flags      = subprocess.CREATE_NO_WINDOW if is_gui else subprocess.CREATE_NEW_CONSOLE
+        p          = subprocess.Popen(cmd, creationflags=flags)
         procs.append(p)
         set_status(f"{label} laeuft (PID {p.pid})", ACCENT2)
     except Exception as e:
@@ -183,13 +199,17 @@ extra = tk.Frame(root, bg=BG)
 extra.pack(fill="x", padx=24, pady=6)
 
 def mini_tool_btn(parent, text, script, color="#334155", hover="#475569"):
+    parts = script.split(); sname = parts[0]
+    is_gui = sname in GUI_SCRIPTS
+    interp = PWW if is_gui else PY
+    flags  = subprocess.CREATE_NO_WINDOW if is_gui else subprocess.CREATE_NEW_CONSOLE
     b = tk.Button(parent, text=text, font=("Segoe UI", 8),
                   bg=color, fg=TEXT, activebackground=hover,
                   activeforeground=TEXT, relief="flat", bd=0,
                   padx=8, pady=6, cursor="hand2",
-                  command=lambda: subprocess.Popen(
-                      [PY, str(SCRIPTS_DIR / script)],
-                      creationflags=subprocess.CREATE_NEW_CONSOLE))
+                  command=lambda s=parts, i=interp, f=flags: subprocess.Popen(
+                      [i, str(SCRIPTS_DIR / s[0])] + s[1:],
+                      creationflags=f))
     b.bind("<Enter>", lambda e: b.config(bg=hover))
     b.bind("<Leave>", lambda e: b.config(bg=color))
     b.pack(side="left", padx=(0,6))
