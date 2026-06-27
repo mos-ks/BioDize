@@ -3,7 +3,7 @@
 
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { ArrowLeft, BarChart3, ChevronDown, Download, FileSpreadsheet, FileText, History, Trash2 } from "lucide-react";
+import { ArrowLeft, BarChart3, ChevronDown, Download, FileSpreadsheet, History, Trash2 } from "lucide-react";
 import { api } from "../../api/client";
 import type { DocumentSummary } from "../../api/types";
 import { CountPill, SimulatedBadge, StatusBadge } from "../../components/atoms";
@@ -78,9 +78,8 @@ export default function DocumentBar({ doc }: { doc: DocumentSummary }) {
               <div className="fixed inset-0 z-10" onClick={() => setDlOpen(false)} />
               <div className="absolute right-0 z-20 mt-1 w-56 rounded-xl border border-slate-200 bg-white p-1 shadow-panel">
                 {[
-                  { href: api.exportUrl(doc.id), icon: FileSpreadsheet, color: "text-emerald-600", label: "Excel — Solution (.xlsx)" },
-                  { href: api.csvUrl(doc.id), icon: FileText, color: "text-slate-500", label: "Full data (.csv)" },
-                  { href: api.changelogUrl(doc.id), icon: History, color: "text-violet-600", label: "Change log (.csv)" },
+                  { href: api.exportUrl(doc.id), icon: FileSpreadsheet, color: "text-emerald-600", label: "Excel (.xlsx)" },
+                  { href: api.changelogUrl(doc.id), icon: History, color: "text-violet-600", label: "Log (.csv)" },
                 ].map((it) => (
                   <a
                     key={it.label}

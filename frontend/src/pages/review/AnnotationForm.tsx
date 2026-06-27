@@ -34,7 +34,7 @@ export default function AnnotationForm({
     const body: AnnotationInput = {
       page_no: pageNo,
       bbox,
-      label: title.trim() || "Human flag",
+      label: title.trim(),
       tag: tag.trim() || undefined,
       note: note.trim() || undefined,
       severity,
@@ -133,7 +133,12 @@ export default function AnnotationForm({
 
         <div className="mt-5 flex justify-end gap-2">
           <button onClick={onClose} className="btn-secondary">Cancel</button>
-          <button onClick={() => save.run()} disabled={save.pending} className="btn-primary">
+          <button
+            onClick={() => save.run()}
+            disabled={save.pending || !title.trim()}
+            title={!title.trim() ? "Add a title first" : undefined}
+            className="btn-primary"
+          >
             <Check className="h-4 w-4" /> Save flag
           </button>
         </div>
