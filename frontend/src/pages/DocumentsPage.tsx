@@ -5,7 +5,7 @@
 // (instant, free) or upload a real PDF (slow, uses API credits). Documents with
 // validation errors are visually prioritized so reviewers triage them first.
 
-import { useMemo, useRef, useState } from "react";
+import { useRef, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import {
   AlertTriangle,
@@ -14,7 +14,6 @@ import {
   FileText,
   FilePlus2,
   FlaskConical,
-  Gauge,
   GitCompareArrows,
   Info,
   Layers,
@@ -46,7 +45,6 @@ import {
   Spinner,
   StatusBadge,
 } from "../components/atoms";
-import EvalModal from "./review/EvalModal";
 
 // --- aggregate helpers ------------------------------------------------------
 
@@ -445,13 +443,6 @@ export default function DocumentsPage() {
   const yieldEst = data && data.length ? computeYield(data) : null;
   const canCompare = (data?.length ?? 0) >= 2;
 
-  // Eval AI scores the pipeline against the ground-truth set — it's about the AI's
-  // quality, not a single batch. Prefer a real (non-simulated) record to score.
-  const [evalOpen, setEvalOpen] = useState(false);
-  const evalDocId = useMemo(() => {
-    if (!data?.length) return null;
-    return (data.find((d) => !isSimulatedDoc(d)) ?? data[0]).id;
-  }, [data]);
 
   return (
     <div className="animate-fade-in space-y-6">
@@ -560,11 +551,7 @@ export default function DocumentsPage() {
           <SummaryStat n={totals.warnings} label="warnings" tone="warning" />
           <SummaryStat n={totals.needsReview} label="to review" tone={totals.needsReview > 0 ? "warning" : "good"} />
           <div className="ml-auto flex flex-wrap items-center gap-3">
-            {evalDocId && (
-              <button type="button" onClick={() => setEvalOpen(true)} className="btn-secondary text-xs">
-                <Gauge className="h-3.5 w-3.5" /> Eval AI
-              </button>
-            )}
+            {/* Eval AI lives in the top bar (next to settings) now. */}
             {yieldEst && yieldEst.totalPages > 0 && <YieldPill y={yieldEst} />}
           </div>
         </div>
@@ -662,8 +649,6 @@ export default function DocumentsPage() {
           without a rebuild.
         </p>
       )}
-
-      {evalOpen && evalDocId && <EvalModal documentId={evalDocId} onClose={() => setEvalOpen(false)} />}
     </div>
   );
 }

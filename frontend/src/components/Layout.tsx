@@ -6,7 +6,7 @@ import { Link, useLocation } from "react-router-dom";
 import { Activity, Check, Gauge, RotateCcw, Server, Settings2, X } from "lucide-react";
 import { api, defaultApiBase, getApiBase, resetApiBase, setApiBase } from "../api/client";
 import type { Health } from "../api/types";
-import { classNames } from "../lib/ui";
+import { classNames, isSimulatedDoc } from "../lib/ui";
 import { Spinner } from "./atoms";
 import EvalModal from "../pages/review/EvalModal";
 
@@ -145,9 +145,28 @@ export default function Layout({ children }: { children: React.ReactNode }) {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(false);
   const loc = useLocation();
-  // Eval AI is a backend-evaluation action, so it lives in the top bar — but only
-  // when a specific document is open (it scores that document vs ground truth).
+  // Eval AI is a backend-evaluation action (scores the pipeline vs ground truth),
+  // so it lives in the top bar next to settings everywhere. In a batch it uses that
+  // document; on the landing page it falls back to the latest real record.
   const docId = loc.pathname.match(/^\/documents\/([^/]+)/)?.[1] ?? null;
+  const [latestDocId, setLatestDocId] = useState<string | null>(null);
+  const evalId = docId ?? latestDocId;
+
+  useEffect(() => {
+    if (docId) return; // a batch view already has its id
+    let alive = true;
+    api
+      .listDocuments()
+      .then((docs) => {
+        if (!alive) return;
+        const real = docs.find((d) => !isSimulatedDoc(d)) ?? docs[0];
+        setLatestDocId(real?.id ?? null);
+      })
+      .catch(() => {});
+    return () => {
+      alive = false;
+    };
+  }, [docId, loc.pathname]);
 
   useEffect(() => {
     let alive = true;
@@ -172,7 +191,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
         <div className="mx-auto flex h-16 max-w-[1500px] items-center justify-between gap-4 px-4 sm:px-6">
           <Brand />
           <div className="flex items-center gap-2">
-            {docId && (
+            {evalId && (
               <button
                 type="button"
                 onClick={() => setEvalOpen(true)}
@@ -213,7 +232,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
       </footer>
 
       {open && <ApiSettings onClose={() => setOpen(false)} />}
-      {evalOpen && docId && <EvalModal documentId={docId} onClose={() => setEvalOpen(false)} />}
+      {evalOpen && evalId && <EvalModal documentId={evalId} onClose={() => setEvalOpen(false)} />}
     </div>
   );
 }
