@@ -19,6 +19,7 @@ import {
   Settings2,
   Sparkles,
   Square,
+  Trash2,
   TrendingUp,
   Upload,
   X,
@@ -168,11 +169,13 @@ function DocumentCard({
   selectable = false,
   selected = false,
   onToggle,
+  onDelete,
 }: {
   doc: DocumentSummary;
   selectable?: boolean;
   selected?: boolean;
   onToggle?: (id: string) => void;
+  onDelete?: (doc: DocumentSummary) => void;
 }) {
   const hasErrors = doc.n_errors > 0;
   const hasWarnings = !hasErrors && doc.n_warnings > 0;
@@ -238,17 +241,35 @@ function DocumentCard({
     </>
   );
 
-  if (selectable) {
-    return (
-      <button type="button" onClick={() => onToggle?.(doc.id)} aria-pressed={selected} className={base}>
-        {inner}
-      </button>
-    );
-  }
+  const deleteBtn = onDelete && (
+    <button
+      type="button"
+      onClick={(e) => {
+        e.preventDefault();
+        e.stopPropagation();
+        onDelete(doc);
+      }}
+      title="Delete batch record"
+      aria-label="Delete batch record"
+      className="absolute -right-2 -top-2 z-10 hidden h-7 w-7 items-center justify-center rounded-full border border-slate-200 bg-white text-slate-400 shadow-sm transition-colors hover:border-rose-300 hover:bg-rose-50 hover:text-rose-600 group-hover:flex"
+    >
+      <Trash2 className="h-3.5 w-3.5" />
+    </button>
+  );
+
   return (
-    <Link to={`/documents/${doc.id}`} className={base}>
-      {inner}
-    </Link>
+    <div className="group relative">
+      {selectable ? (
+        <button type="button" onClick={() => onToggle?.(doc.id)} aria-pressed={selected} className={base}>
+          {inner}
+        </button>
+      ) : (
+        <Link to={`/documents/${doc.id}`} className={base}>
+          {inner}
+        </Link>
+      )}
+      {deleteBtn}
+    </div>
   );
 }
 
@@ -316,8 +337,31 @@ export default function DocumentsPage() {
     return res;
   });
 
-  const busy = uploadAction.pending || processAction.pending;
-  const actionError = uploadAction.error || processAction.error;
+  // (c) Create a simulated demo batch (no upload, no API). Stays on the page so the
+  // new entry shows up in the library immediately.
+  const simulateAction = useAsyncAction(async () => {
+    const res = await api.simulateDocument();
+    reload();
+    return res;
+  });
+
+  const deleteAction = useAsyncAction(async (id: string) => {
+    await api.deleteDocument(id);
+    reload();
+  });
+
+  function onDeleteDoc(doc: DocumentSummary) {
+    if (
+      window.confirm(
+        `Delete "${prettyDocTitle(doc.title)}"? This permanently removes the batch record and all its data.`,
+      )
+    ) {
+      deleteAction.run(doc.id);
+    }
+  }
+
+  const busy = uploadAction.pending || processAction.pending || simulateAction.pending;
+  const actionError = uploadAction.error || processAction.error || simulateAction.error || deleteAction.error;
 
   function pickFile() {
     fileInputRef.current?.click();
@@ -382,6 +426,17 @@ export default function DocumentsPage() {
                 className="w-16 rounded-md border border-slate-200 bg-white px-1.5 py-1 text-right text-sm tabular-nums text-slate-700 placeholder:text-slate-400 focus:border-brand-500 focus:outline-none focus:ring-2 focus:ring-brand-500/30"
               />
             </div>
+
+            <button
+              type="button"
+              onClick={() => simulateAction.run()}
+              disabled={busy}
+              className="btn-secondary"
+              title="Create a simulated demo batch (no upload, offline)"
+            >
+              {simulateAction.pending ? <Spinner /> : <FlaskConical className="h-4 w-4" />}
+              Simulated batch
+            </button>
 
             <button
               type="button"
@@ -466,12 +521,18 @@ export default function DocumentsPage() {
         <EmptyState
           icon={<FilePlus2 className="h-8 w-8" />}
           title="No batch records yet"
-          hint="Upload a batch-record PDF to run the full digitize → validate → review flow."
+          hint="Upload a batch-record PDF to run the full digitize → validate → review flow — or add a simulated demo batch to explore it offline."
           action={
-            <button type="button" onClick={pickFile} disabled={busy} className="btn-primary mt-1">
-              {uploadAction.pending ? <Spinner /> : <Upload className="h-4 w-4" />}
-              Upload PDF
-            </button>
+            <div className="mt-1 flex flex-wrap items-center justify-center gap-2">
+              <button type="button" onClick={pickFile} disabled={busy} className="btn-primary">
+                {uploadAction.pending ? <Spinner /> : <Upload className="h-4 w-4" />}
+                Upload PDF
+              </button>
+              <button type="button" onClick={() => simulateAction.run()} disabled={busy} className="btn-secondary">
+                {simulateAction.pending ? <Spinner /> : <FlaskConical className="h-4 w-4" />}
+                Simulated batch
+              </button>
+            </div>
           }
         />
       ) : (
@@ -524,6 +585,7 @@ export default function DocumentsPage() {
                   selectable={compareMode}
                   selected={selected.has(doc.id)}
                   onToggle={toggleSelect}
+                  onDelete={compareMode ? undefined : onDeleteDoc}
                 />
               ))}
           </div>

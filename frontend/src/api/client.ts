@@ -109,6 +109,14 @@ export const api = {
   processDocument: (opts: { source_path?: string; max_pages?: number } = {}) =>
     request<ProcessResult>(`${API_PREFIX}/documents/process${qs(opts)}`, { method: "POST" }),
 
+  /** Create the next simulated demo batch (offline, no upload). */
+  simulateDocument: () =>
+    request<ProcessResult>(`${API_PREFIX}/documents/simulate`, { method: "POST" }),
+
+  /** Delete a batch record and all its data. */
+  deleteDocument: (id: string) =>
+    request<{ deleted: string }>(`${API_PREFIX}/documents/${id}`, { method: "DELETE" }),
+
   /** Upload a PDF (multipart). Returns the stored source_path for processing. */
   uploadDocument: (file: File) => {
     const fd = new FormData();

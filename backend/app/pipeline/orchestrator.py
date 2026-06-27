@@ -33,18 +33,23 @@ class ProcessSummary:
     n_needs_review: int
 
 
-def process(source_path: str | None, db: Session, max_pages: int | None = None) -> ProcessSummary:
+def process(source_path: str | None, db: Session, max_pages: int | None = None,
+            force_extractor: str | None = None) -> ProcessSummary:
+    # force_extractor lets endpoints pin the stub (e.g. the simulated-batch button)
+    # regardless of the globally configured extractor.
+    extractor_name = force_extractor or settings.extractor
+
     # 0. Render the PDF ONCE; share the page images with the reader and the OCR layer.
     page_images: dict[int, str] = {}
     pages = None
-    if source_path and settings.extractor != "stub":
+    if source_path and extractor_name != "stub":
         pages = render_pdf(source_path).pages
         if max_pages:
             pages = pages[:max_pages]          # cheap first run: limit model calls
         page_images = {p.page_no: p.image_path for p in pages if p.image_path}
 
     # 1. Extract (parameters discovered, not hardcoded).
-    extractor = get_extractor(settings.extractor)
+    extractor = get_extractor(extractor_name)
     doc = extractor.extract(source_path, pages)
 
     # 2. OCR layer -> bounding boxes (skipped for the stub, which carries its own).

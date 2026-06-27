@@ -40,18 +40,26 @@ def process_document(
     """Run the full pipeline. With EXTRACTOR=stub, source_path is ignored.
     Otherwise, defaults to the bundled sample scan when source_path is omitted.
     Pass max_pages=N for a cheap first run (limits model calls)."""
-    if settings.extractor == "stub":
-        # Offline demo: the stub can't read an uploaded PDF, so rotate through the
-        # canonical sample + simulated batches regardless of what was uploaded. Each
-        # process call yields the next distinct record.
-        from app.pipeline.extract.stub import ROTATE_SAMPLE
-        source_path = ROTATE_SAMPLE
-    elif not source_path:
+    if settings.extractor != "stub" and not source_path:
         if os.path.exists(settings.sample_pdf_path):
             source_path = settings.sample_pdf_path
         else:
             raise HTTPException(400, "source_path is required (sample PDF not found)")
     summary = orchestrator.process(source_path, db, max_pages=max_pages)
+    return _process_result(summary)
+
+
+@router.post("/simulate", response_model=ProcessResult)
+def simulate_document(db: Session = Depends(get_db)) -> ProcessResult:
+    """Create the next simulated demo batch (offline, no upload, no API calls).
+    Always uses the stub regardless of the configured extractor, cycling through
+    the three 'Simulated' batches."""
+    from app.pipeline.extract.stub import SIMULATE_NEXT
+    summary = orchestrator.process(SIMULATE_NEXT, db, force_extractor="stub")
+    return _process_result(summary)
+
+
+def _process_result(summary) -> ProcessResult:
     return ProcessResult(
         document_id=summary.document_id, status="processed", n_fields=summary.n_fields,
         n_errors=summary.n_errors, n_warnings=summary.n_warnings,
@@ -71,6 +79,17 @@ def get_document(document_id: str, db: Session = Depends(get_db)) -> DocumentSum
     if not doc:
         raise HTTPException(404, "document not found")
     return _summary(doc, db)
+
+
+@router.delete("/{document_id}", response_model=dict)
+def delete_document(document_id: str, db: Session = Depends(get_db)) -> dict:
+    """Delete a batch record and all its pages/fields/flags (ORM cascade)."""
+    doc = db.get(models.Document, document_id)
+    if not doc:
+        raise HTTPException(404, "document not found")
+    db.delete(doc)
+    db.commit()
+    return {"deleted": document_id}
 
 
 @router.get("/{document_id}/evaluation", response_model=dict)

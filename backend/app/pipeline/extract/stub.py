@@ -14,9 +14,9 @@ so that validation produces a realistic spread of flags out of the box:
 On top of the canonical sample there are three SIMULATED demo batches (batch
 "Simulated") with their own planted-error mixes. They share the canonical's field
 labels/units so the same validators bind — only the products, people and numbers
-change. The API rotates through [canonical, strawberry, ganache, lemon] so each
-"Process sample" click yields the next batch; direct/test calls always get the
-canonical one (so the ground-truth tests stay deterministic).
+change. The /documents/simulate endpoint rotates through [strawberry, ganache,
+lemon] via the SIMULATE_NEXT sentinel; every other call (incl. the tests) returns
+the canonical sample, so the ground-truth tests stay deterministic.
 """
 from __future__ import annotations
 
@@ -25,9 +25,9 @@ from datetime import date
 from app.domain.roles import Role
 from app.pipeline.model import BBox, Block, Document, Field, Read
 
-# Sentinel the API passes to request the NEXT rotating demo batch (so a plain
-# extract()/extract(None) — as the tests call — always returns the canonical one).
-ROTATE_SAMPLE = "sample:rotate"
+# Sentinel the /simulate endpoint passes to request the NEXT simulated demo batch
+# (so a plain extract()/extract(None) — as the tests call — returns the canonical one).
+SIMULATE_NEXT = "simulate:next"
 
 
 def _f(role, label, value, *, unit=None, nks=None, soll=None, calc_expr=None, bbox=None,
@@ -167,7 +167,7 @@ def _build_strawberry(source_path: str | None = None) -> Document:
     and an NKS-format warning."""
     doc = Document(
         doc_no="SIM0001 · Batch Simulated",
-        title="Herstellung von Strawberry Mousse Filling (Simulated)",
+        title="Herstellung von Strawberry Mousse Filling",
         rev="1", project_code="SIM", generated_at=date(2026, 6, 10),
         page_count=46, declared_page_count=46,
     )
@@ -203,7 +203,7 @@ def _build_ganache(source_path: str | None = None) -> Document:
     order error and a non zero-padded date."""
     doc = Document(
         doc_no="SIM0002 · Batch Simulated",
-        title="Herstellung von Chocolate Ganache Coating (Simulated)",
+        title="Herstellung von Chocolate Ganache Coating",
         rev="1", project_code="SIM", generated_at=date(2026, 6, 8),
         page_count=46, declared_page_count=46,
     )
@@ -240,7 +240,7 @@ def _build_lemon(source_path: str | None = None) -> Document:
     pair signed by the same person -> 4-eyes error. Otherwise clean."""
     doc = Document(
         doc_no="SIM0003 · Batch Simulated",
-        title="Herstellung von Lemon Glaze Topping (Simulated)",
+        title="Herstellung von Lemon Glaze Topping",
         rev="1", project_code="SIM", generated_at=date(2026, 6, 9),
         page_count=46, declared_page_count=46,
     )
@@ -266,20 +266,21 @@ def _build_lemon(source_path: str | None = None) -> Document:
     return _assemble(doc, [people, *balances, sig])
 
 
-# Rotation order: canonical first (familiar), then the three simulated batches.
-_VARIANTS = [_build_canonical, _build_strawberry, _build_ganache, _build_lemon]
-_rotate_idx = 0
+# The simulated demo batches, cycled by the /simulate endpoint (canonical excluded —
+# it's the realistic sample returned by normal processing).
+_SIM_VARIANTS = [_build_strawberry, _build_ganache, _build_lemon]
+_sim_idx = 0
 
 
 class StubExtractor:
     name = "stub"
 
     def extract(self, source_path: str | None = None, pages=None) -> Document:
-        # Only the API's ROTATE_SAMPLE sentinel advances the carousel; everything
+        # Only the SIMULATE_NEXT sentinel advances the simulated carousel; everything
         # else (incl. the ground-truth tests) gets the canonical sample.
-        if source_path == ROTATE_SAMPLE:
-            global _rotate_idx
-            builder = _VARIANTS[_rotate_idx % len(_VARIANTS)]
-            _rotate_idx += 1
+        if source_path == SIMULATE_NEXT:
+            global _sim_idx
+            builder = _SIM_VARIANTS[_sim_idx % len(_SIM_VARIANTS)]
+            _sim_idx += 1
             return builder(None)
         return _build_canonical(source_path)

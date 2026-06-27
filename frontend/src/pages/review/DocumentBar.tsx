@@ -2,8 +2,8 @@
 // navigation/export actions. Read-only — data is owned by ReviewPage.
 
 import { useState } from "react";
-import { Link } from "react-router-dom";
-import { ArrowLeft, BarChart3, FileSpreadsheet, Gauge } from "lucide-react";
+import { Link, useNavigate } from "react-router-dom";
+import { ArrowLeft, BarChart3, FileSpreadsheet, Gauge, Trash2 } from "lucide-react";
 import { api } from "../../api/client";
 import type { DocumentSummary } from "../../api/types";
 import { CountPill, SimulatedBadge, StatusBadge } from "../../components/atoms";
@@ -12,6 +12,21 @@ import EvalModal from "./EvalModal";
 
 export default function DocumentBar({ doc }: { doc: DocumentSummary }) {
   const [evalOpen, setEvalOpen] = useState(false);
+  const [deleting, setDeleting] = useState(false);
+  const navigate = useNavigate();
+
+  async function onDelete() {
+    if (!window.confirm(`Delete "${prettyDocTitle(doc.title)}"? This permanently removes the batch record and all its data.`))
+      return;
+    setDeleting(true);
+    try {
+      await api.deleteDocument(doc.id);
+      navigate("/");
+    } catch {
+      setDeleting(false);
+    }
+  }
+
   return (
     <div className="card animate-fade-in flex flex-col gap-3 px-4 py-3 sm:px-5 lg:flex-row lg:items-center lg:justify-between">
       <div className="flex min-w-0 items-start gap-3">
@@ -54,6 +69,16 @@ export default function DocumentBar({ doc }: { doc: DocumentSummary }) {
         <a href={api.exportUrl(doc.id)} download className="btn-accent">
           <FileSpreadsheet className="h-4 w-4" /> Export .xlsx
         </a>
+        <button
+          type="button"
+          onClick={onDelete}
+          disabled={deleting}
+          title="Delete this batch record"
+          aria-label="Delete this batch record"
+          className="btn-ghost px-2 text-slate-400 hover:bg-rose-50 hover:text-rose-600"
+        >
+          <Trash2 className="h-4 w-4" />
+        </button>
       </div>
 
       {evalOpen && <EvalModal documentId={doc.id} onClose={() => setEvalOpen(false)} />}
