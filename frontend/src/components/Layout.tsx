@@ -9,30 +9,51 @@ import type { Health } from "../api/types";
 import { classNames } from "../lib/ui";
 import { Spinner } from "./atoms";
 
+// Hand-built fallback mark (a pharma capsule dissolving into pixels), shown only
+// if the real /logo.png asset is missing — so the header never renders blank.
+function BrandMark() {
+  return (
+    <svg viewBox="0 0 32 32" className="h-9 w-9 shrink-0" aria-hidden>
+      <defs>
+        <linearGradient id="bdMark" x1="0.62" y1="0" x2="0.28" y2="1">
+          <stop offset="0" stopColor="#141043" />
+          <stop offset="0.5" stopColor="#3a3670" />
+          <stop offset="1" stopColor="#9d9bc4" />
+        </linearGradient>
+        <mask id="bdDiss">
+          <rect width="32" height="32" fill="#fff" />
+          <rect x="9.4" y="21.4" width="3" height="3" rx="0.6" fill="#000" />
+          <rect x="10.6" y="24.6" width="2.3" height="2.3" rx="0.5" fill="#000" />
+          <rect x="12.4" y="21" width="2" height="2" rx="0.4" fill="#000" />
+        </mask>
+      </defs>
+      <rect x="9" y="3" width="19" height="26" rx="9.5" fill="url(#bdMark)" mask="url(#bdDiss)" />
+      <rect x="4.3" y="3.4" width="4.3" height="4.3" rx="1" fill="url(#bdMark)" />
+      <rect x="5.2" y="23.4" width="2.6" height="2.6" rx="0.5" fill="url(#bdMark)" />
+      <rect x="3.2" y="27.3" width="1.9" height="1.9" rx="0.4" fill="url(#bdMark)" />
+      <rect x="8.4" y="27.7" width="1.8" height="1.8" rx="0.4" fill="url(#bdMark)" />
+    </svg>
+  );
+}
+
+// Logo asset preference: a dropped-in PNG wins, else the transparent SVG export,
+// else the built-in mark — so the header always renders something on-brand.
+const LOGO_SOURCES = ["/logo.png", "/logo.svg"];
+
 function Brand() {
+  const [srcIdx, setSrcIdx] = useState(0);
   return (
     <Link to="/" className="flex items-center gap-2.5">
-      <span className="grid h-9 w-9 place-items-center rounded-xl bg-gradient-to-br from-brand-500 to-brand-700 text-white shadow-sm">
-        <svg
-          viewBox="0 0 32 32"
-          className="h-[22px] w-[22px]"
-          fill="none"
-          stroke="currentColor"
-          strokeWidth={2.3}
-          strokeLinecap="round"
-          strokeLinejoin="round"
-          aria-hidden
-        >
-          {/* pharma capsule — one half tinted */}
-          <g transform="rotate(-32 13 13)">
-            <rect x="5" y="9.5" width="16" height="7" rx="3.5" />
-            <path d="M13 9.5 V16.5 M21 13 a3.5 3.5 0 0 0 -3.5 -3.5 H13 v7 h4.5 A3.5 3.5 0 0 0 21 13 Z"
-                  fill="currentColor" fillOpacity={0.35} stroke="none" />
-          </g>
-          {/* rising analytics line — Rentschler yellow accent */}
-          <polyline points="16 25 20 20 23.5 22.5 28 15.5" stroke="#FFD700" />
-        </svg>
-      </span>
+      {srcIdx < LOGO_SOURCES.length ? (
+        <img
+          src={LOGO_SOURCES[srcIdx]}
+          alt="BioDize"
+          className="h-9 w-9 shrink-0 object-contain"
+          onError={() => setSrcIdx((i) => i + 1)}
+        />
+      ) : (
+        <BrandMark />
+      )}
       <div className="leading-tight">
         <div className="text-[15px] font-bold tracking-tight text-slate-800">
           Bio<span className="text-brand-600">Dize</span>

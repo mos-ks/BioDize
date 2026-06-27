@@ -1,7 +1,7 @@
 // Shared presentational atoms. Frozen layer — pages compose these.
 
 import type { ReactNode } from "react";
-import { Loader2, Inbox, AlertCircle } from "lucide-react";
+import { Loader2, Inbox, AlertCircle, FlaskConical } from "lucide-react";
 import type { Field, FieldStatus, Flag, Severity } from "../api/types";
 import {
   categoryMeta,
@@ -30,6 +30,16 @@ export function StatusBadge({ status }: { status: FieldStatus }) {
     <span className={classNames("chip", m.badge)}>
       <span className={classNames("h-1.5 w-1.5 rounded-full", m.dot)} />
       {m.label}
+    </span>
+  );
+}
+
+/** Marks a simulated/demo batch (not a real scanned upload). */
+export function SimulatedBadge() {
+  return (
+    <span className="chip bg-violet-50 text-violet-700 ring-1 ring-inset ring-violet-200">
+      <FlaskConical className="h-3.5 w-3.5" />
+      Simulated
     </span>
   );
 }

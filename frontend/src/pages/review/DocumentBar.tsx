@@ -6,7 +6,8 @@ import { Link } from "react-router-dom";
 import { ArrowLeft, BarChart3, FileSpreadsheet, Gauge } from "lucide-react";
 import { api } from "../../api/client";
 import type { DocumentSummary } from "../../api/types";
-import { CountPill, StatusBadge } from "../../components/atoms";
+import { CountPill, SimulatedBadge, StatusBadge } from "../../components/atoms";
+import { displayDocNo, isSimulatedDoc, prettyDocTitle } from "../../lib/ui";
 import EvalModal from "./EvalModal";
 
 export default function DocumentBar({ doc }: { doc: DocumentSummary }) {
@@ -24,17 +25,16 @@ export default function DocumentBar({ doc }: { doc: DocumentSummary }) {
         </Link>
         <div className="min-w-0">
           <div className="flex flex-wrap items-center gap-2">
-            <span className="font-mono text-sm font-semibold text-slate-800">{doc.doc_no}</span>
+            <span className="font-mono text-sm font-semibold text-slate-800">{displayDocNo(doc.doc_no)}</span>
             <StatusBadge status={doc.status === "processed" ? "validated" : "extracted"} />
+            {isSimulatedDoc(doc) && <SimulatedBadge />}
             <span className="chip bg-slate-100 text-slate-500 ring-1 ring-inset ring-slate-200">
               {doc.page_count} pages
             </span>
           </div>
-          {doc.title && (
-            <h1 className="mt-0.5 truncate text-[15px] font-semibold text-slate-700" title={doc.title}>
-              {doc.title}
-            </h1>
-          )}
+          <h1 className="mt-0.5 truncate text-[15px] font-semibold text-slate-700" title={prettyDocTitle(doc.title)}>
+            {prettyDocTitle(doc.title)}
+          </h1>
         </div>
       </div>
 

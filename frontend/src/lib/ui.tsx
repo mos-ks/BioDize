@@ -160,6 +160,27 @@ export function humanize(s: string): string {
     .replace(/\b\w/g, (m) => m.toUpperCase());
 }
 
+const _FILE_EXT = /\.(pdf|png|jpe?g|tiff?)(\s|$)/i;
+
+/** True for our simulated/demo batches (vs a real upload). */
+export function isSimulatedDoc(doc: { doc_no?: string | null; title?: string | null }): boolean {
+  return /simulated/i.test(`${doc.doc_no ?? ""} ${doc.title ?? ""}`);
+}
+
+/** Display title: turn a raw "scanned_batch_documentation.pdf" into "Scanned Batch Documentation". */
+export function prettyDocTitle(title?: string | null): string {
+  const t = (title ?? "").trim();
+  if (!t) return "Untitled batch record";
+  return _FILE_EXT.test(t) ? humanize(t.replace(/\.[a-z0-9]+(\s.*)?$/i, "")) : t;
+}
+
+/** Display doc number: hide raw filenames behind a neutral label. */
+export function displayDocNo(docNo?: string | null): string {
+  const d = (docNo ?? "").trim();
+  if (!d || _FILE_EXT.test(d)) return "Batch record";
+  return d;
+}
+
 export function confidencePct(conf: number): number {
   return Math.round(Math.max(0, Math.min(1, conf)) * 100);
 }

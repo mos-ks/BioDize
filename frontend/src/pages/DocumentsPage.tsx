@@ -9,26 +9,38 @@ import { useRef, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import {
   AlertTriangle,
+  CheckSquare,
   FileText,
   FilePlus2,
   FlaskConical,
+  GitCompareArrows,
   Info,
   Layers,
   Settings2,
   Sparkles,
+  Square,
+  TrendingUp,
   Upload,
+  X,
 } from "lucide-react";
 import { api } from "../api/client";
 import type { DocumentSummary, ProcessResult } from "../api/types";
-import { classNames, useApi, useAsyncAction } from "../lib/ui";
+import {
+  classNames,
+  displayDocNo,
+  isSimulatedDoc,
+  prettyDocTitle,
+  useApi,
+  useAsyncAction,
+} from "../lib/ui";
 import {
   Card,
   CountPill,
   EmptyState,
   ErrorBlock,
   LoadingBlock,
+  SimulatedBadge,
   Spinner,
-  Stat,
   StatusBadge,
 } from "../components/atoms";
 
@@ -59,31 +71,142 @@ function autoCount(d: DocumentSummary): number {
   return Math.max(0, d.n_fields - d.n_needs_review);
 }
 
+// --- "Yield": rough review effort/cost the tool saves ----------------------
+// A deliberately simple, clearly-approximate model. Baseline: a team manually
+// reviewing EVERY page to release the record; the tool auto-clears the pages with
+// no flags, leaving only the flagged ones for a human.
+const REVIEW_MIN_PER_PAGE = 8; // minutes a person spends checking one handwritten page
+const REVIEWER_EUR_PER_HOUR = 80; // loaded cost of a GMP reviewer
+const REVIEW_TEAM = 10; // reviewers in parallel — affects turnaround, not cost
+
+interface YieldEstimate {
+  hours: number;
+  cost: number;
+  savedPages: number;
+  flaggedPages: number;
+  totalPages: number;
+  turnaroundH: number;
+}
+
+function computeYield(docs: DocumentSummary[]): YieldEstimate {
+  let totalPages = 0;
+  let flaggedPages = 0;
+  for (const d of docs) {
+    totalPages += d.page_count;
+    // Approximate flagged pages from the share of fields still needing review.
+    const frac = d.n_fields > 0 ? d.n_needs_review / d.n_fields : 0;
+    flaggedPages += Math.min(d.page_count, Math.ceil(d.page_count * frac));
+  }
+  const savedPages = Math.max(0, totalPages - flaggedPages);
+  const hours = (savedPages * REVIEW_MIN_PER_PAGE) / 60;
+  return {
+    hours,
+    cost: hours * REVIEWER_EUR_PER_HOUR,
+    savedPages,
+    flaggedPages,
+    totalPages,
+    turnaroundH: hours / REVIEW_TEAM,
+  };
+}
+
+function YieldPill({ y }: { y: YieldEstimate }) {
+  const hours = y.hours >= 10 ? Math.round(y.hours).toString() : y.hours.toFixed(1);
+  const cost = Math.round(y.cost).toLocaleString();
+  const turn = y.turnaroundH >= 10 ? Math.round(y.turnaroundH).toString() : y.turnaroundH.toFixed(1);
+  return (
+    <span
+      className="ml-auto inline-flex items-center gap-2 rounded-lg bg-brand-50 px-2.5 py-1 ring-1 ring-inset ring-brand-100"
+      title={
+        `Approximation. Baseline: a ${REVIEW_TEAM}-person team manually reviewing all ` +
+        `${y.totalPages} pages to release the records, at ~${REVIEW_MIN_PER_PAGE} min/page ` +
+        `(€${REVIEWER_EUR_PER_HOUR}/h). The tool auto-clears ${y.savedPages} pages; ~${y.flaggedPages} ` +
+        `still need a human. Saves ≈${hours} review-hours (€${cost}), ~${turn}h turnaround across ${REVIEW_TEAM} reviewers.`
+      }
+    >
+      <TrendingUp className="h-4 w-4 text-brand-600" />
+      <span className="text-sm font-semibold text-brand-700">Yield</span>
+      <span className="text-sm font-medium tabular-nums text-brand-700">
+        ≈ {hours} h · €{cost}
+      </span>
+      <span className="text-[11px] font-normal text-brand-400">approx</span>
+    </span>
+  );
+}
+
+// One inline figure in the slim summary strip: big number + muted label.
+function SummaryStat({
+  n,
+  label,
+  tone,
+}: {
+  n: number;
+  label: string;
+  tone: "error" | "warning" | "good" | "neutral";
+}) {
+  const color =
+    n === 0
+      ? "text-slate-400"
+      : tone === "error"
+        ? "text-rose-600"
+        : tone === "warning"
+          ? "text-amber-600"
+          : tone === "good"
+            ? "text-brand-600"
+            : "text-slate-800";
+  return (
+    <span className="inline-flex items-baseline gap-1.5">
+      <span className={classNames("text-lg font-bold tabular-nums", color)}>{n}</span>
+      <span className="text-sm text-slate-400">{label}</span>
+    </span>
+  );
+}
+
 // --- document card ----------------------------------------------------------
 
-function DocumentCard({ doc }: { doc: DocumentSummary }) {
+function DocumentCard({
+  doc,
+  selectable = false,
+  selected = false,
+  onToggle,
+}: {
+  doc: DocumentSummary;
+  selectable?: boolean;
+  selected?: boolean;
+  onToggle?: (id: string) => void;
+}) {
   const hasErrors = doc.n_errors > 0;
   const hasWarnings = !hasErrors && doc.n_warnings > 0;
   const auto = autoCount(doc);
+  const sim = isSimulatedDoc(doc);
 
-  return (
-    <Link
-      to={`/documents/${doc.id}`}
-      className={classNames(
-        "card group flex flex-col gap-3 p-4 transition-all duration-150",
-        "hover:-translate-y-0.5 hover:shadow-panel focus:outline-none focus-visible:ring-2 focus-visible:ring-brand-500/40",
-        hasErrors && "border-l-4 border-l-rose-400",
-        hasWarnings && "border-l-4 border-l-amber-400",
-      )}
-    >
+  const base = classNames(
+    "card group flex flex-col gap-3 p-4 text-left transition-all duration-150",
+    "focus:outline-none focus-visible:ring-2 focus-visible:ring-brand-500/40",
+    hasErrors && "border-l-4 border-l-rose-400",
+    hasWarnings && "border-l-4 border-l-amber-400",
+    selected && "ring-2 ring-brand-500",
+    !selected && "hover:-translate-y-0.5 hover:shadow-panel",
+  );
+
+  const inner = (
+    <>
       <div className="flex items-start justify-between gap-3">
         <div className="min-w-0">
-          <div className="font-mono text-[13px] font-semibold text-slate-700">{doc.doc_no}</div>
+          <div className="font-mono text-[13px] font-semibold text-slate-700">{displayDocNo(doc.doc_no)}</div>
           <h3 className="mt-0.5 line-clamp-2 text-sm font-medium text-slate-800 group-hover:text-brand-700">
-            {doc.title?.trim() || "Untitled batch record"}
+            {prettyDocTitle(doc.title)}
           </h3>
         </div>
-        <StatusBadge status={statusToFieldStatus(doc.status)} />
+        <div className="flex shrink-0 flex-col items-end gap-1.5">
+          {selectable &&
+            (selected ? (
+              <CheckSquare className="h-5 w-5 text-brand-600" />
+            ) : (
+              <Square className="h-5 w-5 text-slate-300" />
+            ))}
+          <StatusBadge status={statusToFieldStatus(doc.status)} />
+          {sim && <SimulatedBadge />}
+        </div>
       </div>
 
       <div className="flex items-center gap-3 text-xs text-slate-500">
@@ -112,6 +235,19 @@ function DocumentCard({ doc }: { doc: DocumentSummary }) {
           </span>
         )}
       </div>
+    </>
+  );
+
+  if (selectable) {
+    return (
+      <button type="button" onClick={() => onToggle?.(doc.id)} aria-pressed={selected} className={base}>
+        {inner}
+      </button>
+    );
+  }
+  return (
+    <Link to={`/documents/${doc.id}`} className={base}>
+      {inner}
     </Link>
   );
 }
@@ -141,6 +277,11 @@ export default function DocumentsPage() {
   const fileInputRef = useRef<HTMLInputElement | null>(null);
   const [maxPages, setMaxPages] = useState<string>("");
   const [uploadStep, setUploadStep] = useState<string | null>(null);
+  // A PDF must be uploaded before processing is allowed. Holds the staged upload.
+  const [uploaded, setUploaded] = useState<{ source_path: string; filename: string } | null>(null);
+  // Compare mode: pick ≥2 batches, then open them side by side.
+  const [compareMode, setCompareMode] = useState(false);
+  const [selected, setSelected] = useState<Set<string>>(new Set());
 
   function parsedMaxPages(): number | undefined {
     const n = parseInt(maxPages, 10);
@@ -154,27 +295,29 @@ export default function DocumentsPage() {
     navigate(`/documents/${res.document_id}`);
   }
 
-  // (a) Process the bundled sample — the stub ignores source_path, so this is
-  // instant and free. max_pages still applies for a consistent UX.
-  const processSample = useAsyncAction(async () => {
-    const res = await api.processDocument({ max_pages: parsedMaxPages() });
-    onProcessed(res);
-    return res;
-  });
-
-  // (b) Upload a real PDF, then process it. Two network steps with progress text.
-  const uploadFlow = useAsyncAction(async (file: File) => {
-    setUploadStep("Uploading PDF…");
-    const { source_path } = await api.uploadDocument(file);
-    setUploadStep("Processing pages…");
-    const res = await api.processDocument({ source_path, max_pages: parsedMaxPages() });
+  // (a) Upload a PDF and STAGE it (no auto-processing) so the Process button only
+  // becomes available once a document is present.
+  const uploadAction = useAsyncAction(async (file: File) => {
+    setUploadStep("Uploading…");
+    const res = await api.uploadDocument(file);
+    setUploaded({ source_path: res.source_path, filename: res.filename });
     setUploadStep(null);
+    return res;
+  });
+
+  // (b) Process the staged upload. Disabled until something is uploaded.
+  const processAction = useAsyncAction(async () => {
+    if (!uploaded) return undefined;
+    setUploadStep("Processing pages…");
+    const res = await api.processDocument({ source_path: uploaded.source_path, max_pages: parsedMaxPages() });
+    setUploadStep(null);
+    setUploaded(null);
     onProcessed(res);
     return res;
   });
 
-  const busy = processSample.pending || uploadFlow.pending;
-  const actionError = processSample.error || uploadFlow.error;
+  const busy = uploadAction.pending || processAction.pending;
+  const actionError = uploadAction.error || processAction.error;
 
   function pickFile() {
     fileInputRef.current?.click();
@@ -185,10 +328,30 @@ export default function DocumentsPage() {
     // Reset so choosing the same file again re-triggers change.
     e.target.value = "";
     if (!file) return;
-    await uploadFlow.run(file);
+    await uploadAction.run(file);
+  }
+
+  // --- compare-mode helpers ---
+  function toggleSelect(id: string) {
+    setSelected((prev) => {
+      const next = new Set(prev);
+      if (next.has(id)) next.delete(id);
+      else next.add(id);
+      return next;
+    });
+  }
+  function cancelCompare() {
+    setCompareMode(false);
+    setSelected(new Set());
+  }
+  function runCompare() {
+    const ids = Array.from(selected);
+    if (ids.length >= 2) navigate(`/compare?ids=${ids.join(",")}`);
   }
 
   const totals = data ? sumTotals(data) : null;
+  const yieldEst = data && data.length ? computeYield(data) : null;
+  const canCompare = (data?.length ?? 0) >= 2;
 
   return (
     <div className="animate-fade-in space-y-6">
@@ -196,9 +359,8 @@ export default function DocumentsPage() {
       <header className="flex flex-col gap-4 lg:flex-row lg:items-start lg:justify-between">
         <div>
           <h1 className="text-2xl font-bold tracking-tight text-slate-900">Batch Records</h1>
-          <p className="mt-1 max-w-xl text-sm text-slate-500">
-            Digitized handwritten batch-production records. Most fields auto-accept; the uncertain
-            ones go to a review queue — right or it asks, never silently wrong.
+          <p className="mt-1 text-sm text-slate-500">
+            Digitized handwritten records. Uncertain fields go to review, never silently wrong.
           </p>
         </div>
 
@@ -226,9 +388,9 @@ export default function DocumentsPage() {
               onClick={pickFile}
               disabled={busy}
               className="btn-secondary"
-              title="Upload a PDF, then run the pipeline"
+              title="Upload a PDF to process"
             >
-              {uploadFlow.pending ? <Spinner /> : <Upload className="h-4 w-4" />}
+              {uploadAction.pending ? <Spinner /> : <Upload className="h-4 w-4" />}
               Upload PDF
             </button>
             <input
@@ -241,31 +403,33 @@ export default function DocumentsPage() {
 
             <button
               type="button"
-              onClick={() => processSample.run()}
-              disabled={busy}
+              onClick={() => processAction.run()}
+              disabled={busy || !uploaded}
               className="btn-primary"
-              title="Run the bundled sample through the pipeline"
+              title={uploaded ? "Run the uploaded PDF through the pipeline" : "Upload a PDF first"}
             >
-              {processSample.pending ? <Spinner /> : <FlaskConical className="h-4 w-4" />}
-              Process sample
+              {processAction.pending ? <Spinner /> : <FlaskConical className="h-4 w-4" />}
+              Process
             </button>
           </div>
 
-          {/* progress text for the multi-step upload flow */}
-          {uploadFlow.pending && uploadStep && (
+          {/* staged upload + progress text */}
+          {uploadStep ? (
             <div className="inline-flex items-center gap-2 text-xs font-medium text-brand-700">
               <Spinner className="h-3.5 w-3.5" /> {uploadStep}
             </div>
-          )}
+          ) : uploaded ? (
+            <div className="inline-flex max-w-xs items-center gap-1.5 text-xs font-medium text-emerald-700">
+              <FileText className="h-3.5 w-3.5 shrink-0" />
+              <span className="truncate">{uploaded.filename}</span>
+              <span className="text-emerald-600">ready — click Process</span>
+            </div>
+          ) : null}
 
           {/* credits / timing note */}
-          <p className="flex items-start gap-1.5 text-xs text-slate-400 sm:text-right">
-            <Info className="mt-px h-3.5 w-3.5 shrink-0" />
-            <span>
-              The bundled sample is instant and free. Processing a real 46-page PDF with live cloud
-              providers can take a while and uses API credits — set <em>max pages</em> for a cheap
-              first run.
-            </span>
+          <p className="flex items-center gap-1.5 text-xs text-slate-400 sm:justify-end">
+            <Info className="h-3.5 w-3.5 shrink-0" />
+            <span>Upload a PDF to process. Live extraction uses API credits; set <em>max pages</em> to cap.</span>
           </p>
 
           {actionError && (
@@ -276,18 +440,15 @@ export default function DocumentsPage() {
         </div>
       </header>
 
-      {/* Aggregate summary */}
-      {totals && (
-        <div className="grid grid-cols-2 gap-3 sm:grid-cols-4">
-          <Stat label="Documents" value={totals.documents} tone="neutral" />
-          <Stat label="Errors" value={totals.errors} tone="error" hint="across all records" />
-          <Stat label="Warnings" value={totals.warnings} tone="warning" hint="across all records" />
-          <Stat
-            label="Needs review"
-            value={totals.needsReview}
-            tone={totals.needsReview > 0 ? "warning" : "good"}
-            hint="fields in queue"
-          />
+      {/* Aggregate summary — one slim strip rather than four big cards. */}
+      {totals && totals.documents > 0 && (
+        <div className="card flex flex-wrap items-center gap-x-6 gap-y-2 px-4 py-2.5">
+          <SummaryStat n={totals.documents} label={totals.documents === 1 ? "document" : "documents"} tone="neutral" />
+          <span className="h-5 w-px bg-slate-200" />
+          <SummaryStat n={totals.errors} label="errors" tone="error" />
+          <SummaryStat n={totals.warnings} label="warnings" tone="warning" />
+          <SummaryStat n={totals.needsReview} label="to review" tone={totals.needsReview > 0 ? "warning" : "good"} />
+          {yieldEst && yieldEst.totalPages > 0 && <YieldPill y={yieldEst} />}
         </div>
       )}
 
@@ -305,34 +466,68 @@ export default function DocumentsPage() {
         <EmptyState
           icon={<FilePlus2 className="h-8 w-8" />}
           title="No batch records yet"
-          hint="Process the bundled sample to see the full digitize → validate → review flow. It's instant and free."
+          hint="Upload a batch-record PDF to run the full digitize → validate → review flow."
           action={
-            <button
-              type="button"
-              onClick={() => processSample.run()}
-              disabled={busy}
-              className="btn-primary mt-1"
-            >
-              {processSample.pending ? <Spinner /> : <FlaskConical className="h-4 w-4" />}
-              Process sample
+            <button type="button" onClick={pickFile} disabled={busy} className="btn-primary mt-1">
+              {uploadAction.pending ? <Spinner /> : <Upload className="h-4 w-4" />}
+              Upload PDF
             </button>
           }
         />
       ) : (
-        <div className="grid grid-cols-1 gap-3 sm:grid-cols-2 xl:grid-cols-3">
-          {[...data]
-            // Errors first, then warnings, then anything still in review — same
-            // triage priority the product promises in the review queue.
-            .sort(
-              (a, b) =>
-                b.n_errors - a.n_errors ||
-                b.n_warnings - a.n_warnings ||
-                b.n_needs_review - a.n_needs_review,
-            )
-            .map((doc) => (
-              <DocumentCard key={doc.id} doc={doc} />
-            ))}
-        </div>
+        <>
+          {/* Compare toolbar */}
+          <div className="flex items-center justify-between gap-2">
+            <p className="text-xs text-slate-400">
+              {data.length} batch{data.length !== 1 ? "es" : ""}
+            </p>
+            {!compareMode ? (
+              canCompare && (
+                <button type="button" onClick={() => setCompareMode(true)} className="btn-secondary text-sm">
+                  <GitCompareArrows className="h-4 w-4" /> Compare batches
+                </button>
+              )
+            ) : (
+              <div className="flex items-center gap-2">
+                <span className="hidden text-xs text-slate-500 sm:inline">
+                  {selected.size} selected · pick 2+
+                </span>
+                <button
+                  type="button"
+                  onClick={runCompare}
+                  disabled={selected.size < 2}
+                  className="btn-primary text-sm"
+                >
+                  <GitCompareArrows className="h-4 w-4" /> Compare{selected.size > 0 ? ` (${selected.size})` : ""}
+                </button>
+                <button type="button" onClick={cancelCompare} className="btn-ghost text-sm">
+                  <X className="h-4 w-4" /> Cancel
+                </button>
+              </div>
+            )}
+          </div>
+
+          <div className="grid grid-cols-1 gap-3 sm:grid-cols-2 xl:grid-cols-3">
+            {[...data]
+              // Errors first, then warnings, then anything still in review — same
+              // triage priority the product promises in the review queue.
+              .sort(
+                (a, b) =>
+                  b.n_errors - a.n_errors ||
+                  b.n_warnings - a.n_warnings ||
+                  b.n_needs_review - a.n_needs_review,
+              )
+              .map((doc) => (
+                <DocumentCard
+                  key={doc.id}
+                  doc={doc}
+                  selectable={compareMode}
+                  selected={selected.has(doc.id)}
+                  onToggle={toggleSelect}
+                />
+              ))}
+          </div>
+        </>
       )}
 
       {/* subtle pointer to API settings, mirroring Layout's gear */}
