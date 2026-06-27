@@ -42,6 +42,8 @@ export default function PageGroupedQueue({
   const [active, setActive] = useState<Set<FlagCategory>>(new Set());
   // Page whose full-screen "all boxes" view is open (null = closed).
   const [viewer, setViewer] = useState<PageGroup | null>(null);
+  // Order pages by triage severity (red→yellow→green) or by page number.
+  const [sortMode, setSortMode] = useState<"severity" | "page">("severity");
 
   // Distinct flag categories present across the document, for the filter chips.
   const categories: FlagCategory[] = useMemo(() => {
@@ -89,6 +91,14 @@ export default function PageGroupedQueue({
   const totalErr = visible.reduce((n, g) => n + g.nErr, 0);
   const cleanPages = visible.filter((g) => g.flagged.length === 0).length;
 
+  // Severity order: pages with errors (red) first, then warnings (yellow), then
+  // clean (green); page-number order as the alternative.
+  const sorted = [...visible].sort((a, b) => {
+    if (sortMode === "page") return a.page - b.page;
+    const rank = (g: PageGroup) => (g.nErr > 0 ? 0 : g.nWarn > 0 ? 1 : 2);
+    return rank(a) - rank(b) || a.page - b.page;
+  });
+
   return (
     <div className="animate-fade-in space-y-2">
       {categories.length > 0 && (
@@ -129,11 +139,29 @@ export default function PageGroupedQueue({
         </div>
       )}
 
-      <p className="px-1 text-xs text-slate-400">
-        {visible.length} page{visible.length !== 1 ? "s" : ""} ·{" "}
-        <span className="font-semibold text-rose-500">{totalErr}</span> errors ·{" "}
-        <span className="font-semibold text-emerald-600">{cleanPages}</span> clean
-      </p>
+      <div className="flex items-center justify-between gap-2 px-1">
+        <p className="text-xs text-slate-400">
+          {visible.length} page{visible.length !== 1 ? "s" : ""} ·{" "}
+          <span className="font-semibold text-rose-500">{totalErr}</span> errors ·{" "}
+          <span className="font-semibold text-emerald-600">{cleanPages}</span> clean
+        </p>
+        <div className="flex items-center gap-1 text-xs">
+          <span className="text-slate-400">Sort</span>
+          {(["severity", "page"] as const).map((m) => (
+            <button
+              key={m}
+              type="button"
+              onClick={() => setSortMode(m)}
+              className={classNames(
+                "rounded px-1.5 py-0.5 font-medium transition-colors",
+                sortMode === m ? "bg-brand-600 text-white" : "text-slate-500 hover:bg-slate-100",
+              )}
+            >
+              {m === "severity" ? "Severity" : "Page"}
+            </button>
+          ))}
+        </div>
+      </div>
 
       {visible.length === 0 ? (
         <EmptyState
@@ -146,7 +174,7 @@ export default function PageGroupedQueue({
           }
         />
       ) : (
-        visible.map((g) => {
+        sorted.map((g) => {
           const clean = g.flagged.length === 0;
           // Only errored pages expand to a flagged-field list. Clean pages have
           // nothing to step through — "View page" shows the whole scan instead.

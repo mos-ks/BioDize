@@ -197,6 +197,19 @@ export function fieldDisplayValue(value?: string | null, raw?: string | null): s
   return v && v.trim() ? v : "—";
 }
 
+/**
+ * The confidence to SHOW a reviewer: the model's actual read confidence (from its
+ * reads), NOT the rule-gated score on `field.confidence` — that one clamps any
+ * errored field to 0.40 (and warnings to 0.70), so it reads "40 everywhere".
+ */
+export function displayConfidence(field: {
+  confidence: number;
+  reads?: { confidence: number }[] | null;
+}): number {
+  if (field.reads && field.reads.length > 0) return Math.min(...field.reads.map((r) => r.confidence));
+  return field.confidence;
+}
+
 /** Worst severity among flags (error beats warning). null when clean. */
 export function worstSeverity(flags: { severity: Severity }[]): Severity | null {
   if (flags.some((f) => f.severity === "error")) return "error";

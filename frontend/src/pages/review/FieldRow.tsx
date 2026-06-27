@@ -3,6 +3,7 @@
 import type { Field } from "../../api/types";
 import {
   classNames,
+  displayConfidence,
   primaryFlag,
   roleIcon,
   roleLabel,
@@ -80,7 +81,7 @@ export default function FieldRow({
       )}
 
       <div className="mt-2.5 flex items-center gap-3">
-        <ConfidenceMeter confidence={field.confidence} className="max-w-[140px]" />
+        <ConfidenceMeter confidence={displayConfidence(field)} className="max-w-[140px]" />
         <div className="ml-auto">
           <FieldFlagSummary field={field} />
         </div>

@@ -9,7 +9,7 @@
 // the field, refreshes the queue + document tallies, and auto-advances to the
 // next item for a fast keyboard-light review loop.
 
-import { useEffect, useMemo, useRef, useState } from "react";
+import { useMemo, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { ListChecks, PartyPopper, ScanLine, Sparkles, Table2 } from "lucide-react";
 import { api } from "../api/client";
@@ -28,22 +28,13 @@ export default function ReviewPage() {
   const navigate = useNavigate();
 
   const [tab, setTab] = useState<Tab>("queue");
+  // No field is selected by default when a batch opens — the reviewer picks one.
   const [selectedId, setSelectedId] = useState<string | null>(null);
-  // Lets us auto-select the first queue item only on the very first load.
-  const autoSelectedRef = useRef(false);
 
   const docState = useApi<DocumentSummary>(() => api.getDocument(documentId), [documentId]);
   const queueState = useApi<Field[]>(() => api.getQueue(documentId), [documentId]);
 
   const queue = useMemo(() => queueState.data ?? [], [queueState.data]);
-
-  // Auto-select the first queue item once the queue first arrives.
-  useEffect(() => {
-    if (!autoSelectedRef.current && queue.length > 0) {
-      autoSelectedRef.current = true;
-      setSelectedId((cur) => cur ?? queue[0].id);
-    }
-  }, [queue]);
 
   function selectField(id: string) {
     setSelectedId(id);

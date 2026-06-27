@@ -14,6 +14,7 @@ import type { Field } from "../../api/types";
 import {
   classNames,
   confidenceTone,
+  displayConfidence,
   fieldDisplayValue,
   roleIcon,
   roleLabel,
@@ -128,7 +129,8 @@ export default function FieldDetail({
     return <ErrorBlock message={error ?? "Field not found."} onRetry={reload} />;
 
   const Icon = roleIcon(field.role);
-  const tone = confidenceTone(field.confidence);
+  const conf = displayConfidence(field);
+  const tone = confidenceTone(conf);
   const busy = confirmAction.pending || correctAction.pending;
   const actionError = confirmAction.error || correctAction.error;
 
@@ -176,7 +178,7 @@ export default function FieldDetail({
           </div>
         </div>
         <div className="shrink-0 text-center">
-          <ConfidenceGauge confidence={field.confidence} size={60} />
+          <ConfidenceGauge confidence={conf} size={60} />
           <div className={classNames("text-[11px] font-semibold", tone.text)}>{tone.label}</div>
         </div>
       </div>
