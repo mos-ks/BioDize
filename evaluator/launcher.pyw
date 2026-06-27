@@ -203,7 +203,8 @@ class App:
                     import subprocess as _sp
                     def _git(*args):
                         r = _sp.run(["git", *args], cwd=str(ROOT),
-                                    capture_output=True, text=True)
+                                    capture_output=True, text=True,
+                                    creationflags=_sp.CREATE_NO_WINDOW)
                         return r.returncode, (r.stdout+r.stderr).strip()
 
                     _, branch = _git("rev-parse", "--abbrev-ref", "HEAD")
