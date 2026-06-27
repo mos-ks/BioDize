@@ -3,9 +3,10 @@ import tkinter as tk
 import subprocess, sys
 from pathlib import Path
 
-ROOT = Path(__file__).parent.parent.resolve()  # evaluator/ -> repo root
-VENV_PY = ROOT / "backend" / ".venv" / "Scripts" / "python.exe"
-PY      = str(VENV_PY) if VENV_PY.exists() else sys.executable
+SCRIPTS_DIR = Path(__file__).parent.resolve()          # evaluator/  -- alle .py Skripte
+ROOT        = SCRIPTS_DIR.parent                        # repo root   -- backend/, results/
+VENV_PY     = ROOT / "backend" / ".venv" / "Scripts" / "python.exe"
+PY          = str(VENV_PY) if VENV_PY.exists() else sys.executable
 
 BG        = "#0f1117"
 CARD_BG   = "#1a1d27"
@@ -28,7 +29,7 @@ def launch(script: str, label: str, btn: tk.Button,
     btn.config(state="disabled", text="Laedt...")
     try:
         parts = script.split()
-        cmd   = [PY, str(ROOT / parts[0])] + parts[1:]
+        cmd   = [PY, str(SCRIPTS_DIR / parts[0])] + parts[1:]
         p     = subprocess.Popen(cmd, creationflags=subprocess.CREATE_NEW_CONSOLE)
         procs.append(p)
         set_status(f"{label} laeuft (PID {p.pid})", ACCENT2)
@@ -85,7 +86,7 @@ def load_custom_form(btn, color_base, color_hover):
     path = fd.askopenfilename(
         title="Formular-JSON auswaehlen",
         filetypes=[("JSON", "*.json"), ("Alle", "*.*")],
-        initialdir=str(ROOT / "results"),
+        initialdir=str(ROOT / "results"),  # results/ ist im Repo-Root
     )
     if not path:
         return
@@ -93,7 +94,7 @@ def load_custom_form(btn, color_base, color_hover):
     btn.config(state="disabled", text="Laedt...")
     try:
         p = subprocess.Popen(
-            [PY, str(ROOT / "load_results.py"), "--file", path],
+            [PY, str(SCRIPTS_DIR / "load_results.py"), "--file", path],
             creationflags=subprocess.CREATE_NEW_CONSOLE,
         )
         procs.append(p)
@@ -187,7 +188,7 @@ def mini_tool_btn(parent, text, script, color="#334155", hover="#475569"):
                   activeforeground=TEXT, relief="flat", bd=0,
                   padx=8, pady=6, cursor="hand2",
                   command=lambda: subprocess.Popen(
-                      [PY, str(ROOT / script)],
+                      [PY, str(SCRIPTS_DIR / script)],
                       creationflags=subprocess.CREATE_NEW_CONSOLE))
     b.bind("<Enter>", lambda e: b.config(bg=hover))
     b.bind("<Leave>", lambda e: b.config(bg=color))
