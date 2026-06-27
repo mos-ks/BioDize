@@ -16,6 +16,7 @@ import base64
 import io
 import json
 import logging
+import re
 from concurrent.futures import ThreadPoolExecutor
 
 from app.core.config import settings
@@ -44,6 +45,15 @@ def _looks_like_signature(f: Field) -> bool:
         return True
     low = (f.label_raw or "").lower()
     return any(k in low for k in _SIG_LABEL)
+
+
+_SIG_COMPLETE = re.compile(r"\d{1,2}\.\d{1,2}\.\d{2,4}.*?/\s*[A-Za-zÄÖÜäöüß]{2,}")
+
+
+def _complete_signature(val: str) -> bool:
+    """A usable signature re-read has BOTH a date and a Kürzel. A partial zoom read
+    (date-only or Kürzel-only) just trades one flag for another, so we reject it."""
+    return bool(_SIG_COMPLETE.search(val or ""))
 
 
 def _kuerzel_stray(f: Field, roster: set[str]) -> bool:
@@ -149,6 +159,10 @@ def zoom_reread(doc: Document, page_images: dict[int, str]) -> Document:
         # accept the zoom value when it filled a blank, beat the original confidence,
         # or replaced a stray Kürzel (which can't be worse than matching no signer).
         if val and (was_blank or was_stray or conf >= _read_conf(f)):
+            # a signature re-read is only useful if it's a COMPLETE 'date / Kürzel';
+            # a partial read just swaps one warning for another, so keep the original.
+            if _looks_like_signature(f) and not _complete_signature(val):
+                continue
             f.value_raw = val
             f.value = val
             f.reads.append(Read(model=f"{model}-zoom", value_raw=val, confidence=conf))

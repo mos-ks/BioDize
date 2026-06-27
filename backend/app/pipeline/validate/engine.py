@@ -24,5 +24,6 @@ def validate(doc: Document) -> Document:
     rules.rule_dates_document(doc, rules.print_date(doc))
     rules.rule_kuerzel_document(doc)
     rules.rule_xref_document(doc)
+    rules.rule_stat_outlier(doc)        # anomaly detection: values beyond k std of role-peers
 
     return doc

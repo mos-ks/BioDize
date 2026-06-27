@@ -118,6 +118,28 @@ def test_cross_field_label_formula():
     assert not run("120", with_inputs=False)                    # unresolved vars -> no flag
 
 
+def test_stat_outlier_flags_value_far_from_peers():
+    """Anomaly detection: a numeric value beyond k std of its role-peers is flagged
+    STAT_OUTLIER (leave-one-out, so the outlier can't mask itself). Normal values
+    and small samples are left alone."""
+    from app.domain.roles import Role
+    from app.pipeline.model import Block, Document, Field
+    from app.pipeline.validate.rules import rule_stat_outlier
+
+    def vol(val):
+        f = Field(page_no=1, chapter="", role=Role.VOLUME, label_raw="V Netto", value_raw=str(val))
+        f.value = float(val)
+        f.value_type = "number"
+        return f
+
+    b = Block(chapter="", page_no=1, template="t")
+    b.fields = [vol(180), vol(185), vol(190), vol(195), vol(700)]   # 700 is the outlier
+    doc = Document(doc_no="x", title="x"); doc.blocks = [b]
+    rule_stat_outlier(doc)
+    flagged = {f.value_raw for f in b.fields for fl in f.flags if fl.code == "STAT_OUTLIER"}
+    assert flagged == {"700"}, flagged
+
+
 def test_date_year_suspect_without_print_date():
     """A lone wrong-year date (2025 among 2026) must be caught even when the doc has
     NO print date — using the document's own modal batch year as the reference."""

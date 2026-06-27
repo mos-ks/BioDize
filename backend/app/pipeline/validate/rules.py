@@ -10,9 +10,11 @@ from __future__ import annotations
 import ast
 import operator
 import re
+import statistics
 from datetime import date, datetime, time, timedelta
 
-from app.domain.roles import Role
+from app.core.config import settings
+from app.domain.roles import NUMERIC_ROLES, Role
 from app.domain.severity import Category, Severity
 from app.pipeline.model import Block, Document, Field, Flag
 from app.pipeline.normalize import is_zero_padded_date, parse_date, parse_soll
@@ -543,6 +545,44 @@ def rule_xref_document(doc: Document) -> None:
             f.add_flag(_warn(Category.CROSS_REFERENCE, "XREF_NEAR_MISS",
                              f"carried value '{f.value}' ~= source (Kapitel {m.group(1)}) '{src.value}' (rounding)",
                              expected=str(src.value), actual=str(f.value)))
+
+
+def rule_stat_outlier(doc: Document) -> None:
+    """Anomaly detection: a numeric value sitting beyond k standard deviations of
+    its role-peers (the other masses / volumes / concentrations… recorded in this
+    document) is flagged as a STAT_OUTLIER warning. Catches transcription anomalies
+    that pass the per-field rules. Skips values already flagged by a hard rule
+    (no double-noise) and needs a minimum number of peers for a meaningful std."""
+    k = settings.outlier_std_k
+    min_n = settings.outlier_min_samples
+    by_role: dict[str, list[Field]] = {}
+    for f in doc.all_fields():
+        if (f.role in NUMERIC_ROLES and isinstance(f.value, (int, float))
+                and not isinstance(f.value, bool) and not f.has_error):  # known-bad excluded
+            by_role.setdefault(f.role, []).append(f)
+    for role, fields in by_role.items():
+        vals = [float(f.value) for f in fields]
+        n = len(vals)
+        if n < min_n:
+            continue
+        total, total_sq = sum(vals), sum(v * v for v in vals)
+        label = str(getattr(role, "value", role)).replace("_", " ")
+        for f in fields:
+            # LEAVE-ONE-OUT z-score: compare this value to its PEERS (everyone else),
+            # so a lone outlier can't inflate the mean/std and mask itself.
+            v = float(f.value)
+            pn = n - 1
+            pmean = (total - v) / pn
+            pvar = max(0.0, (total_sq - v * v) / pn - pmean * pmean)
+            psd = pvar ** 0.5
+            if psd == 0:
+                continue
+            z = (v - pmean) / psd
+            if abs(z) > k:
+                f.add_flag(_warn(Category.OUTLIER, "STAT_OUTLIER",
+                                 f"{f.value} is {abs(z):.1f}σ from its {label} peers "
+                                 f"(mean {round(pmean, 2)}, n={pn}) — possible anomaly",
+                                 expected=f"{round(pmean, 2)} ± {round(psd, 2)}", actual=f.value))
 
 
 # --- registries -------------------------------------------------------------

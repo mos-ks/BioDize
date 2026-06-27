@@ -67,6 +67,12 @@ class Settings(BaseSettings):
     zoom_conf_threshold: float = 0.6            # re-read fields read below this confidence
     zoom_max_fields: int = 80                   # safety cap on re-reads per document
 
+    # --- Anomaly detection (statistical outliers) ----------------------------
+    # A numeric value beyond k standard deviations of its role-peers (other masses,
+    # volumes, concentrations... in the record) is flagged as a STAT_OUTLIER warning.
+    outlier_std_k: float = 2.0
+    outlier_min_samples: int = 4               # need at least this many peers for a meaningful std
+
 
 @lru_cache
 def get_settings() -> Settings:
