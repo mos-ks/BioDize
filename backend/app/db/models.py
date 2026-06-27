@@ -36,6 +36,7 @@ class Document(Base):
     declared_page_count: Mapped[int | None] = mapped_column(Integer, nullable=True)
     generated_at: Mapped[str | None] = mapped_column(String, nullable=True)  # print date (ISO)
     status: Mapped[str] = mapped_column(String, default="uploaded")
+    processing_ms: Mapped[int | None] = mapped_column(Integer, nullable=True)  # pipeline run time
     created_at: Mapped[datetime] = mapped_column(DateTime, default=_now)
 
     pages: Mapped[list["Page"]] = relationship(back_populates="document", cascade="all, delete-orphan")

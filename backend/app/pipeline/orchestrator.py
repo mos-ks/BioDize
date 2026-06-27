@@ -5,11 +5,13 @@ EXTRACTOR=openai + OCR_ENGINE=mistral it calls the cloud providers.
 """
 from __future__ import annotations
 
+import time
 from dataclasses import dataclass
 
 from sqlalchemy.orm import Session
 
 from app.core.config import settings
+from app.db import models
 from app.domain.severity import FieldStatus, Severity
 from app.pipeline import history, store
 from app.pipeline.extract.base import get_extractor
@@ -38,6 +40,7 @@ def process(source_path: str | None, db: Session, max_pages: int | None = None,
     # force_extractor lets endpoints pin the stub (e.g. the simulated-batch button)
     # regardless of the globally configured extractor.
     extractor_name = force_extractor or settings.extractor
+    t0 = time.monotonic()
 
     # 0. Render the PDF ONCE; share the page images with the reader and the OCR layer.
     page_images: dict[int, str] = {}
@@ -75,6 +78,12 @@ def process(source_path: str | None, db: Session, max_pages: int | None = None,
     # 6. Persist (with page-image paths so the review UI can serve them).
     document_id = store.persist(doc, db, page_images)
     history.record(doc, db, document_id)  # append this record's values to the history
+
+    # Record how long generating this batch took (shown on the landing page).
+    elapsed_ms = int((time.monotonic() - t0) * 1000)
+    db.query(models.Document).filter(models.Document.id == document_id).update(
+        {"processing_ms": elapsed_ms})
+    db.commit()
 
     fields = doc.all_fields()
     n_err = sum(1 for f in fields for fl in f.flags if fl.severity is Severity.ERROR)

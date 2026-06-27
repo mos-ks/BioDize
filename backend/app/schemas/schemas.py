@@ -65,6 +65,7 @@ class DocumentSummary(BaseModel):
     n_errors: int = 0
     n_warnings: int = 0
     n_needs_review: int = 0
+    processing_ms: int | None = None
 
 
 class CorrectionIn(BaseModel):

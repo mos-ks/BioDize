@@ -150,5 +150,5 @@ def _summary(doc: models.Document, db: Session) -> DocumentSummary:
     return DocumentSummary(
         id=doc.id, doc_no=doc.doc_no, title=doc.title, status=doc.status, page_count=doc.page_count,
         n_fields=n_fields, n_errors=counts.get("error", 0), n_warnings=counts.get("warning", 0),
-        n_needs_review=n_review,
+        n_needs_review=n_review, processing_ms=getattr(doc, "processing_ms", None),
     )

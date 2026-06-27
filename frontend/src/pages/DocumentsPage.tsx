@@ -10,6 +10,7 @@ import { Link, useNavigate } from "react-router-dom";
 import {
   AlertTriangle,
   CheckSquare,
+  Clock,
   FileText,
   FilePlus2,
   FlaskConical,
@@ -72,6 +73,14 @@ function sumTotals(docs: DocumentSummary[]): Totals {
 // is "most fields auto-accept", so showing this good-tone hint keeps the calm.
 function autoCount(d: DocumentSummary): number {
   return Math.max(0, d.n_fields - d.n_needs_review);
+}
+
+// Human-readable pipeline run time for the card corner.
+function formatDuration(ms: number): string {
+  if (ms < 1000) return `${Math.round(ms)} ms`;
+  const s = ms / 1000;
+  if (s < 60) return `${s < 10 ? s.toFixed(1) : Math.round(s)} s`;
+  return `${Math.floor(s / 60)}m ${Math.round(s % 60)}s`;
 }
 
 // --- "Yield": rough review effort/cost the tool saves ----------------------
@@ -223,6 +232,14 @@ function DocumentCard({
           <Layers className="h-3.5 w-3.5 text-slate-400" />
           <span className="tabular-nums">{doc.n_fields}</span> fields
         </span>
+        {doc.processing_ms != null && (
+          <span
+            className="ml-auto inline-flex items-center gap-1 text-slate-400"
+            title="Time the pipeline took to generate this record"
+          >
+            <Clock className="h-3.5 w-3.5" /> {formatDuration(doc.processing_ms)}
+          </span>
+        )}
       </div>
 
       <div className="mt-auto flex flex-wrap items-center gap-1.5">

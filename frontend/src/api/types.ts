@@ -87,6 +87,7 @@ export interface DocumentSummary {
   n_errors: number;
   n_warnings: number;
   n_needs_review: number;
+  processing_ms?: number | null; // time the pipeline took to generate this record
 }
 
 export interface ProcessResult {
