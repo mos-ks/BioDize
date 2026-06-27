@@ -18,12 +18,17 @@ function Brand() {
   return (
     <Link to="/" className="flex items-center gap-2.5">
       {srcIdx < LOGO_SOURCES.length && (
-        <img
-          src={LOGO_SOURCES[srcIdx]}
-          alt="BioDize"
-          className="h-9 w-9 shrink-0 object-contain"
-          onError={() => setSrcIdx((i) => i + 1)}
-        />
+        // The mark fades navy→white, so it needs a non-white backdrop to read fully
+        // (the white lower half vanishes on the white header). A light-grey tile —
+        // like the browser tab where it already looks right — shows the whole pill.
+        <span className="grid h-9 w-9 shrink-0 place-items-center rounded-lg bg-slate-200/80 ring-1 ring-inset ring-slate-300/50">
+          <img
+            src={LOGO_SOURCES[srcIdx]}
+            alt="BioDize"
+            className="h-[30px] w-[30px] object-contain"
+            onError={() => setSrcIdx((i) => i + 1)}
+          />
+        </span>
       )}
       <div className="leading-tight">
         <div className="text-[15px] font-bold tracking-tight text-slate-800">
