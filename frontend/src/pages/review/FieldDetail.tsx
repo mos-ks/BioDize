@@ -193,7 +193,7 @@ export default function FieldDetail({
         </div>
       )}
 
-      <div className="grid grid-cols-1 items-start gap-4 lg:grid-cols-[minmax(0,1fr)_320px]">
+      <div className="grid grid-cols-1 items-start gap-4 lg:grid-cols-[minmax(0,1fr)_minmax(360px,46%)]">
         {/* LEFT: value + validation, stacked so the column is filled (no dead space) */}
         <div className="order-2 space-y-4 lg:order-1">
           <div className="card flex flex-wrap items-baseline gap-x-3 gap-y-1 p-4">

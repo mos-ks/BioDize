@@ -153,7 +153,7 @@ export default function PageViewer({ field }: { field: Field }) {
         </div>
       </div>
 
-      <div className="relative mx-auto w-full max-w-[320px]">
+      <div className="relative mx-auto w-full max-w-[560px]">
         <div
           className={classNames(
             "group relative w-full overflow-hidden rounded-lg border border-slate-200 bg-white shadow-card",
