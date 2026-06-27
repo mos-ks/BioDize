@@ -4,7 +4,7 @@ from types import SimpleNamespace as NS
 
 from app.pipeline.export import solution_condition, solution_text_value
 from app.pipeline.model import Block, Document, Field
-from app.pipeline.validate.rules import rule_formula, rule_identifier_consistency
+from app.pipeline.validate.rules import rule_formula, rule_identifier_consistency, rule_nks
 
 
 def _f(label, value, **kw):
@@ -42,6 +42,55 @@ def test_identifier_consistency_clean_when_all_equal():
     doc = Document(doc_no="d", title="t"); doc.blocks = [b]
     rule_identifier_consistency(doc)
     assert not any(x.flags for x in doc.all_fields())
+
+
+# --- NKS / Nachkommastellen vs the form's required decimal places -----------
+
+def test_nks_flags_dropped_decimal_place():
+    # The form requires 2 decimals: '20,20' is right, '20,2' (1 dp) is flagged.
+    bad = _f("m", "20,2"); bad.nks = 2
+    assert any(fl.code == "FMT_NKS" for fl in rule_nks(bad))
+    ok = _f("m", "20,20"); ok.nks = 2
+    assert rule_nks(ok) == []
+    # A calculated result must carry the required precision too: 585 vs '585,0'.
+    calc = _f("V", "585"); calc.nks = 1
+    assert any(fl.code == "FMT_NKS" for fl in rule_nks(calc))
+    # No required NKS stated -> never flagged (avoids false positives like '220').
+    free = _f("V", "220");
+    assert rule_nks(free) == []
+
+
+# --- crossed-out section consolidation --------------------------------------
+
+def _struck(label, page, y):
+    from app.pipeline.model import BBox
+    from app.pipeline.validate.rules import rule_crossed_out
+    fld = Field(page_no=page, chapter="", role=None, label_raw=label, value_raw="—")
+    fld.bbox = BBox(0.1, y, 0.3, y + 0.03)
+    fld.is_crossed_out = True
+    for fl in rule_crossed_out(fld):
+        fld.add_flag(fl)
+    return fld
+
+
+def test_crossed_out_section_collapses_to_one():
+    from app.pipeline.validate.engine import consolidate_crossed_out
+    b = Block(chapter="", page_no=4, template="x")
+    b.fields = [_struck(f"cell{i}", 4, 0.2 + i * 0.05) for i in range(6)]
+    doc = Document(doc_no="d", title="t"); doc.blocks = [b]
+    consolidate_crossed_out(doc)
+    n = sum(1 for x in doc.all_fields() for fl in x.flags if fl.code == "CROSSED_OUT")
+    assert n == 1, f"a struck-through section should collapse to 1 flag, got {n}"
+
+
+def test_crossed_out_keeps_individual_corrections():
+    from app.pipeline.validate.engine import consolidate_crossed_out
+    b = Block(chapter="", page_no=5, template="x")
+    b.fields = [_struck("a", 5, 0.2), _struck("b", 5, 0.6)]  # only 2 -> left alone
+    doc = Document(doc_no="d", title="t"); doc.blocks = [b]
+    consolidate_crossed_out(doc)
+    n = sum(1 for x in doc.all_fields() for fl in x.flags if fl.code == "CROSSED_OUT")
+    assert n == 2
 
 
 # --- solution-format Condition verdict mapping ------------------------------

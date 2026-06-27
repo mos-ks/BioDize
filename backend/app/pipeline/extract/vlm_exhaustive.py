@@ -36,6 +36,7 @@ _SCHEMA = {
           "options": {"type": "array", "items": {"type": "string"}, "description": "selection: all option labels"},
           "selected": {"type": "array", "items": {"type": "string"}, "description": "selection: which options are marked (empty if none)"},
           "unit": {"type": ["string", "null"]},
+          "nks": {"type": ["integer", "null"], "description": "required Nachkommastellen (decimal places) the FORM prescribes for this value — read it from the printed format (e.g. '__,__ kg' = 2, the Soll's precision like 'Soll: 2,00' = 2). null if the form doesn't prescribe a fixed precision (free text, integers, dates)."},
           "soll": {"type": ["string", "null"]},
           "calc_expr": {"type": ["string", "null"], "description": "if the value is a printed formula's result, the arithmetic with the handwritten numbers substituted (e.g. '6,6 * 45 - 4,3 * 0,75'); else null"},
           "confidence": {"type": "number", "description": "your 0.0-1.0 certainty this value is read correctly. Be HONEST: use LOW (<0.5) for hard-to-read/ambiguous handwriting — ESPECIALLY 2-3 letter signature Kürzel and smudged digits; HIGH (>0.9) only for clearly printed text or unambiguous handwriting. A blank field is 1.0 (certainly blank)."},
@@ -44,7 +45,7 @@ _SCHEMA = {
           "handwritten": {"type": "boolean", "description": "true if the VALUE is HANDWRITTEN (blue/pen ink, filled in by a person); false if it is PRINTED machine text (black, part of the form template). A blank field's intended answer is handwritten -> true."},
           "crossed_out": {"type": "boolean", "description": "true if the entry is struck through / durchgestrichen / scratched out (a correction); otherwise false."},
           "is_blank": {"type": "boolean"}},
-        "required": ["label", "kind", "value", "options", "selected", "unit", "soll", "calc_expr", "confidence", "ypos", "xpos", "handwritten", "crossed_out", "is_blank"]}}},
+        "required": ["label", "kind", "value", "options", "selected", "unit", "nks", "soll", "calc_expr", "confidence", "ypos", "xpos", "handwritten", "crossed_out", "is_blank"]}}},
     "required": ["section", "fields"]}}
 
 _PROMPT = (
@@ -54,7 +55,10 @@ _PROMPT = (
   "'selection' for a checkbox or option group — put ALL options in `options` and the MARKED "
   "ones in `selected` (empty if none is checked); 'signature' for Bearbeitet/Geprüft/Reviewer "
   "fields — if signed put 'DD.MM.YYYY / Kürzel' in `value`, if blank set is_blank=true. "
-  "Put any 'Soll'/'Richtwert' target in `soll` and a unit in `unit`. When a value is the "
+  "Put any 'Soll'/'Richtwert' target in `soll` and a unit in `unit`. Set `nks` to the number "
+  "of decimal places the FORM requires for the value (from the printed '__,__' format or the "
+  "Soll's precision, e.g. 2 for 'Soll: 2,00 kg'); use null when no fixed precision is prescribed. "
+  "When a value is the "
   "result of a printed formula, fill `calc_expr` with that formula's arithmetic using the "
   "handwritten numbers (e.g. '6,6 * 45 - 4,3 * 0,75'); otherwise null. Do NOT skip anything. "
   "Read handwriting verbatim; keep the German decimal comma (e.g. '4,50'). For EACH field set "
@@ -217,4 +221,6 @@ class VlmExhaustiveExtractor:
         hw = raw.get("handwritten")
         f.is_handwritten = bool(hw) if hw is not None else None
         f.is_crossed_out = bool(raw.get("crossed_out"))
+        nks = raw.get("nks")
+        f.nks = int(nks) if isinstance(nks, (int, float)) and not isinstance(nks, bool) else None
         return f

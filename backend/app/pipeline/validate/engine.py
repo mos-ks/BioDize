@@ -1,6 +1,8 @@
 """Validation engine: run the rule registries over a normalized Document."""
 from __future__ import annotations
 
+import collections
+
 from app.domain.severity import Category, Severity
 from app.pipeline.model import Document
 from app.pipeline.validate import rules
@@ -48,6 +50,31 @@ def consolidate_flags(doc: Document) -> Document:
     return doc
 
 
+def consolidate_crossed_out(doc: Document) -> Document:
+    """A single diagonal strike usually voids a whole section/table (written N.A.),
+    which the reader marks crossed-out on EVERY cell — dozens of redundant flags.
+    Collapse a page's struck-through fields into ONE flag (kept on the topmost),
+    so the reviewer sees a single 'section voided' note instead of a wall of them.
+    1-2 struck entries are left alone (those are genuine individual corrections).
+    """
+    by_page: dict[int, list] = collections.defaultdict(list)
+    for f in doc.all_fields():
+        if any(fl.code == "CROSSED_OUT" for fl in f.flags):
+            by_page[f.page_no].append(f)
+    for fields in by_page.values():
+        if len(fields) < 3:
+            continue
+        fields.sort(key=lambda f: (f.bbox.to_list()[1] if f.bbox else 0.0))
+        keeper = fields[0]
+        for fl in keeper.flags:
+            if fl.code == "CROSSED_OUT":
+                fl.message = (f"{len(fields)} entries in this section are struck through "
+                              f"(durchgestrichen) — verify the section is intentionally voided")
+        for f in fields[1:]:
+            f.flags = [fl for fl in f.flags if fl.code != "CROSSED_OUT"]
+    return doc
+
+
 def validate(doc: Document) -> Document:
     for block in doc.blocks:
         # A block declared N-A by a gate / Kreuzung is skipped for "missing"
@@ -71,4 +98,5 @@ def validate(doc: Document) -> Document:
     rules.rule_stat_outlier(doc)        # anomaly detection: values beyond k std of role-peers
 
     consolidate_flags(doc)              # post-process: drop redundant / duplicate flags
+    consolidate_crossed_out(doc)        # a struck-through section -> one flag, not dozens
     return doc

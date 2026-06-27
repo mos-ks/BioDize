@@ -77,10 +77,17 @@ def rule_time_format(field: Field) -> list[Flag]:
 
 
 def rule_nks(field: Field) -> list[Flag]:
-    if field.nks is not None and field.decimals is not None and field.decimals != field.nks:
+    """Nachkommastellen: when the form states a required number of decimal places
+    (field.nks), the WRITTEN value must carry exactly that many — '20,20' is right
+    for 2, '20,2' is wrong. Trailing zeros count, so this catches dropped precision
+    on both plain entries and calculated results (25 * 23,4 must read '585,0')."""
+    if field.nks is None:
+        return []
+    got = field.decimals if field.decimals is not None else _written_decimals(field.value_raw)
+    if got is not None and got != field.nks:
         return [_warn(Category.FORMAT, "FMT_NKS",
-                      f"Expected {field.nks} decimal places, got {field.decimals}",
-                      expected=field.nks, actual=field.decimals)]
+                      f"{field.value_raw}: {got} Nachkommastelle(n), but {field.nks} required",
+                      expected=field.nks, actual=got)]
     return []
 
 
@@ -146,6 +153,17 @@ def _kfm_round(x: float, n: int) -> float:
         return float(Decimal(str(x)).quantize(Decimal(1).scaleb(-n), rounding=ROUND_HALF_UP))
     except (InvalidOperation, ValueError):
         return round(x, n)
+
+
+def _written_decimals(raw: str | None) -> int | None:
+    """Count the decimal places actually WRITTEN in a raw numeric string, keeping
+    trailing zeros: '20,20'->2, '20,2'->1, '585'->0, '4,50 kg'->2. None if no number."""
+    if not raw:
+        return None
+    m = re.search(r"\d+[.,](\d+)", raw)
+    if m:
+        return len(m.group(1))
+    return 0 if re.search(r"\d", raw) else None
 
 
 def rule_formula(field: Field) -> list[Flag]:
