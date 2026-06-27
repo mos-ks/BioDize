@@ -47,31 +47,42 @@ Click the **gear** (top-right) → set the backend URL to `http://localhost:8000
 browser, no rebuild).
 
 **Try it:** in the UI, **Simulated batch** populates instant offline demo records; or
-**Upload PDF → Process** for a real scan (needs model config). Then review the queue, jump to the
-**exact box** on the page, **Compare** batches, **Eval AI** vs ground truth, **Export .xlsx**.
+**Upload PDF → Process** for a real scan (needs model config; runs in the background with live
+progress). Then review the queue, jump to the value's **pin** on the page, **Compare** batches,
+**Eval AI** vs ground truth, **Export .xlsx**.
 
 ## What it does
 - **Reads every field** (handwriting → value), binds each value to its parameter **by role**
   (never a hardcoded label), drops prose/legends/table-of-contents.
 - **Validation engine** (two-tier `error`/`warning`): physics recomputation (mass balance,
-  `V = m·ρ`), Soll-range checks, zero-padded dates, **4-eyes** (Geprüft after Bearbeitet, distinct
-  signers), conditional "findet keine Anwendung" scope, cross-page references, missing data.
+  `V = m·ρ`), Soll-range checks, **kaufmännische Rundung** (round half away from zero) and
+  **Nachkommastellen** (required decimal places — `20,2` flagged when the form wants `20,20`),
+  zero-padded dates, **4-eyes** (Geprüft after Bearbeitet, distinct signers), identifier consistency
+  (Batch/Dok-Nr constant), conditional "findet keine Anwendung" scope, cross-page references, missing data.
 - **Anomaly detection** — values beyond k·σ of their role-peers (leave-one-out z-score), with the
   distribution plotted in review.
+- **Verified (positive) marker** — a clean handwritten number confirmed by a calculation or a second
+  identical value is marked blue *Verified* (host taxonomy: "confirmed by second value").
+- **Redundancy control** — duplicate flags collapse per field, and a struck-through section
+  (durchgestrichen) folds into one note instead of a flag per cell.
 - **Confidence-gated review** — auto-accept only on a confident, rule-clean read; everything else
   is queued. *Right or it asks, never silently wrong.*
-- **Exact-location boxes** — each value links to its bounding box on the scan (row + column
-  estimate snapped to OCR geometry); a redundant-flag post-process keeps the queue clean.
+- **Location pins** — each value drops a severity-colored pin at its spot on the scan (row + column
+  estimate snapped to OCR geometry); reviewers can also **click any spot to add a human flag** (title + tag).
 - **Review UI** — page-grouped queue (sort by **severity** or **page**; nothing selected by default),
-  full-page "all boxes" view, the model's **real per-field confidence**, one-click confirm/correct, batch
-  **Compare**, **Eval AI** vs ground truth, **Excel export**, **simulated** demo batches, delete.
+  scroll-the-whole-PDF view with an eye toggle, full-page "all pins" view, the model's **real per-field
+  confidence**, one-click confirm/correct, **background processing** with live per-page progress + run
+  time, batch **Compare**, **Eval AI** vs ground truth, **Excel export** (Solution + Findings sheets),
+  **simulated** demo batches, delete.
 
 ## Status
 - [x] Full pipeline: extract → OCR/localize → normalize → resolve → validate → uncertainty → store → export
-- [x] Review UI (queue, bbox overlay, confirm/correct, compare, eval, stats, export)
-- [x] Anomaly detection, 4-eyes, physics calc, dates, ranges, cross-refs, applicability
+- [x] Background processing (job + live per-page progress) so long runs survive proxy/tunnel limits
+- [x] Review UI (queue, location pins, confirm/correct, click-to-flag, compare, eval, stats, export)
+- [x] Anomaly detection, 4-eyes, physics calc, NKS/rounding, dates, ranges, cross-refs, applicability, verified
+- [x] Excel export in the host's Solution format (Solution + Findings sheets)
 - [x] Offline stub (zero-config demo) + provider-agnostic real models
-- [ ] Bounding-box **column** precision in dense tables (xpos-narrowed; tuning ongoing)
+- [ ] Pin **column** precision in dense tables (xpos-narrowed; tuning ongoing)
 - [ ] Checkbox extraction accuracy (~74% vs gold; improving)
 
 ## Documentation
