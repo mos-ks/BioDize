@@ -183,6 +183,11 @@ export function worstSeverity(flags: { severity: Severity }[]): Severity | null 
   return null;
 }
 
+/** The most relevant flag to surface for a field: first error, else first flag. */
+export function primaryFlag<T extends { severity: Severity }>(flags: T[]): T | null {
+  return flags.find((f) => f.severity === "error") ?? flags[0] ?? null;
+}
+
 // --- Hooks ------------------------------------------------------------------
 
 export interface AsyncState<T> {

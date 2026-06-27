@@ -21,6 +21,7 @@ from concurrent.futures import ThreadPoolExecutor
 from app.core.config import settings
 from app.domain.roles import Role
 from app.pipeline.model import BBox, Document, Field, Read
+from app.pipeline.resolve import _edits, _roster_kuerzel, _split_sig
 
 _log = logging.getLogger(__name__)
 _SIG_ROLES = (Role.SIGNATURE_PROCESSED, Role.SIGNATURE_CHECKED)
@@ -33,14 +34,39 @@ def _read_conf(f: Field) -> float:
     return min((r.confidence for r in f.reads), default=1.0)
 
 
-def _is_uncertain(f: Field) -> bool:
+_SIG_LABEL = ("datum/kürzel", "datum/kuerzel", "bearbeitet", "geprüft", "geprueft", "unterschrift")
+
+
+def _looks_like_signature(f: Field) -> bool:
+    # Roles aren't assigned until normalize (which runs AFTER this pass), so a
+    # signature must be recognized by its printed label here, not by f.role.
+    if f.role in _SIG_ROLES:
+        return True
+    low = (f.label_raw or "").lower()
+    return any(k in low for k in _SIG_LABEL)
+
+
+def _kuerzel_stray(f: Field, roster: set[str]) -> bool:
+    """A signature read as a Kürzel that matches NO registered signer (edit-distance
+    > 2 from every roster Kürzel) is almost certainly a misread (e.g. 'Gg') — worth
+    a zoomed second look even though the reader thought it was confident."""
+    if not roster or not _looks_like_signature(f):
+        return False
+    _, kz = _split_sig(f.value_raw or "")
+    return bool(kz) and all(_edits(kz, r, 3) > 2 for r in roster)
+
+
+def _is_uncertain(f: Field, roster: set[str]) -> bool:
     if f.bbox is None:
         return False
     if _read_conf(f) < settings.zoom_conf_threshold:
         return True
-    # a required signature/checkbox that came back blank: confirm empty vs faint
     blank = not (f.value_raw or "").strip()
-    if blank and f.is_required and (f.role in _SIG_ROLES or f.value_type == "checkbox"):
+    # a required signature/checkbox that came back blank: confirm empty vs faint
+    if blank and f.is_required and (_looks_like_signature(f) or f.value_type == "checkbox"):
+        return True
+    # a signature whose Kürzel matches no registered signer -> likely a misread
+    if not blank and _kuerzel_stray(f, roster):
         return True
     return False
 
@@ -69,8 +95,9 @@ def zoom_reread(doc: Document, page_images: dict[int, str]) -> Document:
         _log.warning("zoom_reread skipped: Pillow/openai not installed")
         return doc
 
+    roster = set(_roster_kuerzel(doc).keys())          # registered signers (e.g. {han, ohe})
     targets = [f for f in doc.all_fields()
-               if _is_uncertain(f) and f.page_no in page_images][: settings.zoom_max_fields]
+               if _is_uncertain(f, roster) and f.page_no in page_images][: settings.zoom_max_fields]
     if not targets:
         return doc
 
@@ -118,8 +145,10 @@ def zoom_reread(doc: Document, page_images: dict[int, str]) -> Document:
         except (TypeError, ValueError):
             conf = 0.7
         was_blank = not (f.value_raw or "").strip()
-        if val and (was_blank or conf >= _read_conf(f)):
-            # recovered a value the page pass missed, or a more confident zoom read
+        was_stray = _kuerzel_stray(f, roster)          # original Kürzel matched no signer
+        # accept the zoom value when it filled a blank, beat the original confidence,
+        # or replaced a stray Kürzel (which can't be worse than matching no signer).
+        if val and (was_blank or was_stray or conf >= _read_conf(f)):
             f.value_raw = val
             f.value = val
             f.reads.append(Read(model=f"{model}-zoom", value_raw=val, confidence=conf))

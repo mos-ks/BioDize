@@ -11,19 +11,17 @@
 
 import { useEffect, useMemo, useRef, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
-import { ListChecks, PartyPopper, ScanLine, Sparkles, Table2, TriangleAlert } from "lucide-react";
+import { ListChecks, PartyPopper, ScanLine, Sparkles, Table2 } from "lucide-react";
 import { api } from "../api/client";
 import type { DocumentSummary, Field } from "../api/types";
 import { classNames, useApi } from "../lib/ui";
 import { EmptyState, ErrorBlock, LoadingBlock } from "../components/atoms";
 import DocumentBar from "./review/DocumentBar";
 import FieldDetail from "./review/FieldDetail";
-import AllFieldsList from "./review/AllFieldsList";
 import ExtractionList from "./review/ExtractionList";
 import PageGroupedQueue from "./review/PageGroupedQueue";
-import FlagsOverview from "./review/FlagsOverview";
 
-type Tab = "queue" | "extraction" | "all" | "flags";
+type Tab = "queue" | "extraction";
 
 export default function ReviewPage() {
   const { documentId = "" } = useParams();
@@ -70,11 +68,21 @@ export default function ReviewPage() {
   const selectedIndex = selectedId ? queue.findIndex((f) => f.id === selectedId) : -1;
   const hasNext = selectedIndex >= 0 && selectedIndex < queue.length - 1;
 
-  const tabs: { id: Tab; label: string; icon: typeof ListChecks; count?: number }[] = [
-    { id: "queue", label: "Queue", icon: ListChecks, count: queue.length },
+  // The Queue badge counts distinct PAGES needing review, not error-fields.
+  const pagesNeedingReview = useMemo(
+    () => new Set(queue.map((f) => f.page_no)).size,
+    [queue],
+  );
+
+  const tabs: { id: Tab; label: string; icon: typeof ListChecks; count?: number; title?: string }[] = [
+    {
+      id: "queue",
+      label: "Queue",
+      icon: ListChecks,
+      count: pagesNeedingReview,
+      title: "Pages needing review",
+    },
     { id: "extraction", label: "Extraction", icon: ScanLine },
-    { id: "all", label: "All fields", icon: Table2 },
-    { id: "flags", label: "Flags", icon: TriangleAlert },
   ];
 
   // --- Document-level load/error gate ---------------------------------------
@@ -105,6 +113,7 @@ export default function ReviewPage() {
                 <button
                   key={t.id}
                   onClick={() => setTab(t.id)}
+                  title={t.title}
                   className={classNames(
                     "flex flex-1 items-center justify-center gap-1.5 rounded-lg px-2 py-2 text-sm font-medium transition-colors",
                     selected ? "bg-brand-600 text-white shadow-sm" : "text-slate-500 hover:bg-slate-100",
@@ -114,6 +123,7 @@ export default function ReviewPage() {
                   <span className="hidden sm:inline">{t.label}</span>
                   {t.count !== undefined && t.count > 0 && (
                     <span
+                      title={t.title}
                       className={classNames(
                         "rounded-full px-1.5 text-xs font-semibold tabular-nums",
                         selected ? "bg-white/20 text-white" : "bg-slate-200 text-slate-600",
@@ -134,10 +144,6 @@ export default function ReviewPage() {
             {tab === "extraction" && (
               <ExtractionList documentId={documentId} activeId={selectedId} onSelect={selectField} />
             )}
-            {tab === "all" && (
-              <AllFieldsList documentId={documentId} activeId={selectedId} onSelect={selectField} />
-            )}
-            {tab === "flags" && <FlagsOverview documentId={documentId} />}
           </div>
         </section>
 
@@ -153,7 +159,7 @@ export default function ReviewPage() {
                 onSkipNext={advanceToNext}
               />
             ) : queue.length === 0 ? (
-              <AllClear onBrowseAll={() => setTab("all")} onStats={() => navigate(`/documents/${documentId}/stats`)} />
+              <AllClear onBrowseAll={() => setTab("extraction")} onStats={() => navigate(`/documents/${documentId}/stats`)} />
             ) : (
               <EmptyState
                 icon={<Sparkles className="h-8 w-8" />}
@@ -188,7 +194,7 @@ function AllClear({ onBrowseAll, onStats }: { onBrowseAll: () => void; onStats: 
       </div>
       <div className="flex flex-wrap items-center justify-center gap-2">
         <button onClick={onBrowseAll} className="btn-secondary">
-          <Table2 className="h-4 w-4" /> Browse all fields
+          <Table2 className="h-4 w-4" /> Browse extraction
         </button>
         <button onClick={onStats} className="btn-primary">
           <Sparkles className="h-4 w-4" /> View stats

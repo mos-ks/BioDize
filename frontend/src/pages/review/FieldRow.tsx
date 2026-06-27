@@ -3,11 +3,11 @@
 import type { Field } from "../../api/types";
 import {
   classNames,
-  fieldDisplayValue,
+  primaryFlag,
   roleIcon,
   roleLabel,
 } from "../../lib/ui";
-import { ConfidenceMeter, FieldFlagSummary } from "../../components/atoms";
+import { CategoryChip, ConfidenceMeter, FieldFlagSummary } from "../../components/atoms";
 
 export default function FieldRow({
   field,
@@ -19,6 +19,10 @@ export default function FieldRow({
   onSelect: (id: string) => void;
 }) {
   const Icon = roleIcon(field.role);
+  const value = (field.value ?? field.value_raw ?? "").trim();
+  // When a field is blank but flagged, surface the issue type in place of the
+  // meaningless dash so the row tells you *why* it needs review.
+  const flag = value ? null : primaryFlag(field.flags);
   return (
     <button
       type="button"
@@ -56,12 +60,21 @@ export default function FieldRow({
         </span>
       </div>
 
-      <div className="mt-2 flex items-baseline gap-1.5">
-        <span className="truncate font-mono text-base font-semibold tabular-nums text-slate-900">
-          {fieldDisplayValue(field.value, field.value_raw)}
-        </span>
-        {field.unit && <span className="text-xs font-medium text-slate-400">{field.unit}</span>}
-      </div>
+      {flag ? (
+        <div className="mt-2 flex min-w-0 flex-wrap items-center gap-1.5">
+          <CategoryChip category={flag.category} />
+          <code className="chip bg-slate-50 font-mono text-[11px] text-slate-500 ring-1 ring-inset ring-slate-200">
+            {flag.code}
+          </code>
+        </div>
+      ) : (
+        <div className="mt-2 flex items-baseline gap-1.5">
+          <span className="truncate font-mono text-base font-semibold tabular-nums text-slate-900">
+            {value || "—"}
+          </span>
+          {field.unit && <span className="text-xs font-medium text-slate-400">{field.unit}</span>}
+        </div>
+      )}
 
       <div className="mt-2.5 flex items-center gap-3">
         <ConfidenceMeter confidence={field.confidence} className="max-w-[140px]" />
