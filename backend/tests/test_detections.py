@@ -66,3 +66,24 @@ def test_solution_text_value_checkbox_and_number():
     assert solution_text_value(NS(value_type="checkbox", value_raw="", value_norm=None)) == ("Not checked", None)
     text, num = solution_text_value(NS(value_type=None, value_raw="200", value_norm="200"))
     assert num == 200.0
+
+
+# --- crossed-out (durchgestrichen) + handwritten focus ----------------------
+
+def test_crossed_out_warns():
+    from app.pipeline.validate.rules import rule_crossed_out
+    f = _f("x", "10,5"); f.is_crossed_out = True
+    assert any(fl.code == "CROSSED_OUT" for fl in rule_crossed_out(f))
+    assert rule_crossed_out(_f("x", "10,5")) == []  # default not crossed out
+
+
+def test_printed_clean_field_auto_accepts_handwritten_stays():
+    from app.domain.severity import FieldStatus
+    from app.pipeline.validate.uncertainty import score
+    printed = _f("Production Code", "4756001"); printed.is_handwritten = False; printed.value = "4756001"
+    hand = _f("m Netto", "200"); hand.is_handwritten = True; hand.value = 200; hand.reads = []
+    b = Block(chapter="", page_no=1, template="x"); b.fields = [printed, hand]
+    doc = Document(doc_no="d", title="t"); doc.blocks = [b]
+    score(doc)
+    assert printed.status == FieldStatus.AUTO_ACCEPTED       # printed (black) → out of the queue
+    assert hand.status == FieldStatus.NEEDS_REVIEW           # handwritten (blue) → reviewed

@@ -41,8 +41,10 @@ _SCHEMA = {
           "confidence": {"type": "number", "description": "your 0.0-1.0 certainty this value is read correctly. Be HONEST: use LOW (<0.5) for hard-to-read/ambiguous handwriting — ESPECIALLY 2-3 letter signature Kürzel and smudged digits; HIGH (>0.9) only for clearly printed text or unambiguous handwriting. A blank field is 1.0 (certainly blank)."},
           "ypos": {"type": "number", "description": "vertical position of THIS field's row on the page: 0.0 = very top edge, 1.0 = very bottom edge. Estimate the center of the row the value/checkbox/signature sits on, as accurately as you can."},
           "xpos": {"type": "number", "description": "horizontal position of THIS field's VALUE on the page: 0.0 = very left edge, 1.0 = very right edge. Estimate the horizontal center of the handwritten value / checkbox / signature itself (in a table, the COLUMN it sits in), as accurately as you can."},
+          "handwritten": {"type": "boolean", "description": "true if the VALUE is HANDWRITTEN (blue/pen ink, filled in by a person); false if it is PRINTED machine text (black, part of the form template). A blank field's intended answer is handwritten -> true."},
+          "crossed_out": {"type": "boolean", "description": "true if the entry is struck through / durchgestrichen / scratched out (a correction); otherwise false."},
           "is_blank": {"type": "boolean"}},
-        "required": ["label", "kind", "value", "options", "selected", "unit", "soll", "calc_expr", "confidence", "ypos", "xpos", "is_blank"]}}},
+        "required": ["label", "kind", "value", "options", "selected", "unit", "soll", "calc_expr", "confidence", "ypos", "xpos", "handwritten", "crossed_out", "is_blank"]}}},
     "required": ["section", "fields"]}}
 
 _PROMPT = (
@@ -59,7 +61,10 @@ _PROMPT = (
   "`confidence` to your honest 0-1 certainty the value is read correctly — use LOW values for "
   "illegible/ambiguous handwriting, especially short signature Kürzel — never a flat default. "
   "Ignore page headers/footers (Dok-Nr, Rev., Seite) and abbreviation legends. "
-  "Do NOT transcribe the table of contents (Inhaltsverzeichnis) or its page numbers."
+  "Do NOT transcribe the table of contents (Inhaltsverzeichnis) or its page numbers. "
+  "For EACH field set `handwritten` = true when the value is hand-filled (blue/pen ink) and "
+  "false when it is printed form text (black); and `crossed_out` = true when the entry is struck "
+  "through / durchgestrichen (a correction)."
 )
 
 _META_SCHEMA = {
@@ -204,4 +209,8 @@ class VlmExhaustiveExtractor:
             f.vlm_xpos = xp if 0.0 <= xp <= 1.0 else None
         except (TypeError, ValueError):
             f.vlm_xpos = None
+        # handwritten (blue) vs printed (black); struck-through entries -> warning.
+        hw = raw.get("handwritten")
+        f.is_handwritten = bool(hw) if hw is not None else None
+        f.is_crossed_out = bool(raw.get("crossed_out"))
         return f

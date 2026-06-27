@@ -61,6 +61,13 @@ def score(doc: Document) -> Document:
             field.status = FieldStatus.AUTO_ACCEPTED
             continue
 
+        # Focus review on the HANDWRITTEN (blue) entries: printed/machine form text
+        # (black) is highly reliable, so a clean printed field auto-accepts and stays
+        # out of the queue regardless of OCR confidence.
+        if field.is_handwritten is False and not field.flags:
+            field.status = FieldStatus.AUTO_ACCEPTED
+            continue
+
         # Only a GENUINELY illegible read (below the warn floor) gets a low-conf
         # warning. The [warn, accept) band still routes to review but without a
         # warning on every handwritten value. Checkboxes (Ja/Nein) are high-info

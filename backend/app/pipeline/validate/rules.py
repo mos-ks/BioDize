@@ -642,7 +642,17 @@ def rule_identifier_consistency(doc: Document) -> None:
                                  expected=majority, actual=f.value_raw))
 
 
+def rule_crossed_out(field: Field) -> list[Flag]:
+    """A struck-through / durchgestrichen entry is a correction — surface it so the
+    reviewer confirms the intended value rather than trusting the crossed text."""
+    if getattr(field, "is_crossed_out", False):
+        return [_warn(Category.EXTRACTION, "CROSSED_OUT",
+                      "Entry appears struck through (durchgestrichen) — verify the intended value",
+                      actual=field.value_raw)]
+    return []
+
+
 # --- registries -------------------------------------------------------------
 
-FIELD_RULES = [rule_date_format, rule_time_format, rule_nks, rule_range, rule_formula]
+FIELD_RULES = [rule_date_format, rule_time_format, rule_nks, rule_range, rule_formula, rule_crossed_out]
 BLOCK_RULES = [rule_net_mass, rule_volume, rule_cross_formula, rule_four_eyes, rule_end_after_start, rule_presence]

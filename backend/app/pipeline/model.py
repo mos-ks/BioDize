@@ -76,6 +76,11 @@ class Field:
     # Reader's estimated horizontal position (0=left, 1=right) of this field's value.
     # Lets localize narrow a full-width table ROW box down to the value's COLUMN.
     vlm_xpos: float | None = None
+    # True if the value is HANDWRITTEN (blue pen) vs printed/machine text (black);
+    # None when unknown. The reviewer focuses on verifying handwritten (blue) entries.
+    is_handwritten: bool | None = None
+    # True if the entry is struck through / durchgestrichen (a correction) -> warning.
+    is_crossed_out: bool = False
     reads: list[Read] = field(default_factory=list)
 
     # enriched by normalize
