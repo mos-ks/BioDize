@@ -60,6 +60,20 @@ def rule_date_format(field: Field) -> list[Flag]:
     return []
 
 
+def rule_time_format(field: Field) -> list[Flag]:
+    """FMT_TIME_RANGE: times must be within 00:00-23:59."""
+    from datetime import time as _time
+    if field.value_type != "time" or not isinstance(field.value, _time):
+        return []
+    h, m = field.value.hour, field.value.minute
+    if h > 23 or m > 59:
+        raw = field.value_raw or ""
+        return [_err(Category.FORMAT, "FMT_TIME_RANGE",
+                     f"Time '{raw}' is outside 00:00-23:59",
+                     expected="00:00-23:59", actual=raw)]
+    return []
+
+
 def rule_nks(field: Field) -> list[Flag]:
     if field.nks is not None and field.decimals is not None and field.decimals != field.nks:
         return [_warn(Category.FORMAT, "FMT_NKS",
@@ -272,10 +286,13 @@ def _within_edits(a: str, b: str, max_edits: int) -> bool:
 
 
 def _registry_kuerzel(doc: Document) -> set[str]:
-    """Kürzel registered in the personnel table (a field labelled 'Kürzel')."""
+    """Kuerzel registered in the personnel table (Beteiligte Personen, p4).
+    Matches label 'Kürzel' / 'Kuerzel' / 'kurzel' case-insensitively."""
     reg: set[str] = set()
     for f in doc.all_fields():
-        if (f.label_raw or "").strip().lower() == "kürzel" and f.value_raw:
+        lbl = (f.label_raw or "").strip().lower()
+        lbl_norm = lbl.replace("ü", "u").replace("ue", "u")
+        if lbl_norm in ("kurzel", "kuerzel") and f.value_raw:
             reg.add(f.value_raw.strip().lower())
     return reg
 
@@ -303,20 +320,32 @@ def rule_kuerzel_document(doc: Document) -> None:
 _XREF_RE = re.compile(r"kapitel\s*([0-9]+(?:\.[0-9]+)*)", re.I)
 
 
-def _xref_differ(a, b) -> bool:
+def _xref_compare(a, b) -> str:
+    """Compare carried value to source. Returns 'match', 'near_miss', or 'mismatch'."""
     if a is None or b is None:
-        return False
+        return "match"
     if isinstance(a, bool) or isinstance(b, bool):
-        return a != b
+        return "match" if a == b else "mismatch"
     if isinstance(a, (int, float)) and isinstance(b, (int, float)):
-        return abs(a - b) > max(0.5, abs(b) * 0.01)
-    return a != b
+        diff = abs(a - b)
+        tol  = max(0.5, abs(b) * 0.01)
+        if diff <= 0:
+            return "match"
+        if diff <= tol:
+            return "near_miss"
+        return "mismatch"
+    # Non-numeric: exact string comparison after normalisation
+    return "match" if str(a).strip() == str(b).strip() else "mismatch"
 
 
 def rule_xref_document(doc: Document) -> None:
-    """Cross-reference (Übertrag): a field whose label carries a value from
-    'Kapitel X' must equal the source field (same role) tagged with chapter X.
-    Conservative — only fires on explicit 'Übertrag … Kapitel X' labels."""
+    """Cross-reference (Übertrag): a carried value must equal its source field.
+
+    Per VALIDATION_RULES.md:
+      full mismatch  -> XREF_CARRIED_MATCH error
+      rounding delta -> XREF_NEAR_MISS warning
+    Conservative: only fires on explicit 'Übertrag … Kapitel X' labels.
+    """
     index: dict[tuple[str, str], Field] = {}
     for f in doc.all_fields():
         if f.chapter and f.role and (f.chapter, f.role) not in index:
@@ -331,13 +360,18 @@ def rule_xref_document(doc: Document) -> None:
         src = index.get((m.group(1), f.role))
         if src is None or src is f:
             continue
-        if _xref_differ(f.value, src.value):
-            f.add_flag(_warn(Category.CROSS_REFERENCE, "XREF_MISMATCH",
-                             f"carried value '{f.value}' != source (Kapitel {m.group(1)}) '{src.value}'",
+        verdict = _xref_compare(f.value, src.value)
+        if verdict == "mismatch":
+            f.add_flag(_err(Category.CROSS_REFERENCE, "XREF_CARRIED_MATCH",
+                            f"carried value '{f.value}' != source (Kapitel {m.group(1)}) '{src.value}'",
+                            expected=str(src.value), actual=str(f.value)))
+        elif verdict == "near_miss":
+            f.add_flag(_warn(Category.CROSS_REFERENCE, "XREF_NEAR_MISS",
+                             f"carried value '{f.value}' ~= source (Kapitel {m.group(1)}) '{src.value}' (rounding)",
                              expected=str(src.value), actual=str(f.value)))
 
 
 # --- registries -------------------------------------------------------------
 
-FIELD_RULES = [rule_date_format, rule_nks, rule_range, rule_formula]
+FIELD_RULES = [rule_date_format, rule_time_format, rule_nks, rule_range, rule_formula]
 BLOCK_RULES = [rule_net_mass, rule_volume, rule_four_eyes, rule_end_after_start]

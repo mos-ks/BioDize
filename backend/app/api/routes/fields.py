@@ -70,21 +70,39 @@ def correct_field(field_id: str, body: CorrectionIn, db: Session = Depends(get_d
     if not f:
         raise HTTPException(404, "field not found")
 
-    old = f.value_norm
-    if body.action == "correct" and body.value is not None:
-        f.value_norm = body.value
-        f.value_raw = body.value
-        f.source = "human"
-        f.status = "corrected"
-    else:
-        f.status = "confirmed"
-    f.confidence = 1.0
+    old_value = f.value_norm
+    old_bbox  = f.bbox
 
-    db.add(models.Correction(field_id=f.id, old_value=old, new_value=f.value_norm,
-                             action=body.action, reason=body.reason, actor=body.actor))
-    db.add(models.AuditLog(entity_type="field", entity_id=f.id, action=body.action,
-                           actor=body.actor, before={"value": old}, after={"value": f.value_norm}))
-    # TODO: re-run rules dependent on this field (e.g. correcting tare re-checks net).
-    db.commit()
-    db.refresh(f)
+    if body.action == "set_bbox":
+        # Nur Bounding-Box aktualisieren, Wert unveraendert
+        if body.bbox is not None:
+            f.bbox = [round(v, 6) for v in body.bbox]
+        db.add(models.AuditLog(entity_type="field", entity_id=f.id, action="set_bbox",
+                               actor=body.actor, before={"bbox": old_bbox},
+                               after={"bbox": f.bbox}))
+    elif body.action == "delete_bbox":
+        f.bbox = None
+        db.add(models.AuditLog(entity_type="field", entity_id=f.id, action="delete_bbox",
+                               actor=body.actor, before={"bbox": old_bbox}, after={"bbox": None}))
+    else:
+        if body.action == "correct" and body.value is not None:
+            f.value_norm = body.value
+            f.value_raw  = body.value
+            f.source     = "human"
+            f.status     = "corrected"
+        else:
+            f.status = "confirmed"
+        f.confidence = 1.0
+        # Bbox gleichzeitig setzen falls mitgeliefert
+        if body.bbox is not None:
+            f.bbox = [round(v, 6) for v in body.bbox]
+        db.add(models.Correction(field_id=f.id, old_value=old_value,
+                                 new_value=f.value_norm, action=body.action,
+                                 reason=body.reason, actor=body.actor))
+        db.add(models.AuditLog(entity_type="field", entity_id=f.id,
+                               action=body.action, actor=body.actor,
+                               before={"value": old_value, "bbox": old_bbox},
+                               after={"value": f.value_norm, "bbox": f.bbox}))
+
+    db.commit(); db.refresh(f)
     return FieldOut.from_orm_field(f)

@@ -1,0 +1,12 @@
+<!doctype html>
+<html>
+<head><meta charset="utf-8"><title>BioDize</title></head>
+<body>
+<script>
+  // Setzt API-Base auf lokalen Backend und leitet weiter.
+  // Verhindert dass ein alter Cloudflare-URL aus localStorage verwendet wird.
+  localStorage.setItem('biodize_api_base', 'http://localhost:8000');
+  location.replace('/');
+</script>
+</body>
+</html>

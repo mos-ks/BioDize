@@ -68,9 +68,10 @@ class DocumentSummary(BaseModel):
 
 class CorrectionIn(BaseModel):
     value: str | None = None
-    action: str = "confirm"           # confirm | correct
+    action: str = "confirm"           # confirm | correct | set_bbox | delete_bbox
     reason: str | None = None
     actor: str | None = None
+    bbox: list[float] | None = None   # [x0,y0,x1,y1] normiert 0-1
 
 
 class ProcessResult(BaseModel):

@@ -1,0 +1,42 @@
+# Python
+__pycache__/
+*.py[cod]
+*.pyo
+
+# Virtual environments
+backend/.venv/
+backend/var/
+backend/biodize.db
+backend/_requirements_no_pymupdf.txt
+
+# Frontend
+frontend/node_modules/
+frontend/dist/
+frontend/.wrangler/
+frontend/vite.config.dev.ts
+frontend/vite.config.tsbuildinfo
+frontend/tsconfig.tsbuildinfo
+
+# Evaluator runtime files
+evaluator/reviewer_keys.json
+evaluator/crops/
+evaluator/__pycache__/
+evaluator/*.csv
+evaluator/*.xlsx
+evaluator/*_crop.png
+evaluator/autopatch_prompts.md
+evaluator/autopatch_report.json
+evaluator/autopatch_last_crop.png
+
+# Root generated files
+crops/
+*.csv
+*.xlsx
+autopatch_prompts.md
+autopatch_report.json
+autopatch_last_crop.png
+Chargenprotokoll_*.csv
+
+# Misc
+.DS_Store
+.env
