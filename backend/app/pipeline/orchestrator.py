@@ -20,6 +20,7 @@ from app.pipeline.ocr.base import get_ocr_engine
 from app.pipeline.resolve import resolve
 from app.pipeline.validate.engine import validate
 from app.pipeline.validate.uncertainty import score
+from app.pipeline.zoom_reread import zoom_reread
 
 
 @dataclass
@@ -56,6 +57,7 @@ def process(source_path: str | None, db: Session, max_pages: int | None = None) 
         ocr_by_page[page_no] = ocr_engine.recognize(img, page_no)
     localize(doc, ocr_by_page)
     ocr_crosscheck(doc, ocr_by_page)   # ensemble: flag VLM/OCR numeric disagreements
+    zoom_reread(doc, page_images)      # second look at low-conf / blank-required fields (crop+upscale+re-read)
 
     # 3. Normalize -> 3b. Domain resolution (snap Kürzel to roster, etc.)
     #    -> 4. Validate -> 5. Uncertainty/gate.

@@ -58,6 +58,15 @@ class Settings(BaseSettings):
     # "confidence_gated" (auto-accept clean+confident) or "verify_everything".
     verification_policy: str = "confidence_gated"
 
+    # --- Zoom re-read (uncertainty-triggered second look) --------------------
+    # When a field is read with low confidence, or a required signature/checkbox
+    # comes back blank, crop its region from the high-res scan, upscale, and
+    # re-read JUST that strip — recovering faint handwriting the full-page pass
+    # missed and confirming the genuinely-empty ones. Only the uncertain subset.
+    zoom_reread: bool = True
+    zoom_conf_threshold: float = 0.6            # re-read fields read below this confidence
+    zoom_max_fields: int = 80                   # safety cap on re-reads per document
+
 
 @lru_cache
 def get_settings() -> Settings:
