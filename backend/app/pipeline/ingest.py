@@ -30,53 +30,90 @@ class IngestResult:
 
 
 def render_pdf(source_path: str, out_dir: str | None = None) -> IngestResult:
-    """Render each PDF page to a PNG under out_dir; return page metadata."""
-    try:
-        import fitz  # PyMuPDF
-    except ImportError as exc:  # pragma: no cover
-        raise RuntimeError(
-            "PyMuPDF (fitz) is required for PDF ingest. `pip install PyMuPDF`, "
-            "or use EXTRACTOR=stub to run the pipeline without a PDF."
-        ) from exc
+    """Render each PDF page to a PNG under out_dir; return page metadata.
 
+    Tries PyMuPDF (fitz) first; falls back to pypdfium2+Pillow which has
+    ARM64-Windows wheels when PyMuPDF is unavailable.
+    """
     out_dir = out_dir or os.path.join(settings.storage_dir, "pages")
     os.makedirs(out_dir, exist_ok=True)
 
+    # --- renderer selection ---------------------------------------------------
+    try:
+        import fitz  # PyMuPDF
+        return _render_fitz(fitz, source_path, out_dir)
+    except ImportError:
+        pass
+
+    try:
+        import pypdfium2 as pdfium
+        return _render_pdfium(pdfium, source_path, out_dir)
+    except ImportError:
+        pass
+
+    raise RuntimeError(
+        "No PDF renderer available. Install either PyMuPDF or pypdfium2+Pillow:\n"
+        "  pip install pypdfium2 Pillow"
+    )
+
+
+def _render_fitz(fitz, source_path: str, out_dir: str) -> IngestResult:
     doc = fitz.open(source_path)
     zoom = settings.render_dpi / 72.0
     matrix = fitz.Matrix(zoom, zoom)
-
     pages: list[PageImage] = []
     for i, page in enumerate(doc, start=1):
         pix = page.get_pixmap(matrix=matrix)
         img_path = os.path.join(out_dir, f"page_{i:03d}.png")
         pix.save(img_path)
-        pages.append(
-            PageImage(
-                page_no=i,
-                image_path=img_path,
-                width=pix.width,
-                height=pix.height,
-                is_blank=_looks_blank(pix),
-                has_kreuzung=False,  # TODO: detect diagonal strike via line analysis
-            )
-        )
+        pages.append(PageImage(
+            page_no=i, image_path=img_path,
+            width=pix.width, height=pix.height,
+            is_blank=_looks_blank_fitz(pix),
+        ))
     doc.close()
     return IngestResult(source_path=source_path, page_count=len(pages), pages=pages)
 
 
-def _looks_blank(pix) -> bool:
-    """Ink-coverage check on the rendered pixmap (scanned pages have no text layer,
-    so text-based detection is useless). Blank = almost no dark pixels. A page with
-    headers/footers/table borders has plenty of ink, so only truly empty pages skip."""
+def _render_pdfium(pdfium, source_path: str, out_dir: str) -> IngestResult:
+    scale = settings.render_dpi / 72.0
+    doc = pdfium.PdfDocument(source_path)
+    pages: list[PageImage] = []
+    for i in range(len(doc)):
+        page = doc[i]
+        bmp = page.render(scale=scale)
+        img = bmp.to_pil()
+        img_path = os.path.join(out_dir, f"page_{i + 1:03d}.png")
+        img.save(img_path)
+        pages.append(PageImage(
+            page_no=i + 1, image_path=img_path,
+            width=img.width, height=img.height,
+            is_blank=_looks_blank_pil(img),
+        ))
+    return IngestResult(source_path=source_path, page_count=len(pages), pages=pages)
+
+
+def _looks_blank_fitz(pix) -> bool:
     try:
         data = pix.samples
         n = max(1, pix.n)
         dark = total = 0
-        for i in range(0, len(data) - n, n * 97):   # sparse stride, on channel boundaries
-            if data[i] < 200:                        # first channel as a luminance proxy
+        for i in range(0, len(data) - n, n * 97):
+            if data[i] < 200:
                 dark += 1
             total += 1
         return total > 0 and (dark / total) < 0.002
+    except Exception:
+        return False
+
+
+def _looks_blank_pil(img) -> bool:
+    try:
+        gray = img.convert("L")
+        pixels = gray.getdata()
+        step = max(1, len(pixels) // 500)
+        sampled = [pixels[i] for i in range(0, len(pixels), step)]
+        dark = sum(1 for p in sampled if p < 200)
+        return (dark / len(sampled)) < 0.002
     except Exception:
         return False

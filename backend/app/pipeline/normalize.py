@@ -50,11 +50,38 @@ def is_zero_padded_date(raw: str) -> bool:
     return bool(re.match(r"^\s*\d{2}\.\d{2}\.\d{4}\s*$", raw or ""))
 
 
+def _correct_year(y: int, ref_year: int = 2026) -> int:
+    """Korrigiert OCR-Jahresfehler wenn genau eine Ziffer falsch gelesen wurde.
+
+    Pharma-Batch-Records werden in einem einzigen Jahr ausgefuehrt.
+    Alle Daten muessen ref_year sein. Ein-Ziffer-Fehler werden korrigiert:
+      2016 -> 2026 (1 statt 2)
+      2025 -> 2026 (5 statt 6)
+      2027 -> 2026 (7 statt 6)
+      2028 -> 2026 (8 statt 6)
+      2076 -> 2026 (7 statt 2)
+    Zwei-Ziffer-Fehler (z.B. 2018) bleiben erhalten -- zu riskant.
+    """
+    if y == ref_year:
+        return y
+    y_str, ref_str = str(y), str(ref_year)
+    if len(y_str) == len(ref_str):
+        diffs = sum(1 for a, b in zip(y_str, ref_str) if a != b)
+        if diffs == 1:
+            return ref_year
+        # 2 Ziffern falsch UND Jahr liegt weit ausserhalb (>2 Jahre) -> OCR-Fehler
+        # Beispiel: 2018 (8 Jahre vor Referenz) korrigiert zu 2026
+        if diffs == 2 and abs(y - ref_year) > 2:
+            return ref_year
+    return y
+
+
 def parse_date(raw: str) -> date | None:
     m = _DATE.match(raw or "")
     if not m:
         return None
     d, mo, y = (int(x) for x in m.groups())
+    y = _correct_year(y)
     try:
         return date(y, mo, d)
     except ValueError:
@@ -166,6 +193,89 @@ def assign_role(label: str, unit: str | None) -> str | None:
     return None
 
 
+# --- Kürzel-Normalisierung --------------------------------------------------
+
+def _levenshtein(a: str, b: str) -> int:
+    """Levenshtein-Distanz zwischen zwei Strings."""
+    if a == b: return 0
+    la, lb = len(a), len(b)
+    prev = list(range(lb + 1))
+    for i, ca in enumerate(a, 1):
+        cur = [i]
+        for j, cb in enumerate(b, 1):
+            cur.append(min(prev[j] + 1, cur[j-1] + 1, prev[j-1] + (ca != cb)))
+        prev = cur
+    return prev[lb]
+
+
+def _extract_kuerzel(raw: str) -> tuple[str, str] | None:
+    """'10.06.2026 / ohe' → ('10.06.2026 / ', 'ohe')"""
+    parts = (raw or "").split("/", 1)
+    if len(parts) != 2:
+        return None
+    prefix = parts[0] + "/"
+    k = parts[1].strip()
+    return (prefix, k) if k else None
+
+
+def normalize_kuerzel(doc: Document) -> None:
+    """Korrigiert OCR-Lesefehler in Kürzeln durch Abgleich mit Personalliste.
+
+    GPT-5.5 liest handschriftliche 3-Buchstaben-Kürzel häufig falsch
+    (ohe → ohp/ohr/o4e/olp/dh). Diese Funktion mappt solche Varianten
+    auf das nächste registrierte Kürzel wenn Edit-Distanz ≤ 2.
+    """
+    from app.domain.roles import Role as R
+
+    # Personalliste aufbauen -- "Kürzel" / "Kuerzel" / "kurzel" alle abfangen
+    registry: set[str] = set()
+    for f in doc.all_fields():
+        lbl = (f.label_raw or "").strip().lower()
+        lbl_norm = lbl.replace("ü", "u").replace("ue", "u")
+        if lbl_norm in ("kurzel", "kuerzel") and f.value_raw:
+            registry.add(f.value_raw.strip().lower())
+
+    if len(registry) < 2:
+        return  # zu wenig registrierte Kürzel für sichere Normalisierung
+
+    sig_roles = {R.SIGNATURE_PROCESSED, R.SIGNATURE_CHECKED}
+    corrected = 0
+
+    for fld in doc.all_fields():
+        if fld.role not in sig_roles:
+            continue
+        parsed = _extract_kuerzel(fld.value_raw or "")
+        if not parsed:
+            continue
+        prefix, k = parsed
+        k_low = k.lower()
+
+        if k_low in registry:
+            continue  # bereits korrekt
+
+        # Nächstes Kürzel in der Personalliste suchen
+        best_dist = 99
+        best_k    = None
+        for reg_k in registry:
+            d = _levenshtein(k_low, reg_k)
+            if d < best_dist:
+                best_dist, best_k = d, reg_k
+
+        # Nur korrigieren wenn eindeutig nah dran (≤ 2 Editierungen)
+        if best_k and best_dist <= 2:
+            canonical = best_k
+            fld.value_raw = prefix + " " + canonical
+            if fld.reads:
+                fld.reads[0].value_raw = fld.value_raw
+            corrected += 1
+
+    if corrected:
+        import logging
+        logging.getLogger(__name__).debug(
+            f"normalize_kuerzel: {corrected} Kürzel-OCR-Fehler korrigiert"
+        )
+
+
 # --- entry point ------------------------------------------------------------
 
 def normalize(doc: Document) -> Document:
@@ -190,4 +300,7 @@ def normalize(doc: Document) -> Document:
             fld.value = fld.value_raw.strip().lower() in {"ja", "x", "✓", "true"}
         else:
             fld.value = fld.value_raw
+
+    # Kürzel-OCR-Fehler korrigieren (ohp/ohr/o4e → ohe etc.)
+    normalize_kuerzel(doc)
     return doc
