@@ -9,6 +9,7 @@ import type {
   CorrectionInput,
   Distribution,
   DocumentSummary,
+  EvalResult,
   Field,
   FieldFilters,
   Flag,
@@ -124,6 +125,10 @@ export const api = {
   getQueue: (documentId: string) =>
     request<Field[]>(`${API_PREFIX}/documents/${documentId}/queue`),
   getField: (fieldId: string) => request<Field>(`${API_PREFIX}/fields/${fieldId}`),
+
+  // AI evaluation vs ground truth
+  getEvaluation: (documentId: string) =>
+    request<EvalResult>(`${API_PREFIX}/documents/${documentId}/evaluation`),
   patchField: (fieldId: string, body: CorrectionInput) =>
     request<Field>(`${API_PREFIX}/fields/${fieldId}`, {
       method: "PATCH",

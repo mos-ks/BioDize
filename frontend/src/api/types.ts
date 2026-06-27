@@ -124,3 +124,47 @@ export interface FieldFilters {
   page_no?: number;
   role?: string;
 }
+
+// --- AI evaluation vs ground truth ------------------------------------------
+// All accuracy ratios are 0..1. The four *_acc/coverage fields on the aggregate
+// may be null (= "n/a" — nothing of that kind on the gold pages).
+
+export interface EvalAggregate {
+  tp: number;
+  fp: number;
+  fn: number;
+  rule_precision: number;
+  rule_recall: number;
+  rule_f1: number;
+  value_acc: number | null;
+  checkbox_acc: number | null;
+  signature_acc: number | null;
+  coverage: number | null;
+}
+
+export interface EvalPage {
+  page: number;
+  section: string;
+  rule_precision: number;
+  rule_recall: number;
+  rule_f1: number;
+  tp: string[];
+  fp: string[];
+  fn: string[];
+  value_correct: number;
+  value_wrong: number;
+  value_details: unknown[];
+  cb_correct: number;
+  cb_wrong: number;
+  sig_correct: number;
+  sig_wrong: number;
+  covered: number;
+  missing: number;
+}
+
+export interface EvalResult {
+  aggregate: EvalAggregate;
+  pages: EvalPage[];
+  document_id: string;
+  gold_pages: number;
+}
