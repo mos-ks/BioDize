@@ -155,7 +155,15 @@ export default function ReviewPage() {
             ) : (
               // Nothing selected yet: scroll through the whole PDF with every detection
               // box overlaid; click a box to open its detail.
-              <PdfScroll documentId={documentId} pageCount={docState.data.page_count} onSelect={selectField} />
+              <PdfScroll
+                documentId={documentId}
+                pageCount={docState.data.page_count}
+                onSelect={selectField}
+                onAnnotated={() => {
+                  docState.reload();
+                  queueState.reload();
+                }}
+              />
             )}
           </div>
         </section>

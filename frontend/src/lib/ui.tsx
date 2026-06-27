@@ -18,6 +18,7 @@ import {
   Ruler,
   ScanLine,
   Sigma,
+  UserPen,
   type LucideIcon,
 } from "lucide-react";
 import type { FieldStatus, FlagCategory, Severity } from "../api/types";
@@ -104,6 +105,7 @@ export const CATEGORY_META: Record<FlagCategory, CategoryMeta> = {
   deviation: { label: "Deviation", icon: FileWarning, color: "text-amber-600" },
   outlier: { label: "Outlier", icon: Sigma, color: "text-pink-600" },
   missing: { label: "Missing", icon: Ban, color: "text-rose-600" },
+  human: { label: "Human-labeled", icon: UserPen, color: "text-violet-600" },
 };
 
 export function categoryMeta(c: FlagCategory | string): CategoryMeta {

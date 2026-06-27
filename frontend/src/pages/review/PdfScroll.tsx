@@ -3,13 +3,15 @@
 // to open that field's review detail. Shown in the right pane when nothing is
 // selected, so opening a batch lets you scroll the PDF straight away.
 
-import { useState } from "react";
-import { Eye, EyeOff, ImageOff } from "lucide-react";
+import { useRef, useState } from "react";
+import { Eye, EyeOff, ImageOff, SquarePen } from "lucide-react";
 import { api } from "../../api/client";
-import type { Field } from "../../api/types";
+import type { BBox, Field } from "../../api/types";
 import { classNames, useApi } from "../../lib/ui";
 import { AllBoxesOverlay } from "./AllBoxesOverlay";
+import { rectFromBBox } from "./HighlightBox";
 import { LoadingBlock } from "../../components/atoms";
+import AnnotationForm from "./AnnotationForm";
 
 function PageItem({
   documentId,
@@ -17,18 +19,48 @@ function PageItem({
   fields,
   onSelect,
   showBoxes,
+  annotate,
+  onDraw,
 }: {
   documentId: string;
   pageNo: number;
   fields: Field[];
   onSelect: (id: string) => void;
   showBoxes: boolean;
+  annotate: boolean;
+  onDraw: (pageNo: number, bbox: number[]) => void;
 }) {
   const [state, setState] = useState<"loading" | "ok" | "error">("loading");
   const [ratio, setRatio] = useState<number | null>(null);
+  const [drag, setDrag] = useState<{ x0: number; y0: number; x1: number; y1: number } | null>(null);
+  const wrapRef = useRef<HTMLDivElement>(null);
   const src = api.pageImageUrl(documentId, pageNo);
   const nFlagged = fields.filter((f) => f.flags.length > 0).length;
   const nErr = fields.filter((f) => f.flags.some((fl) => fl.severity === "error")).length;
+
+  function norm(e: React.MouseEvent) {
+    const r = wrapRef.current!.getBoundingClientRect();
+    const c = (v: number) => Math.min(1, Math.max(0, v));
+    return { x: c((e.clientX - r.left) / r.width), y: c((e.clientY - r.top) / r.height) };
+  }
+  function down(e: React.MouseEvent) {
+    if (!annotate || state !== "ok") return;
+    const p = norm(e);
+    setDrag({ x0: p.x, y0: p.y, x1: p.x, y1: p.y });
+    e.preventDefault();
+  }
+  function move(e: React.MouseEvent) {
+    if (!drag) return;
+    const p = norm(e);
+    setDrag((d) => (d ? { ...d, x1: p.x, y1: p.y } : d));
+  }
+  function up() {
+    if (!drag) return;
+    const bb = [Math.min(drag.x0, drag.x1), Math.min(drag.y0, drag.y1),
+                Math.max(drag.x0, drag.x1), Math.max(drag.y0, drag.y1)];
+    setDrag(null);
+    if (bb[2] - bb[0] > 0.01 && bb[3] - bb[1] > 0.01) onDraw(pageNo, bb.map((v) => +v.toFixed(4)));
+  }
 
   return (
     <div className="scroll-mt-2">
@@ -43,7 +75,15 @@ function PageItem({
         </span>
       </div>
       <div
-        className="relative mx-auto w-full max-w-[640px] overflow-hidden rounded-lg border border-slate-200 bg-white shadow-card"
+        ref={wrapRef}
+        onMouseDown={down}
+        onMouseMove={move}
+        onMouseUp={up}
+        onMouseLeave={up}
+        className={classNames(
+          "relative mx-auto w-full max-w-[640px] overflow-hidden rounded-lg border border-slate-200 bg-white shadow-card",
+          annotate && state === "ok" && "cursor-crosshair ring-2 ring-violet-300",
+        )}
         style={{ aspectRatio: ratio ? String(ratio) : "1 / 1.414" }}
       >
         {state !== "error" ? (
@@ -71,7 +111,13 @@ function PageItem({
           </div>
         )}
         {state === "ok" && showBoxes && (
-          <AllBoxesOverlay fields={fields} currentFieldId="" onSelect={onSelect} />
+          <AllBoxesOverlay fields={fields} currentFieldId="" onSelect={annotate ? undefined : onSelect} />
+        )}
+        {drag && (
+          <div
+            className="pointer-events-none absolute rounded-[2px] border-2 border-violet-500 bg-violet-500/15"
+            style={rectFromBBox([drag.x0, drag.y0, drag.x1, drag.y1] as BBox)}
+          />
         )}
       </div>
     </div>
@@ -82,13 +128,17 @@ export default function PdfScroll({
   documentId,
   pageCount,
   onSelect,
+  onAnnotated,
 }: {
   documentId: string;
   pageCount: number;
   onSelect: (id: string) => void;
+  onAnnotated?: () => void;
 }) {
-  const { data: fields, loading } = useApi<Field[]>(() => api.listFields(documentId, {}), [documentId]);
+  const { data: fields, loading, reload } = useApi<Field[]>(() => api.listFields(documentId, {}), [documentId]);
   const [showBoxes, setShowBoxes] = useState(true);
+  const [annotate, setAnnotate] = useState(false);
+  const [draft, setDraft] = useState<{ pageNo: number; bbox: number[] } | null>(null);
 
   const byPage = new Map<number, Field[]>();
   for (const f of fields ?? []) {
@@ -107,7 +157,23 @@ export default function PdfScroll({
       <div className="sticky top-0 z-10 -mx-1 flex items-center justify-between gap-2 bg-white/90 px-1 pb-2 backdrop-blur">
         <h2 className="text-base font-semibold text-slate-800">Document</h2>
         <div className="flex items-center gap-2">
-          <span className="hidden text-xs text-slate-400 sm:inline">click a box to review</span>
+          <span className="hidden text-xs text-slate-400 sm:inline">
+            {annotate ? "drag a box to label" : "click a box to review"}
+          </span>
+          <button
+            type="button"
+            onClick={() => setAnnotate((v) => !v)}
+            aria-pressed={annotate}
+            title={annotate ? "Stop adding" : "Draw a box to add a human-labeled entry"}
+            className={classNames(
+              "inline-flex items-center gap-1.5 rounded-lg px-2 py-1 text-xs font-medium transition-colors",
+              annotate
+                ? "bg-violet-600 text-white ring-1 ring-inset ring-violet-600 hover:bg-violet-700"
+                : "text-slate-500 ring-1 ring-inset ring-slate-200 hover:bg-slate-100",
+            )}
+          >
+            <SquarePen className="h-3.5 w-3.5" /> {annotate ? "Drawing…" : "Add box"}
+          </button>
           <button
             type="button"
             onClick={() => setShowBoxes((v) => !v)}
@@ -134,9 +200,24 @@ export default function PdfScroll({
             fields={byPage.get(pg) ?? []}
             onSelect={onSelect}
             showBoxes={showBoxes}
+            annotate={annotate}
+            onDraw={(pageNo, bbox) => setDraft({ pageNo, bbox })}
           />
         ))}
       </div>
+
+      {draft && (
+        <AnnotationForm
+          documentId={documentId}
+          pageNo={draft.pageNo}
+          bbox={draft.bbox}
+          onClose={() => setDraft(null)}
+          onSaved={() => {
+            reload();
+            onAnnotated?.();
+          }}
+        />
+      )}
     </div>
   );
 }

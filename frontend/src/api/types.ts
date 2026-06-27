@@ -14,7 +14,18 @@ export type FlagCategory =
   | "cross_reference"
   | "deviation"
   | "outlier"
-  | "missing";
+  | "missing"
+  | "human";
+
+export interface AnnotationInput {
+  page_no: number;
+  bbox?: number[] | null;
+  label?: string;
+  value?: string;
+  note?: string;
+  severity?: "error" | "warning" | null;
+  actor?: string;
+}
 
 export type FieldStatus =
   | "extracted"

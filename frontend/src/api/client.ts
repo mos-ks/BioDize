@@ -6,6 +6,7 @@
 // runtime with `setApiBase()` (the in-app gear settings) — no rebuild needed.
 
 import type {
+  AnnotationInput,
   CorrectionInput,
   Distribution,
   DocumentSummary,
@@ -152,11 +153,23 @@ export const api = {
   getDistribution: (role: string, bins = 10) =>
     request<Distribution>(`${API_PREFIX}/stats/roles/${encodeURIComponent(role)}/distribution${qs({ bins })}`),
 
+  /** Create a human-labeled entry from a box drawn on the PDF. */
+  addAnnotation: (documentId: string, body: AnnotationInput) =>
+    request<Field>(`${API_PREFIX}/documents/${documentId}/annotations`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(body),
+    }),
+
   // direct URLs (for <img> / download)
   pageImageUrl: (documentId: string, pageNo: number) =>
     `${getApiBase()}${API_PREFIX}/documents/${documentId}/pages/${pageNo}/image`,
   exportUrl: (documentId: string) =>
     `${getApiBase()}${API_PREFIX}/documents/${documentId}/export.xlsx`,
+  csvUrl: (documentId: string) =>
+    `${getApiBase()}${API_PREFIX}/documents/${documentId}/export.csv`,
+  changelogUrl: (documentId: string) =>
+    `${getApiBase()}${API_PREFIX}/documents/${documentId}/changes.csv`,
 };
 
 export type Api = typeof api;

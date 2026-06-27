@@ -3,14 +3,15 @@
 
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { ArrowLeft, BarChart3, FileSpreadsheet, Trash2 } from "lucide-react";
+import { ArrowLeft, BarChart3, ChevronDown, Download, FileSpreadsheet, FileText, History, Trash2 } from "lucide-react";
 import { api } from "../../api/client";
 import type { DocumentSummary } from "../../api/types";
 import { CountPill, SimulatedBadge, StatusBadge } from "../../components/atoms";
-import { displayDocNo, isSimulatedDoc, prettyDocTitle } from "../../lib/ui";
+import { classNames, displayDocNo, isSimulatedDoc, prettyDocTitle } from "../../lib/ui";
 
 export default function DocumentBar({ doc }: { doc: DocumentSummary }) {
   const [deleting, setDeleting] = useState(false);
+  const [dlOpen, setDlOpen] = useState(false);
   const navigate = useNavigate();
 
   async function onDelete() {
@@ -61,9 +62,33 @@ export default function DocumentBar({ doc }: { doc: DocumentSummary }) {
         <Link to={`/documents/${doc.id}/stats`} className="btn-secondary">
           <BarChart3 className="h-4 w-4" /> Stats
         </Link>
-        <a href={api.exportUrl(doc.id)} download className="btn-accent">
-          <FileSpreadsheet className="h-4 w-4" /> Export .xlsx
-        </a>
+        <div className="relative">
+          <button type="button" onClick={() => setDlOpen((v) => !v)} className="btn-accent" aria-expanded={dlOpen}>
+            <Download className="h-4 w-4" /> Download <ChevronDown className="h-3.5 w-3.5" />
+          </button>
+          {dlOpen && (
+            <>
+              <div className="fixed inset-0 z-10" onClick={() => setDlOpen(false)} />
+              <div className="absolute right-0 z-20 mt-1 w-56 rounded-xl border border-slate-200 bg-white p-1 shadow-panel">
+                {[
+                  { href: api.exportUrl(doc.id), icon: FileSpreadsheet, color: "text-emerald-600", label: "Excel — Solution (.xlsx)" },
+                  { href: api.csvUrl(doc.id), icon: FileText, color: "text-slate-500", label: "Full data (.csv)" },
+                  { href: api.changelogUrl(doc.id), icon: History, color: "text-violet-600", label: "Change log (.csv)" },
+                ].map((it) => (
+                  <a
+                    key={it.label}
+                    href={it.href}
+                    download
+                    onClick={() => setDlOpen(false)}
+                    className={classNames("flex items-center gap-2 rounded-lg px-2.5 py-2 text-sm text-slate-700 hover:bg-slate-100")}
+                  >
+                    <it.icon className={classNames("h-4 w-4", it.color)} /> {it.label}
+                  </a>
+                ))}
+              </div>
+            </>
+          )}
+        </div>
         <button
           type="button"
           onClick={onDelete}
