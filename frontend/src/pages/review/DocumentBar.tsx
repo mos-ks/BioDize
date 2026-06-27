@@ -3,15 +3,13 @@
 
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { ArrowLeft, BarChart3, FileSpreadsheet, Gauge, Trash2 } from "lucide-react";
+import { ArrowLeft, BarChart3, FileSpreadsheet, Trash2 } from "lucide-react";
 import { api } from "../../api/client";
 import type { DocumentSummary } from "../../api/types";
 import { CountPill, SimulatedBadge, StatusBadge } from "../../components/atoms";
 import { displayDocNo, isSimulatedDoc, prettyDocTitle } from "../../lib/ui";
-import EvalModal from "./EvalModal";
 
 export default function DocumentBar({ doc }: { doc: DocumentSummary }) {
-  const [evalOpen, setEvalOpen] = useState(false);
   const [deleting, setDeleting] = useState(false);
   const navigate = useNavigate();
 
@@ -60,9 +58,6 @@ export default function DocumentBar({ doc }: { doc: DocumentSummary }) {
           <CountPill tone="neutral" count={doc.n_needs_review} label="to review" />
         </div>
         <div className="mx-1 hidden h-6 w-px bg-slate-200 lg:block" />
-        <button type="button" onClick={() => setEvalOpen(true)} className="btn-secondary">
-          <Gauge className="h-4 w-4" /> Eval AI
-        </button>
         <Link to={`/documents/${doc.id}/stats`} className="btn-secondary">
           <BarChart3 className="h-4 w-4" /> Stats
         </Link>
@@ -80,8 +75,6 @@ export default function DocumentBar({ doc }: { doc: DocumentSummary }) {
           <Trash2 className="h-4 w-4" />
         </button>
       </div>
-
-      {evalOpen && <EvalModal documentId={doc.id} onClose={() => setEvalOpen(false)} />}
     </div>
   );
 }

@@ -3,56 +3,27 @@
 
 import { useEffect, useState } from "react";
 import { Link, useLocation } from "react-router-dom";
-import { Activity, Check, RotateCcw, Server, Settings2, X } from "lucide-react";
+import { Activity, Check, Gauge, RotateCcw, Server, Settings2, X } from "lucide-react";
 import { api, defaultApiBase, getApiBase, resetApiBase, setApiBase } from "../api/client";
 import type { Health } from "../api/types";
 import { classNames } from "../lib/ui";
 import { Spinner } from "./atoms";
+import EvalModal from "../pages/review/EvalModal";
 
-// Hand-built fallback mark (a pharma capsule dissolving into pixels), shown only
-// if the real /logo.png asset is missing — so the header never renders blank.
-function BrandMark() {
-  return (
-    <svg viewBox="0 0 32 32" className="h-9 w-9 shrink-0" aria-hidden>
-      <defs>
-        <linearGradient id="bdMark" x1="0.62" y1="0" x2="0.28" y2="1">
-          <stop offset="0" stopColor="#141043" />
-          <stop offset="0.5" stopColor="#3a3670" />
-          <stop offset="1" stopColor="#9d9bc4" />
-        </linearGradient>
-        <mask id="bdDiss">
-          <rect width="32" height="32" fill="#fff" />
-          <rect x="9.4" y="21.4" width="3" height="3" rx="0.6" fill="#000" />
-          <rect x="10.6" y="24.6" width="2.3" height="2.3" rx="0.5" fill="#000" />
-          <rect x="12.4" y="21" width="2" height="2" rx="0.4" fill="#000" />
-        </mask>
-      </defs>
-      <rect x="9" y="3" width="19" height="26" rx="9.5" fill="url(#bdMark)" mask="url(#bdDiss)" />
-      <rect x="4.3" y="3.4" width="4.3" height="4.3" rx="1" fill="url(#bdMark)" />
-      <rect x="5.2" y="23.4" width="2.6" height="2.6" rx="0.5" fill="url(#bdMark)" />
-      <rect x="3.2" y="27.3" width="1.9" height="1.9" rx="0.4" fill="url(#bdMark)" />
-      <rect x="8.4" y="27.7" width="1.8" height="1.8" rx="0.4" fill="url(#bdMark)" />
-    </svg>
-  );
-}
-
-// Logo asset preference: a dropped-in PNG wins, else the transparent SVG export,
-// else the built-in mark — so the header always renders something on-brand.
+// The official BioDize logo (public/logo.png if present, else the logo.svg export).
 const LOGO_SOURCES = ["/logo.png", "/logo.svg"];
 
 function Brand() {
   const [srcIdx, setSrcIdx] = useState(0);
   return (
     <Link to="/" className="flex items-center gap-2.5">
-      {srcIdx < LOGO_SOURCES.length ? (
+      {srcIdx < LOGO_SOURCES.length && (
         <img
           src={LOGO_SOURCES[srcIdx]}
           alt="BioDize"
           className="h-9 w-9 shrink-0 object-contain"
           onError={() => setSrcIdx((i) => i + 1)}
         />
-      ) : (
-        <BrandMark />
       )}
       <div className="leading-tight">
         <div className="text-[15px] font-bold tracking-tight text-slate-800">
@@ -167,10 +138,14 @@ function ApiSettings({ onClose }: { onClose: () => void }) {
 
 export default function Layout({ children }: { children: React.ReactNode }) {
   const [open, setOpen] = useState(false);
+  const [evalOpen, setEvalOpen] = useState(false);
   const [health, setHealth] = useState<Health | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(false);
   const loc = useLocation();
+  // Eval AI is a backend-evaluation action, so it lives in the top bar — but only
+  // when a specific document is open (it scores that document vs ground truth).
+  const docId = loc.pathname.match(/^\/documents\/([^/]+)/)?.[1] ?? null;
 
   useEffect(() => {
     let alive = true;
@@ -194,8 +169,19 @@ export default function Layout({ children }: { children: React.ReactNode }) {
       <header className="sticky top-0 z-30 border-b border-slate-200/80 bg-white/85 backdrop-blur">
         <div className="mx-auto flex h-16 max-w-[1500px] items-center justify-between gap-4 px-4 sm:px-6">
           <Brand />
-          <button
-            onClick={() => setOpen(true)}
+          <div className="flex items-center gap-2">
+            {docId && (
+              <button
+                type="button"
+                onClick={() => setEvalOpen(true)}
+                className="btn-secondary"
+                title="Evaluate the AI output against ground truth"
+              >
+                <Gauge className="h-4 w-4" /> Eval AI
+              </button>
+            )}
+            <button
+              onClick={() => setOpen(true)}
             className="group flex items-center gap-2 rounded-xl border border-slate-200 bg-white px-2.5 py-2 transition hover:border-slate-300 hover:shadow-sm"
             title={
               loading
@@ -208,9 +194,10 @@ export default function Layout({ children }: { children: React.ReactNode }) {
             }
             aria-label="Backend settings"
           >
-            <HealthDot health={health} loading={loading} error={error} />
-            <Settings2 className="h-4 w-4 text-slate-400 group-hover:text-slate-600" />
-          </button>
+              <HealthDot health={health} loading={loading} error={error} />
+              <Settings2 className="h-4 w-4 text-slate-400 group-hover:text-slate-600" />
+            </button>
+          </div>
         </div>
       </header>
 
@@ -224,6 +211,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
       </footer>
 
       {open && <ApiSettings onClose={() => setOpen(false)} />}
+      {evalOpen && docId && <EvalModal documentId={docId} onClose={() => setEvalOpen(false)} />}
     </div>
   );
 }
