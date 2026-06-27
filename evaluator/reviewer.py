@@ -1,11 +1,11 @@
 """
-BioDize Pruefer -- Standalone Batch-Review-Tool
-================================================
-Startet Backend automatisch. Kein manuelles "App starten" noetig.
-Fuer mehrere Batches: Dokument-Auswahl oben links.
+BioDize Eval -- Standalone Batch Review Tool
+=============================================
+Auto-starts backend. No manual setup needed.
+For multiple batches: use document dropdown top-left.
 
 Start: py reviewer.py
-       Doppelklick auf "BioDize Launcher.bat" -> Schritt 3
+       Double-click BioDize Launcher.bat -> Step 3
 """
 from __future__ import annotations
 import json, os, subprocess, sys, threading, time
@@ -116,7 +116,7 @@ def fetch_img(doc_id, page_no):
 # ── Tastenkuerzel-Dialog ──────────────────────────────────────────────────────
 class KeyDialog(tk.Toplevel):
     LABELS = {
-        "confirm": "Bestaetigen",
+        "confirm": "Confirm",
         "correct": "Wert korrigieren",
         "next":    "Naechstes Feld",
         "prev":    "Vorheriges Feld",
@@ -186,7 +186,7 @@ class KeyDialog(tk.Toplevel):
 class App:
     def __init__(self, root: tk.Tk):
         self.root   = root
-        self.root.title("BioDize Pruefer")
+        self.root.title("BioDize Eval")
         self.root.configure(bg=C["bg"])
         self.root.state("zoomed")
         self.root.minsize(900, 600)
@@ -272,8 +272,8 @@ class App:
     def _update_btn_labels(self):
         def fmt(k): return self._keys.get(k,"").strip("<>").replace("Return","Enter").replace("space","Leertaste")
         if hasattr(self,"btn_confirm"):
-            self.btn_confirm.config(text=f"Bestaetigen   [{fmt('confirm')}]")
-            self.btn_correct.config(text=f"Korrigieren   [{fmt('correct')}]")
+            self.btn_confirm.config(text=f"Confirm   [{fmt('confirm')}]")
+            self.btn_correct.config(text=f"Correct   [{fmt('correct')}]")
             self.btn_next.config(   text=f"Weiter   [{fmt('next')}]")
 
     # ── Backend auto-starten ──────────────────────────────────────────────────
@@ -316,7 +316,7 @@ class App:
         hdr = tk.Frame(self.root, bg=C["hdr"], height=46)
         hdr.pack(fill="x"); hdr.pack_propagate(False)
 
-        tk.Label(hdr, text="BioDize Pruefer",
+        tk.Label(hdr, text="BioDize Eval",
                  font=("Segoe UI",13,"bold"), bg=C["hdr"], fg=C["fg"]
                  ).pack(side="left", padx=14, pady=8)
 
@@ -342,7 +342,7 @@ class App:
                                  font=("Segoe UI",11,"bold"), bg=C["hdr"], fg=C["blue"])
         self.lbl_prog.pack(side="right", padx=14)
 
-        self.btn_edit = tk.Button(hdr, text="Boxen bearbeiten",
+        self.btn_edit = tk.Button(hdr, text="Edit Boxes",
                                   font=("Segoe UI",8,"bold"),
                                   bg="#7c3aed", fg="white",
                                   activebackground="#6d28d9",
@@ -381,33 +381,54 @@ class App:
                                   font=("Segoe UI",8))
         self.lbl_count.pack(side="right", padx=12)
 
-        # Editor-Toolbar (standardmaessig versteckt)
-        self.edit_bar = tk.Frame(self.root, bg="#1a0a2e", height=36)
-        # Wird per _toggle_edit_mode eingeblendet
-        self.lbl_edit_hint = tk.Label(self.edit_bar,
-            text="BEARBEITUNGSMODUS  |  Feld anklicken: auswaehlen  |  "
-                 "Leere Flaeche ziehen: neue Box  |  Box ziehen: verschieben  |  "
-                 "Ecken ziehen: Groesse aendern  |  Entf: Box loeschen",
-            bg="#1a0a2e", fg="#c4b5fd", font=("Segoe UI",8))
-        self.lbl_edit_hint.pack(side="left", padx=12, pady=8)
+        # ── Box Editor panel (hidden until activated) ─────────────────────────
+        self.edit_bar = tk.Frame(self.root, bg="#1a0a2e")
 
-        self.btn_save_bbox = tk.Button(self.edit_bar, text="Alle Boxen speichern",
-            font=("Segoe UI",8,"bold"), bg="#166534", fg="white",
-            activebackground="#14532d", relief="flat", bd=0,
-            padx=12, pady=5, cursor="hand2",
-            command=self._save_all_bboxes)
-        self.btn_save_bbox.pack(side="right", padx=8)
+        # Row 1: field picker + delete + save
+        row1 = tk.Frame(self.edit_bar, bg="#1a0a2e"); row1.pack(fill="x", padx=8, pady=(6,2))
 
-        self.btn_del_bbox = tk.Button(self.edit_bar, text="Box loeschen [Entf]",
-            font=("Segoe UI",8), bg="#7f1d1d", fg="white",
-            activebackground="#991b1b", relief="flat", bd=0,
-            padx=12, pady=5, cursor="hand2",
-            command=self._delete_sel_bbox)
-        self.btn_del_bbox.pack(side="right", padx=4)
+        tk.Label(row1, text="Field:", bg="#1a0a2e", fg="#a78bfa",
+                 font=("Segoe UI",8)).pack(side="left")
+        self.field_var = tk.StringVar()
+        self.field_combo = ttk.Combobox(row1, textvariable=self.field_var,
+                                        state="readonly", width=38,
+                                        font=("Segoe UI",8))
+        self.field_combo.pack(side="left", padx=(4,8))
+        self.field_combo.bind("<<ComboboxSelected>>", self._on_field_combo)
 
-        self.lbl_sel_field = tk.Label(self.edit_bar, text="Kein Feld ausgewaehlt",
-            bg="#1a0a2e", fg="#a78bfa", font=("Segoe UI",8,"bold"))
-        self.lbl_sel_field.pack(side="right", padx=12)
+        for txt, col, hov, cmd in [
+            ("Delete Box [Del]", "#7f1d1d","#991b1b", self._delete_sel_bbox),
+            ("Draw New Box",     "#1e40af","#1e3a8a", self._start_draw_mode),
+            ("Save All",         "#166534","#14532d", self._save_all_bboxes),
+        ]:
+            b = tk.Button(row1, text=txt, font=("Segoe UI",8),
+                          bg=col, fg="white", activebackground=hov,
+                          relief="flat", bd=0, padx=8, pady=4,
+                          cursor="hand2", command=cmd, takefocus=False)
+            b.pack(side="left", padx=(0,4))
+
+        # Row 2: coordinate editor + nudge hint
+        row2 = tk.Frame(self.edit_bar, bg="#1a0a2e"); row2.pack(fill="x", padx=8, pady=(2,6))
+        tk.Label(row2, text="Box (x0 y0 x1 y1):", bg="#1a0a2e", fg="#a78bfa",
+                 font=("Segoe UI",8)).pack(side="left")
+        self._coord_vars = []
+        for _ in range(4):
+            v = tk.StringVar()
+            e = tk.Entry(row2, textvariable=v, width=7, font=("Segoe UI",8),
+                         bg="#0f0a1e", fg="white", insertbackground="white",
+                         relief="flat", bd=2)
+            e.pack(side="left", padx=(4,0))
+            v.trace_add("write", self._on_coord_change)
+            self._coord_vars.append(v)
+        self._coord_updating = False
+
+        tk.Label(row2, text=" | Arrow keys: nudge  Shift+Arrow: fine  Ctrl+Z: undo",
+                 bg="#1a0a2e", fg="#64748b", font=("Segoe UI",7)).pack(side="left", padx=8)
+        self.lbl_sel_field = tk.Label(row2, text="", bg="#1a0a2e",
+                                      fg="#c4b5fd", font=("Segoe UI",8,"bold"))
+        self.lbl_sel_field.pack(side="right", padx=8)
+
+        self._draw_mode_active = False
 
         # ── Hauptbereich ─────────────────────────────────────────────────────
         body = tk.Frame(self.root, bg=C["bg"])
@@ -451,6 +472,7 @@ class App:
         self.canvas.bind("<ButtonRelease-1>", self._mouse_up)
         self.canvas.bind("<Double-Button-1>", self._dbl_click)
         self.root.bind("<Delete>",    lambda e: self._delete_sel_bbox())
+        self.root.bind("<BackSpace>", lambda e: self._delete_sel_bbox() if self.edit_mode else None)
         self.root.bind("<Control-z>", lambda e: self._undo())
         self.root.bind("<Escape>",    lambda e: (self._exit_fs() or self._cancel_edit_sel()))
 
@@ -487,8 +509,8 @@ class App:
             b.bind("<Leave>", lambda e: b.config(bg=color))
             return b
 
-        self.btn_confirm = mkbtn("Bestaetigen   [Enter]","#166534","#14532d", self.confirm)
-        self.btn_correct = mkbtn("Korrigieren   [E]",   "#1e40af","#1e3a8a", self.correct)
+        self.btn_confirm = mkbtn("Confirm   [Enter]","#166534","#14532d", self.confirm)
+        self.btn_correct = mkbtn("Correct   [E]",   "#1e40af","#1e3a8a", self.correct)
         self.btn_next    = mkbtn("Weiter   [Leer]",     "#374151","#4b5563", self.next_field)
 
         def nav_cmd(fn):
@@ -605,7 +627,7 @@ class App:
                     self.root.after(0, self._redraw)
         total = len(flag_pgs) + len(other_pgs)
         self.root.after(0, lambda: self._set_status(
-            f"{loaded}/{total} Seiten geladen -- Navigation sofort", C["grn"]))
+            f"{loaded}/{total} pages loaded -- Navigation sofort", C["grn"]))
 
     # ── Filter + Liste ────────────────────────────────────────────────────────
 
@@ -706,16 +728,28 @@ class App:
     def _toggle_edit_mode(self):
         self.edit_mode = not self.edit_mode
         if self.edit_mode:
-            self.btn_edit.config(bg="#6d28d9", text="Bearbeitung beenden")
-            self.edit_bar.pack(fill="x", after=self.root.winfo_children()[1])
-            # Felder dieser Seite laden
+            self.btn_edit.config(bg="#6d28d9", text="Stop Editing")
+            self.edit_bar.pack(fill="x")
             self._load_page_fields()
-            self.canvas.config(cursor="crosshair")
+            self._populate_field_combo()
+            # Arrow key nudge in edit mode
+            self.root.bind("<Up>",    lambda e: self._nudge(0, -0.005))
+            self.root.bind("<Down>",  lambda e: self._nudge(0,  0.005))
+            self.root.bind("<Left>",  lambda e: self._nudge(-0.005, 0))
+            self.root.bind("<Right>", lambda e: self._nudge( 0.005, 0))
+            self.root.bind("<Shift-Up>",    lambda e: self._nudge(0, -0.001))
+            self.root.bind("<Shift-Down>",  lambda e: self._nudge(0,  0.001))
+            self.root.bind("<Shift-Left>",  lambda e: self._nudge(-0.001, 0))
+            self.root.bind("<Shift-Right>", lambda e: self._nudge( 0.001, 0))
         else:
-            self.btn_edit.config(bg="#7c3aed", text="Boxen bearbeiten")
+            self.btn_edit.config(bg="#7c3aed", text="Edit Boxes")
             self.edit_bar.pack_forget()
             self._sel_fid = None
-            self.canvas.config(cursor="crosshair")
+            self._draw_mode_active = False
+            for key in ("<Up>","<Down>","<Left>","<Right>",
+                        "<Shift-Up>","<Shift-Down>","<Shift-Left>","<Shift-Right>"):
+                self.root.unbind(key)
+            self._bind_keys()   # restore navigation keys
             self._redraw()
 
     def _load_page_fields(self):
@@ -726,51 +760,50 @@ class App:
         self._page_fields = [i for i in self.items if i["page"] == pg]
         self._redraw()
 
-    def _canvas_to_img(self, cx, cy):
-        """Canvas-Koordinate -> normierte Bildkoordinate (0-1)."""
+    def _view_params(self):
+        """Returns (pil, iw, ih, base, ox, oy, pw, ph, x0, y0, x1, y1)
+        describing where and how the image is drawn on canvas.
+        ox/oy = canvas top-left of image; pw/ph = displayed pixel size."""
         cw = self.canvas.winfo_width(); ch = self.canvas.winfo_height()
         pg = self.cur_page
         if pg not in self.pil_cache:
-            return None, None
+            return None
         pil = self.pil_cache[pg]
         iw, ih = pil.size
         base = min(cw/iw, ch/ih)
         if self.zoom <= 1.0:
             pw = int(iw*base); ph = int(ih*base)
-            ix = (cw-pw)//2;   iy = (ch-ph)//2
-            nx = (cx-ix) / pw; ny = (cy-iy) / ph
+            ox = (cw-pw)//2;   oy = (ch-ph)//2
+            return pil, iw, ih, base, ox, oy, pw, ph, 0.0, 0.0, float(iw), float(ih)
         else:
-            ts  = base*self.zoom
-            vw  = cw/ts; vh = ch/ts
-            x0  = max(0.0, self.zoom_x*iw - vw/2)
-            y0  = max(0.0, self.zoom_y*ih - vh/2)
-            x1  = min(float(iw), x0+vw); y1 = min(float(ih), y0+vh)
-            nx  = x0/iw + (cx/cw)*(x1-x0)/iw
-            ny  = y0/ih + (cy/ch)*(y1-y0)/ih
-        return max(0.0,min(1.0,nx)), max(0.0,min(1.0,ny))
+            vw = iw/self.zoom; vh = ih/self.zoom
+            x0 = max(0.0, self.zoom_x*iw - vw/2)
+            y0 = max(0.0, self.zoom_y*ih - vh/2)
+            x1 = min(float(iw), x0+vw); y1 = min(float(ih), y0+vh)
+            if x1 >= iw: x0 = max(0.0, iw-vw)
+            if y1 >= ih: y0 = max(0.0, ih-vh)
+            pw = max(1, min(cw, int((x1-x0)*base*self.zoom)))
+            ph = max(1, min(ch, int((y1-y0)*base*self.zoom)))
+            ox = (cw-pw)//2; oy = (ch-ph)//2
+            return pil, iw, ih, base, ox, oy, pw, ph, x0, y0, x1, y1
+
+    def _canvas_to_img(self, cx, cy):
+        """Canvas coordinate -> normalized image coordinate (0-1)."""
+        v = self._view_params()
+        if not v: return None, None
+        _, iw, ih, _, ox, oy, pw, ph, x0, y0, x1, y1 = v
+        nx = x0/iw + (cx-ox)/pw * (x1-x0)/iw
+        ny = y0/ih + (cy-oy)/ph * (y1-y0)/ih
+        return max(0.0, min(1.0, nx)), max(0.0, min(1.0, ny))
 
     def _img_to_canvas(self, nx, ny):
-        """Normierte Bildkoordinate -> Canvas-Koordinate."""
-        cw = self.canvas.winfo_width(); ch = self.canvas.winfo_height()
-        pg = self.cur_page
-        if pg not in self.pil_cache:
-            return 0, 0
-        pil = self.pil_cache[pg]
-        iw, ih = pil.size
-        base = min(cw/iw, ch/ih)
-        if self.zoom <= 1.0:
-            pw = int(iw*base); ph = int(ih*base)
-            ix = (cw-pw)//2;   iy = (ch-ph)//2
-            return ix + nx*pw,  iy + ny*ph
-        else:
-            ts  = base*self.zoom
-            vw  = cw/ts; vh = ch/ts
-            x0  = max(0.0, self.zoom_x*iw - vw/2)
-            y0  = max(0.0, self.zoom_y*ih - vh/2)
-            x1  = min(float(iw), x0+vw); y1 = min(float(ih), y0+vh)
-            cx  = (nx*iw - x0) / (x1-x0) * cw
-            cy  = (ny*ih - y0) / (y1-y0) * ch
-            return cx, cy
+        """Normalized image coordinate -> canvas coordinate."""
+        v = self._view_params()
+        if not v: return 0, 0
+        _, iw, ih, _, ox, oy, pw, ph, x0, y0, x1, y1 = v
+        cx = ox + (nx*iw - x0) / (x1-x0) * pw
+        cy = oy + (ny*ih - y0) / (y1-y0) * ph
+        return cx, cy
 
     def _hit_field(self, nx, ny, tol=0.01):
         """Findet das Feld an normierter Bildkoordinate, None wenn keins."""
@@ -802,10 +835,69 @@ class App:
         if x0 <= nx <= x1 and y0 <= ny <= y1: return "move"
         return "none"
 
+    # ── Field combo + coordinate editor ──────────────────────────────────────
+
+    def _populate_field_combo(self):
+        """Fill the field dropdown with all fields on the current page."""
+        opts = [f"{i.get('label','?')[:45]}  (p{i['page']})"
+                for i in self._page_fields]
+        self.field_combo.config(values=opts)
+        if opts: self.field_combo.current(0); self._on_field_combo()
+
+    def _on_field_combo(self, _=None):
+        idx = self.field_combo.current()
+        if 0 <= idx < len(self._page_fields):
+            item = self._page_fields[idx]
+            self._sel_fid = item["id"]
+            self.lbl_sel_field.config(text=item.get("label","?")[:30])
+            self._update_coord_display()
+            self._redraw()
+
+    def _update_coord_display(self):
+        """Update the x0 y0 x1 y1 entry fields from selected bbox."""
+        if self._coord_updating: return
+        item = next((i for i in self._page_fields if i["id"]==self._sel_fid), None)
+        if not item: return
+        b = item.get("bbox") or [0,0,0,0]
+        self._coord_updating = True
+        for var, val in zip(self._coord_vars, b):
+            var.set(f"{val:.4f}")
+        self._coord_updating = False
+
+    def _on_coord_change(self, *_):
+        """Apply manually edited coordinates to selected field."""
+        if self._coord_updating: return
+        item = next((i for i in self._page_fields if i["id"]==self._sel_fid), None)
+        if not item: return
+        try:
+            vals = [float(v.get()) for v in self._coord_vars]
+            if all(0 <= v <= 1 for v in vals) and vals[0]<vals[2] and vals[1]<vals[3]:
+                item["bbox"] = vals
+                self._redraw()
+        except (ValueError, tk.TclError):
+            pass
+
+    def _nudge(self, dx: float, dy: float):
+        """Move selected bbox by dx/dy (normalized 0-1)."""
+        item = next((i for i in self._page_fields if i["id"]==self._sel_fid), None)
+        if not item or not item.get("bbox"): return
+        self._push_undo(item["id"], item["bbox"])
+        b = list(item["bbox"])
+        w, h = b[2]-b[0], b[3]-b[1]
+        b[0] = max(0.0, min(1.0-w, b[0]+dx)); b[1] = max(0.0, min(1.0-h, b[1]+dy))
+        b[2] = b[0]+w; b[3] = b[1]+h
+        item["bbox"] = b
+        self._update_coord_display(); self._redraw()
+
+    def _start_draw_mode(self):
+        self._draw_mode_active = True
+        self.lbl_sel_field.config(text="Draw mode: click and drag on the scan")
+        self.canvas.config(cursor="crosshair")
+
     def _cancel_edit_sel(self):
         self._sel_fid = None
         if self.edit_mode:
-            self.lbl_sel_field.config(text="Kein Feld ausgewaehlt")
+            self.lbl_sel_field.config(text="")
             self._redraw()
 
     def _push_undo(self, fid: str, old_bbox):
@@ -821,8 +913,8 @@ class App:
         if item:
             item["bbox"] = old_bbox
             self._sel_fid = fid
-            self.lbl_sel_field.config(
-                text=f"Rueckgaengig: {item.get('label','?')[:25]}")
+            self.lbl_sel_field.config(text=f"Undone: {item.get('label','?')[:25]}")
+            self._update_coord_display()
         self._redraw()
 
     def _delete_sel_bbox(self):
@@ -832,8 +924,9 @@ class App:
         if not item:
             return
         self._push_undo(item["id"], item.get("bbox"))
-        item["bbox"] = None; self._sel_fid = None
-        self.lbl_sel_field.config(text="Box geloescht  (Strg+Z zum Rueckgaengig)")
+        item["bbox"] = None
+        self.lbl_sel_field.config(text="Box deleted  (Ctrl+Z to undo)")
+        self._update_coord_display()
         self._redraw()
 
     def _save_all_bboxes(self):
@@ -891,26 +984,27 @@ class App:
         if nx is None:
             return
         fid = self._hit_field(nx, ny)
-        if fid:
-            # Feld ausgewaehlt -- Drag-Modus bestimmen
-            item = next(i for i in self._page_fields if i["id"]==fid)
-            bbox = item.get("bbox")
-            zone = self._handle_zone(nx, ny, bbox) if bbox else "move"
-            self._sel_fid       = fid
-            self._drag_mode     = zone
-            self._drag_bbox     = list(bbox) if bbox else None
-            self._drag_start_c  = (nx, ny)
-            # Undo-Snapshot VOR dem Drag
-            self._push_undo(fid, bbox)
-            label = item.get("label","?")[:30]
-            self.lbl_sel_field.config(
-                text=f"Ausgewaehlt: {label}  |  Ziehen: {zone}")
-        else:
-            # Leere Flaeche: neue Box zeichnen
-            self._sel_fid      = None
-            self._draw_start   = (nx, ny)
-            self._drag_mode    = "draw"
-            self.canvas.config(cursor="crosshair")
+        if self._draw_mode_active or not fid:
+            # Draw new box
+            self._draw_start  = (nx, ny)
+            self._drag_mode   = "draw"
+            self._draw_mode_active = True
+            return
+        # Select existing field
+        item = next(i for i in self._page_fields if i["id"]==fid)
+        bbox = item.get("bbox")
+        zone = self._handle_zone(nx, ny, bbox) if bbox else "move"
+        self._sel_fid      = fid
+        self._drag_mode    = zone
+        self._drag_bbox    = list(bbox) if bbox else None
+        self._drag_start_c = (nx, ny)
+        self._push_undo(fid, bbox)
+        self.lbl_sel_field.config(text=item.get("label","?")[:35])
+        # Sync combo + coords
+        for i, it in enumerate(self._page_fields):
+            if it["id"] == fid:
+                self.field_combo.current(i); break
+        self._update_coord_display()
         self._redraw()
 
     def _edit_drag(self, event):
@@ -972,10 +1066,12 @@ class App:
                         cur_item["bbox"] = [x0,y0,x1,y1]
                         self._sel_fid = cur_item["id"]
                         self.lbl_sel_field.config(
-                            text=f"Neue Box fuer: {cur_item.get('label','?')[:30]}"
-                                 f"  (Strg+Z rueckgaengig  |  Speichern nicht vergessen)")
+                            text=f"New box: {cur_item.get('label','?')[:30]}  (Ctrl+Z undo  |  Save to persist)")
+                        self._update_coord_display()
             self._draw_start = None
+            self._draw_mode_active = False
         self._drag_mode = ""
+        self._update_coord_display()
         self._redraw()
 
     def _on_wheel(self, event):
@@ -1061,7 +1157,7 @@ class App:
 
         pg = self.cur_page
         if pg is None or pg not in self.pil_cache:
-            msg = ("Bild wird geladen...\n\n"
+            msg = ("Loading image...\n\n"
                    "Alle Seiten werden automatisch im Hintergrund geladen.\n"
                    "Navigation ist sofort verfuegbar sobald die Seite bereit ist.")
             self.canvas.create_text(cw//2, ch//2, text=msg,
@@ -1072,64 +1168,75 @@ class App:
         iw, ih = pil.size
         base = min(cw/iw, ch/ih)
 
+        v = self._view_params()
+        if not v:
+            return
+        _, _, _, _, ox, oy, pw, ph, x0v, y0v, x1v, y1v = v
+
+        def _ic(nx, ny):  # image-norm -> canvas
+            return ox + (nx*iw - x0v)/(x1v-x0v)*pw, oy + (ny*ih - y0v)/(y1v-y0v)*ph
+
         if self.zoom <= 1.0:
-            # ── Schneller Cache-Pfad (unveraendert, keine PIL-Arbeit) ────────
+            # ── Fast cached path ─────────────────────────────────────────────
             key = (pg, cw, ch)
             photo = self.photo_cache.get(key)
             if photo is None:
-                nw = max(1, int(iw*base)); nh = max(1, int(ih*base))
-                photo = ImageTk.PhotoImage(pil.resize((nw,nh), Image.BILINEAR))
+                photo = ImageTk.PhotoImage(pil.resize((pw, ph), Image.BILINEAR))
                 self.photo_cache[key] = photo
             self._img_ref = photo
-            pw, ph = photo.width(), photo.height()
-            ix = (cw-pw)//2; iy = (ch-ph)//2
-            self.canvas.create_image(ix, iy, image=photo, anchor="nw")
+            self.canvas.create_image(ox, oy, image=photo, anchor="nw")
 
-            # Bbox
+            # Current field bbox
             bbox = self.cur_bbox; sev = self.cur_sev
             if bbox and len(bbox) == 4:
-                bx0=ix+int(bbox[0]*pw); by0=iy+int(bbox[1]*ph)
-                bx1=ix+int(bbox[2]*pw); by1=iy+int(bbox[3]*ph)
-                color = "#ef4444" if sev=="error" else "#f59e0b"
-                self.canvas.create_rectangle(bx0,by0,bx1,by1,outline=color,width=3)
+                bx0, by0 = _ic(bbox[0], bbox[1]); bx1, by1 = _ic(bbox[2], bbox[3])
+                color = "#ef4444" if sev == "error" else "#f59e0b"
+                self.canvas.create_rectangle(bx0, by0, bx1, by1, outline=color, width=3)
 
         else:
-            # ── Zoom-Pfad: Crop aus PIL, dann auf Canvas-Groesse skalieren ──
-            ts  = base * self.zoom
-            vw  = cw / ts; vh = ch / ts          # Sichtbares Fenster in Bildpx
-            x0  = max(0.0, self.zoom_x*iw - vw/2)
-            y0  = max(0.0, self.zoom_y*ih - vh/2)
-            x1  = min(float(iw), x0 + vw)
-            y1  = min(float(ih), y0 + vh)
-            if x1 >= iw: x0 = max(0.0, iw - vw)
-            if y1 >= ih: y0 = max(0.0, ih - vh)
+            # ── Zoom path: crop from PIL, resize preserving aspect ratio ─────
+            # Visible region in image pixels (same ratio as fit-to-canvas)
+            view_w = iw / self.zoom
+            view_h = ih / self.zoom
+            cx_img = self.zoom_x * iw
+            cy_img = self.zoom_y * ih
+            x0 = max(0.0, cx_img - view_w / 2)
+            y0 = max(0.0, cy_img - view_h / 2)
+            x1 = min(float(iw), x0 + view_w)
+            y1 = min(float(ih), y0 + view_h)
+            if x1 >= iw: x0 = max(0.0, iw - view_w)
+            if y1 >= ih: y0 = max(0.0, ih - view_h)
 
-            crop  = pil.crop((int(x0), int(y0), int(x1), int(y1)))
-            disp  = crop.resize((cw, ch), Image.BILINEAR)   # BILINEAR = schnell
+            crop = pil.crop((int(x0), int(y0), int(x1), int(y1)))
+            # Scale the crop by (base * zoom), then letterbox on canvas
+            out_w = max(1, min(cw, int(crop.width  * base * self.zoom)))
+            out_h = max(1, min(ch, int(crop.height * base * self.zoom)))
+            disp  = crop.resize((out_w, out_h), Image.BILINEAR)
             photo = ImageTk.PhotoImage(disp)
             self._img_ref = photo
-            self.canvas.create_image(0, 0, image=photo, anchor="nw")
+            ox = (cw - out_w) // 2   # center on canvas (no distortion)
+            oy = (ch - out_h) // 2
+            self.canvas.create_image(ox, oy, image=photo, anchor="nw")
 
-            # Bbox im Zoom-Bereich
+            # Bbox in zoomed view (map image coords -> canvas coords)
             bbox = self.cur_bbox; sev = self.cur_sev
+            rw = x1 - x0; rh = y1 - y0
+            def _to_canvas(nx, ny):
+                return ox + (nx*iw - x0)/rw * out_w, oy + (ny*ih - y0)/rh * out_h
             if bbox and len(bbox) == 4:
-                rw = x1-x0; rh = y1-y0  # sichtbarer Bereich in Bildpx
-                bx0c = (bbox[0]*iw - x0) / rw * cw
-                by0c = (bbox[1]*ih - y0) / rh * ch
-                bx1c = (bbox[2]*iw - x0) / rw * cw
-                by1c = (bbox[3]*ih - y0) / rh * ch
-                if bx1c>0 and bx0c<cw and by1c>0 and by0c<ch:
-                    color = "#ef4444" if sev=="error" else "#f59e0b"
+                bx0c, by0c = _to_canvas(bbox[0], bbox[1])
+                bx1c, by1c = _to_canvas(bbox[2], bbox[3])
+                if bx1c > ox and bx0c < ox+out_w and by1c > oy and by0c < oy+out_h:
+                    color = "#ef4444" if sev == "error" else "#f59e0b"
                     self.canvas.create_rectangle(
-                        max(0,bx0c), max(0,by0c),
-                        min(cw,bx1c), min(ch,by1c),
+                        max(ox, bx0c), max(oy, by0c),
+                        min(ox+out_w, bx1c), min(oy+out_h, by1c),
                         outline=color, width=3)
 
-            # Zoom-Indikator
+            # Zoom indicator
             self.canvas.create_text(cw-8, 8,
-                text=f"{self.zoom:.1f}x  (Doppelklick = Zuruecksetzen)",
-                fill="white", font=("Segoe UI",8,"bold"),
-                anchor="ne")
+                text=f"{self.zoom:.1f}x  (double-click = reset)",
+                fill="white", font=("Segoe UI", 8, "bold"), anchor="ne")
 
         # ── Editor-Overlay: alle Seitenboxen anzeigen ────────────────────────
         if self.edit_mode and self._page_fields:
@@ -1137,24 +1244,22 @@ class App:
                 b = item.get("bbox")
                 if not b or len(b) != 4:
                     continue
-                cx0,cy0 = self._img_to_canvas(b[0],b[1])
-                cx1,cy1 = self._img_to_canvas(b[2],b[3])
-                is_sel  = item["id"] == self._sel_fid
-                is_cur  = item["id"] == (self._cur() or {}).get("id")
-                color   = "#a78bfa" if is_sel else "#22d3ee" if is_cur else "#94a3b8"
-                width   = 3 if is_sel or is_cur else 1
-                self.canvas.create_rectangle(cx0,cy0,cx1,cy1,
+                cx0, cy0 = _ic(b[0], b[1]); cx1, cy1 = _ic(b[2], b[3])
+                is_sel = item["id"] == self._sel_fid
+                is_cur = item["id"] == (self._cur() or {}).get("id")
+                color  = "#a78bfa" if is_sel else "#22d3ee" if is_cur else "#64748b"
+                width  = 3 if is_sel else 2 if is_cur else 1
+                self.canvas.create_rectangle(cx0, cy0, cx1, cy1,
                                              outline=color, width=width)
-                # Feldname
-                label = item.get("label","?")[:18]
-                self.canvas.create_text(cx0+3, cy0+2, text=label,
+                self.canvas.create_text(cx0+3, cy0+2,
+                    text=item.get("label","?")[:20],
                     fill=color, font=("Segoe UI",7), anchor="nw")
-                # Resize-Handles an den Ecken (nur wenn ausgewaehlt)
                 if is_sel:
+                    hs = 7
                     for hx, hy in [(cx0,cy0),(cx1,cy0),(cx0,cy1),(cx1,cy1)]:
                         self.canvas.create_rectangle(
-                            hx-5,hy-5,hx+5,hy+5,
-                            fill="#a78bfa", outline="white", width=1)
+                            hx-hs, hy-hs, hx+hs, hy+hs,
+                            fill="#a78bfa", outline="white", width=2)
 
     # ── Aktionen ──────────────────────────────────────────────────────────────
 
@@ -1184,7 +1289,7 @@ class App:
         old  = item["value"]
         code = item["flags"][0]["code"] if item["flags"] else ""
         title, _ = INFO.get(code, (code,""))
-        new = sd.askstring("Korrigieren",
+        new = sd.askstring("Correct",
             f"Seite {item['page']}  —  {item['label']}\n\n"
             f"{title}\n\nAktueller Wert: {old}\n\nRichtiger Wert:",
             parent=self.root, initialvalue=old)
@@ -1477,7 +1582,11 @@ class GtWindow(tk.Toplevel):
             tag    = "pass" if status=="PASS" else "fail"
             prec   = f"{p.get('rule_precision',0):.0%}"
             rec    = f"{p.get('rule_recall',0):.0%}"
-            cov    = f"{p.get('coverage', p.get('covered',0)/(p.get('covered',0)+p.get('missing',0)) if p.get('covered',0)+p.get('missing',0) else 0):.0%}" if isinstance(p.get('covered'), int) else "—"
+            if p.get("coverage") is not None:
+                cov = f"{p.get('coverage'):.0%}"
+            else:
+                total = p.get("covered", 0) + p.get("missing", 0)
+                cov = f"{(p.get('covered', 0) / total):.0%}" if total else "—"
             val    = f"{p.get('value_correct',0)}/{p.get('value_correct',0)+p.get('value_wrong',0)}"
             cb_c   = p.get("cb_correct",0); cb_w = p.get("cb_wrong",0)
             cb     = f"{cb_c}/{cb_c+cb_w}" if cb_c+cb_w else "—"
@@ -1525,11 +1634,7 @@ class GtWindow(tk.Toplevel):
             try:
                 import os as _os; sys.path.insert(0, str(ROOT/"backend"))
                 _os.chdir(str(ROOT/"backend"))
-                from app.pipeline.model import Block, BBox, Document, Field, Read
-                from app.pipeline.normalize import normalize
-                from app.pipeline.resolve import resolve
-                from app.pipeline.validate.engine import validate
-                from app.pipeline.validate.uncertainty import score
+                from app.evaluation.results_loader import document_from_results
                 from app.evaluation.scorer import score_ground_truth
                 import json as _json
 
@@ -1539,21 +1644,7 @@ class GtWindow(tk.Toplevel):
                         text="results/extracted_fields.json fehlt!", fg=C["red"]))
                     return
 
-                data    = _json.loads(results_f.read_text(encoding="utf-8"))
-                doc     = Document(doc_no="gt", title="gt", page_count=46)
-                bmap: dict = {}
-                for e in data["fields"]:
-                    chap=(e.get("chapter") or "").strip(); pno=e["page_no"]; key=(chap,pno)
-                    if key not in bmap: bmap[key]=Block(chapter=chap,page_no=pno,template="real")
-                    b=bmap[key]
-                    bbox_raw=e.get("bbox"); bbox=BBox(*bbox_raw) if bbox_raw and len(bbox_raw)==4 else None
-                    vr=str(e.get("value_raw") or e.get("value") or "")
-                    f=Field(page_no=pno,chapter=chap,role=e.get("role"),
-                            label_raw=e.get("label") or "",value_raw=vr,bbox=bbox)
-                    f.reads=[Read(model="eval",value_raw=vr,confidence=e.get("confidence",1.0))]
-                    b.fields.append(f); f.block_key=b.key
-                doc.blocks=list(bmap.values())
-                normalize(doc); resolve(doc); validate(doc); score(doc)
+                doc = document_from_results(results_f, model_name="eval")
                 report = score_ground_truth(doc, ROOT/"ground_truth")
                 result = report.as_dict()
                 # Speichern
