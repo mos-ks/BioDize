@@ -57,16 +57,41 @@ def _split_sig(raw: str) -> tuple[str, str | None]:
 
 
 def _roster_kuerzel(doc: Document) -> Counter:
-    """Kürzel registered in the personnel table (label contains 'Kürzel')."""
+    """Kürzel registered in the personnel table (Beteiligte Personen).
+
+    Match ONLY the roster column ('Kürzel (Zeile N)') — NOT the signature fields,
+    whose labels also contain '(Datum/Kürzel)'. Mixing the (clean, printed-adjacent)
+    roster with the noisy signature reads is what made the canonical the misread
+    'ohe' instead of the registered 'ole'.
+    """
     reg: Counter = Counter()
     for f in doc.all_fields():
-        low = (f.label_raw or "").lower()
-        if "kürzel" in low or "kuerzel" in low:
-            v = (f.value_raw or "").strip().lower()
-            _, kz = _split_sig(v) if "/" in v else (None, v if _KZ.match(v) else None)
-            if kz:
+        low = (f.label_raw or "").lower().strip()
+        if (low.startswith("kürzel") or low.startswith("kuerzel")) and "datum" not in low:
+            kz = (f.value_raw or "").strip().lower()
+            if _KZ.match(kz):
                 reg[kz] += 1
     return reg
+
+
+def roster_persons(doc: Document) -> dict[str, str]:
+    """Map each registered Kürzel -> the operator's full name (semantic anchor).
+
+    Pairs 'Kürzel (Zeile N)' with 'Name Mitarbeiter (Zeile N)' on the roster page."""
+    kuerzel_by_row: dict[str, str] = {}
+    name_by_row: dict[str, str] = {}
+    for f in doc.all_fields():
+        low = (f.label_raw or "").lower().strip()
+        m = re.search(r"zeile\s*(\d+)", low)
+        row = m.group(1) if m else None
+        if row and (low.startswith("kürzel") or low.startswith("kuerzel")) and "datum" not in low:
+            v = (f.value_raw or "").strip().lower()
+            if _KZ.match(v):
+                kuerzel_by_row[row] = v
+        elif row and ("name mitarbeiter" in low or low.startswith("name")):
+            if (f.value_raw or "").strip():
+                name_by_row[row] = f.value_raw.strip()
+    return {kz: name_by_row[r] for r, kz in kuerzel_by_row.items() if r in name_by_row}
 
 
 def canonical_signers(doc: Document) -> list[str]:
