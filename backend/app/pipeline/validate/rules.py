@@ -117,8 +117,8 @@ def safe_arith(expr_de: str | None) -> float | None:
         return None
     s = expr_de.split("=")[-1] if expr_de.count("=") == 1 else expr_de.split("=")[0]
     s = s.replace(",", ".")
-    s = re.sub(r"[^0-9.+\-*/() ]", "", s)
-    if not s.strip():
+    s = re.sub(r"[^0-9.+\-*/() ]", "", s).strip()   # strip: ast eval-mode rejects leading space
+    if not s:
         return None
     try:
         return _eval_arith(ast.parse(s, mode="eval").body)
@@ -282,6 +282,62 @@ def _recog_conf(f: Field) -> float | None:
     if f.reads:
         return min(r.confidence for r in f.reads)
     return f.ocr_confidence
+
+
+_FORMULA_UNIT = re.compile(r"\[[^\]]*\]|(?<![A-Za-z])(kg/L|g/L|mg/L|kg|mg|g|mL|L|min|h|°C|%)(?![A-Za-z])")
+
+
+def _resolve_label_formula(field: Field, siblings: list[Field]) -> float | None:
+    """If the field's label is 'RESULT = EXPR' and EXPR names other fields on the
+    page, substitute each named field's value and evaluate. Returns None (never a
+    flag) unless EVERY variable resolves — conservative on purpose."""
+    label = field.label_raw or ""
+    if "=" not in label:
+        return None
+    rhs = label.split("=", 1)[1]
+    # substitute the longest sibling names first so 'm B10-PP Netto nPZ Z1' is
+    # replaced before the shorter 'm B10-PP Z1'.
+    subs = sorted(
+        (s for s in siblings if isinstance(s.value, (int, float)) and not isinstance(s.value, bool)),
+        key=lambda s: -len(re.sub(r"\[.*?\]", "", s.label_raw or "")))
+    for s in subs:
+        var = re.sub(r"\[.*?\]", "", s.label_raw or "").strip()
+        if len(var) >= 3 and var.lower() in rhs.lower():
+            rhs = re.sub(re.escape(var), f" {s.value} ", rhs, flags=re.I)
+    rhs = _FORMULA_UNIT.sub(" ", rhs)                      # strip units ([kg], g/L, ...)
+    rhs = rhs.replace("×", "*").replace("·", "*").replace("÷", "/")
+    if re.search(r"[A-Za-zÄÖÜäöüß]", rhs):                 # an unresolved variable -> don't guess
+        return None
+    return safe_arith(rhs)
+
+
+def rule_cross_formula(block: Block) -> list[Flag]:
+    """Validate a result whose formula is printed IN ITS LABEL and references other
+    fields on the page (e.g. 'm Z1 [g] = m Netto Z1 [kg] / 1,31 kg/L x c Z1 [g/L]').
+    Skips fields already calc-checked via calc_expr, and only fires when the whole
+    formula resolves to numbers — so it never invents a false positive."""
+    _CALC = {"CALC_FORMULA", "CALC_ROUNDING", "CALC_NET_MASS", "CALC_VOLUME"}
+    for f in block.fields:
+        if not isinstance(f.value, (int, float)) or isinstance(f.value, bool):
+            continue
+        if any(fl.code in _CALC for fl in f.flags):
+            continue
+        computed = _resolve_label_formula(f, [s for s in block.fields if s is not f])
+        if computed is None:
+            continue
+        place = 10 ** (-(f.nks if f.nks is not None else 0))
+        diff = abs(computed - float(f.value))
+        if diff <= 0.5 * place:
+            continue
+        if diff <= 1.5 * place:
+            f.add_flag(_warn(Category.CALCULATION, "CALC_ROUNDING",
+                             f"label formula = {round(computed, 3)} vs recorded {f.value} (rounding)",
+                             expected=round(computed, 3), actual=f.value))
+        else:
+            f.add_flag(_err(Category.CALCULATION, "CALC_FORMULA",
+                            f"label formula = {round(computed, 3)}, but {f.value} was recorded",
+                            expected=round(computed, 3), actual=f.value))
+    return []
 
 
 def rule_four_eyes(block: Block) -> list[Flag]:
@@ -492,4 +548,4 @@ def rule_xref_document(doc: Document) -> None:
 # --- registries -------------------------------------------------------------
 
 FIELD_RULES = [rule_date_format, rule_time_format, rule_nks, rule_range, rule_formula]
-BLOCK_RULES = [rule_net_mass, rule_volume, rule_four_eyes, rule_end_after_start, rule_presence]
+BLOCK_RULES = [rule_net_mass, rule_volume, rule_cross_formula, rule_four_eyes, rule_end_after_start, rule_presence]

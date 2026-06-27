@@ -91,6 +91,33 @@ def test_four_eyes_requires_legible_reads():
     assert not any(fl.code == "4EYES_DISTINCT" for f in illegible.fields for fl in f.flags)
 
 
+def test_cross_field_label_formula():
+    """A result whose formula is in its LABEL and references sibling fields is
+    evaluated by substituting their values. Fires on mismatch, silent when it
+    matches, and bails (no flag) when a variable can't be resolved."""
+    from app.pipeline.model import Block, Document, Field
+    from app.pipeline.normalize import normalize
+    from app.pipeline.validate.rules import rule_cross_formula
+
+    def nf(label, val):
+        return Field(page_no=1, chapter="", role=None, label_raw=label, value_raw=val)
+
+    FORMULA = "m Z1 [g] = m Cake [kg] / 2 kg/L × c Z1 [g/L]"   # 50/2*4 = 100
+
+    def run(result_val, with_inputs=True):
+        fs = [nf(FORMULA, result_val)]
+        if with_inputs:
+            fs += [nf("m Cake [kg]", "50"), nf("c Z1 [g/L]", "4")]
+        b = Block(chapter="", page_no=1, template="t"); b.fields = fs
+        doc = Document(doc_no="x", title="x"); doc.blocks = [b]
+        normalize(doc); rule_cross_formula(b)
+        return {fl.code for f in b.fields for fl in f.flags}
+
+    assert "CALC_FORMULA" in run("120")                         # 120 != 100 -> error
+    assert not (run("100") & {"CALC_FORMULA", "CALC_ROUNDING"})  # matches -> silent
+    assert not run("120", with_inputs=False)                    # unresolved vars -> no flag
+
+
 def test_date_year_suspect_without_print_date():
     """A lone wrong-year date (2025 among 2026) must be caught even when the doc has
     NO print date — using the document's own modal batch year as the reference."""
