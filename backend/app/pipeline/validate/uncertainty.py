@@ -7,9 +7,22 @@ See docs/UNCERTAINTY.md. Bayesian prior over role history is a Day-2/3 add
 """
 from __future__ import annotations
 
+import re
+
 from app.core.config import settings
 from app.domain.severity import Category, FieldStatus, Severity
 from app.pipeline.model import Document, Field, Flag
+
+# Roster / legend cells (the "Beteiligte Personen" table: Name + Kürzel columns)
+# are REFERENCE data — the source of truth for who's who, not values a reviewer
+# verifies one-by-one. They still feed the known-Kürzel registry; we just keep
+# them out of the review queue. Matched on the printed column label.
+_REFERENCE_LABELS = {"kürzel", "kuerzel", "name mitarbeiter", "name", "mitarbeiter"}
+
+
+def is_reference_field(field: Field) -> bool:
+    label = re.sub(r"[^0-9a-zäöüß ]+", " ", (field.label_raw or "").lower()).strip()
+    return label in _REFERENCE_LABELS
 
 
 def _field_confidence(field: Field) -> float:
@@ -36,14 +49,23 @@ def _field_confidence(field: Field) -> float:
 
 def score(doc: Document) -> Document:
     threshold = settings.auto_accept_threshold
+    warn_threshold = settings.low_conf_warn_threshold
     verify_all = settings.verification_policy == "verify_everything"
 
     for field in doc.all_fields():
         field.confidence = _field_confidence(field)
 
-        # A confident-but-uncertain read (no rule violation, just low confidence)
-        # surfaces as a WARNING so the reviewer knows why it's in the queue.
-        if not field.flags and field.confidence < threshold:
+        # Roster/legend cells are reference data, not review targets: keep them
+        # out of the queue (they still populate the known-Kürzel registry).
+        if is_reference_field(field) and not field.flags:
+            field.status = FieldStatus.AUTO_ACCEPTED
+            continue
+
+        # Only a GENUINELY illegible read (below the warn floor) gets a low-conf
+        # warning. The [warn, accept) band still routes to review but without a
+        # warning on every handwritten value. Checkboxes (Ja/Nein) are high-info
+        # even at modest OCR confidence, so they never get the low-conf warning.
+        if not field.flags and field.value_type != "bool" and field.confidence < warn_threshold:
             field.add_flag(Flag(Severity.WARNING, Category.EXTRACTION, "EXTRACT_LOW_CONF",
                                 f"Low extraction confidence ({field.confidence}); verify the value"))
 

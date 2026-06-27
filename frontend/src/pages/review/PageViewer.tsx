@@ -1,54 +1,20 @@
 // "Locate on page" panel. Tries the real scanned page image; if it 404s (the
 // offline stub renders none) or there is no bbox, it falls back to a schematic
 // A4 page so the reviewer ALWAYS sees where the value sits on the page.
+//
+// Reviewer controls (only meaningful when the field has a bbox / the real image
+// loaded): toggle the highlight overlay on/off to inspect the bare scan, and
+// expand the page into a zoomable full-screen lightbox to check the value.
 
 import { useEffect, useState } from "react";
-import { ImageOff, MapPin, ScanSearch } from "lucide-react";
+import { Eye, EyeOff, ImageOff, Maximize2, ScanSearch } from "lucide-react";
 import { api } from "../../api/client";
-import type { BBox, Field } from "../../api/types";
-import { classNames, fieldDisplayValue } from "../../lib/ui";
+import type { Field } from "../../api/types";
+import { classNames } from "../../lib/ui";
+import { HighlightBox } from "./HighlightBox";
+import PageLightbox from "./PageLightbox";
 
-/** Convert a normalized [x0,y0,x1,y1] box into CSS percentage rect props. */
-function rectFromBBox(bbox: BBox) {
-  const [x0, y0, x1, y1] = bbox;
-  const left = Math.min(x0, x1);
-  const top = Math.min(y0, y1);
-  const width = Math.abs(x1 - x0);
-  const height = Math.abs(y1 - y0);
-  return {
-    left: `${left * 100}%`,
-    top: `${top * 100}%`,
-    width: `${Math.max(width, 0.01) * 100}%`,
-    height: `${Math.max(height, 0.01) * 100}%`,
-  };
-}
-
-function HighlightBox({ field, accent }: { field: Field; accent: "rose" | "brand" }) {
-  if (!field.bbox) return null;
-  const rect = rectFromBBox(field.bbox);
-  const ring = accent === "rose" ? "ring-rose-500 bg-rose-500/10" : "ring-brand-500 bg-brand-500/10";
-  const labelBg = accent === "rose" ? "bg-rose-600" : "bg-brand-600";
-  return (
-    <div
-      className={classNames(
-        "absolute rounded-[3px] shadow-[0_0_0_9999px_rgba(15,23,42,0.04)] ring-2 ring-inset",
-        "animate-fade-in",
-        ring,
-      )}
-      style={rect}
-    >
-      <span
-        className={classNames(
-          "absolute -top-6 left-0 inline-flex max-w-[180px] items-center gap-1 truncate rounded-md px-1.5 py-0.5 text-[11px] font-semibold text-white shadow-sm",
-          labelBg,
-        )}
-      >
-        <MapPin className="h-3 w-3 shrink-0" />
-        {fieldDisplayValue(field.value, field.value_raw)}
-      </span>
-    </div>
-  );
-}
+const ZOOM_STEPS = [1, 1.5, 2, 3];
 
 /** Faint horizontal rules to evoke a handwritten-form page. */
 function SchematicPaper() {
@@ -66,6 +32,9 @@ function SchematicPaper() {
 
 export default function PageViewer({ field }: { field: Field }) {
   const [imgState, setImgState] = useState<"loading" | "ok" | "error">("loading");
+  const [showOverlay, setShowOverlay] = useState(true);
+  const [lightboxOpen, setLightboxOpen] = useState(false);
+  const [zoom, setZoom] = useState(1);
   const src = api.pageImageUrl(field.document_id, field.page_no);
   const hasBox = !!field.bbox;
   const accent: "rose" | "brand" =
@@ -76,25 +45,87 @@ export default function PageViewer({ field }: { field: Field }) {
     setImgState("loading");
   }, [src]);
 
+  // A different field may not have an image — never leave the lightbox open
+  // pointing at the wrong/absent page.
+  useEffect(() => {
+    setLightboxOpen(false);
+    setZoom(1);
+  }, [field.id]);
+
   const showSchematic = imgState !== "ok";
+  const canZoom = imgState === "ok"; // only the real image is worth enlarging
+
+  function zoomIn() {
+    setZoom((z) => ZOOM_STEPS.find((s) => s > z) ?? z);
+  }
+  function zoomOut() {
+    setZoom((z) => [...ZOOM_STEPS].reverse().find((s) => s < z) ?? z);
+  }
+  function openLightbox() {
+    if (!canZoom) return;
+    setZoom(1);
+    setLightboxOpen(true);
+  }
 
   return (
     <div>
-      <div className="mb-2 flex items-center justify-between">
+      <div className="mb-2 flex items-center justify-between gap-2">
         <div className="flex items-center gap-1.5 text-xs font-semibold uppercase tracking-wide text-slate-400">
           <ScanSearch className="h-3.5 w-3.5" /> Page {field.page_no}
         </div>
-        {showSchematic && imgState === "error" && (
-          <span className="chip bg-slate-100 text-slate-500 ring-1 ring-inset ring-slate-200">
-            <ImageOff className="h-3.5 w-3.5" /> schematic placeholder
-          </span>
-        )}
+        <div className="flex items-center gap-1.5">
+          {showSchematic && imgState === "error" && (
+            <span className="chip bg-slate-100 text-slate-500 ring-1 ring-inset ring-slate-200">
+              <ImageOff className="h-3.5 w-3.5" /> schematic placeholder
+            </span>
+          )}
+          {hasBox && (
+            <button
+              type="button"
+              onClick={() => setShowOverlay((v) => !v)}
+              aria-label={showOverlay ? "Hide highlight overlay" : "Show highlight overlay"}
+              aria-pressed={showOverlay}
+              title={showOverlay ? "Hide highlight" : "Show highlight"}
+              className="inline-flex h-7 w-7 items-center justify-center rounded-lg text-slate-500 transition-colors hover:bg-slate-100 hover:text-slate-700 focus:outline-none focus-visible:ring-2 focus-visible:ring-brand-500/40"
+            >
+              {showOverlay ? <Eye className="h-4 w-4" /> : <EyeOff className="h-4 w-4" />}
+            </button>
+          )}
+          {canZoom && (
+            <button
+              type="button"
+              onClick={openLightbox}
+              aria-label="Expand page to zoomable view"
+              title="Expand & zoom"
+              className="inline-flex h-7 w-7 items-center justify-center rounded-lg text-slate-500 transition-colors hover:bg-slate-100 hover:text-slate-700 focus:outline-none focus-visible:ring-2 focus-visible:ring-brand-500/40"
+            >
+              <Maximize2 className="h-4 w-4" />
+            </button>
+          )}
+        </div>
       </div>
 
       <div className="relative mx-auto w-full max-w-[320px]">
         <div
-          className="relative w-full overflow-hidden rounded-lg border border-slate-200 bg-white shadow-card"
+          className={classNames(
+            "group relative w-full overflow-hidden rounded-lg border border-slate-200 bg-white shadow-card",
+            canZoom && "cursor-zoom-in",
+          )}
           style={{ aspectRatio: "1 / 1.414" }}
+          onClick={canZoom ? openLightbox : undefined}
+          role={canZoom ? "button" : undefined}
+          tabIndex={canZoom ? 0 : undefined}
+          aria-label={canZoom ? "Expand page to zoomable view" : undefined}
+          onKeyDown={
+            canZoom
+              ? (e) => {
+                  if (e.key === "Enter" || e.key === " ") {
+                    e.preventDefault();
+                    openLightbox();
+                  }
+                }
+              : undefined
+          }
         >
           {/* Real image (hidden until it loads; probes onError to fall back). */}
           {/* eslint-disable-next-line jsx-a11y/img-redundant-alt */}
@@ -113,13 +144,20 @@ export default function PageViewer({ field }: { field: Field }) {
           {showSchematic && <SchematicPaper />}
 
           {hasBox ? (
-            <HighlightBox field={field} accent={accent} />
+            showOverlay && <HighlightBox field={field} accent={accent} />
           ) : (
             <div className="absolute inset-0 grid place-items-center p-4">
               <div className="rounded-lg border border-dashed border-slate-300 bg-white/70 px-3 py-2 text-center text-xs text-slate-400">
                 No location available for this field.
               </div>
             </div>
+          )}
+
+          {/* Hover affordance hinting the scan can be opened. */}
+          {canZoom && (
+            <span className="pointer-events-none absolute bottom-2 right-2 inline-flex items-center gap-1 rounded-md bg-slate-900/70 px-1.5 py-0.5 text-[10px] font-medium text-white opacity-0 transition-opacity group-hover:opacity-100">
+              <Maximize2 className="h-3 w-3" /> Click to zoom
+            </span>
           )}
         </div>
 
@@ -128,9 +166,26 @@ export default function PageViewer({ field }: { field: Field }) {
             ? hasBox
               ? "Page image unavailable — schematic shows the field's position."
               : "Page image unavailable."
-            : "Highlighted region marks the extracted value."}
+            : hasBox && !showOverlay
+              ? "Highlight hidden — showing the raw scan."
+              : "Highlighted region marks the extracted value."}
         </p>
       </div>
+
+      {lightboxOpen && canZoom && (
+        <PageLightbox
+          field={field}
+          src={src}
+          accent={accent}
+          hasBox={hasBox}
+          showOverlay={showOverlay}
+          onToggleOverlay={() => setShowOverlay((v) => !v)}
+          zoom={zoom}
+          onZoomIn={zoomIn}
+          onZoomOut={zoomOut}
+          onClose={() => setLightboxOpen(false)}
+        />
+      )}
     </div>
   );
 }

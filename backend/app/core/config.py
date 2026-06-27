@@ -50,6 +50,11 @@ class Settings(BaseSettings):
     # Confidence at/above which a clean, flag-free field is auto-accepted.
     # Conservative in production (calibrate on a golden set); 0.9 for the demo.
     auto_accept_threshold: float = 0.9
+    # Below this, a clean field also gets a LOW_CONF warning ("verify the value").
+    # Decoupled from auto-accept so the [warn, accept) band routes to review
+    # WITHOUT spamming a warning on every handwritten read — only the genuinely
+    # illegible (< warn) gets flagged. Handwriting OCR confidence runs ~0.5-0.7.
+    low_conf_warn_threshold: float = 0.55
     # "confidence_gated" (auto-accept clean+confident) or "verify_everything".
     verification_policy: str = "confidence_gated"
 
