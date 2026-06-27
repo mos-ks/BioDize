@@ -34,9 +34,12 @@ const TONE: Record<Severity, { ring: string; fill: string; label: string }> = {
 export function AllBoxesOverlay({
   fields,
   currentFieldId,
+  onSelect,
 }: {
   fields: Field[];
   currentFieldId: string;
+  /** When given, each box is clickable and selects its field. */
+  onSelect?: (id: string) => void;
 }) {
   const boxed = fields.filter((f) => !!f.bbox);
   if (boxed.length === 0) return null;
@@ -52,10 +55,13 @@ export function AllBoxesOverlay({
             key={f.id}
             // pointer-events re-enabled per box so the hover tooltip works while
             // the wrapper stays click-through to the image beneath.
+            onClick={onSelect ? () => onSelect(f.id) : undefined}
+            role={onSelect ? "button" : undefined}
             className={classNames(
               "group/box pointer-events-auto absolute rounded-[3px] ring-inset transition-shadow",
               tone.fill,
               tone.ring,
+              onSelect && "cursor-pointer hover:ring-[3px]",
               isCurrent ? "z-10 ring-[3px] shadow-[0_0_0_2px_rgba(255,255,255,0.85)]" : "ring-1",
             )}
             style={rect}

@@ -18,9 +18,9 @@ import { classNames, useApi } from "../lib/ui";
 import { ErrorBlock, LoadingBlock } from "../components/atoms";
 import DocumentBar from "./review/DocumentBar";
 import FieldDetail from "./review/FieldDetail";
-import FieldRow from "./review/FieldRow";
 import ExtractionList from "./review/ExtractionList";
 import PageGroupedQueue from "./review/PageGroupedQueue";
+import PdfScroll from "./review/PdfScroll";
 
 type Tab = "queue" | "extraction";
 
@@ -153,19 +153,9 @@ export default function ReviewPage() {
             ) : queue.length === 0 ? (
               <AllClear onBrowseAll={() => setTab("extraction")} onStats={() => navigate(`/documents/${documentId}/stats`)} />
             ) : (
-              // Nothing selected yet: scroll through ALL detections (errors → warnings →
-              // low-confidence) and click any to open its detail.
-              <div className="animate-fade-in space-y-2">
-                <div className="flex items-center justify-between gap-2">
-                  <h2 className="text-base font-semibold text-slate-800">All detections</h2>
-                  <span className="text-xs text-slate-400">
-                    {queue.length} to review · scroll &amp; click any
-                  </span>
-                </div>
-                {queue.map((f) => (
-                  <FieldRow key={f.id} field={f} active={false} onSelect={selectField} />
-                ))}
-              </div>
+              // Nothing selected yet: scroll through the whole PDF with every detection
+              // box overlaid; click a box to open its detail.
+              <PdfScroll documentId={documentId} pageCount={docState.data.page_count} onSelect={selectField} />
             )}
           </div>
         </section>
