@@ -1,6 +1,6 @@
 {
   "page": 17,
-  "section": "",
+  "section": "5.6.2 Durchführung - Herstellung von Kuchen",
   "fields": [
     {
       "label": "Start Überführung",
@@ -19,7 +19,7 @@
       "is_blank": false
     },
     {
-      "label": "Wippgeschwindigkeit (Soll: 25 (20–30) Hübe/min)",
+      "label": "Wippgeschwindigkeit (Soll: 25 (20 – 30) Hübe/min)",
       "kind": "value",
       "value": "32",
       "checkbox_state": null,
@@ -43,7 +43,7 @@
       "is_blank": false
     },
     {
-      "label": "Dauer Homogenisieren nach Ende Überführung (Richtwert ≥ 10 min)",
+      "label": "Dauer Homogenisieren nach Ende Überführung (Richtwert: ≥ 10 min)",
       "kind": "value",
       "value": "12",
       "checkbox_state": null,
@@ -51,9 +51,9 @@
       "is_blank": false
     },
     {
-      "label": "Neues Intermediat (B20-ST 9784)",
+      "label": "Neues Intermediat (B20-ST 9784___)",
       "kind": "value",
-      "value": "697",
+      "value": "B20-ST 9784697",
       "checkbox_state": null,
       "signature_status": null,
       "is_blank": false
@@ -78,9 +78,8 @@
   "expected_violations": [
     {
       "rule": "RANGE_SOLL",
-      "field": "Wippgeschwindigkeit",
-      "explanation": "Recorded handwritten value 32 Hübe/min lies outside the printed Soll 25 (20–30) Hübe/min range."
+      "field": "Wippgeschwindigkeit (Soll: 25 (20 – 30) Hübe/min)",
+      "explanation": "Recorded value 32 Hübe/min exceeds the upper Soll limit of 30 (allowed range 20–30)."
     }
-  ],
-  "source": "per-page vision agents (image-grounded, aligned to pipeline schema)"
+  ]
 }

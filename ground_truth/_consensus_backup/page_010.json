@@ -1,0 +1,130 @@
+{
+  "page": 10,
+  "section": "Herstellung von Kuchen — 5 DURCHFÜHRUNG (5.1 Zyklus / 5.2 Produktionsbereich)",
+  "fields": [
+    {
+      "label": "Production Code 59030",
+      "kind": "value",
+      "value": "123",
+      "checkbox_state": null,
+      "signature_status": null,
+      "is_blank": false
+    },
+    {
+      "label": "Zyklus (Soll: 1)",
+      "kind": "value",
+      "value": "1",
+      "checkbox_state": null,
+      "signature_status": null,
+      "is_blank": false
+    },
+    {
+      "label": "Bearbeitet: (Datum/Kürzel)",
+      "kind": "signature",
+      "value": "10.06.2026 / ohe",
+      "checkbox_state": null,
+      "signature_status": "signed",
+      "is_blank": false
+    },
+    {
+      "label": "Geprüft: (Datum/Kürzel)",
+      "kind": "signature",
+      "value": "10.06.2026 / ohe",
+      "checkbox_state": null,
+      "signature_status": "signed",
+      "is_blank": false
+    },
+    {
+      "label": "GMP-Bereich (GMP): 869",
+      "kind": "checkbox",
+      "value": "",
+      "checkbox_state": "unchecked",
+      "signature_status": null,
+      "is_blank": false
+    },
+    {
+      "label": "GMP-Bereich (GMP): 931",
+      "kind": "checkbox",
+      "value": "",
+      "checkbox_state": "checked",
+      "signature_status": null,
+      "is_blank": false
+    },
+    {
+      "label": "GMP-Bereich (GMP): 281",
+      "kind": "checkbox",
+      "value": "",
+      "checkbox_state": "unchecked",
+      "signature_status": null,
+      "is_blank": false
+    },
+    {
+      "label": "GMP-Bereich (GMP): 195",
+      "kind": "checkbox",
+      "value": "",
+      "checkbox_state": "unchecked",
+      "signature_status": null,
+      "is_blank": false
+    },
+    {
+      "label": "GMP-Bereich (GMP): 232",
+      "kind": "checkbox",
+      "value": "",
+      "checkbox_state": "unchecked",
+      "signature_status": null,
+      "is_blank": false
+    },
+    {
+      "label": "GMP-Bereich (GMP): 294",
+      "kind": "checkbox",
+      "value": "",
+      "checkbox_state": "unchecked",
+      "signature_status": null,
+      "is_blank": false
+    },
+    {
+      "label": "Virusbereich (Soll: Pre): Ja",
+      "kind": "checkbox",
+      "value": "",
+      "checkbox_state": "checked",
+      "signature_status": null,
+      "is_blank": false
+    },
+    {
+      "label": "Hygienezone (Soll: ≤ 3) HZ",
+      "kind": "value",
+      "value": "2",
+      "checkbox_state": null,
+      "signature_status": null,
+      "is_blank": false
+    },
+    {
+      "label": "Bearbeitet: (Datum/Kürzel)",
+      "kind": "signature",
+      "value": "10.06.2026 / ohe",
+      "checkbox_state": null,
+      "signature_status": "signed",
+      "is_blank": false
+    },
+    {
+      "label": "Geprüft: (Datum/Kürzel)",
+      "kind": "signature",
+      "value": "09.06.2026 / hau",
+      "checkbox_state": null,
+      "signature_status": "signed",
+      "is_blank": false
+    }
+  ],
+  "expected_violations": [
+    {
+      "rule": "4EYES_DISTINCT",
+      "field": "Geprüft: (Datum/Kürzel)",
+      "explanation": "The first Bearbeitet (10.06.2026 / ohe) and its corresponding Geprüft (10.06.2026 / ohe) are signed by the same Kürzel 'ohe', violating the four-eyes principle requiring distinct executor and reviewer."
+    },
+    {
+      "rule": "4EYES_ORDER",
+      "field": "Geprüft: (Datum/Kürzel)",
+      "explanation": "The second Geprüft is dated 09.06.2026, which is earlier than its corresponding Bearbeitet dated 10.06.2026; a review cannot occur before the processing it verifies."
+    }
+  ]
+}

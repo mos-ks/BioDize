@@ -14,7 +14,7 @@ from app.domain.severity import FieldStatus, Severity
 from app.pipeline import store
 from app.pipeline.extract.base import get_extractor
 from app.pipeline.ingest import render_pdf
-from app.pipeline.localize import localize
+from app.pipeline.localize import localize, ocr_crosscheck
 from app.pipeline.normalize import normalize
 from app.pipeline.ocr.base import get_ocr_engine
 from app.pipeline.resolve import resolve
@@ -55,6 +55,7 @@ def process(source_path: str | None, db: Session, max_pages: int | None = None) 
             continue  # page not rendered (stub, or max_pages truncation) -> no geometry
         ocr_by_page[page_no] = ocr_engine.recognize(img, page_no)
     localize(doc, ocr_by_page)
+    ocr_crosscheck(doc, ocr_by_page)   # ensemble: flag VLM/OCR numeric disagreements
 
     # 3. Normalize -> 3b. Domain resolution (snap Kürzel to roster, etc.)
     #    -> 4. Validate -> 5. Uncertainty/gate.

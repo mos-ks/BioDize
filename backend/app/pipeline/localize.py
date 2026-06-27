@@ -24,8 +24,34 @@ from __future__ import annotations
 
 import re
 
-from app.pipeline.model import BBox, Document
+from app.domain.severity import Category, Severity
+from app.pipeline.model import BBox, Document, Flag
 from app.pipeline.ocr.base import OcrResult, OcrWord
+
+
+def ocr_crosscheck(doc: Document, ocr_by_page: dict[int, OcrResult]) -> Document:
+    """Ensemble cross-read: the VLM read the value, the OCR engine read the page
+    independently. Where a numeric value is contradicted by the OCR — the OCR has
+    a same-length near-miss (e.g. VLM '123' but OCR '127') — flag it for a human.
+    Conservative on purpose (only clear, corroborated disagreements)."""
+    for f in doc.all_fields():
+        v = (f.value_raw or "").strip().replace(" ", "")
+        if not re.fullmatch(r"\d{3,}([.,]\d+)?", v):     # pure number, 3+ digits
+            continue
+        target = re.sub(r"\D", "", v)
+        ocr = ocr_by_page.get(f.page_no)
+        if not ocr or not ocr.words:
+            continue
+        nums = {m for w in ocr.words for m in re.findall(r"\d{2,}", w.text or "")}
+        if target in nums:
+            continue                                     # OCR corroborates the VLM
+        near = [n for n in nums if len(n) == len(target)
+                and sum(a != b for a, b in zip(n, target)) == 1]
+        if near:
+            f.add_flag(Flag(Severity.WARNING, Category.EXTRACTION, "EXTRACT_DISAGREEMENT",
+                            f"VLM read '{f.value_raw}' but OCR read '{near[0]}' — readers disagree, verify",
+                            expected=near[0], actual=f.value_raw))
+    return doc
 
 
 def _digits(s: str) -> str:

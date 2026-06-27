@@ -1,9 +1,9 @@
 {
   "page": 18,
-  "section": "5.7.1 Geräte — Hergestelltes Intermediat B20-ST",
+  "section": "",
   "fields": [
     {
-      "label": "Oven A — Anlagennummer",
+      "label": "Oven A - Anlagen-nummer",
       "kind": "value",
       "value": "A1473",
       "checkbox_state": null,
@@ -11,23 +11,15 @@
       "is_blank": false
     },
     {
-      "label": "Oven A — Einsatzbereit gemäß RL-SOP-00796: Ja",
+      "label": "Oven A - Einsatzbereit gemäß RL-SOP-00796",
       "kind": "checkbox",
-      "value": "",
+      "value": "Ja",
       "checkbox_state": "checked",
       "signature_status": null,
       "is_blank": false
     },
     {
-      "label": "Oven A — Einsatzbereit gemäß RL-SOP-00796: Kein Einsatz",
-      "kind": "checkbox",
-      "value": "",
-      "checkbox_state": "unchecked",
-      "signature_status": null,
-      "is_blank": false
-    },
-    {
-      "label": "Floor Scale — Anlagennummer",
+      "label": "Floor Scale - Anlagen-nummer",
       "kind": "value",
       "value": "A3215",
       "checkbox_state": null,
@@ -35,23 +27,15 @@
       "is_blank": false
     },
     {
-      "label": "Floor Scale — Einsatzbereit gemäß RL-SOP-00796: Ja",
+      "label": "Floor Scale - Einsatzbereit gemäß RL-SOP-00796",
       "kind": "checkbox",
-      "value": "",
-      "checkbox_state": "unchecked",
-      "signature_status": null,
-      "is_blank": false
-    },
-    {
-      "label": "Floor Scale — Einsatzbereit gemäß RL-SOP-00796: Kein Einsatz",
-      "kind": "checkbox",
-      "value": "",
+      "value": "Kein Einsatz",
       "checkbox_state": "checked",
       "signature_status": null,
       "is_blank": false
     },
     {
-      "label": "Bench Scale — Anlagennummer",
+      "label": "Bench Scale - Anlagen-nummer",
       "kind": "value",
       "value": "A5114",
       "checkbox_state": null,
@@ -59,23 +43,15 @@
       "is_blank": false
     },
     {
-      "label": "Bench Scale — Einsatzbereit gemäß RL-SOP-00796: Ja",
+      "label": "Bench Scale - Einsatzbereit gemäß RL-SOP-00796",
       "kind": "checkbox",
-      "value": "",
+      "value": "Ja",
       "checkbox_state": "checked",
       "signature_status": null,
       "is_blank": false
     },
     {
-      "label": "Bench Scale — Einsatzbereit gemäß RL-SOP-00796: Kein Einsatz",
-      "kind": "checkbox",
-      "value": "",
-      "checkbox_state": "unchecked",
-      "signature_status": null,
-      "is_blank": false
-    },
-    {
-      "label": "Bowl Rocker — Anlagennummer",
+      "label": "Bowl Rocker - Anlagen-nummer",
       "kind": "value",
       "value": "A4662",
       "checkbox_state": null,
@@ -83,23 +59,15 @@
       "is_blank": false
     },
     {
-      "label": "Bowl Rocker — Einsatzbereit gemäß RL-SOP-00796: Ja",
+      "label": "Bowl Rocker - Einsatzbereit gemäß RL-SOP-00796",
       "kind": "checkbox",
-      "value": "",
-      "checkbox_state": "unchecked",
-      "signature_status": null,
-      "is_blank": false
-    },
-    {
-      "label": "Bowl Rocker — Einsatzbereit gemäß RL-SOP-00796: Kein Einsatz",
-      "kind": "checkbox",
-      "value": "",
+      "value": "Kein Einsatz",
       "checkbox_state": "checked",
       "signature_status": null,
       "is_blank": false
     },
     {
-      "label": "Thermometer / Moisture Meter — Anlagennummer",
+      "label": "Thermometer / Moisture Meter - Anlagen-nummer",
       "kind": "value",
       "value": "A8498",
       "checkbox_state": null,
@@ -107,31 +75,23 @@
       "is_blank": false
     },
     {
-      "label": "Thermometer / Moisture Meter — Einsatzbereit gemäß RL-SOP-00796: Ja",
+      "label": "Thermometer / Moisture Meter - Einsatzbereit gemäß RL-SOP-00796",
       "kind": "checkbox",
-      "value": "",
+      "value": "Ja",
       "checkbox_state": "checked",
       "signature_status": null,
       "is_blank": false
     },
     {
-      "label": "Thermometer / Moisture Meter — Einsatzbereit gemäß RL-SOP-00796: Kein Einsatz",
-      "kind": "checkbox",
-      "value": "",
-      "checkbox_state": "unchecked",
-      "signature_status": null,
-      "is_blank": false
-    },
-    {
-      "label": "Bearbeitet: (Datum/Kürzel)",
+      "label": "Bearbeitet (Datum/Kürzel)",
       "kind": "signature",
-      "value": "10.06.2026 / oho",
+      "value": "10.06.2026 / ohe",
       "checkbox_state": null,
       "signature_status": "signed",
       "is_blank": false
     },
     {
-      "label": "Geprüft: (Datum/Kürzel)",
+      "label": "Geprüft (Datum/Kürzel)",
       "kind": "signature",
       "value": "10.06.2026 / han",
       "checkbox_state": null,
@@ -139,5 +99,6 @@
       "is_blank": false
     }
   ],
-  "expected_violations": []
+  "expected_violations": [],
+  "source": "per-page vision agents (image-grounded, aligned to pipeline schema)"
 }

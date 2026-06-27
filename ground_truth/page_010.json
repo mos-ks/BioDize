@@ -1,11 +1,11 @@
 {
   "page": 10,
-  "section": "Herstellung von Kuchen — 5 DURCHFÜHRUNG (5.1 Zyklus / 5.2 Produktionsbereich)",
+  "section": "",
   "fields": [
     {
-      "label": "Production Code 59030",
+      "label": "Production Code (59030 ...)",
       "kind": "value",
-      "value": "123",
+      "value": "127",
       "checkbox_state": null,
       "signature_status": null,
       "is_blank": false
@@ -19,7 +19,7 @@
       "is_blank": false
     },
     {
-      "label": "Bearbeitet: (Datum/Kürzel)",
+      "label": "5.1 Zyklus - Bearbeitet (Datum/Kürzel)",
       "kind": "signature",
       "value": "10.06.2026 / ohe",
       "checkbox_state": null,
@@ -27,7 +27,7 @@
       "is_blank": false
     },
     {
-      "label": "Geprüft: (Datum/Kürzel)",
+      "label": "5.1 Zyklus - Geprüft (Datum/Kürzel)",
       "kind": "signature",
       "value": "10.06.2026 / ohe",
       "checkbox_state": null,
@@ -35,63 +35,23 @@
       "is_blank": false
     },
     {
-      "label": "GMP-Bereich (GMP): 869",
+      "label": "GMP-Bereich (GMP)",
       "kind": "checkbox",
-      "value": "",
-      "checkbox_state": "unchecked",
-      "signature_status": null,
-      "is_blank": false
-    },
-    {
-      "label": "GMP-Bereich (GMP): 931",
-      "kind": "checkbox",
-      "value": "",
+      "value": "931",
       "checkbox_state": "checked",
       "signature_status": null,
       "is_blank": false
     },
     {
-      "label": "GMP-Bereich (GMP): 281",
+      "label": "Virusbereich (Soll: Pre)",
       "kind": "checkbox",
-      "value": "",
-      "checkbox_state": "unchecked",
-      "signature_status": null,
-      "is_blank": false
-    },
-    {
-      "label": "GMP-Bereich (GMP): 195",
-      "kind": "checkbox",
-      "value": "",
-      "checkbox_state": "unchecked",
-      "signature_status": null,
-      "is_blank": false
-    },
-    {
-      "label": "GMP-Bereich (GMP): 232",
-      "kind": "checkbox",
-      "value": "",
-      "checkbox_state": "unchecked",
-      "signature_status": null,
-      "is_blank": false
-    },
-    {
-      "label": "GMP-Bereich (GMP): 294",
-      "kind": "checkbox",
-      "value": "",
-      "checkbox_state": "unchecked",
-      "signature_status": null,
-      "is_blank": false
-    },
-    {
-      "label": "Virusbereich (Soll: Pre): Ja",
-      "kind": "checkbox",
-      "value": "",
+      "value": "Ja",
       "checkbox_state": "checked",
       "signature_status": null,
       "is_blank": false
     },
     {
-      "label": "Hygienezone (Soll: ≤ 3) HZ",
+      "label": "Hygienezone (Soll: ≤ 3, HZ)",
       "kind": "value",
       "value": "2",
       "checkbox_state": null,
@@ -99,7 +59,7 @@
       "is_blank": false
     },
     {
-      "label": "Bearbeitet: (Datum/Kürzel)",
+      "label": "5.2 Produktionsbereich - Bearbeitet (Datum/Kürzel)",
       "kind": "signature",
       "value": "10.06.2026 / ohe",
       "checkbox_state": null,
@@ -107,9 +67,9 @@
       "is_blank": false
     },
     {
-      "label": "Geprüft: (Datum/Kürzel)",
+      "label": "5.2 Produktionsbereich - Geprüft (Datum/Kürzel)",
       "kind": "signature",
-      "value": "09.06.2026 / hau",
+      "value": "09.06.2026 / hav",
       "checkbox_state": null,
       "signature_status": "signed",
       "is_blank": false
@@ -118,13 +78,14 @@
   "expected_violations": [
     {
       "rule": "4EYES_DISTINCT",
-      "field": "Geprüft: (Datum/Kürzel)",
-      "explanation": "The first Bearbeitet (10.06.2026 / ohe) and its corresponding Geprüft (10.06.2026 / ohe) are signed by the same Kürzel 'ohe', violating the four-eyes principle requiring distinct executor and reviewer."
+      "field": "5.1 Zyklus - Bearbeitet/Geprüft",
+      "explanation": "Both Bearbeitet and Geprüft signed with the same Kürzel 'ohe' (and same date 10.06.2026), so the four-eyes principle is violated for the 5.1 Zyklus block."
     },
     {
       "rule": "4EYES_ORDER",
-      "field": "Geprüft: (Datum/Kürzel)",
-      "explanation": "The second Geprüft is dated 09.06.2026, which is earlier than its corresponding Bearbeitet dated 10.06.2026; a review cannot occur before the processing it verifies."
+      "field": "5.2 Produktionsbereich - Bearbeitet/Geprüft",
+      "explanation": "Geprüft is dated 09.06.2026 which is before Bearbeitet dated 10.06.2026; the check cannot predate the execution."
     }
-  ]
+  ],
+  "source": "per-page vision agents (image-grounded, aligned to pipeline schema)"
 }

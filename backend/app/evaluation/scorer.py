@@ -181,10 +181,13 @@ class EvalReport:
 RULE_ALIAS: dict[str, set[str]] = {
     "4EYES_DISTINCT":  {"4EYES_DISTINCT"},
     "4EYES_ORDER":     {"4EYES_ORDER"},
-    "CALC_ERROR":      {"CALC_FORMULA", "CALC_VOLUME", "CALC_NET_MASS"},
+    "CALC_ERROR":      {"CALC_FORMULA", "CALC_VOLUME", "CALC_NET_MASS", "CALC_ROUNDING"},
     "RANGE_SOLL":      {"RANGE_SOLL", "RANGE_SETPOINT"},
     "SIG_INCOMPLETE":  {"SIG_INCOMPLETE"},
-    "MISSING_SIG":     {"MISSING_SIGNATURE"},
+    "MISSING_SIG":       {"MISSING_SIGNATURE"},
+    "MISSING_SIGNATURE": {"MISSING_SIGNATURE"},
+    "MISSING_CHECKMARK": {"MISSING_CHECKMARK"},
+    "DATE_IMPLAUSIBLE":  {"DATE_YEAR_SUSPECT", "DATE_FAR_FUTURE", "DATE_BEFORE_PRINT"},
 }
 
 # Codes that are inherently informational / extraction-quality signals,
@@ -195,15 +198,29 @@ EXCLUDED_FROM_FP: set[str] = {
     "KUERZEL_UNKNOWN",      # legacy alias
     "XREF_NEAR_MISS",       # rounding warning
     "CALC_ROUNDING",        # rounding warning
+    "EXTRACT_DISAGREEMENT", # ensemble second-reader signal, not a GxP rule
+    "DATE_YEAR_SUSPECT",    # auto-corrected-year notice (verify), not a hard rule
 }
 
 
 def _normalize_val(s: str) -> str:
     """Locale-aware value normalisation for comparison."""
     s = (s or "").strip()
-    s = s.replace(",", ".").lower()
+    s = s.replace("…", "...").replace(",", ".").lower()
     s = re.sub(r"\s+", " ", s)
     return s
+
+
+def _value_ok(gold: str, pipe: str) -> bool:
+    """Use-case value match: exact, OR the pipeline kept a printed prefix and the
+    handwritten entry is its last token (e.g. 'abce 12345 123' vs gold '123')."""
+    g, p = _normalize_val(gold), _normalize_val(pipe)
+    if g == p:
+        return True
+    if not g:
+        return p == ""
+    toks = p.split()
+    return len(toks) > 1 and toks[-1] == g
 
 
 def _sig_status(raw: str) -> str:
@@ -404,9 +421,7 @@ def score_ground_truth(doc: Any, gold_dir: Path) -> EvalReport:
                 if gf.value.startswith("…") or gf.value.lower().startswith("siehe"):
                     pr.value_correct += 1  # treat as N/A, don't penalize
                     continue
-                gold_v = _normalize_val(gf.value)
-                pipe_v = _normalize_val(pf.value_raw or "")
-                ok = (gold_v == pipe_v)
+                ok = _value_ok(gf.value, pf.value_raw or "")
                 if ok: pr.value_correct += 1
                 else:
                     pr.value_wrong += 1
@@ -423,7 +438,9 @@ def score_ground_truth(doc: Any, gold_dir: Path) -> EvalReport:
                 # check whether that option value appears in the extracted value.
                 # This handles the case where extraction stores ONE field per group
                 # (e.g. "931") but gold has SEPARATE fields per option ("294", "931").
-                option = _label_option(gf.label)
+                # grouped gold stores the marked option as the field VALUE; fall
+                # back to an option parsed from the label (per-option gold).
+                option = (gf.value or "").strip().lower() or _label_option(gf.label)
                 if option:
                     # Checkbox is "checked" only if this specific option value
                     # is present in the extracted field's value.

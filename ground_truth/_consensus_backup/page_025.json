@@ -1,49 +1,49 @@
 {
   "page": 25,
-  "section": "",
+  "section": "5.9 Berechnung der Beladung — Herstellung von Kuchen",
   "fields": [
     {
       "label": "m B10-PP Netto nPZ Z1 [kg]",
       "kind": "value",
-      "value": "",
+      "value": "… siehe Kapitel 6.3.1",
       "checkbox_state": null,
       "signature_status": null,
-      "is_blank": true
+      "is_blank": false
     },
     {
       "label": "m B10-PP Netto nPZ Z2 [kg]",
       "kind": "value",
-      "value": "",
+      "value": "… siehe Kapitel 5.3.2",
       "checkbox_state": null,
       "signature_status": null,
-      "is_blank": true
+      "is_blank": false
     },
     {
       "label": "c B10-PP-Z1 [g/L]",
       "kind": "value",
-      "value": "",
+      "value": "… siehe Kapitel 6.3.1",
       "checkbox_state": null,
       "signature_status": null,
-      "is_blank": true
+      "is_blank": false
     },
     {
       "label": "c B10-PP-Z2 [g/L]",
       "kind": "value",
-      "value": "",
+      "value": "… siehe Kapitel 5.3.2",
       "checkbox_state": null,
       "signature_status": null,
-      "is_blank": true
+      "is_blank": false
     },
     {
       "label": "V Ofen BAK B20 [L]",
       "kind": "value",
-      "value": "",
+      "value": "… siehe Kapitel 6.8",
       "checkbox_state": null,
       "signature_status": null,
-      "is_blank": true
+      "is_blank": false
     },
     {
-      "label": "Produktmenge B10-PP Zyklus 1 - m B10-PP Netto nPZ Z1 [kg]",
+      "label": "Produktmenge im B10-PP Zyklus 1 (m Cake) — m B10-PP Netto nPZ Z1 [kg]",
       "kind": "value",
       "value": "321",
       "checkbox_state": null,
@@ -51,7 +51,15 @@
       "is_blank": false
     },
     {
-      "label": "Produktmenge B10-PP Zyklus 1 - c B10-PP Z1 [g/L]",
+      "label": "Produktmenge im B10-PP Zyklus 1 — / 1,31 (vorgedruckter Divisor)",
+      "kind": "value",
+      "value": "1,31",
+      "checkbox_state": null,
+      "signature_status": null,
+      "is_blank": false
+    },
+    {
+      "label": "Produktmenge im B10-PP Zyklus 1 (m Cake) — c B10-PP Z1 [g/L]",
       "kind": "value",
       "value": "4,35",
       "checkbox_state": null,
@@ -59,7 +67,7 @@
       "is_blank": false
     },
     {
-      "label": "Produktmenge B10-PP Zyklus 1 - m B10-PP Z1 [g] Ergebnis (0 NKS)",
+      "label": "Produktmenge im B10-PP Zyklus 1 (m Cake) — m B10-PP Z1 [g] (0 NKS)",
       "kind": "value",
       "value": "1065",
       "checkbox_state": null,
@@ -67,15 +75,23 @@
       "is_blank": false
     },
     {
-      "label": "B10 Zyklus 2 durchgeführt",
+      "label": "B10 Zyklus 2 durchgeführt — Ja",
       "kind": "checkbox",
-      "value": "Ja",
+      "value": "",
       "checkbox_state": "checked",
       "signature_status": null,
       "is_blank": false
     },
     {
-      "label": "Produktmenge B10-PP Zyklus 2 - m B10-PP Netto nPZ Z2 [kg]",
+      "label": "B10 Zyklus 2 durchgeführt — Nein, Feld findet keine Anwendung",
+      "kind": "checkbox",
+      "value": "",
+      "checkbox_state": "unchecked",
+      "signature_status": null,
+      "is_blank": false
+    },
+    {
+      "label": "Produktmenge im B10-PP Zyklus 2 (m Cake) — m B10-PP Netto nPZ Z2 [kg]",
       "kind": "value",
       "value": "220",
       "checkbox_state": null,
@@ -83,7 +99,15 @@
       "is_blank": false
     },
     {
-      "label": "Produktmenge B10-PP Zyklus 2 - c B10-PP Z2 [g/L]",
+      "label": "Produktmenge im B10-PP Zyklus 2 — / 1,81 (vorgedruckter Divisor)",
+      "kind": "value",
+      "value": "1,81",
+      "checkbox_state": null,
+      "signature_status": null,
+      "is_blank": false
+    },
+    {
+      "label": "Produktmenge im B10-PP Zyklus 2 (m Cake) — c B10-PP Z2 [g/L]",
       "kind": "value",
       "value": "3,94",
       "checkbox_state": null,
@@ -91,7 +115,7 @@
       "is_blank": false
     },
     {
-      "label": "Produktmenge B10-PP Zyklus 2 - m B10-PP Z2 [g] Ergebnis (0 NKS)",
+      "label": "Produktmenge im B10-PP Zyklus 2 (m Cake) — m B10-PP Z2 [g] (0 NKS)",
       "kind": "value",
       "value": "479",
       "checkbox_state": null,
@@ -99,7 +123,7 @@
       "is_blank": false
     },
     {
-      "label": "Produktmenge Startmaterial B20-ST - m B10-PP Z1 [g]",
+      "label": "Produktmenge im Startmaterial B20-ST (m Cake) — m B10-PP Z1 [g]",
       "kind": "value",
       "value": "1065",
       "checkbox_state": null,
@@ -107,7 +131,7 @@
       "is_blank": false
     },
     {
-      "label": "Produktmenge Startmaterial B20-ST - m B10-PP Z2 [g]",
+      "label": "Produktmenge im Startmaterial B20-ST (m Cake) — m B10-PP Z2 [g]",
       "kind": "value",
       "value": "479",
       "checkbox_state": null,
@@ -115,7 +139,7 @@
       "is_blank": false
     },
     {
-      "label": "Produktmenge Startmaterial B20-ST - m B20-ST [g] Ergebnis (0 NKS)",
+      "label": "Produktmenge im Startmaterial B20-ST (m Cake) — m B20-ST [g] (0 NKS)",
       "kind": "value",
       "value": "1544",
       "checkbox_state": null,
@@ -125,7 +149,7 @@
     {
       "label": "Bearbeitet: (Datum/Kürzel)",
       "kind": "signature",
-      "value": "10.06.2026 / ohp",
+      "value": "10.06.2026 / ohe",
       "checkbox_state": null,
       "signature_status": "signed",
       "is_blank": false
@@ -133,18 +157,11 @@
     {
       "label": "Geprüft: (Datum/Kürzel)",
       "kind": "signature",
-      "value": "10.06.2026 / hgs",
+      "value": "10.06.2026 / han",
       "checkbox_state": null,
       "signature_status": "signed",
       "is_blank": false
     }
   ],
-  "expected_violations": [
-    {
-      "rule": "CALC_ERROR",
-      "field": "Produktmenge B10-PP Zyklus 1 - m B10-PP Z1 [g] Ergebnis (0 NKS)",
-      "explanation": "321 / 1,31 × 4,35 = 1065,9 which rounds to 1066 at 0 NKS, but the recorded result is 1065."
-    }
-  ],
-  "source": "per-page vision agents (image-grounded, aligned to pipeline schema)"
+  "expected_violations": []
 }

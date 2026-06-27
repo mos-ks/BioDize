@@ -1,17 +1,9 @@
 {
   "page": 11,
-  "section": "",
+  "section": "5.3 Verwendete Intermediate ABC-DE / 5.3.1 Bilanzierung — Herstellung von Kuchen",
   "fields": [
     {
-      "label": "Die Umbenennung in ABCF erfolgt erst nach dem Poolen mit dem Intermediat aus dem optionalen zweiten Zyklus.",
-      "kind": "value",
-      "value": "",
-      "checkbox_state": null,
-      "signature_status": null,
-      "is_blank": true
-    },
-    {
-      "label": "Intermediat (ABCE 12345 ___)",
+      "label": "Intermediat: ABCE 12345",
       "kind": "value",
       "value": "123",
       "checkbox_state": null,
@@ -43,7 +35,7 @@
       "is_blank": false
     },
     {
-      "label": "V Netto (V = m / rho, rho = 1,100 kg/L)",
+      "label": "V Netto (V = m / ρ; ρ = 1,100 kg/L)",
       "kind": "value",
       "value": "220",
       "checkbox_state": null,
@@ -59,15 +51,23 @@
       "is_blank": false
     },
     {
-      "label": "Start Haltezeit",
+      "label": "Start Haltezeit (Datum)",
       "kind": "value",
-      "value": "10.06.2026 / 8:46",
+      "value": "10.06.2026",
       "checkbox_state": null,
       "signature_status": null,
       "is_blank": false
     },
     {
-      "label": "Haltetemperatur (Soll: 2 - 8 Grad C, O Ja)",
+      "label": "Start Haltezeit (Uhr)",
+      "kind": "value",
+      "value": "8:46",
+      "checkbox_state": null,
+      "signature_status": null,
+      "is_blank": false
+    },
+    {
+      "label": "Haltetemperatur (Soll: 2 - 8°C) - Ja",
       "kind": "checkbox",
       "value": "",
       "checkbox_state": "unchecked",
@@ -75,23 +75,31 @@
       "is_blank": true
     },
     {
-      "label": "Erlaubte Haltezeit",
+      "label": "Erlaubte Haltezeit (Datum)",
       "kind": "value",
-      "value": "10.06.2026 / 14:46",
+      "value": "10.06.2026",
       "checkbox_state": null,
       "signature_status": null,
       "is_blank": false
     },
     {
-      "label": "Bearbeitet: (Datum/Kuerzel)",
+      "label": "Erlaubte Haltezeit (Uhr)",
+      "kind": "value",
+      "value": "14:46",
+      "checkbox_state": null,
+      "signature_status": null,
+      "is_blank": false
+    },
+    {
+      "label": "Bearbeitet: (Datum/Kürzel)",
       "kind": "signature",
-      "value": "10.06.2026 / ohl",
+      "value": "10.06.2026 / ohe",
       "checkbox_state": null,
       "signature_status": "signed",
       "is_blank": false
     },
     {
-      "label": "Geprueft: (Datum/Kuerzel)",
+      "label": "Geprüft: (Datum/Kürzel)",
       "kind": "signature",
       "value": "10.06.2026 / hau",
       "checkbox_state": null,
@@ -101,10 +109,9 @@
   ],
   "expected_violations": [
     {
-      "rule": "MISSING_CHECKMARK",
-      "field": "Haltetemperatur (O Ja)",
-      "explanation": "The Haltetemperatur row (Soll: 2-8 Grad C) has a lone mandatory 'O Ja' checkbox and no recorded value; nothing is crossed/checked, so the required confirmation is left unmarked."
+      "rule": "CALC_ERROR",
+      "field": "V Netto (V = m / ρ; ρ = 1,100 kg/L)",
+      "explanation": "Recomputing the printed formula V = m / ρ with m Netto = 200 and ρ = 1,100 kg/L gives 200 / 1.100 = 181.8, not the recorded 220. The recorded result does not match the formula applied to the handwritten numbers."
     }
-  ],
-  "source": "per-page vision agents (image-grounded, aligned to pipeline schema)"
+  ]
 }

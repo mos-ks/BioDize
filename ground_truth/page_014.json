@@ -1,25 +1,17 @@
 {
   "page": 14,
-  "section": "5.4 Temperierung B10-PP (Zyklus 1) / 5.4.1 Durchführung",
+  "section": "",
   "fields": [
     {
-      "label": "Temperierung erforderlich — Ja",
+      "label": "Temperierung erforderlich",
       "kind": "checkbox",
-      "value": "",
-      "checkbox_state": "unchecked",
-      "signature_status": null,
-      "is_blank": false
-    },
-    {
-      "label": "Temperierung erforderlich — Nein, Kapitel 5.4 findet keine Anwendung",
-      "kind": "checkbox",
-      "value": "",
+      "value": "Nein, Kapitel 5.4 findet keine Anwendung",
       "checkbox_state": "checked",
       "signature_status": null,
       "is_blank": false
     },
     {
-      "label": "Bearbeitet: (Datum/Kürzel)",
+      "label": "5.4 Temperierung - Bearbeitet: (Datum/Kürzel)",
       "kind": "signature",
       "value": "",
       "checkbox_state": null,
@@ -27,7 +19,7 @@
       "is_blank": true
     },
     {
-      "label": "Geprüft: (Datum/Kürzel)",
+      "label": "5.4 Temperierung - Geprüft: (Datum/Kürzel)",
       "kind": "signature",
       "value": "",
       "checkbox_state": null,
@@ -35,7 +27,7 @@
       "is_blank": true
     },
     {
-      "label": "Intermediat B10-PP 67436",
+      "label": "Intermediat",
       "kind": "value",
       "value": "678",
       "checkbox_state": null,
@@ -43,37 +35,30 @@
       "is_blank": false
     },
     {
-      "label": "Transfer aus dem Kühlraum (Datum)",
+      "label": "Transfer aus dem Kühlraum",
       "kind": "value",
-      "value": "09.06.2026",
+      "value": "09.06.2026 / 11:35",
       "checkbox_state": null,
       "signature_status": null,
       "is_blank": false
     },
     {
-      "label": "Transfer aus dem Kühlraum (Uhrzeit)",
-      "kind": "value",
-      "value": "11:35",
-      "checkbox_state": null,
-      "signature_status": null,
-      "is_blank": false
-    },
-    {
-      "label": "Bearbeitet: (Datum/Kürzel)",
+      "label": "5.4.1 Durchführung - Bearbeitet: (Datum/Kürzel)",
       "kind": "signature",
-      "value": "10.06.2026 / oli",
+      "value": "10.06.2026 / ohe",
       "checkbox_state": null,
       "signature_status": "signed",
       "is_blank": false
     },
     {
-      "label": "Geprüft: (Datum/Kürzel)",
+      "label": "5.4.1 Durchführung - Geprüft: (Datum/Kürzel)",
       "kind": "signature",
-      "value": "10.06.2026 / hau",
+      "value": "10.06.2026 / han",
       "checkbox_state": null,
       "signature_status": "signed",
       "is_blank": false
     }
   ],
-  "expected_violations": []
+  "expected_violations": [],
+  "source": "per-page vision agents (image-grounded, aligned to pipeline schema)"
 }

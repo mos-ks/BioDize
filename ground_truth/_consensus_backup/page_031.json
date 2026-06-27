@@ -1,6 +1,6 @@
 {
   "page": 31,
-  "section": "",
+  "section": "5.11.3 SAP Etiketten BK-SOP-38179 Materialien",
   "fields": [
     {
       "label": "SAP Etikett (Zeile 1)",
@@ -21,7 +21,7 @@
     {
       "label": "Bearbeitet (Datum/Kürzel) (Zeile 1)",
       "kind": "signature",
-      "value": "10.06.2026 / Ohe",
+      "value": "10.06.2026 / ohe",
       "checkbox_state": null,
       "signature_status": "signed",
       "is_blank": false
@@ -29,15 +29,15 @@
     {
       "label": "Geprüft (Datum/Kürzel) (Zeile 1)",
       "kind": "signature",
-      "value": "10.06.2026 / Ohe",
+      "value": "10.06.2026 / ohe",
       "checkbox_state": null,
       "signature_status": "signed",
       "is_blank": false
     },
     {
-      "label": "SAP gebucht (Zeile 1)",
+      "label": "SAP gebucht: Ja (Zeile 1)",
       "kind": "checkbox",
-      "value": "Ja",
+      "value": "",
       "checkbox_state": "checked",
       "signature_status": null,
       "is_blank": false
@@ -61,7 +61,7 @@
     {
       "label": "Bearbeitet (Datum/Kürzel) (Zeile 2)",
       "kind": "signature",
-      "value": "10.06.2026",
+      "value": "10.06.2026 /",
       "checkbox_state": null,
       "signature_status": "signed",
       "is_blank": false
@@ -69,15 +69,15 @@
     {
       "label": "Geprüft (Datum/Kürzel) (Zeile 2)",
       "kind": "signature",
-      "value": "10.06.2026 / Ohe",
+      "value": "10.06.2026 / ohe",
       "checkbox_state": null,
       "signature_status": "signed",
       "is_blank": false
     },
     {
-      "label": "SAP gebucht (Zeile 2)",
+      "label": "SAP gebucht: Ja (Zeile 2)",
       "kind": "checkbox",
-      "value": "Ja",
+      "value": "",
       "checkbox_state": "checked",
       "signature_status": null,
       "is_blank": false
@@ -101,7 +101,7 @@
     {
       "label": "Bearbeitet (Datum/Kürzel) (Zeile 3)",
       "kind": "signature",
-      "value": "10.06.2026",
+      "value": "10.06.2026 /",
       "checkbox_state": null,
       "signature_status": "signed",
       "is_blank": false
@@ -109,15 +109,15 @@
     {
       "label": "Geprüft (Datum/Kürzel) (Zeile 3)",
       "kind": "signature",
-      "value": "10.06.2026 / Ohe",
+      "value": "10.06.2026 / ohe",
       "checkbox_state": null,
       "signature_status": "signed",
       "is_blank": false
     },
     {
-      "label": "SAP gebucht (Zeile 3)",
+      "label": "SAP gebucht: Ja (Zeile 3)",
       "kind": "checkbox",
-      "value": "Ja",
+      "value": "",
       "checkbox_state": "checked",
       "signature_status": null,
       "is_blank": false
@@ -126,19 +126,18 @@
   "expected_violations": [
     {
       "rule": "4EYES_DISTINCT",
-      "field": "Zeile 1 Bearbeitet/Geprüft",
-      "explanation": "Bearbeitet-Kürzel 'Ohe' is identical to Geprüft-Kürzel 'Ohe'; the same person both processed and checked, violating the four-eyes principle."
+      "field": "Geprüft (Datum/Kürzel) (Zeile 1)",
+      "explanation": "Bearbeitet and Geprüft in Zeile 1 are both signed by the same Kürzel 'ohe' (10.06.2026 / ohe in both), so the four-eyes principle of independent processing and checking is not met."
     },
     {
       "rule": "SIG_INCOMPLETE",
-      "field": "Zeile 2 Bearbeitet (Datum/Kürzel)",
-      "explanation": "Bearbeitet cell contains the date 10.06.2026 but no Kürzel; the signature is incomplete (date present, initials missing)."
+      "field": "Bearbeitet (Datum/Kürzel) (Zeile 2)",
+      "explanation": "The Bearbeitet signature in Zeile 2 carries a date (10.06.2026) but no Kürzel (consensus reads '10.06.2026 /' with the initials missing), so the signature is incomplete."
     },
     {
       "rule": "SIG_INCOMPLETE",
-      "field": "Zeile 3 Bearbeitet (Datum/Kürzel)",
-      "explanation": "Bearbeitet cell contains the date 10.06.2026 but no Kürzel; the signature is incomplete (date present, initials missing)."
+      "field": "Bearbeitet (Datum/Kürzel) (Zeile 3)",
+      "explanation": "The Bearbeitet signature in Zeile 3 carries a date (10.06.2026) but no Kürzel (consensus reads '10.06.2026 /' with the initials missing), so the signature is incomplete."
     }
-  ],
-  "source": "per-page vision agents (image-grounded, aligned to pipeline schema)"
+  ]
 }
