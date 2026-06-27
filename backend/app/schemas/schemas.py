@@ -38,6 +38,7 @@ class FieldOut(BaseModel):
     bbox: list[float] | None = None
     confidence: float
     status: str
+    is_handwritten: bool | None = None
     reads: list[ReadOut] = []
     flags: list[FlagOut] = []
 
@@ -47,7 +48,7 @@ class FieldOut(BaseModel):
             id=f.id, document_id=f.document_id, chapter=f.chapter, block_key=f.block_key,
             page_no=f.page_no, role=f.role, label_raw=f.label_raw, value=f.value_norm,
             value_raw=f.value_raw, unit=f.unit, nks=f.nks, bbox=f.bbox,
-            confidence=f.confidence, status=f.status,
+            confidence=f.confidence, status=f.status, is_handwritten=getattr(f, "is_handwritten", None),
             reads=[ReadOut.model_validate(r) for r in f.reads],
             flags=[FlagOut.model_validate(fl) for fl in f.flags],
         )

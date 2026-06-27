@@ -1,7 +1,7 @@
 // Shared presentational atoms. Frozen layer — pages compose these.
 
 import type { ReactNode } from "react";
-import { Loader2, Inbox, AlertCircle, FlaskConical } from "lucide-react";
+import { Loader2, Inbox, AlertCircle, FlaskConical, PenLine, Type } from "lucide-react";
 import type { Field, FieldStatus, Flag, Severity } from "../api/types";
 import {
   categoryMeta,
@@ -30,6 +30,20 @@ export function StatusBadge({ status }: { status: FieldStatus }) {
     <span className={classNames("chip", m.badge)}>
       <span className={classNames("h-1.5 w-1.5 rounded-full", m.dot)} />
       {m.label}
+    </span>
+  );
+}
+
+/** Handwritten (blue, hand-filled) vs printed (black, form text). The reviewer
+ * focuses on the handwritten entries — that's where errors live. */
+export function HandwrittenChip({ handwritten }: { handwritten: boolean }) {
+  return handwritten ? (
+    <span className="chip bg-sky-50 text-sky-700 ring-1 ring-inset ring-sky-200">
+      <PenLine className="h-3.5 w-3.5" /> Handwritten
+    </span>
+  ) : (
+    <span className="chip bg-slate-100 text-slate-500 ring-1 ring-inset ring-slate-200">
+      <Type className="h-3.5 w-3.5" /> Printed
     </span>
   );
 }

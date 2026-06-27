@@ -61,6 +61,7 @@ export interface Field {
   bbox?: BBox | null;
   confidence: number;
   status: FieldStatus;
+  is_handwritten?: boolean | null; // blue (hand-filled) vs black (printed)
   reads: Read[];
   flags: Flag[];
 }

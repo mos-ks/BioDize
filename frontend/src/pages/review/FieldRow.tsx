@@ -24,6 +24,7 @@ export default function FieldRow({
   // Surface the issue type (category + code) whenever a field is flagged —
   // beside its value if it has one, or in place of the dash when it's blank.
   const flag = primaryFlag(field.flags);
+  const crossedOut = field.flags.some((f) => f.code === "CROSSED_OUT");
   return (
     <button
       type="button"
@@ -63,7 +64,12 @@ export default function FieldRow({
 
       {value && (
         <div className="mt-2 flex items-baseline gap-1.5">
-          <span className="truncate font-mono text-base font-semibold tabular-nums text-slate-900">
+          <span
+            className={classNames(
+              "truncate font-mono text-base font-semibold tabular-nums",
+              crossedOut ? "text-slate-400 line-through decoration-2 decoration-rose-400/70" : "text-slate-900",
+            )}
+          >
             {value}
           </span>
           {field.unit && <span className="text-xs font-medium text-slate-400">{field.unit}</span>}

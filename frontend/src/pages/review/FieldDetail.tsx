@@ -25,6 +25,7 @@ import {
   CategoryChip,
   ConfidenceGauge,
   ErrorBlock,
+  HandwrittenChip,
   LoadingBlock,
   SectionLabel,
   SeverityBadge,
@@ -166,6 +167,7 @@ export default function FieldDetail({
             )}
             <div className="mt-1.5 flex flex-wrap items-center gap-1.5">
               <StatusBadge status={field.status} />
+              {field.is_handwritten != null && <HandwrittenChip handwritten={field.is_handwritten} />}
               {field.chapter && (
                 <span className="chip bg-slate-100 text-slate-500 ring-1 ring-inset ring-slate-200">
                   ch. {field.chapter}

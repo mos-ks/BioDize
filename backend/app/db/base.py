@@ -33,3 +33,22 @@ def init_db() -> None:
     from app.db import models  # noqa: F401  (register mappers)
 
     Base.metadata.create_all(bind=engine)
+    _ensure_columns()
+
+
+def _ensure_columns() -> None:
+    """Add columns introduced after a DB already exists (no Alembic). SQLite only;
+    on other backends the PRAGMA fails and is skipped (create_all covers new DBs)."""
+    from sqlalchemy import text
+    wanted = {"fields": [("is_handwritten", "BOOLEAN")]}
+    try:
+        with engine.begin() as conn:
+            for table, cols in wanted.items():
+                have = {r[1] for r in conn.execute(text(f"PRAGMA table_info({table})"))}
+                if not have:
+                    continue
+                for name, sqltype in cols:
+                    if name not in have:
+                        conn.execute(text(f"ALTER TABLE {table} ADD COLUMN {name} {sqltype}"))
+    except Exception:
+        pass

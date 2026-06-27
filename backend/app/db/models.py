@@ -68,6 +68,7 @@ class Field(Base):
     value_raw: Mapped[str | None] = mapped_column(String, nullable=True)
     value_norm: Mapped[str | None] = mapped_column(String, nullable=True)
     value_type: Mapped[str | None] = mapped_column(String, nullable=True)
+    is_handwritten: Mapped[bool | None] = mapped_column(Boolean, nullable=True)  # blue (hand) vs black (printed)
     unit: Mapped[str | None] = mapped_column(String, nullable=True)
     nks: Mapped[int | None] = mapped_column(Integer, nullable=True)
     bbox: Mapped[list | None] = mapped_column(JSON, nullable=True)  # [x0,y0,x1,y1] normalized
