@@ -237,6 +237,17 @@ def rule_presence(block: Block) -> list[Flag]:
     chapter is marked 'findet keine Anwendung' (N/A), where blanks are expected."""
     if any("keine anwendung" in (f.value_raw or "").lower() for f in block.fields):
         return []
+    # Roles already satisfied by a SIGNED signature in this block. When an equipment
+    # table carries one section signature but extraction splits it into a per-row
+    # column (one blank "X - Bearbeitet" per machine), those blanks are artifacts,
+    # not real missing signatures — the section IS signed. Suppress them so we don't
+    # raise a wall of false MISSING_SIGNATURE on a signed section.
+    signed_roles: set = set()
+    for f in block.fields:
+        if f.role in (Role.SIGNATURE_PROCESSED, Role.SIGNATURE_CHECKED):
+            _, ds, kz = parse_signature(f.value_raw)
+            if (ds and re.search(r"\d", ds)) or (kz and re.search(r"[A-Za-zÄÖÜäöüß]", kz)):
+                signed_roles.add(f.role)
     for f in block.fields:
         if f.role in (Role.SIGNATURE_PROCESSED, Role.SIGNATURE_CHECKED):
             # A checkbox whose label happens to contain 'geprüft' (e.g. "BK-SOP-xyz
@@ -248,6 +259,8 @@ def rule_presence(block: Block) -> list[Flag]:
             has_date = bool(date_str and re.search(r"\d", date_str))
             has_kz = bool(kz and re.search(r"[A-Za-zÄÖÜäöüß]", kz))
             if not has_date and not has_kz:
+                if f.role in signed_roles:
+                    continue  # section already signed for this role -> blank dup is noise
                 f.add_flag(_err(Category.MISSING, "MISSING_SIGNATURE",
                                 "Required signature is blank (no date or Kürzel)",
                                 expected="signed", actual="blank"))

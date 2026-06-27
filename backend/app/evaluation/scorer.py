@@ -196,6 +196,7 @@ EXCLUDED_FROM_FP: set[str] = {
     "XREF_NEAR_MISS",       # rounding warning
     "XREF_MISMATCH",        # cross-reference warning from stored production runs
     "CALC_ROUNDING",        # rounding warning
+    "FMT_DATE_PADDING",     # cosmetic zero-padding note (often a misread digit), not graded
     "DATE_YEAR_SUSPECT",    # OCR-year warning, not a planted GxP violation
     "DATE_BEFORE_PRINT",
     "DATE_FAR_FUTURE",
