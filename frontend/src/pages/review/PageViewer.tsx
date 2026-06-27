@@ -33,6 +33,10 @@ function SchematicPaper() {
 
 export default function PageViewer({ field }: { field: Field }) {
   const [imgState, setImgState] = useState<"loading" | "ok" | "error">("loading");
+  // Real aspect ratio of the loaded scan. Sizing the frame to it means the image
+  // fills the frame exactly (no object-contain letterboxing), so the bbox overlay
+  // — positioned over the frame — lines up on any page, not just A4.
+  const [imgRatio, setImgRatio] = useState<number | null>(null);
   const [showOverlay, setShowOverlay] = useState(true);
   const [showAllBoxes, setShowAllBoxes] = useState(false);
   const [pageFields, setPageFields] = useState<Field[]>([]);
@@ -46,6 +50,7 @@ export default function PageViewer({ field }: { field: Field }) {
   // Reset image probing whenever the page changes.
   useEffect(() => {
     setImgState("loading");
+    setImgRatio(null);
   }, [src]);
 
   // Fetch every field on this page (once, cached) when the all-boxes overlay is
@@ -159,7 +164,7 @@ export default function PageViewer({ field }: { field: Field }) {
             "group relative w-full overflow-hidden rounded-lg border border-slate-200 bg-white shadow-card",
             canZoom && "cursor-zoom-in",
           )}
-          style={{ aspectRatio: "1 / 1.414" }}
+          style={{ aspectRatio: imgRatio ? String(imgRatio) : "1 / 1.414" }}
           onClick={canZoom ? openLightbox : undefined}
           role={canZoom ? "button" : undefined}
           tabIndex={canZoom ? 0 : undefined}
@@ -184,7 +189,11 @@ export default function PageViewer({ field }: { field: Field }) {
               "absolute inset-0 h-full w-full object-contain",
               imgState === "ok" ? "opacity-100" : "opacity-0",
             )}
-            onLoad={() => setImgState("ok")}
+            onLoad={(e) => {
+              setImgState("ok");
+              const t = e.currentTarget;
+              if (t.naturalWidth && t.naturalHeight) setImgRatio(t.naturalWidth / t.naturalHeight);
+            }}
             onError={() => setImgState("error")}
             draggable={false}
           />

@@ -88,50 +88,65 @@ def localize(doc: Document, ocr_by_page: dict[int, OcrResult]) -> Document:
             if picked is None:
                 continue
             idx, block = picked
-            fld.bbox = block.bbox
+            b = block.bbox
+            yp = fld.vlm_ypos
+            # Mistral often returns a whole TABLE as one (tall) block, so the block
+            # box alone would draw a page-tall smear. When we have the reader's
+            # vertical estimate, narrow a tall block down to a thin row band centered
+            # on that field's actual row — keeps the block's reliable x extent, fixes
+            # the y. Short blocks (a tight cell) are already exact, so trust them.
+            if yp is not None and (b.y1 - b.y0) > _ROW_TALL:
+                cy = min(max(yp, b.y0 + _ROW_HALF), b.y1 - _ROW_HALF)
+                fld.bbox = BBox(b.x0, cy - _ROW_HALF, b.x1, cy + _ROW_HALF)
+            else:
+                fld.bbox = b
             if block.confidence:
                 fld.ocr_confidence = block.confidence
             used.add(idx)
             shared.setdefault(idx, []).append(fld)
 
-        # OCR sometimes returns a whole table as ONE block, so every field in it
-        # collapses onto the same box. Place each field's row using the READER's
-        # vertical-position estimate (vlm_ypos) when available — Mistral can't give
-        # per-row boxes, but the VLM saw the layout. Fall back to equal vertical
-        # bands in reading order when no estimate is present.
+        # Fallback for fields with NO vertical estimate that still collapsed onto a
+        # shared tall block: split it into equal vertical bands in reading order, so
+        # they don't all stack on one identical box.
         for idx, flds in shared.items():
-            if len(flds) < 2:
+            no_yp = [f for f in flds if f.vlm_ypos is None]
+            if len(no_yp) < 2:
                 continue
             b = blocks[idx].bbox
             if (b.y1 - b.y0) < 0.05:
                 continue  # too short to subdivide meaningfully
-            step = (b.y1 - b.y0) / len(flds)
-            half = min(step / 2, 0.02)
-            yps = [f.vlm_ypos for f in flds]
-            # The VLM's RELATIVE row order/spacing is reliable (captures unequal row
-            # heights); its ABSOLUTE values drift (overshoot the table bottom). So
-            # min-max-rescale the estimates onto the actual OCR block bounds — keeps
-            # the good spacing, corrects the drift, stays monotonic & in-order.
-            if all(y is not None for y in yps) and max(yps) > min(yps):
-                lo, hi = min(yps), max(yps)
-                span = (b.y1 - half) - (b.y0 + half)
-                for f in flds:
-                    cy = (b.y0 + half) + (f.vlm_ypos - lo) / (hi - lo) * span
-                    f.bbox = BBox(b.x0, cy - half, b.x1, cy + half)
-            else:
-                for i, f in enumerate(flds):
-                    top = b.y0 + i * step
-                    f.bbox = BBox(b.x0, top, b.x1, top + step)
+            step = (b.y1 - b.y0) / len(no_yp)
+            for i, f in enumerate(no_yp):
+                top = b.y0 + i * step
+                f.bbox = BBox(b.x0, top, b.x1, top + step)
     return doc
+
+
+# A block taller than this many page-fractions spans multiple rows (a table), so
+# its box must be narrowed to the field's row. A typical handwritten row is ~2.5%.
+_ROW_TALL = 0.045
+_ROW_HALF = 0.012
+
+
+def _ydist(b: BBox, yp: float | None) -> float:
+    """Vertical distance from a row estimate to a block — 0 when the estimate falls
+    inside the block, else the gap to its nearest edge. Lets a field's vlm_ypos pick
+    the RIGHT row among blocks holding the same repeated value (dates, 'Ja', masses)."""
+    if yp is None:
+        return 0.0
+    if b.y0 <= yp <= b.y1:
+        return 0.0
+    return min(abs(yp - b.y0), abs(yp - b.y1))
 
 
 def _best_block(fld, blocks: list[OcrWord], used: set[int]) -> tuple[int, OcrWord] | None:
     val = (fld.value_raw or "").strip()
+    yp = fld.vlm_ypos
 
     # 1. value match -----------------------------------------------------------
     if val:
         target = _digits(val)
-        cands: list[tuple[int, int, float, float, int, OcrWord]] = []
+        cands: list[tuple[int, float, float, int, float, int, OcrWord]] = []
         for idx, b in enumerate(blocks):
             bt = (b.text or "").strip()
             if not bt:
@@ -144,23 +159,24 @@ def _best_block(fld, blocks: list[OcrWord], used: set[int]) -> tuple[int, OcrWor
             elif len(target) >= 4 and target in _digits(bt):
                 rank = 2
             if rank is not None:
-                # sort key: rank, unused-first, smallest-area, topmost
-                cands.append((rank, 1 if idx in used else 0, _area(b.bbox), b.bbox.y0, idx, b))
+                # sort key: rank, nearest the field's row, smallest area, unused, topmost
+                cands.append((rank, _ydist(b.bbox, yp), _area(b.bbox),
+                              1 if idx in used else 0, b.bbox.y0, idx, b))
         if cands:
-            cands.sort(key=lambda c: (c[0], c[1], c[2], c[3]))
+            cands.sort(key=lambda c: (c[0], c[1], c[2], c[3], c[4]))
             best = cands[0]
-            return best[4], best[5]
+            return best[5], best[6]
 
     # 2. label anchor (short / unmatchable values) -----------------------------
     label = _norm(fld.label_raw)
     if len(label) >= 4:
-        lcands: list[tuple[int, float, int, OcrWord]] = []
+        lcands: list[tuple[float, float, int, int, OcrWord]] = []
         for idx, b in enumerate(blocks):
             if label in _norm(b.text):
-                lcands.append((1 if idx in used else 0, _area(b.bbox), idx, b))
+                lcands.append((_ydist(b.bbox, yp), _area(b.bbox), 1 if idx in used else 0, idx, b))
         if lcands:
-            lcands.sort(key=lambda c: (c[0], c[1]))  # unused first, then smallest
+            lcands.sort(key=lambda c: (c[0], c[1], c[2]))  # nearest row, smallest, unused
             best = lcands[0]
-            return best[2], best[3]
+            return best[3], best[4]
 
     return None
