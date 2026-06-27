@@ -5,7 +5,7 @@
 
 import { MapPin } from "lucide-react";
 import type { BBox, Field } from "../../api/types";
-import { classNames, fieldDisplayValue } from "../../lib/ui";
+import { classNames } from "../../lib/ui";
 
 /** Convert a normalized [x0,y0,x1,y1] box into CSS percentage rect props. */
 export function rectFromBBox(bbox: BBox) {
@@ -32,22 +32,13 @@ export function HighlightBox({ field, accent }: { field: Field; accent: "rose" |
   if (!field.bbox) return null;
   const pos = bboxCenter(field.bbox);
   const pin = accent === "rose" ? "fill-rose-500 text-rose-700" : "fill-brand-500 text-brand-700";
-  const labelBg = accent === "rose" ? "bg-rose-600" : "bg-brand-600";
   return (
     // Anchored at the value's center; translated up+left so the pin's tip lands
-    // exactly on the point and the value pill floats just above it.
+    // exactly on the point. No label — the pin alone marks the spot.
     <div
-      className="pointer-events-none absolute z-10 flex -translate-x-1/2 -translate-y-full flex-col items-center animate-fade-in"
+      className="pointer-events-none absolute z-10 -translate-x-1/2 -translate-y-full animate-fade-in"
       style={pos}
     >
-      <span
-        className={classNames(
-          "mb-0.5 inline-flex max-w-[180px] items-center gap-1 truncate rounded-md px-1.5 py-0.5 text-[11px] font-semibold text-white shadow-sm",
-          labelBg,
-        )}
-      >
-        {fieldDisplayValue(field.value, field.value_raw)}
-      </span>
       <MapPin className={classNames("h-7 w-7 drop-shadow-[0_1px_1px_rgba(0,0,0,0.35)]", pin)} strokeWidth={2.25} />
     </div>
   );
