@@ -1,0 +1,152 @@
+{
+  "page": 19,
+  "section": "5.7.2 Bilanzierung",
+  "fields": [
+    {
+      "label": "Nur ein B10-PP vorhanden?",
+      "kind": "checkbox",
+      "value": "Ja, Übertrag der Daten aus Kapitel 5.3.1",
+      "checkbox_state": "checked",
+      "signature_status": null,
+      "is_blank": false
+    },
+    {
+      "label": "Intermediat B20-ST 95186",
+      "kind": "value",
+      "value": "327",
+      "checkbox_state": null,
+      "signature_status": null,
+      "is_blank": false
+    },
+    {
+      "label": "m Tara",
+      "kind": "value",
+      "value": "127",
+      "checkbox_state": null,
+      "signature_status": null,
+      "is_blank": false
+    },
+    {
+      "label": "m Brutto vPz",
+      "kind": "value",
+      "value": "427",
+      "checkbox_state": null,
+      "signature_status": null,
+      "is_blank": false
+    },
+    {
+      "label": "m Netto vPz",
+      "kind": "value",
+      "value": "300",
+      "checkbox_state": null,
+      "signature_status": null,
+      "is_blank": false
+    },
+    {
+      "label": "V Netto vPz (V = m / ρ; ρ = 1,81 kg/L)",
+      "kind": "value",
+      "value": "543",
+      "checkbox_state": null,
+      "signature_status": null,
+      "is_blank": false
+    },
+    {
+      "label": "Proben (GPDSF) gemäß BK-MAN-01825 erforderlich",
+      "kind": "checkbox",
+      "value": "Ja",
+      "checkbox_state": "checked",
+      "signature_status": null,
+      "is_blank": false
+    },
+    {
+      "label": "Proben (QC) gemäß BK-MAN-16865 erforderlich",
+      "kind": "checkbox",
+      "value": "Ja",
+      "checkbox_state": "checked",
+      "signature_status": null,
+      "is_blank": false
+    },
+    {
+      "label": "Proben gemäß Sonderprobenzugplan erforderlich",
+      "kind": "checkbox",
+      "value": "Nein",
+      "checkbox_state": "checked",
+      "signature_status": null,
+      "is_blank": false
+    },
+    {
+      "label": "Homogenisieren vom Batter wurde gemäß BK-SOP-36496 durchgeführt",
+      "kind": "checkbox",
+      "value": "",
+      "checkbox_state": "unchecked",
+      "signature_status": null,
+      "is_blank": true
+    },
+    {
+      "label": "Taste Sample aller Proben nach Überprüfung in LIMS durchgeführt",
+      "kind": "checkbox",
+      "value": "Ja",
+      "checkbox_state": "checked",
+      "signature_status": null,
+      "is_blank": false
+    },
+    {
+      "label": "m Brutto nPZ",
+      "kind": "value",
+      "value": "527",
+      "checkbox_state": null,
+      "signature_status": null,
+      "is_blank": false
+    },
+    {
+      "label": "m Netto nPZ",
+      "kind": "value",
+      "value": "395",
+      "checkbox_state": null,
+      "signature_status": null,
+      "is_blank": false
+    },
+    {
+      "label": "V Netto nPZ (V = m / ρ; ρ = 1,81 kg/L)",
+      "kind": "value",
+      "value": "715",
+      "checkbox_state": null,
+      "signature_status": null,
+      "is_blank": false
+    },
+    {
+      "label": "Bearbeitet: (Datum/Kürzel)",
+      "kind": "signature",
+      "value": "10.06.2026 / ohe",
+      "checkbox_state": null,
+      "signature_status": "signed",
+      "is_blank": false
+    },
+    {
+      "label": "Geprüft: (Datum/Kürzel)",
+      "kind": "signature",
+      "value": "10.06.2026 / han",
+      "checkbox_state": null,
+      "signature_status": "signed",
+      "is_blank": false
+    }
+  ],
+  "expected_violations": [
+    {
+      "rule": "CALC_FORMULA",
+      "field": "V Netto vPz",
+      "explanation": "Printed formula V = m/ρ = 300/1.81 = 165.7 L, but 543 L was recorded. 543 = 300×1.81 — the operator multiplied instead of dividing (543 L is physically impossible for 300 kg at ρ=1.81 kg/L). Human-verified error."
+    },
+    {
+      "rule": "CALC_FORMULA",
+      "field": "V Netto nPZ",
+      "explanation": "Printed formula V = m/ρ = 395/1.81 = 218.2 L, but 715 L was recorded. 715 = 395×1.81 — operator multiplied instead of dividing. Human-verified error."
+    },
+    {
+      "rule": "MISSING_CHECKMARK",
+      "field": "Homogenisieren vom Batter wurde gemäß BK-SOP-36496 durchgeführt",
+      "explanation": "Required confirmation checkbox left completely blank — nothing marked. Human-verified error."
+    }
+  ],
+  "source": "HUMAN-VERIFIED (user-confirmed field-by-field against the scan, 2026-06-27)"
+}

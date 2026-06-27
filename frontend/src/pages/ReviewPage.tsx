@@ -11,7 +11,7 @@
 
 import { useEffect, useMemo, useRef, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
-import { ListChecks, PartyPopper, Sparkles, Table2, TriangleAlert } from "lucide-react";
+import { ListChecks, PartyPopper, ScanLine, Sparkles, Table2, TriangleAlert } from "lucide-react";
 import { api } from "../api/client";
 import type { DocumentSummary, Field } from "../api/types";
 import { classNames, useApi } from "../lib/ui";
@@ -20,9 +20,10 @@ import DocumentBar from "./review/DocumentBar";
 import FieldRow from "./review/FieldRow";
 import FieldDetail from "./review/FieldDetail";
 import AllFieldsList from "./review/AllFieldsList";
+import ExtractionList from "./review/ExtractionList";
 import FlagsOverview from "./review/FlagsOverview";
 
-type Tab = "queue" | "all" | "flags";
+type Tab = "queue" | "extraction" | "all" | "flags";
 
 export default function ReviewPage() {
   const { documentId = "" } = useParams();
@@ -71,6 +72,7 @@ export default function ReviewPage() {
 
   const tabs: { id: Tab; label: string; icon: typeof ListChecks; count?: number }[] = [
     { id: "queue", label: "Queue", icon: ListChecks, count: queue.length },
+    { id: "extraction", label: "Extraction", icon: ScanLine },
     { id: "all", label: "All fields", icon: Table2 },
     { id: "flags", label: "Flags", icon: TriangleAlert },
   ];
@@ -133,6 +135,9 @@ export default function ReviewPage() {
                 selectedId={selectedId}
                 onSelect={selectField}
               />
+            )}
+            {tab === "extraction" && (
+              <ExtractionList documentId={documentId} activeId={selectedId} onSelect={selectField} />
             )}
             {tab === "all" && (
               <AllFieldsList documentId={documentId} activeId={selectedId} onSelect={selectField} />

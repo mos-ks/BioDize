@@ -95,8 +95,10 @@ def localize(doc: Document, ocr_by_page: dict[int, OcrResult]) -> Document:
             shared.setdefault(idx, []).append(fld)
 
         # OCR sometimes returns a whole table as ONE block, so every field in it
-        # collapses onto the same box. Split a shared, tall-enough block into
-        # equal vertical bands in reading order so each field gets a distinct row.
+        # collapses onto the same box. Place each field's row using the READER's
+        # vertical-position estimate (vlm_ypos) when available — Mistral can't give
+        # per-row boxes, but the VLM saw the layout. Fall back to equal vertical
+        # bands in reading order when no estimate is present.
         for idx, flds in shared.items():
             if len(flds) < 2:
                 continue
@@ -104,9 +106,22 @@ def localize(doc: Document, ocr_by_page: dict[int, OcrResult]) -> Document:
             if (b.y1 - b.y0) < 0.05:
                 continue  # too short to subdivide meaningfully
             step = (b.y1 - b.y0) / len(flds)
-            for i, f in enumerate(flds):
-                top = b.y0 + i * step
-                f.bbox = BBox(b.x0, top, b.x1, top + step)
+            half = min(step / 2, 0.02)
+            yps = [f.vlm_ypos for f in flds]
+            # The VLM's RELATIVE row order/spacing is reliable (captures unequal row
+            # heights); its ABSOLUTE values drift (overshoot the table bottom). So
+            # min-max-rescale the estimates onto the actual OCR block bounds — keeps
+            # the good spacing, corrects the drift, stays monotonic & in-order.
+            if all(y is not None for y in yps) and max(yps) > min(yps):
+                lo, hi = min(yps), max(yps)
+                span = (b.y1 - half) - (b.y0 + half)
+                for f in flds:
+                    cy = (b.y0 + half) + (f.vlm_ypos - lo) / (hi - lo) * span
+                    f.bbox = BBox(b.x0, cy - half, b.x1, cy + half)
+            else:
+                for i, f in enumerate(flds):
+                    top = b.y0 + i * step
+                    f.bbox = BBox(b.x0, top, b.x1, top + step)
     return doc
 
 

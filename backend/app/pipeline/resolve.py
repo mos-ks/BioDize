@@ -127,10 +127,28 @@ def canonical_signers(doc: Document) -> list[str]:
     return labels
 
 
+def _name_initials(name: str) -> str:
+    """'Hans Mustermann' -> 'hm'; 'Olg Herold-Sithimic' -> 'ohs'."""
+    parts = re.split(r"[\s\-]+", (name or "").strip())
+    return "".join(p[0].lower() for p in parts if p)
+
+
 def resolve_kuerzel(doc: Document) -> Document:
     signers = canonical_signers(doc)
     if not signers:
         return doc
+
+    # Semantic anchor: map each person's NAME-initials to their registered Kürzel,
+    # so a read that matches the initials of exactly one signer resolves to THAT
+    # person (e.g. 'hm' -> Hans Mustermann -> 'han'), breaking edit-distance ties
+    # that pure spelling cannot. Only unambiguous initials are used.
+    initials: dict[str, set[str]] = {}
+    for kz_reg, name in roster_persons(doc).items():
+        ini = _name_initials(name)
+        if ini and ini != kz_reg:
+            initials.setdefault(ini, set()).add(kz_reg)
+    initials_unique = {ini: next(iter(s)) for ini, s in initials.items() if len(s) == 1}
+
     for f in doc.all_fields():
         sig = _field_kuerzel(f)
         if not sig:
@@ -142,6 +160,11 @@ def resolve_kuerzel(doc: Document) -> Document:
 
         if best_d == 0:
             conf = 0.97
+        elif kz in initials_unique:                         # semantic: name initials win ties
+            best = initials_unique[kz]
+            f.value_raw = f"{date} / {best}" if date else best
+            f.value = f.value_raw
+            conf = 0.9
         elif best_d <= 2 and second_d - best_d >= 1:        # close to exactly one signer
             f.value_raw = f"{date} / {best}" if date else best
             f.value = f.value_raw

@@ -254,6 +254,20 @@ def rule_volume(block: Block) -> list[Flag]:
     return []
 
 
+# Below this recognition confidence a 2-3 letter Kürzel is considered illegible:
+# two such reads matching is more likely an OCR collision than a real same-signer
+# violation, so route to review instead of asserting an error.
+_SIG_LEGIBLE_MIN = 0.55
+
+
+def _recog_conf(f: Field) -> float | None:
+    """Legibility of the recognized value (reader self-confidence), preferred over
+    the resolve-inflated registry-match confidence so an illegible Kürzel stays low."""
+    if f.reads:
+        return min(r.confidence for r in f.reads)
+    return f.ocr_confidence
+
+
 def rule_four_eyes(block: Block) -> list[Flag]:
     # A page can carry several Bearbeitet/Gepruft pairs; pair them in field order
     # (the OpenAI reader puts all of a page's fields in one block).
@@ -265,9 +279,17 @@ def rule_four_eyes(block: Block) -> list[Flag]:
                               "Gepruft date is before Bearbeitet date (review must follow processing)",
                               expected=f">= {d_proc.isoformat()}", actual=d_chk.isoformat()))
         if k_proc and k_chk and k_proc.lower() == k_chk.lower():
-            chk.add_flag(_err(Category.FOUR_EYES, "4EYES_DISTINCT",
-                              "Bearbeitet and Gepruft signed by the same person",
-                              expected="two different Kurzel", actual=k_chk))
+            # Only a HARD violation when both signatures are legibly read. When either
+            # is low-confidence the equality is likely the reader collapsing two
+            # different scrawls (e.g. Hans's 'hm' misread as 'ohe') onto one Kürzel —
+            # that field is already routed to review by its low confidence; don't
+            # stack a false "same person" error on top.
+            cp, cc = _recog_conf(proc), _recog_conf(chk)
+            legible = (cp is None or cp >= _SIG_LEGIBLE_MIN) and (cc is None or cc >= _SIG_LEGIBLE_MIN)
+            if legible:
+                chk.add_flag(_err(Category.FOUR_EYES, "4EYES_DISTINCT",
+                                  "Bearbeitet and Gepruft signed by the same person",
+                                  expected="two different Kurzel", actual=k_chk))
     return []
 
 

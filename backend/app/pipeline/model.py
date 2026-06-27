@@ -69,6 +69,10 @@ class Field:
     calc_expr: str | None = None      # printed formula with handwritten numbers substituted
     is_required: bool = True
     bbox: BBox | None = None
+    # Reader's estimated vertical position (0=top, 1=bottom) of this field's row.
+    # Mistral OCR returns whole tables as ONE block, so this is how the VLM rescues
+    # per-row box placement when the OCR box is table-granular (see localize.py).
+    vlm_ypos: float | None = None
     reads: list[Read] = field(default_factory=list)
 
     # enriched by normalize

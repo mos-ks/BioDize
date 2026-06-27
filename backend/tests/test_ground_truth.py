@@ -54,7 +54,13 @@ def _run_results_pipeline():
         val_raw  = str(e.get("value_raw") or e.get("value") or "")
         f = Field(page_no=pno, chapter=chap, role=e.get("role"),
                   label_raw=e.get("label") or "", value_raw=val_raw, bbox=bbox)
-        f.reads = [Read(model="real", value_raw=val_raw, confidence=e.get("confidence", 1.0))]
+        # NOTE: the JSON "confidence" is the post-validation UNCERTAINTY SCORE
+        # (a flagged field is dragged to ~0.4 *because* it was flagged) — NOT the
+        # reader's legibility confidence. Feeding it back as Read.confidence is
+        # circular (it would suppress every originally-flagged rule on re-validation).
+        # The lossy export doesn't carry the original read confidence, so assume
+        # legible here; the live pipeline uses the reader's real per-field value.
+        f.reads = [Read(model="real", value_raw=val_raw, confidence=1.0)]
         b.fields.append(f); f.block_key = b.key
     doc.blocks = list(bmap.values())
     normalize(doc); resolve(doc); validate(doc); score(doc)

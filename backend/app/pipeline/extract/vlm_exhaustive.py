@@ -38,8 +38,10 @@ _SCHEMA = {
           "unit": {"type": ["string", "null"]},
           "soll": {"type": ["string", "null"]},
           "calc_expr": {"type": ["string", "null"], "description": "if the value is a printed formula's result, the arithmetic with the handwritten numbers substituted (e.g. '6,6 * 45 - 4,3 * 0,75'); else null"},
+          "confidence": {"type": "number", "description": "your 0.0-1.0 certainty this value is read correctly. Be HONEST: use LOW (<0.5) for hard-to-read/ambiguous handwriting — ESPECIALLY 2-3 letter signature Kürzel and smudged digits; HIGH (>0.9) only for clearly printed text or unambiguous handwriting. A blank field is 1.0 (certainly blank)."},
+          "ypos": {"type": "number", "description": "vertical position of THIS field's row on the page: 0.0 = very top edge, 1.0 = very bottom edge. Estimate the center of the row the value/checkbox/signature sits on, as accurately as you can."},
           "is_blank": {"type": "boolean"}},
-        "required": ["label", "kind", "value", "options", "selected", "unit", "soll", "calc_expr", "is_blank"]}}},
+        "required": ["label", "kind", "value", "options", "selected", "unit", "soll", "calc_expr", "confidence", "ypos", "is_blank"]}}},
     "required": ["section", "fields"]}}
 
 _PROMPT = (
@@ -52,8 +54,11 @@ _PROMPT = (
   "Put any 'Soll'/'Richtwert' target in `soll` and a unit in `unit`. When a value is the "
   "result of a printed formula, fill `calc_expr` with that formula's arithmetic using the "
   "handwritten numbers (e.g. '6,6 * 45 - 4,3 * 0,75'); otherwise null. Do NOT skip anything. "
-  "Read handwriting verbatim; keep the German decimal comma (e.g. '4,50'). Ignore page "
-  "headers/footers (Dok-Nr, Rev., Seite) and abbreviation legends."
+  "Read handwriting verbatim; keep the German decimal comma (e.g. '4,50'). For EACH field set "
+  "`confidence` to your honest 0-1 certainty the value is read correctly — use LOW values for "
+  "illegible/ambiguous handwriting, especially short signature Kürzel — never a flat default. "
+  "Ignore page headers/footers (Dok-Nr, Rev., Seite) and abbreviation legends. "
+  "Do NOT transcribe the table of contents (Inhaltsverzeichnis) or its page numbers."
 )
 
 
@@ -116,6 +121,21 @@ class VlmExhaustiveExtractor:
                   value_raw=value, unit=raw.get("unit"), soll=raw.get("soll"),
                   calc_expr=raw.get("calc_expr"), block_key=block_key, is_required=True)
         f.value_type = vtype
-        # confidence seeded modestly; OCR/localize + ensemble refine it downstream
-        f.reads = [Read(model=self._model, value_raw=value, confidence=0.8)]
+        # REAL per-field confidence from the reader (legibility self-assessment) —
+        # the key signal that lets validation route illegible reads to review
+        # instead of asserting hard violations off a guess. Blanks are certain.
+        try:
+            conf = max(0.0, min(1.0, float(raw.get("confidence"))))
+        except (TypeError, ValueError):
+            conf = 0.8
+        if not value:
+            conf = max(conf, 0.95)             # a confidently-blank field
+        f.reads = [Read(model=self._model, value_raw=value, confidence=conf)]
+        # reader's vertical position estimate -> rescues per-row box placement when
+        # Mistral returns a table as one block (see localize band-split).
+        try:
+            yp = float(raw.get("ypos"))
+            f.vlm_ypos = yp if 0.0 <= yp <= 1.0 else None
+        except (TypeError, ValueError):
+            f.vlm_ypos = None
         return f

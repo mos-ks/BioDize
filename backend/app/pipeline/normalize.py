@@ -178,9 +178,40 @@ _ROLE_KEYWORDS: list[tuple[str, str]] = [
     ("temperatur", Role.TEMPERATURE_SETPOINT),
     ("bearbeitet", Role.SIGNATURE_PROCESSED),
     ("geprueft", Role.SIGNATURE_CHECKED), ("geprüft", Role.SIGNATURE_CHECKED),
-    ("review", Role.SIGNATURE_CHECKED), ("unterschrift", Role.SIGNATURE_CHECKED),
+    ("unterschrift", Role.SIGNATURE_CHECKED),
     ("volumen", Role.VOLUME),
 ]
+
+# Table-of-contents / index lines: "<section no.> <Title> .... <page no.>". The
+# VLM transcribes the whole document (incl. the Inhaltsverzeichnis), so these
+# arrive as fields whose "value" is just the printed PAGE NUMBER. They are
+# navigation, never operator-entered data — drop them before role assignment, or
+# a TOC heading like "10 REVIEW DES HERSTELLPROTOKOLLS" -> 45 becomes a signature
+# date, and "2 MITGELTENDE..." matches "ende" -> a hold-end field.
+_TOC_LABEL = re.compile(r"^\s*\d+(?:\.\d+)*\s+\D")
+
+
+def _is_navigation_field(f: "Field", page_cap: int) -> bool:
+    if not _TOC_LABEL.match(f.label_raw or ""):
+        return False
+    if f.unit or f.soll or f.calc_expr:        # real data carries these; TOC never does
+        return False
+    v = (f.value_raw or "").strip()
+    if not re.fullmatch(r"\d{1,3}", v):        # value must be a bare page number
+        return False
+    return 1 <= int(v) <= page_cap             # ...within the document's page range
+
+
+def drop_navigation_fields(doc: Document) -> int:
+    """Remove table-of-contents / index entries (page-number 'values'). Returns
+    the count dropped."""
+    page_cap = max(doc.declared_page_count or 0, doc.page_count or 0) or 99
+    dropped = 0
+    for b in doc.blocks:
+        kept = [f for f in b.fields if not _is_navigation_field(f, page_cap)]
+        dropped += len(b.fields) - len(kept)
+        b.fields = kept
+    return dropped
 
 
 def assign_role(label: str, unit: str | None) -> str | None:
@@ -259,15 +290,16 @@ def normalize_kuerzel(doc: Document) -> None:
             continue  # bereits korrekt
 
         # Nächstes Kürzel in der Personalliste suchen
-        best_dist = 99
-        best_k    = None
-        for reg_k in registry:
-            d = _levenshtein(k_low, reg_k)
-            if d < best_dist:
-                best_dist, best_k = d, reg_k
+        dists = sorted((_levenshtein(k_low, reg_k), reg_k) for reg_k in registry)
+        best_dist, best_k = dists[0]
+        # AMBIGUITÄT (z.B. 'hm' ist gleich weit von 'han' UND 'ohe' entfernt) NICHT
+        # erzwingen — sonst werden zwei VERSCHIEDENE Personen zu einer kollabiert
+        # (falsches 4-Augen-"gleiche Person"). Mehrdeutige Reads bleiben für die
+        # semantische Auflösung (resolve.py, Namens-Initialen) erhalten.
+        n_at_best = sum(1 for d, _ in dists if d == best_dist)
 
-        # Nur korrigieren wenn eindeutig nah dran (≤ 2 Editierungen)
-        if best_k and best_dist <= 2:
+        # Nur korrigieren wenn EINDEUTIG nah dran (≤ 2 Editierungen, kein Gleichstand)
+        if best_k and best_dist <= 2 and n_at_best == 1:
             canonical = best_k
             fld.value_raw = prefix + " " + canonical
             if fld.reads:
@@ -284,6 +316,7 @@ def normalize_kuerzel(doc: Document) -> None:
 # --- entry point ------------------------------------------------------------
 
 def normalize(doc: Document) -> Document:
+    drop_navigation_fields(doc)               # strip TOC/index page-number "fields"
     for fld in doc.all_fields():
         if fld.role is None:
             fld.role = assign_role(fld.label_raw, fld.unit)
