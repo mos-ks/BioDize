@@ -61,6 +61,22 @@ _PROMPT = (
   "Do NOT transcribe the table of contents (Inhaltsverzeichnis) or its page numbers."
 )
 
+_META_SCHEMA = {
+  "name": "doc_identity", "strict": True,
+  "schema": {"type": "object", "additionalProperties": False,
+    "properties": {
+      "product": {"type": "string", "description": "the product / batch-record title, e.g. 'Herstellung von Vanilla Celebration Cake'"},
+      "doc_no": {"type": "string", "description": "Dok-Nr. value, e.g. 'AB-ABC-123456'"},
+      "batch_no": {"type": "string", "description": "Batch No. value"},
+      "project_code": {"type": "string", "description": "Projektcode value"},
+      "rev": {"type": "string", "description": "Rev. value"}},
+    "required": ["product", "doc_no", "batch_no", "project_code", "rev"]}}
+
+_META_PROMPT = (
+  "Read ONLY the document IDENTITY from the header/cover of this German pharma batch "
+  "record: the product/title (e.g. 'Herstellung von …'), Dok-Nr., Batch No., "
+  "Projektcode, and Rev. Return '' for any field that is not present.")
+
 
 class VlmExhaustiveExtractor:
     name = "vlm_exhaustive"
@@ -79,6 +95,12 @@ class VlmExhaustiveExtractor:
             title=os.path.basename(source_path) if source_path else "document",
             page_count=len(pages), source_path=source_path)
 
+        # Name the experiment by its extracted identity (product + batch), not the
+        # PDF filename. Read the cover/header of the first real page.
+        first = next((p for p in pages if p.image_path and not p.is_blank), None)
+        if first:
+            self._apply_identity(doc, first.image_path)
+
         for page in pages:
             if page.is_blank or not page.image_path:
                 continue
@@ -90,6 +112,32 @@ class VlmExhaustiveExtractor:
             if block.fields:
                 doc.blocks.append(block)
         return doc
+
+    def _apply_identity(self, doc: Document, image_path: str) -> None:
+        """Set doc.title (product) and doc.doc_no (Dok-Nr · Batch) from the header,
+        so the UI names the experiment by its content, not the filename. Best-effort."""
+        try:
+            with open(image_path, "rb") as fh:
+                b64 = base64.b64encode(fh.read()).decode()
+            resp = self._client.chat.completions.create(
+                model=self._model,
+                response_format={"type": "json_schema", "json_schema": _META_SCHEMA},
+                messages=[{"role": "user", "content": [
+                    {"type": "text", "text": _META_PROMPT},
+                    {"type": "image_url", "image_url": {"url": f"data:image/png;base64,{b64}"}}]}])
+            m = json.loads(resp.choices[0].message.content or "{}")
+        except Exception:
+            return
+        product = (m.get("product") or "").strip()
+        docno = (m.get("doc_no") or "").strip()
+        batch = (m.get("batch_no") or "").strip()
+        if product:
+            doc.title = product
+        ident = " · ".join(b for b in (docno, f"Batch {batch}" if batch else "") if b)
+        if ident:
+            doc.doc_no = ident
+        doc.project_code = (m.get("project_code") or "").strip() or doc.project_code
+        doc.rev = (m.get("rev") or "").strip() or doc.rev
 
     def _read_page(self, image_path: str) -> list[dict]:
         with open(image_path, "rb") as fh:

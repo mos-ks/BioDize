@@ -23,11 +23,14 @@ export function Histogram({
   unit,
   min,
   max,
+  mark,
 }: {
   bins: HistogramBin[];
   unit?: string | null;
   min?: number | null;
   max?: number | null;
+  /** Draw a vertical marker at this value (e.g. the field being reviewed). */
+  mark?: number | null;
 }) {
   const clipId = useId();
   const [hover, setHover] = useState<number | null>(null);
@@ -117,6 +120,20 @@ export function Histogram({
             );
           })}
         </g>
+
+        {/* marker for the value under review */}
+        {mark != null && Number.isFinite(mark) && axisMax > axisMin && (() => {
+          const mx = Math.max(
+            padX,
+            Math.min(width - padX, padX + ((mark - axisMin) / (axisMax - axisMin)) * plotW),
+          );
+          return (
+            <g pointerEvents="none">
+              <line x1={mx} x2={mx} y1={padTop} y2={padTop + plotH} stroke="#f43f5e" strokeWidth={2} strokeDasharray="4 2" />
+              <polygon points={`${mx - 5},${padTop} ${mx + 5},${padTop} ${mx},${padTop + 7}`} fill="#f43f5e" />
+            </g>
+          );
+        })()}
       </svg>
 
       {/* axis labels */}

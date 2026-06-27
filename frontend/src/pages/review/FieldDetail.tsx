@@ -31,6 +31,7 @@ import {
 } from "../../components/atoms";
 import PageViewer from "./PageViewer";
 import PipelineTrace from "./PipelineTrace";
+import OutlierDistribution from "./OutlierDistribution";
 
 function FlagRow({ flag }: { flag: Field["flags"][number] }) {
   const isError = flag.severity === "error";
@@ -234,6 +235,11 @@ export default function FieldDetail({
           </ul>
         )}
       </div>
+
+      {/* d1b) Anomaly distribution — only when this value is a statistical outlier */}
+      {field.flags.some((fl) => fl.code === "STAT_OUTLIER") && (
+        <OutlierDistribution field={field} />
+      )}
 
       {/* d2) Pipeline trace — collapsible provenance/audit view */}
       <PipelineTrace field={field} />
