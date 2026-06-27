@@ -127,6 +127,18 @@ def test_missing_value_flags_blank_required_entries():
     assert not note.flags                                  # no keyword / Soll -> not flagged
 
 
+def test_void_mark_checkbox_counts_as_unmarked():
+    from app.pipeline.validate.rules import rule_presence
+    slash = _f("Homogenisieren durchgeführt", "/"); slash.value_type = "checkbox"
+    blank = _f("Box", ""); blank.value_type = "checkbox"
+    answered = _f("Ofen erfasst", "Ja"); answered.value_type = "checkbox"
+    b = Block(chapter="", page_no=19, template="x"); b.fields = [slash, blank, answered]
+    rule_presence(b)
+    assert any(fl.code == "MISSING_CHECKMARK" for fl in slash.flags)   # '/' is a void mark
+    assert any(fl.code == "MISSING_CHECKMARK" for fl in blank.flags)
+    assert not answered.flags                                          # 'Ja' is a real answer
+
+
 # --- solution-format Condition verdict mapping ------------------------------
 
 def _flag(code, sev):

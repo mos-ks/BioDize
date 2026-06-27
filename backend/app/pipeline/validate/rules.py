@@ -219,6 +219,15 @@ def _expects_value(f: Field) -> bool:
     return bool(_EXPECTS_VALUE_KW.search(f.label_raw or ""))
 
 
+# A checkbox carrying only a void mark (a slash/dash through an empty box, etc.) is
+# NOT a real answer — the host reads these as "not checked". Treat them as unmarked.
+_VOID_MARKS = {"", "/", "\\", "-", "–", "—", ".", "·", "n/a", "-/-", "()", "[]"}
+
+
+def _checkbox_unmarked(value_raw: str | None) -> bool:
+    return (value_raw or "").strip().lower() in _VOID_MARKS
+
+
 def rule_presence(block: Block) -> list[Flag]:
     """Presence is a first-class rule: signature present, checkmark present.
     A blank Bearbeitet/Geprüft = a missing required signature; a date without a
@@ -246,10 +255,10 @@ def rule_presence(block: Block) -> list[Flag]:
                 msg = "Signature has a date but no Kürzel" if has_date else "Signature has a Kürzel but no date"
                 f.add_flag(_warn(Category.MISSING, "SIG_INCOMPLETE", msg,
                                  expected="date + Kürzel", actual=(f.value_raw or "").strip() or "(blank)"))
-        elif f.value_type == "checkbox" and not (f.value_raw or "").strip():
+        elif f.value_type == "checkbox" and _checkbox_unmarked(f.value_raw):
             f.add_flag(_err(Category.MISSING, "MISSING_CHECKMARK",
                             "Checkbox/selection has nothing marked (unanswered)",
-                            expected="a marked option", actual="none"))
+                            expected="a marked option", actual=(f.value_raw or "").strip() or "none"))
         elif _expects_value(f):
             # A blank field that clearly expects an entry (Anlagennummer, Datum,
             # a Soll-bearing value, ...) — the host marks these "Suspect / missing".
