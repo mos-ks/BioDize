@@ -10,8 +10,10 @@ from __future__ import annotations
 
 import base64
 import json
+import logging
 import os
 import re
+from concurrent.futures import ThreadPoolExecutor, as_completed
 
 from app.core.config import settings
 from app.pipeline.ingest import PageImage, render_pdf
@@ -116,30 +118,56 @@ class VlmExhaustiveExtractor:
             title=_prettify_name(source_path),
             page_count=len(pages), source_path=source_path)
 
-        # Name the experiment by its extracted identity (product + batch), not the
-        # PDF filename. Read the cover/header of the first real page.
-        first = next((p for p in pages if p.image_path and not p.is_blank), None)
-        if first:
-            self._apply_identity(doc, first.image_path)
+        non_blank = [p for p in pages if p.image_path and not p.is_blank]
+        n_total = len(pages)
+        if not non_blank:
+            return doc
 
-        n = len(pages)
-        for i, page in enumerate(pages, 1):
-            if progress:
-                progress(stage=f"Reading page {i} of {n}…", page_done=i, page_total=n)
-            if page.is_blank or not page.image_path:
-                continue
-            block = Block(chapter="", page_no=page.page_no, template="page")
-            for raw in self._read_page(page.image_path):
-                f = self._to_field(raw, page.page_no, block.key)
-                if f is not None:
-                    block.fields.append(f)
-            if block.fields:
-                doc.blocks.append(block)
+        workers = min(len(non_blank) + 1, settings.pipeline_workers)
+        blocks_by_page: dict[int, Block] = {}
+        identity_meta: dict = {}
+
+        with ThreadPoolExecutor(max_workers=workers) as ex:
+            # Identity read runs concurrently with the page reads — no wasted time
+            # waiting for it before the first page starts.
+            id_future = ex.submit(self._fetch_identity, non_blank[0].image_path)
+
+            # All pages submitted at once; completed in arrival order.
+            page_futures = {ex.submit(self._read_page, p.image_path): p for p in non_blank}
+            done = 0
+            for fut in as_completed(page_futures):
+                page = page_futures[fut]
+                done += 1
+                if progress:
+                    progress(stage=f"Reading page {page.page_no} of {n_total}…",
+                             page_done=done, page_total=len(non_blank))
+                try:
+                    raws = fut.result()
+                except Exception as exc:
+                    logging.getLogger(__name__).warning(
+                        "page %d read failed: %s", page.page_no, exc)
+                    raws = []
+                block = Block(chapter="", page_no=page.page_no, template="page")
+                for raw in raws:
+                    f = self._to_field(raw, page.page_no, block.key)
+                    if f is not None:
+                        block.fields.append(f)
+                if block.fields:
+                    blocks_by_page[page.page_no] = block
+
+            try:
+                identity_meta = id_future.result()
+            except Exception:
+                identity_meta = {}
+
+        # Apply identity metadata (main thread — safe doc mutation)
+        self._apply_identity(doc, identity_meta)
+        # Restore page order (as_completed delivers in arrival, not submission, order)
+        doc.blocks = [blocks_by_page[pno] for pno in sorted(blocks_by_page)]
         return doc
 
-    def _apply_identity(self, doc: Document, image_path: str) -> None:
-        """Set doc.title (product) and doc.doc_no (Dok-Nr · Batch) from the header,
-        so the UI names the experiment by its content, not the filename. Best-effort."""
+    def _fetch_identity(self, image_path: str) -> dict:
+        """Fetch doc identity from cover page. Returns raw dict; safe to call from a thread."""
         try:
             with open(image_path, "rb") as fh:
                 b64 = base64.b64encode(fh.read()).decode()
@@ -149,9 +177,12 @@ class VlmExhaustiveExtractor:
                 messages=[{"role": "user", "content": [
                     {"type": "text", "text": _META_PROMPT},
                     {"type": "image_url", "image_url": {"url": f"data:image/png;base64,{b64}"}}]}])
-            m = json.loads(resp.choices[0].message.content or "{}")
+            return json.loads(resp.choices[0].message.content or "{}")
         except Exception:
-            return
+            return {}
+
+    def _apply_identity(self, doc: Document, m: dict) -> None:
+        """Apply identity metadata to doc (call from main thread only)."""
         product = (m.get("product") or "").strip()
         docno = (m.get("doc_no") or "").strip()
         batch = (m.get("batch_no") or "").strip()

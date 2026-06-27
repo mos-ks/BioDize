@@ -67,6 +67,11 @@ class Settings(BaseSettings):
     zoom_conf_threshold: float = 0.6            # re-read fields read below this confidence
     zoom_max_fields: int = 80                   # safety cap on re-reads per document
 
+    # --- Parallel pipeline workers -------------------------------------------
+    # Max concurrent API calls for VLM page reading and OCR.  Increase for
+    # higher-tier API keys; lower if you hit rate-limit 429s.
+    pipeline_workers: int = 10
+
     # --- Anomaly detection (statistical outliers) ----------------------------
     # A numeric value beyond k standard deviations of its role-peers (other masses,
     # volumes, concentrations... in the record) is flagged as a STAT_OUTLIER warning.

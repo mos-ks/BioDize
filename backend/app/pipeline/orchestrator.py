@@ -7,6 +7,7 @@ from __future__ import annotations
 
 import time
 from collections.abc import Callable
+from concurrent.futures import ThreadPoolExecutor, as_completed
 from dataclasses import dataclass
 
 from sqlalchemy.orm import Session
@@ -70,12 +71,22 @@ def process(source_path: str | None, db: Session, max_pages: int | None = None,
     ocr_engine = get_ocr_engine(settings.ocr_engine)
     ocr_by_page = {}
     page_nos = sorted({f.page_no for f in doc.all_fields()})
-    for idx, page_no in enumerate(page_nos, 1):
-        img = page_images.get(page_no)
-        if img is None:
-            continue  # page not rendered (stub, or max_pages truncation) -> no geometry
-        _p(f"Locating fields — page {idx} of {len(page_nos)}…", page_done=idx, page_total=len(page_nos))
-        ocr_by_page[page_no] = ocr_engine.recognize(img, page_no)
+    renderable = [(pno, page_images[pno]) for pno in page_nos if pno in page_images]
+    if renderable:
+        workers = min(len(renderable), settings.pipeline_workers)
+        done_ocr = 0
+        with ThreadPoolExecutor(max_workers=workers) as ex:
+            futures = {ex.submit(ocr_engine.recognize, img, pno): pno
+                       for pno, img in renderable}
+            for fut in as_completed(futures):
+                pno = futures[fut]
+                done_ocr += 1
+                _p(f"Locating fields — page {done_ocr} of {len(renderable)}…",
+                   page_done=done_ocr, page_total=len(renderable))
+                try:
+                    ocr_by_page[pno] = fut.result()
+                except Exception as exc:
+                    _p(f"OCR failed page {pno}: {exc}")
     localize(doc, ocr_by_page)
     ocr_crosscheck(doc, ocr_by_page)   # ensemble: flag VLM/OCR numeric disagreements
     zoom_reread(doc, page_images)      # second look at low-conf / blank-required fields (crop+upscale+re-read)
