@@ -319,10 +319,12 @@ class App:
     # ── Mini-Tools ────────────────────────────────────────────────────────
 
     def _open_debugger(self):
-        console_popen([PY, "-B", str(SCRIPTS_DIR/"debugger.py")])
+        # Debugger is a REPL -- open via reviewer's Debugger button instead
+        self._status("Debugger: Im Pruefer oben rechts 'Debugger' klicken.")
 
     def _open_autopatch(self):
-        console_popen([PY, "-B", str(SCRIPTS_DIR/"autopatch.py")])
+        # Runs silently, opens result in Notepad automatically
+        self._run_silent("autopatch.py --warnings", "Autopatch laeuft (Notepad oeffnet sich)...")
 
     def _bulk_confirm(self):
         self._run_silent("bulk_review.py --auto-confirm", "Bestaetigt alle Felder...")

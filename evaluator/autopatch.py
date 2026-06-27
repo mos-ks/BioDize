@@ -715,8 +715,8 @@ def main() -> None:
     console.print(f"  Crops + Overviews: {CROPS_DIR}/")
 
     import subprocess as _sp
-    _sp.Popen(["notepad.exe", str(OUT_FILE)])
-    input("\n  Enter druecken zum Schliessen...")
+    _sp.Popen(["notepad.exe", str(OUT_FILE)],
+              creationflags=0x08000000)  # CREATE_NO_WINDOW
 
 
 if __name__ == "__main__":
