@@ -4,7 +4,7 @@
 // stepping through it field by field.
 
 import { useEffect, useState } from "react";
-import { ImageOff, X, ZoomIn, ZoomOut } from "lucide-react";
+import { Eye, EyeOff, ImageOff, X, ZoomIn, ZoomOut } from "lucide-react";
 import { api } from "../../api/client";
 import type { Field } from "../../api/types";
 import { AllBoxesOverlay, countBoxed } from "./AllBoxesOverlay";
@@ -24,6 +24,7 @@ export default function PageBoxesModal({
 }) {
   const [zoom, setZoom] = useState(1);
   const [imgError, setImgError] = useState(false);
+  const [showBoxes, setShowBoxes] = useState(true);
   const src = api.pageImageUrl(documentId, pageNo);
 
   // Close on Escape; lock body scroll while open.
@@ -69,6 +70,16 @@ export default function PageBoxesModal({
           </span>
         </div>
         <div className="flex items-center gap-1.5">
+          <button
+            type="button"
+            onClick={() => setShowBoxes((v) => !v)}
+            aria-label={showBoxes ? "Hide detections" : "Show detections"}
+            aria-pressed={showBoxes}
+            title={showBoxes ? "Hide detections" : "Show detections"}
+            className="inline-flex h-9 w-9 items-center justify-center rounded-lg bg-white/10 text-white transition-colors hover:bg-white/20 focus:outline-none focus-visible:ring-2 focus-visible:ring-white/50"
+          >
+            {showBoxes ? <Eye className="h-5 w-5" /> : <EyeOff className="h-5 w-5" />}
+          </button>
           <button
             type="button"
             onClick={() => setZoom((z) => [...ZOOM_STEPS].reverse().find((s) => s < z) ?? z)}
@@ -131,7 +142,7 @@ export default function PageBoxesModal({
                 onError={() => setImgError(true)}
               />
             )}
-            {!imgError && <AllBoxesOverlay fields={fields} currentFieldId="" />}
+            {!imgError && showBoxes && <AllBoxesOverlay fields={fields} currentFieldId="" />}
           </div>
         </div>
       </div>
