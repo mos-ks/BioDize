@@ -255,7 +255,14 @@ def rule_presence(block: Block) -> list[Flag]:
                 f.add_flag(_err(Category.MISSING, "MISSING_CHECKMARK",
                                 "Deviation row left unanswered (no option marked)",
                                 expected="a marked option", actual="none"))
-    if any("keine anwendung" in (f.value_raw or "").lower() for f in block.fields):
+    # "...findet keine Anwendung" marks a section N/A only as a NEGATIVE answer
+    # ("Nein, ... keine Anwendung"). The same phrase inside a "Ja, ..." option or a
+    # broken cross-reference must NOT N/A an otherwise-active page, or blank required
+    # boxes (e.g. an unmarked confirmation checkbox) get silently suppressed.
+    def _is_na(v: str | None) -> bool:
+        v = (v or "").strip().lower()
+        return "keine anwendung" in v and not v.startswith("ja")
+    if any(_is_na(f.value_raw) for f in block.fields):
         return []
     # Roles already satisfied by a SIGNED signature in this block, and how many of each
     # role the block carries. When an equipment table holds ONE section signature but
