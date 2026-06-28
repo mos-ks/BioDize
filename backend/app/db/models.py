@@ -58,6 +58,20 @@ class Page(Base):
     has_kreuzung: Mapped[bool] = mapped_column(Boolean, default=False)
 
     document: Mapped[Document] = relationship(back_populates="pages")
+    # Rendered PNG bytes (lazy), so scans load fast after a restart without
+    # re-rendering on a constrained instance — and persist with a persistent DB.
+    image_blob: Mapped["PageImage | None"] = relationship(
+        back_populates="page", cascade="all, delete-orphan", uselist=False)
+
+
+class PageImage(Base):
+    """The rendered page PNG, cached in the DB so scans are fast and survive a restart."""
+    __tablename__ = "page_images"
+
+    page_id: Mapped[str] = mapped_column(ForeignKey("pages.id"), primary_key=True)
+    data: Mapped[bytes] = mapped_column(LargeBinary)
+
+    page: Mapped["Page"] = relationship(back_populates="image_blob")
 
 
 class DocumentPdf(Base):

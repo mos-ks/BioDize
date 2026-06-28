@@ -1,7 +1,9 @@
 """Persist a processed pipeline Document into the database."""
 from __future__ import annotations
 
+import os
 from datetime import date, datetime, time
+from pathlib import Path
 
 from sqlalchemy.orm import Session
 
@@ -34,7 +36,16 @@ def persist(doc: Document, db: Session, page_images: dict[int, str] | None = Non
     db.flush()
 
     for page_no in sorted({f.page_no for f in doc.all_fields()}):
-        db.add(models.Page(document_id=row.id, page_no=page_no, image_path=page_images.get(page_no)))
+        img_path = page_images.get(page_no)
+        pg = models.Page(document_id=row.id, page_no=page_no, image_path=img_path)
+        db.add(pg)
+        db.flush()
+        # Cache the rendered PNG in the DB so scans are fast + persist (no re-render).
+        if img_path and os.path.exists(img_path):
+            try:
+                db.add(models.PageImage(page_id=pg.id, data=Path(img_path).read_bytes()))
+            except OSError:
+                pass
 
     for block in doc.blocks:
         for fld in block.fields:

@@ -34,6 +34,18 @@ for module in (documents, fields, flags, pages, stats, export):
     app.include_router(module.router, prefix=settings.api_prefix)
 
 
+@app.on_event("startup")
+def _warm_page_cache() -> None:
+    """After a restart the on-disk image cache is gone; render+cache page scans from
+    the stored PDFs once, in the background, so scans are fast on first view (only
+    does work when a persistent DB kept the PDFs but not the images)."""
+    import threading
+
+    from app.api.routes.pages import backfill_page_blobs
+
+    threading.Thread(target=backfill_page_blobs, daemon=True).start()
+
+
 @app.get("/")
 def root() -> dict:
     return {"name": settings.app_name, "docs": "/docs", "api": settings.api_prefix}
