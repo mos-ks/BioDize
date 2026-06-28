@@ -32,6 +32,12 @@ jobs:
 
       - name: Build for GitHub Pages
         working-directory: frontend
+        env:
+          # Backend URL baked into the static build so visitors auto-connect with
+          # no setup. Set it in repo Settings → Secrets and variables → Actions →
+          # Variables → VITE_API_BASE (e.g. the Render URL, or the tunnel interim).
+          # Empty = users still configure at runtime via the gear or go.html?api=…
+          VITE_API_BASE: ${{ vars.VITE_API_BASE }}
         run: npx vite build --config vite.config.pages.ts
 
       - name: Add SPA 404 fallback
