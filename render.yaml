@@ -14,10 +14,11 @@ services:
       - key: OCR_ENGINE
         value: mistral
       - key: OPENAI_MODEL
-        value: gpt-5            # set your exact GPT-5.x id
+        value: gpt-5.5          # exact vision model id (override in the dashboard if it changes)
       - key: OPENAI_API_KEY
         sync: false             # set in dashboard
       - key: MISTRAL_API_KEY
         sync: false             # set in dashboard
       - key: DATABASE_URL
-        sync: false             # set to your Supabase Postgres URL for persistence
+        value: sqlite:///./biodize.db   # local SQLite (ephemeral, fine per session);
+                                        # set a Supabase Postgres URL here for persistence
