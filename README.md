@@ -24,7 +24,7 @@
 That's the whole flow: **open the link → upload → review.** The green dot (top‑right) shows the
 backend is connected; click it to run a health check.
 
-🎥 **Demo video:** [`BioDize.mp4`](BioDize.mp4)
+🎥 **Demo video:** [`BioDize_v2.mp4`](BioDize_v2.mp4)
 
 ---
 
