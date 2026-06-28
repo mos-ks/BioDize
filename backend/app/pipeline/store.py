@@ -21,7 +21,8 @@ def _to_str(value) -> str | None:
     return str(value)
 
 
-def persist(doc: Document, db: Session, page_images: dict[int, str] | None = None) -> str:
+def persist(doc: Document, db: Session, page_images: dict[int, str] | None = None,
+            source_pdf: bytes | None = None) -> str:
     page_images = page_images or {}
     row = models.Document(
         doc_no=doc.doc_no, title=doc.title, rev=doc.rev, project_code=doc.project_code,
@@ -59,6 +60,11 @@ def persist(doc: Document, db: Session, page_images: dict[int, str] | None = Non
                     category=fl.category.value, code=fl.code, message=fl.message,
                     expected=fl.expected, actual=fl.actual,
                 ))
+
+    # Keep the source PDF so page scans can be re-rendered after the image cache is
+    # wiped (only with a persistent DB; harmless extra row otherwise).
+    if source_pdf:
+        db.add(models.DocumentPdf(document_id=row.id, data=source_pdf))
 
     db.commit()
     return row.id

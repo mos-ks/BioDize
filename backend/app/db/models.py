@@ -8,7 +8,7 @@ from __future__ import annotations
 import uuid
 from datetime import datetime, timezone
 
-from sqlalchemy import JSON, Boolean, DateTime, Float, ForeignKey, Integer, String, Text
+from sqlalchemy import JSON, Boolean, DateTime, Float, ForeignKey, Integer, LargeBinary, String, Text
 from sqlalchemy.orm import Mapped, mapped_column, relationship
 
 from app.db.base import Base
@@ -41,6 +41,10 @@ class Document(Base):
 
     pages: Mapped[list["Page"]] = relationship(back_populates="document", cascade="all, delete-orphan")
     fields: Mapped[list["Field"]] = relationship(back_populates="document", cascade="all, delete-orphan")
+    # The original PDF bytes (lazy-loaded), kept so page images can be re-rendered on
+    # demand after the ephemeral image cache is wiped (e.g. a cloud restart).
+    source_pdf: Mapped["DocumentPdf | None"] = relationship(
+        back_populates="document", cascade="all, delete-orphan", uselist=False)
 
 
 class Page(Base):
@@ -54,6 +58,18 @@ class Page(Base):
     has_kreuzung: Mapped[bool] = mapped_column(Boolean, default=False)
 
     document: Mapped[Document] = relationship(back_populates="pages")
+
+
+class DocumentPdf(Base):
+    """Original source PDF, stored so page scans survive a restart: with a persistent
+    DB (Postgres) the bytes outlive the ephemeral image cache, and the pages route
+    re-renders any missing page from here on demand."""
+    __tablename__ = "document_pdfs"
+
+    document_id: Mapped[str] = mapped_column(ForeignKey("documents.id"), primary_key=True)
+    data: Mapped[bytes] = mapped_column(LargeBinary)
+
+    document: Mapped[Document] = relationship(back_populates="source_pdf")
 
 
 class Field(Base):

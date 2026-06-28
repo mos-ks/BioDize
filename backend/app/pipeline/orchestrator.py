@@ -9,6 +9,7 @@ import time
 from collections.abc import Callable
 from concurrent.futures import ThreadPoolExecutor, as_completed
 from dataclasses import dataclass
+from pathlib import Path
 
 from sqlalchemy.orm import Session
 
@@ -52,9 +53,14 @@ def process(source_path: str | None, db: Session, max_pages: int | None = None,
 
     # 0. Render the PDF ONCE; share the page images with the reader and the OCR layer.
     page_images: dict[int, str] = {}
+    source_pdf: bytes | None = None
     pages = None
     if source_path and extractor_name != "stub":
         _p("Rendering PDF…")
+        try:
+            source_pdf = Path(source_path).read_bytes()   # kept so scans survive a restart
+        except OSError:
+            source_pdf = None
         pages = render_pdf(source_path).pages
         if max_pages:
             pages = pages[:max_pages]          # cheap first run: limit model calls
@@ -102,7 +108,7 @@ def process(source_path: str | None, db: Session, max_pages: int | None = None,
 
     # 6. Persist (with page-image paths so the review UI can serve them).
     _p("Saving…")
-    document_id = store.persist(doc, db, page_images)
+    document_id = store.persist(doc, db, page_images, source_pdf=source_pdf)
     history.record(doc, db, document_id)  # append this record's values to the history
 
     # Record how long generating this batch took (shown on the landing page).
