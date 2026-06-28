@@ -16,12 +16,12 @@ is a remote API — so a free instance is plenty (no GPU).
 ## 1. Backend → Render (one-time, ~5 min)
 
 [Render](https://render.com) is a cloud host that runs your Docker container and
-gives it a public HTTPS URL. It reads [`backend/render.yaml`](backend/render.yaml)
+gives it a public HTTPS URL. It reads [`render.yaml`](render.yaml)
 and redeploys automatically on every push.
 
 1. Create a **free** account at render.com (sign in with GitHub).
 2. **New → Blueprint** → connect the `mos-ks/BioDize` repo. Render finds
-   `backend/render.yaml` and proposes the `biodize-backend` web service.
+   `render.yaml` (repo root) and proposes the `biodize-backend` web service.
 3. Set the secret env vars in the dashboard (the keys never go in git):
    - `OPENAI_API_KEY` — your OpenAI key
    - `MISTRAL_API_KEY` — your Mistral key
