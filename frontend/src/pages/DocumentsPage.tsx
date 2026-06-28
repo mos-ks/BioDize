@@ -392,8 +392,13 @@ export default function DocumentsPage() {
   });
 
   const deleteAction = useAsyncAction(async (id: string) => {
-    await api.deleteDocument(id);
-    reload();
+    try {
+      await api.deleteDocument(id);
+      reload();
+    } catch (e: any) {
+      window.alert(`Delete failed: ${e?.message ?? e}`);
+      throw e;
+    }
   });
 
   function onDeleteDoc(doc: DocumentSummary) {

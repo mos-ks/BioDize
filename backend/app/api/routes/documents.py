@@ -142,6 +142,15 @@ def delete_document(document_id: str, db: Session = Depends(get_db)) -> dict:
     doc = db.get(models.Document, document_id)
     if not doc:
         raise HTTPException(404, "document not found")
+    # Bulk-drop the heavy image/PDF blobs first so the ORM cascade doesn't load
+    # ~10MB into memory just to delete it (slow / OOM-prone on a small instance).
+    page_ids = [r[0] for r in db.query(models.Page.id)
+                .filter(models.Page.document_id == document_id).all()]
+    if page_ids:
+        db.query(models.PageImage).filter(
+            models.PageImage.page_id.in_(page_ids)).delete(synchronize_session=False)
+    db.query(models.DocumentPdf).filter(
+        models.DocumentPdf.document_id == document_id).delete(synchronize_session=False)
     db.delete(doc)
     db.commit()
     return {"deleted": document_id}
