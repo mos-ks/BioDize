@@ -4,6 +4,7 @@ uvicorn[standard]>=0.29
 pydantic>=2.6
 pydantic-settings>=2.2
 sqlalchemy>=2.0
+psycopg2-binary>=2.9        # Postgres driver — set DATABASE_URL to a Supabase/Postgres URL to PERSIST data across restarts
 python-multipart>=0.0.9      # file upload
 openpyxl>=3.1               # Excel export
 
