@@ -46,7 +46,9 @@ def console_popen(cmd, cwd=None):
         creationflags=subprocess.CREATE_NEW_CONSOLE,
     )
 
-def api_get(path, base="http://localhost:8000"):
+REMOTE_BACKEND = "https://rich-nil-civic-glance.trycloudflare.com"
+
+def api_get(path, base=REMOTE_BACKEND):
     try:
         with urllib.request.urlopen(base + path, timeout=3) as r:
             return json.loads(r.read())
@@ -265,9 +267,10 @@ class App:
                     urllib.request.urlopen(f"http://localhost:{p}", timeout=1)
                     port = p; break
                 except: pass
+            go_url = f"http://localhost:{port}/go.html?api={REMOTE_BACKEND}"
             self.root.after(0, lambda: (
-                self._status(f"App laeuft  localhost:{port}"),
-                webbrowser.open(f"http://localhost:{port}/go.html")))
+                self._status(f"App laeuft  localhost:{port}  ->  {REMOTE_BACKEND}"),
+                webbrowser.open(go_url)))
         threading.Thread(target=_bg, daemon=True).start()
 
     # ── Schritt 2: Daten ──────────────────────────────────────────────────

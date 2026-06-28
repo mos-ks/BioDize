@@ -40,7 +40,7 @@ except ImportError:
 import urllib.request, urllib.error
 
 console = Console(force_terminal=True)
-BASE = "https://que-ppm-tel-nascar.trycloudflare.com"
+BASE = "https://rich-nil-civic-glance.trycloudflare.com"
 
 
 def api(method: str, path: str, body: dict | None = None) -> dict | list | None:
