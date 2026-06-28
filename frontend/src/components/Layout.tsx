@@ -1,10 +1,10 @@
-// App shell: top bar with brand, live backend/health indicator, and a runtime
-// API-base settings dialog (so the static build retargets without a rebuild).
+// App shell: top bar with brand, a live backend health LED, and a read-only
+// "Test backend" dialog (the backend URL is fixed at build time — not editable).
 
 import { useEffect, useState } from "react";
 import { Link, useLocation } from "react-router-dom";
-import { Activity, Check, Gauge, RotateCcw, Server, Settings2, X } from "lucide-react";
-import { api, defaultApiBase, getApiBase, resetApiBase, setApiBase } from "../api/client";
+import { Activity, Check, Gauge, Server, X } from "lucide-react";
+import { api, getApiBase } from "../api/client";
 import type { Health } from "../api/types";
 import { classNames, isSimulatedDoc } from "../lib/ui";
 import { Spinner } from "./atoms";
@@ -48,17 +48,16 @@ function HealthDot({ health, loading, error }: { health: Health | null; loading:
   );
 }
 
-function ApiSettings({ onClose }: { onClose: () => void }) {
-  const [value, setValue] = useState(getApiBase());
+function TestBackend({ onClose }: { onClose: () => void }) {
+  const base = getApiBase();
   const [testing, setTesting] = useState(false);
   const [result, setResult] = useState<{ ok: boolean; msg: string } | null>(null);
 
-  async function test(base?: string) {
-    const target = (base ?? value).replace(/\/+$/, "");
+  async function test() {
     setTesting(true);
     setResult(null);
     try {
-      const res = await fetch(`${target}/health`, { headers: { Accept: "application/json" } });
+      const res = await fetch(`${base}/health`, { headers: { Accept: "application/json" } });
       if (!res.ok) throw new Error(`HTTP ${res.status}`);
       const h = (await res.json()) as Health;
       setResult({ ok: true, msg: `Connected · extractor=${h.extractor} · ocr=${h.ocr_engine} · db=${h.db}` });
@@ -69,15 +68,11 @@ function ApiSettings({ onClose }: { onClose: () => void }) {
     }
   }
 
-  function save() {
-    setApiBase(value);
-    window.location.reload();
-  }
-  function reset() {
-    resetApiBase();
-    setValue(defaultApiBase());
-    window.location.reload();
-  }
+  // Run the health check automatically when the dialog opens.
+  useEffect(() => {
+    test();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   return (
     <div className="fixed inset-0 z-50 flex items-start justify-center bg-slate-900/30 p-4 backdrop-blur-sm" onClick={onClose}>
@@ -87,26 +82,16 @@ function ApiSettings({ onClose }: { onClose: () => void }) {
       >
         <div className="flex items-center justify-between">
           <h2 className="flex items-center gap-2 text-base font-semibold text-slate-800">
-            <Server className="h-4 w-4 text-brand-600" /> Backend API
+            <Server className="h-4 w-4 text-brand-600" /> Backend
           </h2>
           <button onClick={onClose} className="rounded-lg p-1.5 text-slate-400 hover:bg-slate-100 hover:text-slate-600">
             <X className="h-4 w-4" />
           </button>
         </div>
-        <p className="mt-1 text-sm text-slate-500">
-          Point the app at any BioDize backend. Saved to this browser — no rebuild needed.
-        </p>
-
-        <label className="mt-4 block text-xs font-semibold uppercase tracking-wide text-slate-400">Base URL</label>
-        <input
-          className="input mt-1 font-mono text-[13px]"
-          value={value}
-          spellCheck={false}
-          autoFocus
-          onChange={(e) => setValue(e.target.value)}
-          placeholder="https://api.biodize.tech"
-          onKeyDown={(e) => e.key === "Enter" && test()}
-        />
+        <p className="mt-1 text-sm text-slate-500">This build is wired to a fixed backend:</p>
+        <div className="mt-2 break-all rounded-lg bg-slate-50 px-3 py-2 font-mono text-[13px] text-slate-700 ring-1 ring-inset ring-slate-200">
+          {base || "(not configured)"}
+        </div>
 
         {result && (
           <div
@@ -120,18 +105,10 @@ function ApiSettings({ onClose }: { onClose: () => void }) {
           </div>
         )}
 
-        <div className="mt-5 flex items-center justify-between">
-          <button onClick={reset} className="btn-ghost text-xs">
-            <RotateCcw className="h-3.5 w-3.5" /> Reset to default
+        <div className="mt-5 flex justify-end">
+          <button onClick={test} className="btn-primary" disabled={testing}>
+            {testing ? <Spinner /> : <Activity className="h-4 w-4" />} Test backend
           </button>
-          <div className="flex gap-2">
-            <button onClick={() => test()} className="btn-secondary" disabled={testing}>
-              {testing ? <Spinner /> : <Activity className="h-4 w-4" />} Test
-            </button>
-            <button onClick={save} className="btn-primary">
-              <Check className="h-4 w-4" /> Save &amp; reload
-            </button>
-          </div>
         </div>
       </div>
     </div>
@@ -209,15 +186,15 @@ export default function Layout({ children }: { children: React.ReactNode }) {
               loading
                 ? "Checking backend…"
                 : error
-                  ? "Backend unreachable — click to configure"
+                  ? "Backend unreachable — click to test"
                   : health
                     ? `Connected · ${shortBase} · ${health.extractor} · ${health.ocr_engine}`
-                    : "Backend settings"
+                    : "Test backend"
             }
-            aria-label="Backend settings"
+            aria-label="Test backend"
           >
               <HealthDot health={health} loading={loading} error={error} />
-              <Settings2 className="h-4 w-4 text-slate-400 group-hover:text-slate-600" />
+              <Activity className="h-4 w-4 text-slate-400 group-hover:text-slate-600" />
             </button>
           </div>
         </div>
@@ -232,7 +209,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
         </div>
       </footer>
 
-      {open && <ApiSettings onClose={() => setOpen(false)} />}
+      {open && <TestBackend onClose={() => setOpen(false)} />}
       {evalOpen && evalId && <EvalModal documentId={evalId} onClose={() => setEvalOpen(false)} />}
     </div>
   );

@@ -1,9 +1,8 @@
 // Typed client for the BioDize FastAPI backend.
 //
-// The base URL is runtime-configurable (so the same static build works against
-// the local server, a Cloudflare tunnel, or api.biodize.tech): it reads from
-// localStorage first, then VITE_API_BASE, then a baked-in default. Change it at
-// runtime with `setApiBase()` (the in-app gear settings) — no rebuild needed.
+// The backend URL is FIXED at build time via VITE_API_BASE (a repo variable for the
+// GitHub Pages deploy). It is not user-overridable, so a stale value in one browser
+// can never repoint the app at the wrong backend.
 
 import type {
   AnnotationInput,
@@ -19,37 +18,16 @@ import type {
   ProcessResult,
 } from "./types";
 
-const LS_KEY = "biodize_api_base";
-
-const DEFAULT_API_BASE =
+const API_BASE =
   (import.meta.env.VITE_API_BASE && import.meta.env.VITE_API_BASE.trim()) ||
-  "";
+  "https://biodize-backend.onrender.com";
 
 function clean(base: string): string {
   return base.trim().replace(/\/+$/, "");
 }
 
 export function getApiBase(): string {
-  if (typeof localStorage !== "undefined") {
-    const saved = localStorage.getItem(LS_KEY);
-    if (saved && saved.trim()) return clean(saved);
-  }
-  return clean(DEFAULT_API_BASE);
-}
-
-export function setApiBase(base: string): void {
-  if (typeof localStorage === "undefined") return;
-  const v = clean(base);
-  if (v) localStorage.setItem(LS_KEY, v);
-  else localStorage.removeItem(LS_KEY);
-}
-
-export function resetApiBase(): void {
-  if (typeof localStorage !== "undefined") localStorage.removeItem(LS_KEY);
-}
-
-export function defaultApiBase(): string {
-  return clean(DEFAULT_API_BASE);
+  return clean(API_BASE);
 }
 
 export class ApiError extends Error {
