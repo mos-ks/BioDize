@@ -156,9 +156,14 @@ def zoom_reread(doc: Document, page_images: dict[int, str]) -> Document:
             conf = 0.7
         was_blank = not (f.value_raw or "").strip()
         was_stray = _kuerzel_stray(f, roster)          # original Kürzel matched no signer
-        # accept the zoom value when it filled a blank, beat the original confidence,
-        # or replaced a stray Kürzel (which can't be worse than matching no signer).
-        if val and (was_blank or was_stray or conf >= _read_conf(f)):
+        # A blank CHECKBOX is NEVER "recovered" to a mark from a crop: the cropped box
+        # loses the empty-circle / option context and the VLM defaults to 'Ja', which
+        # would overwrite a correctly-read EMPTY box and hide a MISSING_CHECKMARK. Keep
+        # the original full-page read that saw it unmarked (it goes to review instead).
+        blank_checkbox = was_blank and f.value_type == "checkbox"
+        # accept the zoom value when it filled a (non-checkbox) blank, beat the original
+        # confidence, or replaced a stray Kürzel (can't be worse than matching no signer).
+        if val and not blank_checkbox and (was_blank or was_stray or conf >= _read_conf(f)):
             # a signature re-read is only useful if it's a COMPLETE 'date / Kürzel';
             # a partial read just swaps one warning for another, so keep the original.
             if _looks_like_signature(f) and not _complete_signature(val):
