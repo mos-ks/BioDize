@@ -137,6 +137,8 @@ export interface Health {
   extractor: string;
   ocr_engine: string;
   db: string;
+  /** Whether the gold set is present on the server (gates the Eval AI feature). */
+  ground_truth?: boolean;
 }
 
 export interface CorrectionInput {

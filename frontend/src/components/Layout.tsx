@@ -171,7 +171,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
         <div className="mx-auto flex h-16 max-w-[1500px] items-center justify-between gap-4 px-4 sm:px-6">
           <Brand />
           <div className="flex items-center gap-2">
-            {evalId && (
+            {evalId && health?.ground_truth && (
               <button
                 type="button"
                 onClick={() => setEvalOpen(true)}
