@@ -223,9 +223,17 @@ def _expects_value(f: Field) -> bool:
 # NOT a real answer — the host reads these as "not checked". Treat them as unmarked.
 _VOID_MARKS = {"", "/", "\\", "-", "–", "—", ".", "·", "n/a", "-/-", "()", "[]"}
 
+# An EMPTY box/circle glyph the reader transcribed in front of the option label
+# ("O Ja", "○ 931", "□ Nein") means the option is shown but NOT ticked — the host
+# reads it as "not checked". Filled marks (●, ☑, ⊠, ✓, x) are deliberately excluded.
+_EMPTY_BOX_OPTION = re.compile(r"^[oO0○◯Ｏ□☐]\s+\S")
+
 
 def _checkbox_unmarked(value_raw: str | None) -> bool:
-    return (value_raw or "").strip().lower() in _VOID_MARKS
+    v = (value_raw or "").strip()
+    if v.lower() in _VOID_MARKS:
+        return True
+    return bool(_EMPTY_BOX_OPTION.match(v))
 
 
 def rule_presence(block: Block) -> list[Flag]:
@@ -235,6 +243,18 @@ def rule_presence(block: Block) -> list[Flag]:
     = an unanswered question (missing data). Use-case, not OCR — the exact
     initials are irrelevant (4-eyes handles same-vs-different). Skipped when the
     chapter is marked 'findet keine Anwendung' (N/A), where blanks are expected."""
+    # Deviation table: each "Weitere Abweichungen" row must carry an answer. When the
+    # table has ACTIVE deviations (some row = "Ja"), a blank row checkbox is a real
+    # missing answer the host marks Suspect/missing — flag it even though another row
+    # says "...keine Anwendung" (that phrase only N/As its OWN row, not the table).
+    dev = [f for f in block.fields
+           if f.value_type == "checkbox" and "abweichung" in (f.label_raw or "").lower()]
+    if any((f.value_raw or "").strip().lower().startswith("ja") for f in dev):
+        for f in dev:
+            if not (f.value_raw or "").strip():
+                f.add_flag(_err(Category.MISSING, "MISSING_CHECKMARK",
+                                "Deviation row left unanswered (no option marked)",
+                                expected="a marked option", actual="none"))
     if any("keine anwendung" in (f.value_raw or "").lower() for f in block.fields):
         return []
     # Roles already satisfied by a SIGNED signature in this block. When an equipment
@@ -455,6 +475,40 @@ def rule_end_after_start(block: Block) -> list[Flag]:
             and isinstance(start.value, (datetime, date, time)) and end.value <= start.value):
         end.add_flag(_err(Category.TEMPORAL, "TIME_END_AFTER_START",
                           "End timestamp is not after start", expected=f"> {start.value}", actual=str(end.value)))
+    return []
+
+
+def _clock_minutes(f: "Field") -> int | None:
+    """Minutes-since-midnight for a parsed clock time, else None."""
+    return f.value.hour * 60 + f.value.minute if isinstance(f.value, time) else None
+
+
+def rule_duration(block: Block) -> list[Flag]:
+    """A recorded elapsed time must equal Ende - Start. Forms log a Start time, an
+    Ende time and the 'tatsächliche' (or 'Dauer') elapsed time — e.g. a
+    Prozessverzögerung of 11:27 -> 12:27 is 1:00, so a recorded 2:00 is a
+    calculation error the host marks 'value does not fit calculation'. Only fires
+    when all three clock times are present, so a blank/NA section is untouched."""
+    def pick(*keys):
+        for f in block.fields:
+            lab = (f.label_raw or "").lower()
+            if isinstance(f.value, time) and any(k in lab for k in keys):
+                return f
+        return None
+    start, end = pick("start"), pick("ende", "end")
+    dur = pick("tatsächlich", "tatsachlich", "dauer", "verzögerung gesamt")
+    if not (start and end and dur) or dur in (start, end):
+        return []
+    expected = _clock_minutes(end) - _clock_minutes(start)
+    if expected < 0:
+        expected += 24 * 60                     # crossed midnight
+    actual = _clock_minutes(dur)
+    if abs(actual - expected) > 1:              # 1-min tolerance for rounding
+        eh, em = divmod(expected, 60)
+        dur.add_flag(_err(Category.CALCULATION, "CALC_DURATION",
+                          f"recorded {dur.value_raw} but Ende - Start = "
+                          f"{end.value_raw} - {start.value_raw} = {eh}:{em:02d}",
+                          expected=f"{eh}:{em:02d}", actual=dur.value_raw))
     return []
 
 
@@ -718,4 +772,4 @@ def rule_crossed_out(field: Field) -> list[Flag]:
 # --- registries -------------------------------------------------------------
 
 FIELD_RULES = [rule_date_format, rule_time_format, rule_nks, rule_range, rule_formula, rule_crossed_out]
-BLOCK_RULES = [rule_net_mass, rule_volume, rule_cross_formula, rule_four_eyes, rule_end_after_start, rule_presence]
+BLOCK_RULES = [rule_net_mass, rule_volume, rule_cross_formula, rule_four_eyes, rule_end_after_start, rule_duration, rule_presence]
