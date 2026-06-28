@@ -13,6 +13,12 @@ services:
         value: openai
       - key: OCR_ENGINE
         value: mistral
+      - key: PIPELINE_WORKERS
+        value: "4"            # small instances: fewer concurrent model reads so the first
+                              # burst doesn't drop pages (and the cover identity read) under
+                              # memory/connection pressure on a 512MB box
+      - key: RENDER_DPI
+        value: "150"          # lighter page renders -> less memory on a 512MB instance
       - key: OPENAI_MODEL
         value: gpt-5.5          # exact vision model id (override in the dashboard if it changes)
       - key: OPENAI_API_KEY

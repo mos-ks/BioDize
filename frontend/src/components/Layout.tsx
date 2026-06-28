@@ -10,8 +10,11 @@ import { classNames, isSimulatedDoc } from "../lib/ui";
 import { Spinner } from "./atoms";
 import EvalModal from "../pages/review/EvalModal";
 
-// The official BioDize logo (public/logo.png if present, else the logo.svg export).
-const LOGO_SOURCES = ["/logo.png", "/logo.svg"];
+// The official BioDize logo. Resolve against the deploy base (BASE_URL is "/BioDize/"
+// on GitHub Pages, "/" in dev) so the mark loads under a sub-path host, not only the
+// domain root. logo.png if present, else the logo.svg export.
+const LOGO_BASE = import.meta.env.BASE_URL;
+const LOGO_SOURCES = [`${LOGO_BASE}logo.png`, `${LOGO_BASE}logo.svg`];
 
 function Brand() {
   const [srcIdx, setSrcIdx] = useState(0);

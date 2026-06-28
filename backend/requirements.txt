@@ -7,8 +7,9 @@ sqlalchemy>=2.0
 python-multipart>=0.0.9      # file upload
 openpyxl>=3.1               # Excel export
 
-# --- PDF render (CPU only) ---
+# --- PDF render + image crops (CPU only) ---
 PyMuPDF>=1.24
+Pillow>=10.0               # zoom re-read crops/upscales low-confidence regions
 
 # --- cloud model providers (only needed when EXTRACTOR/OCR != stub) ---
 openai>=1.30               # OpenAI vision read (or OpenAI-compatible / vLLM via base_url)
