@@ -1,0 +1,131 @@
+{
+  "name": "biodize",
+  "version": "1.0.0",
+  "description": "BioDize — AI-powered digitization of handwritten pharma batch records",
+  "main": "main.js",
+  "author": "mferuscomelo",
+  "license": "MIT",
+  "private": true,
+  "scripts": {
+    "start": "electron .",
+    "dist:win:x64":   "electron-builder --win   --x64",
+    "dist:win:arm64": "electron-builder --win   --arm64",
+    "dist:linux":     "electron-builder --linux",
+    "dist:mac":       "electron-builder --mac"
+  },
+  "dependencies": {
+    "electron-updater": "^6.3.0"
+  },
+  "devDependencies": {
+    "electron":         "^33.0.0",
+    "electron-builder": "^25.1.0",
+    "cross-env":        "^7.0.3"
+  },
+  "build": {
+    "appId":       "com.biodize.app",
+    "productName": "BioDize",
+    "copyright":   "Copyright © 2026 BioDize",
+
+    "directories": {
+      "output":         "dist",
+      "buildResources": "build"
+    },
+
+    "files": [
+      "main.js",
+      "preload.js",
+      "loading.html",
+      "build/icon.png",
+      "package.json"
+    ],
+
+    "extraResources": [
+      {
+        "from":   "../dist-backend/biodize-backend",
+        "to":     "backend",
+        "filter": ["**/*"]
+      },
+      {
+        "from":   "../dist-frontend",
+        "to":     "frontend",
+        "filter": ["**/*"]
+      },
+      {
+        "from":   "../data/scanned_batch_documentation.pdf",
+        "to":     "data/scanned_batch_documentation.pdf"
+      }
+    ],
+
+    "publish": [
+      {
+        "provider":    "github",
+        "owner":       "mferuscomelo",
+        "repo":        "biodize",
+        "releaseType": "release"
+      }
+    ],
+
+    "win": {
+      "target": [
+        { "target": "nsis", "arch": ["x64"]   },
+        { "target": "nsis", "arch": ["arm64"] }
+      ],
+      "icon":                   "build/icon.ico",
+      "artifactName":           "BioDize-Setup-${version}-windows-${arch}.exe",
+      "signingHashAlgorithms":  null,
+      "sign":                   null
+    },
+    "nsis": {
+      "oneClick":                         false,
+      "perMachine":                       false,
+      "allowElevation":                   true,
+      "allowToChangeInstallationDirectory": true,
+      "createDesktopShortcut":            true,
+      "createStartMenuShortcut":          true,
+      "shortcutName":                     "BioDize",
+      "installerIcon":                    "build/icon.ico",
+      "uninstallerIcon":                  "build/icon.ico",
+      "installerHeaderIcon":              "build/icon.ico",
+      "license":                          "../LICENSE",
+      "warningsAsErrors":                 false
+    },
+
+    "linux": {
+      "target": [
+        { "target": "AppImage", "arch": ["x64", "arm64"] },
+        { "target": "deb",      "arch": ["x64"] }
+      ],
+      "icon":          "build/icon.png",
+      "category":      "Science",
+      "artifactName":  "BioDize-${version}-linux-${arch}.${ext}",
+      "desktop": {
+        "Name":       "BioDize",
+        "Comment":    "AI-powered pharma batch record digitization",
+        "Categories": "Science;MedicalSoftware;"
+      }
+    },
+
+    "deb": {
+      "depends": ["libgtk-3-0", "libnotify4", "libnss3", "libxss1",
+                  "libxtst6", "xdg-utils", "libatspi2.0-0", "libdrm2",
+                  "libgbm1", "libxcb-dri3-0"]
+    },
+
+    "mac": {
+      "target": [
+        { "target": "dmg", "arch": ["x64", "arm64"] }
+      ],
+      "icon":               "build/icon.icns",
+      "category":           "public.app-category.productivity",
+      "artifactName":       "BioDize-${version}-mac-${arch}.${ext}",
+      "entitlements":       "build/entitlements.mac.plist",
+      "entitlementsInherit":"build/entitlements.mac.plist",
+      "hardenedRuntime":    true,
+      "gatekeeperAssess":   false,
+      "sign":               null
+    },
+    "dmg": {
+      "title": "BioDize ${version}"
+    }
+  }
+}

@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN"
+  "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+  <!-- Allow spawning the frozen Python backend (unsigned dylibs / executables) -->
+  <key>com.apple.security.cs.disable-library-validation</key>
+  <true/>
+  <!-- Required when the subprocess itself loads unsigned code -->
+  <key>com.apple.security.cs.allow-unsigned-executable-memory</key>
+  <true/>
+  <!-- Outbound network for API calls (cloud OCR, auto-updater) -->
+  <key>com.apple.security.network.client</key>
+  <true/>
+  <!-- Localhost server socket (frontend static server + backend) -->
+  <key>com.apple.security.network.server</key>
+  <true/>
+  <!-- File access for reading uploaded PDFs -->
+  <key>com.apple.security.files.user-selected.read-only</key>
+  <true/>
+</dict>
+</plist>

@@ -1,0 +1,288 @@
+name: Build Installer
+
+# Triggers:
+#   • push of a version tag  (v1.0.0, v1.2.3-beta …)
+#   • manual dispatch from the Actions tab (useful for testing)
+on:
+  push:
+    tags:
+      - 'v[0-9]*'
+  workflow_dispatch:
+    inputs:
+      draft:
+        description: 'Create release as draft'
+        type: boolean
+        default: true
+
+permissions:
+  contents: write   # needed to create GitHub Releases
+
+# ── Shared env ────────────────────────────────────────────────────────────────
+env:
+  NODE_VERSION:   '20'
+  PYTHON_VERSION: '3.11'
+  BACKEND_PORT:   '48721'   # baked into the frontend build
+
+# ─────────────────────────────────────────────────────────────────────────────
+# Build matrix
+# Each job: freeze backend (PyInstaller) + build frontend (Vite) + package installer
+# ─────────────────────────────────────────────────────────────────────────────
+jobs:
+
+  # ── Linux x86_64 ─────────────────────────────────────────────────────────
+  build-linux:
+    name: Linux (x64)
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Python ${{ env.PYTHON_VERSION }}
+        uses: actions/setup-python@v5
+        with:
+          python-version: ${{ env.PYTHON_VERSION }}
+
+      - name: Set up Node ${{ env.NODE_VERSION }}
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: 'npm'
+          cache-dependency-path: frontend/package-lock.json
+
+      # ── Frontend ──────────────────────────────────────────────────────────
+      - name: Install frontend deps
+        working-directory: frontend
+        run: npm ci --ignore-scripts
+
+      - name: Build frontend
+        working-directory: frontend
+        env:
+          VITE_API_BASE: "http://localhost:${{ env.BACKEND_PORT }}"
+        run: |
+          npx vite build \
+            --config vite.config.dev.ts \
+            --outDir ../dist-frontend
+
+      # ── Backend (PyInstaller) ─────────────────────────────────────────────
+      - name: Freeze backend
+        run: python installer/scripts/build-backend.py
+
+      # ── Icons ─────────────────────────────────────────────────────────────
+      - name: Generate icons
+        run: |
+          pip install Pillow
+          python installer/build/make-icon.py
+
+      # ── Electron installer ────────────────────────────────────────────────
+      - name: Install installer deps
+        working-directory: installer
+        run: npm ci
+
+      - name: Stamp version from tag
+        if: startsWith(github.ref, 'refs/tags/')
+        working-directory: installer
+        run: |
+          VERSION="${GITHUB_REF#refs/tags/v}"
+          npm version "$VERSION" --no-git-tag-version --allow-same-version
+
+      - name: Build AppImage + deb
+        working-directory: installer
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: npx electron-builder --linux --publish never
+
+      - name: Upload Linux artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: linux-x64
+          path: |
+            installer/dist/*.AppImage
+            installer/dist/*.deb
+          if-no-files-found: error
+
+  # ── Windows x86_64 ───────────────────────────────────────────────────────
+  build-windows-x64:
+    name: Windows (x64)
+    runs-on: windows-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Python ${{ env.PYTHON_VERSION }}
+        uses: actions/setup-python@v5
+        with:
+          python-version: ${{ env.PYTHON_VERSION }}
+          architecture: x64
+
+      - name: Set up Node ${{ env.NODE_VERSION }}
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: 'npm'
+          cache-dependency-path: frontend/package-lock.json
+
+      # ── Frontend ──────────────────────────────────────────────────────────
+      - name: Install frontend deps
+        working-directory: frontend
+        run: npm ci --ignore-scripts
+
+      - name: Build frontend
+        working-directory: frontend
+        shell: pwsh
+        run: |
+          $env:VITE_API_BASE = "http://localhost:${{ env.BACKEND_PORT }}"
+          npx vite build --config vite.config.dev.ts --outDir ../dist-frontend
+
+      # ── Backend ───────────────────────────────────────────────────────────
+      - name: Freeze backend
+        run: python installer/scripts/build-backend.py
+
+      # ── Icons ─────────────────────────────────────────────────────────────
+      - name: Generate icons
+        run: |
+          pip install Pillow
+          python installer/build/make-icon.py
+
+      # ── Electron installer ────────────────────────────────────────────────
+      - name: Install installer deps
+        working-directory: installer
+        run: npm ci
+
+      - name: Stamp version from tag
+        if: startsWith(github.ref, 'refs/tags/')
+        working-directory: installer
+        shell: pwsh
+        run: |
+          $VERSION = "${{ github.ref_name }}".TrimStart('v')
+          npm version $VERSION --no-git-tag-version --allow-same-version
+
+      - name: Build Windows x64 NSIS installer
+        working-directory: installer
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          CSC_IDENTITY_AUTO_DISCOVERY: 'false'
+        run: npx electron-builder --win --x64 --publish never
+
+      - name: Upload Windows x64 artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: windows-x64
+          path: installer/dist/*windows-x64*.exe
+          if-no-files-found: error
+
+  # ── Windows ARM64 ─────────────────────────────────────────────────────────
+  build-windows-arm64:
+    name: Windows (ARM64)
+    runs-on: windows-11-arm
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Python ${{ env.PYTHON_VERSION }}
+        uses: actions/setup-python@v5
+        with:
+          python-version: ${{ env.PYTHON_VERSION }}
+
+      - name: Set up Node ${{ env.NODE_VERSION }}
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: 'npm'
+          cache-dependency-path: frontend/package-lock.json
+
+      # ── Frontend ──────────────────────────────────────────────────────────
+      - name: Install frontend deps
+        working-directory: frontend
+        # --ignore-scripts prevents wrangler/workerd postinstall from failing
+        # (no ARM64 Windows binary for workerd)
+        run: npm ci --ignore-scripts
+
+      - name: Build frontend
+        working-directory: frontend
+        shell: pwsh
+        run: |
+          $env:VITE_API_BASE = "http://localhost:${{ env.BACKEND_PORT }}"
+          # vite.config.dev.ts skips @cloudflare/vite-plugin (no ARM64 binary)
+          npx vite build --config vite.config.dev.ts --outDir ../dist-frontend
+
+      # ── Backend (ARM64: pypdfium2 replaces PyMuPDF, plain uvicorn used) ───
+      - name: Freeze backend (ARM64)
+        run: python installer/scripts/build-backend.py
+
+      # ── Icons ─────────────────────────────────────────────────────────────
+      - name: Generate icons
+        run: |
+          pip install Pillow
+          python installer/build/make-icon.py
+
+      # ── Electron installer ────────────────────────────────────────────────
+      - name: Install installer deps
+        working-directory: installer
+        run: npm ci
+
+      - name: Stamp version from tag
+        if: startsWith(github.ref, 'refs/tags/')
+        working-directory: installer
+        shell: pwsh
+        run: |
+          $VERSION = "${{ github.ref_name }}".TrimStart('v')
+          npm version $VERSION --no-git-tag-version --allow-same-version
+
+      - name: Build Windows ARM64 NSIS installer
+        working-directory: installer
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          CSC_IDENTITY_AUTO_DISCOVERY: 'false'
+        run: npx electron-builder --win --arm64 --publish never
+
+      - name: Upload Windows ARM64 artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: windows-arm64
+          path: installer/dist/*windows-arm64*.exe
+          if-no-files-found: error
+
+  # ── GitHub Release ────────────────────────────────────────────────────────
+  release:
+    name: Publish Release
+    needs: [build-linux, build-windows-x64, build-windows-arm64]
+    runs-on: ubuntu-latest
+    # Run even if ARM64 job fails — x64 installers are still worth publishing.
+    if: always() && (needs.build-linux.result == 'success' || needs.build-windows-x64.result == 'success')
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Download all build artifacts
+        uses: actions/download-artifact@v4
+        with:
+          path: release-assets
+
+      - name: List collected assets
+        run: find release-assets -type f | sort
+
+      - name: Determine release name
+        id: rel
+        run: |
+          if [[ "${{ github.ref }}" == refs/tags/* ]]; then
+            echo "tag=${GITHUB_REF#refs/tags/}"  >> "$GITHUB_OUTPUT"
+            echo "name=BioDize ${GITHUB_REF#refs/tags/}" >> "$GITHUB_OUTPUT"
+          else
+            echo "tag=dev-$(date +%Y%m%d%H%M)" >> "$GITHUB_OUTPUT"
+            echo "name=BioDize dev build"        >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: Create GitHub Release
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name:   ${{ steps.rel.outputs.tag }}
+          name:       ${{ steps.rel.outputs.name }}
+          draft:      ${{ github.event.inputs.draft == 'true' || !startsWith(github.ref, 'refs/tags/') }}
+          prerelease: ${{ contains(github.ref, '-beta') || contains(github.ref, '-rc') }}
+          generate_release_notes: true
+          files: |
+            release-assets/**/*.AppImage
+            release-assets/**/*.deb
+            release-assets/**/*.exe
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
