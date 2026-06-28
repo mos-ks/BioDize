@@ -159,7 +159,9 @@ class VlmExhaustiveExtractor:
                 page = page_futures[fut]
                 done += 1
                 if progress:
-                    progress(stage=f"Reading page {page.page_no} of {n_total}…",
+                    # Pages complete in arrival (not page) order under parallelism, so
+                    # report the monotonic completed COUNT, not the just-finished page no.
+                    progress(stage=f"Read {done} of {len(non_blank)} pages…",
                              page_done=done, page_total=len(non_blank))
                 try:
                     raws = fut.result()
