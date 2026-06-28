@@ -143,11 +143,15 @@ class VlmExhaustiveExtractor:
         blocks_by_page: dict[int, Block] = {}
         identity_meta: dict = {}
 
-        with ThreadPoolExecutor(max_workers=workers) as ex:
-            # Identity read runs concurrently with the page reads — no wasted time
-            # waiting for it before the first page starts.
-            id_future = ex.submit(self._fetch_identity, non_blank[0].image_path)
+        # Read the cover IDENTITY first, on its own — the batch number / Dok-Nr /
+        # product depend on it, and the page header is filtered out as boilerplate
+        # everywhere else, so this is the only source. Running it before the page
+        # burst keeps it from being starved on a constrained instance.
+        if progress:
+            progress(stage="Reading document identity…")
+        identity_meta = self._fetch_identity(non_blank[0].image_path)
 
+        with ThreadPoolExecutor(max_workers=workers) as ex:
             # All pages submitted at once; completed in arrival order.
             page_futures = {ex.submit(self._read_page, p.image_path): p for p in non_blank}
             done = 0
@@ -170,11 +174,6 @@ class VlmExhaustiveExtractor:
                         block.fields.append(f)
                 if block.fields:
                     blocks_by_page[page.page_no] = block
-
-            try:
-                identity_meta = id_future.result()
-            except Exception:
-                identity_meta = {}
 
         # Apply identity metadata (main thread — safe doc mutation)
         self._apply_identity(doc, identity_meta)
